@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use, duplicate_ignore
+// ignore_for_file: deprecated_member_use, duplicate_ignore, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -20,8 +20,12 @@ class _LoginScreenState extends State<LoginScreen> {
     final response = await http.get(
       Uri.parse('http://localhost:3000/api/data'),
     );
-    // ignore: avoid_print
-    print('Riglou: ${response.body}');
+
+    if (response.statusCode == 200) {
+      print('Riglou: ${response.body}');
+    } else {
+      print('Failed to fetch data: ${response.statusCode}');
+    }
   }
 
   @override
