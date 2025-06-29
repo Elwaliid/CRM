@@ -1,31 +1,27 @@
+import 'package:crm_frontend/view/Screens/splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
 
 void main() {
-  runApp(CRMApp());
+  runApp(const CRMApp());
 }
 
 class CRMApp extends StatelessWidget {
   const CRMApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'CRM App',
-      home: Scaffold(
-        appBar: AppBar(title: const Text('CRM App')),
-        body: Center(
-          child: ElevatedButton(
-            onPressed: () async {
-              final response = await http.get(
-                Uri.parse('http://localhost:3000/api/data'),
-              );
-              // ignore: avoid_print
-              print('Riglou: ${response.body}');
-            },
-            child: const Text('Click'),
-          ),
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+          iconTheme: IconThemeData(color: Colors.white),
+          color: Colors.black,
         ),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
       ),
+      home: const SplashScreen(),
     );
   }
 }
