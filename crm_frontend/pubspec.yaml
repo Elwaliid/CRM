@@ -63,6 +63,10 @@ flutter:
   assets:
     - lib/images/1.jpeg
     - lib/images/2.jpeg
+    - lib/images/log in.png
+    - lib/images/login.jpg
+    - lib/images/login1.jpg
+    - lib/images/login-fotor-20250630222030.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

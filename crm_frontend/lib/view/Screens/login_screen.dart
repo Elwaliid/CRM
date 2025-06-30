@@ -30,6 +30,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Container(decoration: const BoxDecoration()));
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          color: Color(0xFFF6F6F7),
+          image: DecorationImage(
+            image: AssetImage('lib/images/login1.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
   }
 }
