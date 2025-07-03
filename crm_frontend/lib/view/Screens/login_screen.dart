@@ -10,6 +10,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _emailTextEditingController = TextEditingController(
+    text: 'walid@gmail.com',
+  );
+  final _passwordTextEditingController = TextEditingController(
+    text: 'walid123',
+  );
   @override
   void initState() {
     super.initState();
@@ -38,6 +45,55 @@ class _LoginScreenState extends State<LoginScreen> {
             image: AssetImage('lib/images/login1.jpg'),
             fit: BoxFit.cover,
           ),
+        ),
+        child: ListView(
+          children: [
+            const Text(
+              "Welcome to mybusiness",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 0, 0, 0),
+                fontSize: 30.0,
+                shadows: [
+                  Shadow(
+                    color: Color.fromARGB(255, 126, 126, 126),
+                    offset: Offset(1, 1),
+                    blurRadius: 2,
+                  ),
+                ],
+              ),
+              textAlign: TextAlign.center,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 20.0, left: 20.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: TextFormField(
+                        controller: _emailTextEditingController,
+                        decoration: const InputDecoration(
+                          labelText: 'Email',
+                          border: OutlineInputBorder(),
+                          prefixIcon: Icon(Icons.email),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your email';
+                          } else if (!value!.contains('@')) {
+                            return "please enter a valid email";
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
