@@ -18,7 +18,9 @@ class CRMApp extends StatelessWidget {
           iconTheme: IconThemeData(color: Colors.white),
           color: Colors.black,
         ),
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color.fromARGB(255, 0, 0, 0),
+        ),
         useMaterial3: true,
       ),
       home: const SplashScreen(),
