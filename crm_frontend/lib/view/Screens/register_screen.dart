@@ -1,6 +1,8 @@
 // ignore_for_file: deprecated_member_use, duplicate_ignore, avoid_print
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -26,6 +28,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
         children: [
           Positioned.fill(
             child: Image.asset('lib/images/register.jpg', fit: BoxFit.cover),
+          ),
+          Positioned(
+            top: 16,
+            left: 16,
+            child: IconButton(
+              onPressed: () {
+                Get.back();
+              },
+              icon: Icon(Icons.arrow_back, color: Colors.black, size: 30),
+            ),
           ),
           Center(
             child: SingleChildScrollView(

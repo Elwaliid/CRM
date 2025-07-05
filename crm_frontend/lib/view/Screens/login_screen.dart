@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Title
+                ////////////////////////////////////////////////////////////// Title
                 Text(
                   'mybusiness',
                   style: GoogleFonts.poppins(
@@ -59,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 8),
 
-                // Subtitle
+                /////////////////////////////////////////////////////////// phrase
                 Text(
                   'Your best business partner.',
                   style: GoogleFonts.roboto(
@@ -78,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   key: _formKey,
                   child: Column(
                     children: [
-                      /// Email field
+                      //////////////////////////////////////////////////////////////////////////// Email field
                       TextFormField(
                         controller: _emailTextEditingController,
                         decoration: InputDecoration(
@@ -121,7 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 20),
 
-                      /// Password field
+                      ////////////////////////////////////////////////////////////////////// Password field
                       TextFormField(
                         controller: _passwordTextEditingController,
                         obscureText: _obscurePassword,
@@ -178,9 +178,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 12),
 
-                      /// Forgot password
+                      /////////////////////////////////////////////////////////////////////////////////// Forgot password
                       Align(
-                        alignment: Alignment.centerRight,
+                        alignment: Alignment.center,
                         child: TextButton(
                           onPressed: () {
                             // TODO: Forgot password
@@ -198,9 +198,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 13),
 
-                      /// Login button
+                      ///////////////////////////////////////////////////////////////////////////////// Login button
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
@@ -224,7 +224,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 20),
 
-                      /// Register link
+                      //////////////////////////////////////////////////////////////////////////// Register link
                       TextButton(
                         onPressed: () {
                           Get.to(RegisterScreen());
@@ -241,6 +241,115 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
+                      ),
+                      const SizedBox(height: 17),
+                      /////////////////////////////////////////////////////////////////////////////////// OR
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            width: 148,
+                            height: 1,
+                            color: Colors.blueGrey[700],
+                            margin: const EdgeInsets.only(top: 4),
+                          ),
+                          Text(
+                            ' or continue with ',
+                            style: GoogleFonts.roboto(
+                              textStyle: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.blueGrey[700],
+                                letterSpacing: 1.2,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: 148,
+                            height: 1,
+                            color: Colors.blueGrey[700],
+                            margin: const EdgeInsets.only(top: 4),
+                          ),
+                        ],
+                      ),
+
+                      const SizedBox(height: 16),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ///////////////////////////////////////////////////////////////////////////////// google login
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.05),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Ink(
+                                  child: InkWell(
+                                    borderRadius: BorderRadius.circular(12),
+                                    onTap: () {
+                                      // TODO: Google login logic
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: Image.asset(
+                                        'lib/images/google1.png',
+                                        width: 70,
+                                        height: 70,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                          /////////////////////////////////////////////////////////////////////////////// Apple login button
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.05),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Ink(
+                                  child: InkWell(
+                                    borderRadius: BorderRadius.circular(12),
+                                    onTap: () {
+                                      // TODO: Google login logic
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: Image.asset(
+                                        'lib/images/apple2.png',
+                                        width: 70,
+                                        height: 70,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                        ],
                       ),
                     ],
                   ),
