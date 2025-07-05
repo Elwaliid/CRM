@@ -12,18 +12,16 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _emailTextEditingController = TextEditingController(
-    text: 'walid@gmail.com',
-  );
-  final _passwordTextEditingController = TextEditingController(
-    text: 'walid123',
-  );
+  final _emailTextEditingController = TextEditingController(text: '');
+  final _passwordTextEditingController = TextEditingController(text: '');
+
+  bool _obscurePassword = true;
+
   @override
-  void initState() {
+  /*void initState() {
     super.initState();
     fetchData();
-  }
-
+  }*/
   Future<void> fetchData() async {
     final response = await http.get(
       Uri.parse('http://localhost:3000/api/data'),
@@ -79,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 'Your best business partner.',
                 style: GoogleFonts.roboto(
                   textStyle: TextStyle(
-                    fontSize: 22,
+                    fontSize: 24,
                     fontWeight: FontWeight.w500,
                     color: Colors.blueGrey[700],
                     letterSpacing: 1.2,
@@ -139,6 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),
                       child: TextFormField(
+                        obscureText: _obscurePassword,
                         decoration: InputDecoration(
                           prefixIcon: Icon(
                             Icons.lock_outline,
@@ -164,12 +163,26 @@ class _LoginScreenState extends State<LoginScreen> {
                               width: 2.0,
                             ),
                           ),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscurePassword
+                                  ? Icons.visibility_off_outlined
+                                  : Icons.visibility_outlined,
+                              color: Colors.black,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _obscurePassword = !_obscurePassword;
+                              });
+                            },
+                          ),
                         ),
                         style: const TextStyle(fontSize: 24),
                         controller: _passwordTextEditingController,
-                        validator: (valuePasssword) {
-                          if (valuePasssword!.length < 5) {
-                            return "Password must be at least 6 or more characters";
+                        validator: (valuePassword) {
+                          if (valuePassword == null ||
+                              valuePassword.length < 6) {
+                            return "Password must be at least 6 characters";
                           }
                           return null;
                         },
