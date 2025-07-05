@@ -12,9 +12,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _emailTextEditingController = TextEditingController(text: '');
-  final _passwordTextEditingController = TextEditingController(text: '');
-
+  final _emailTextEditingController = TextEditingController();
+  final _passwordTextEditingController = TextEditingController();
   bool _obscurePassword = true;
 
   @override
@@ -26,7 +25,6 @@ class _LoginScreenState extends State<LoginScreen> {
     final response = await http.get(
       Uri.parse('http://localhost:3000/api/data'),
     );
-
     if (response.statusCode == 200) {
       print('Riglou: ${response.body}');
     } else {
@@ -38,128 +36,132 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
-          color: Color(0xFFF6F6F7),
-          image: DecorationImage(
+        decoration: BoxDecoration(
+          image: const DecorationImage(
             image: AssetImage('lib/images/login.jpg'),
             fit: BoxFit.cover,
           ),
         ),
-        child: ListView(
-          children: [
-            // App Title
-            Padding(
-              padding: const EdgeInsets.only(top: 60.0, bottom: 8.0),
-              child: Text(
-                'mybusiness',
-                style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
-                    fontSize: 54,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 2,
-                    color: Colors.blueGrey[900],
-                    shadows: [
-                      Shadow(
-                        blurRadius: 8,
-                        color: const Color.fromARGB(66, 121, 120, 120),
-                        offset: Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                ),
-                textAlign: TextAlign.center,
-              ),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 28.0,
+              vertical: 40.0,
             ),
-            // Subtitle
-            Padding(
-              padding: const EdgeInsets.only(bottom: 32.0),
-              child: Text(
-                'Your best business partner.',
-                style: GoogleFonts.roboto(
-                  textStyle: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.blueGrey[700],
-                    letterSpacing: 1.2,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Title
+                Text(
+                  'mybusiness',
+                  style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                      fontSize: 48,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 2,
+                      color: Colors.blueGrey[900],
+                      shadows: [
+                        Shadow(
+                          blurRadius: 8,
+                          color: const Color.fromARGB(66, 121, 120, 120),
+                          offset: Offset(0, 4),
+                        ),
+                      ],
+                    ),
                   ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
-              ),
-            ),
+                const SizedBox(height: 8),
 
-            Padding(
-              padding: const EdgeInsets.only(right: 20.0, left: 20.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    /////////////////////////////////////////Email field
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: TextFormField(
+                // Subtitle
+                Text(
+                  'Your best business partner.',
+                  style: GoogleFonts.roboto(
+                    textStyle: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.blueGrey[700],
+                      letterSpacing: 1.2,
+                    ),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 40),
+
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      /// Email field
+                      TextFormField(
+                        controller: _emailTextEditingController,
                         decoration: InputDecoration(
                           prefixIcon: Icon(
                             Icons.email_outlined,
-                            color: Colors.black,
+                            color: Colors.blueGrey[700],
                           ),
                           hintText: "Please enter your email",
-                          hintStyle: const TextStyle(
-                            color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 20.0,
+                          hintStyle: TextStyle(
+                            color: Colors.blueGrey[400],
+                            fontSize: 18.0,
                           ),
-
+                          filled: true,
+                          fillColor: Colors.blueGrey[50],
                           enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: const BorderSide(
-                              width: 1.0,
-                              color: Color.fromARGB(255, 0, 0, 0),
+                            borderRadius: BorderRadius.circular(12.0),
+                            borderSide: BorderSide(
+                              width: 1.5,
+                              color: Colors.blueGrey.shade200,
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: const BorderSide(
-                              color: Color.fromARGB(255, 0, 0, 0),
+                            borderRadius: BorderRadius.circular(12.0),
+                            borderSide: BorderSide(
+                              color: Colors.blueGrey.shade400,
                               width: 2.0,
                             ),
                           ),
                         ),
-                        style: const TextStyle(fontSize: 24),
-                        controller: _emailTextEditingController,
-                        validator: (valueEmail) {
-                          if (!valueEmail!.contains('@')) {
-                            return "please enter a valid email";
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.blueGrey[900],
+                        ),
+                        validator: (value) {
+                          if (value == null || !value.contains('@')) {
+                            return "Please enter a valid email";
                           }
                           return null;
                         },
                       ),
-                    ),
-                    ////////////////////////////////////////password field
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: TextFormField(
+                      const SizedBox(height: 20),
+
+                      /// Password field
+                      TextFormField(
+                        controller: _passwordTextEditingController,
                         obscureText: _obscurePassword,
                         decoration: InputDecoration(
                           prefixIcon: Icon(
                             Icons.lock_outline,
-                            color: Colors.black,
+                            color: Colors.blueGrey[700],
                           ),
                           hintText: "Please enter your password",
-                          hintStyle: const TextStyle(
-                            color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 20.0,
+                          hintStyle: TextStyle(
+                            color: Colors.blueGrey[400],
+                            fontSize: 18.0,
                           ),
-
+                          filled: true,
+                          fillColor: Colors.blueGrey[50],
                           enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: const BorderSide(
-                              width: 1.0,
-                              color: Color.fromARGB(255, 0, 0, 0),
+                            borderRadius: BorderRadius.circular(12.0),
+                            borderSide: BorderSide(
+                              width: 1.5,
+                              color: Colors.blueGrey.shade200,
                             ),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: const BorderSide(
-                              color: Color.fromARGB(255, 0, 0, 0),
+                            borderRadius: BorderRadius.circular(12.0),
+                            borderSide: BorderSide(
+                              color: Colors.blueGrey.shade400,
                               width: 2.0,
                             ),
                           ),
@@ -168,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               _obscurePassword
                                   ? Icons.visibility_off_outlined
                                   : Icons.visibility_outlined,
-                              color: Colors.black,
+                              color: Colors.blueGrey[700],
                             ),
                             onPressed: () {
                               setState(() {
@@ -177,22 +179,88 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
                           ),
                         ),
-                        style: const TextStyle(fontSize: 24),
-                        controller: _passwordTextEditingController,
-                        validator: (valuePassword) {
-                          if (valuePassword == null ||
-                              valuePassword.length < 6) {
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.blueGrey[900],
+                        ),
+                        validator: (value) {
+                          if (value == null || value.length < 6) {
                             return "Password must be at least 6 characters";
                           }
                           return null;
                         },
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: 12),
+
+                      /// Forgot password
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: () {
+                            // TODO: Forgot password
+                          },
+                          child: Text(
+                            'Forgot password? Press here.',
+                            style: GoogleFonts.roboto(
+                              textStyle: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.blueGrey[700],
+                                letterSpacing: 1.2,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+
+                      /// Login button
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blueGrey[900],
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              // TODO: Login logic
+                            }
+                          },
+                          child: const Text(
+                            'Login',
+                            style: TextStyle(fontSize: 22, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+
+                      /// Register link
+                      TextButton(
+                        onPressed: () {
+                          // TODO: Go to register
+                        },
+                        child: Text(
+                          "Don't have an account? Register here.",
+                          style: GoogleFonts.roboto(
+                            textStyle: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.blueGrey[700],
+                              letterSpacing: 1.2,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
