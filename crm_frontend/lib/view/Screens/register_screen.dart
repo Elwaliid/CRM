@@ -1,4 +1,5 @@
 // ignore_for_file: deprecated_member_use, duplicate_ignore, avoid_print
+import 'package:crm_frontend/view/Screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -48,7 +49,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Title
+                  /////////////////////////////////////////////////////////// Title
                   Text(
                     'Register',
                     style: GoogleFonts.poppins(
@@ -70,7 +71,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   const SizedBox(height: 8),
 
-                  // Subtitle
+                  ///////////////////////////////////////////////////////////////// Subtitle
                   Text(
                     'Please fill in the details to create your account',
                     style: GoogleFonts.roboto(
@@ -92,7 +93,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Row(
                           children: [
                             Expanded(
-                              /////////////////////////////////////////////// first name field
+                              /////////////////////////////////////////////////////////////////////////////////////////// first name field
                               child: TextFormField(
                                 controller: _firstNameTextEditingController,
                                 decoration: InputDecoration(
@@ -136,6 +137,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             const SizedBox(width: 20),
                             Expanded(
+                              /////////////////////////////////////////////////////////// last name field
                               child: TextFormField(
                                 controller: _lastNameTextEditingController,
                                 decoration: InputDecoration(
@@ -180,7 +182,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ],
                         ),
                         const SizedBox(height: 20),
-                        //////////////////////////////////////////////// Email field
+                        ///////////////////////////////////////////////////////////////////////////////////////// Email field
                         TextFormField(
                           controller: _emailTextEditingController,
                           decoration: InputDecoration(
@@ -223,7 +225,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         const SizedBox(height: 20),
 
-                        //////////////////////////////////////////////////// Password field
+                        /////////////////////////////////////////////////////////////////////////// Password field
                         TextFormField(
                           controller: _passwordTextEditingController,
                           decoration: InputDecoration(
@@ -266,7 +268,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           },
                         ),
                         const SizedBox(height: 12),
-                        //////////////////////////////////////////////////// Confirm Password field
+                        ////////////////////////////////////////////////////////////////// Confirm Password field
                         TextFormField(
                           decoration: InputDecoration(
                             prefixIcon: Icon(
@@ -310,7 +312,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         const SizedBox(height: 12),
 
-                        ///////////////////////////////////////////////////// phone number field
+                        ///////////////////////////////////////////////////////////////////// phone number field
                         TextFormField(
                           controller: _phoneNumberTextEditingController,
                           keyboardType: TextInputType.number,
@@ -355,7 +357,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           },
                         ),
                         const SizedBox(height: 20),
-                        //////////////////////////// register button
+                        ///////////////////////////////////////////////////////// register button
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
@@ -368,7 +370,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                // TODO: Login logic
+                                Get.to(HomeScreen());
                               }
                             },
                             child: const Text(
@@ -381,6 +383,114 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                         const SizedBox(height: 20),
+                        /////////////////////////////////////////////////////////////////////////////////// OR
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              width: 148,
+                              height: 1,
+                              color: Colors.blueGrey[700],
+                              margin: const EdgeInsets.only(top: 4),
+                            ),
+                            Text(
+                              ' or register with ',
+                              style: GoogleFonts.roboto(
+                                textStyle: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.blueGrey[700],
+                                  letterSpacing: 1.2,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: 148,
+                              height: 1,
+                              color: Colors.blueGrey[700],
+                              margin: const EdgeInsets.only(top: 4),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 16),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ///////////////////////////////////////////////////////////////////////////////// google login
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.05),
+                                    blurRadius: 4,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Ink(
+                                    child: InkWell(
+                                      borderRadius: BorderRadius.circular(12),
+                                      onTap: () {
+                                        // TODO: Google login logic
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(12.0),
+                                        child: Image.asset(
+                                          'lib/images/google1.png',
+                                          width: 70,
+                                          height: 70,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 20),
+                            /////////////////////////////////////////////////////////////////////////////// Apple login button
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.05),
+                                    blurRadius: 4,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Ink(
+                                    child: InkWell(
+                                      borderRadius: BorderRadius.circular(12),
+                                      onTap: () {
+                                        // TODO: Google login logic
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(12.0),
+                                        child: Image.asset(
+                                          'lib/images/apple2.png',
+                                          width: 70,
+                                          height: 70,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 20),
+                          ],
+                        ),
                       ],
                     ),
                   ),

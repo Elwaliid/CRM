@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use, duplicate_ignore, avoid_print
 
+import 'package:crm_frontend/view/Screens/home_screen.dart';
 import 'package:crm_frontend/view/Screens/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -213,7 +214,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              // TODO: Login logic
+                              Get.to(HomeScreen());
                             }
                           },
                           child: const Text(
