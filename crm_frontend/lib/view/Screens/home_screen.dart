@@ -5,12 +5,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
 import 'dart:math';
+
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppColors {
-  static const contentColorOrange = Color.fromARGB(255, 0, 0, 0);
-  static const contentColorBlue = Color.fromARGB(255, 60, 72, 82);
+  static const contentColorOrange = Color.fromARGB(255, 10, 43, 92);
+  static const contentColorBlue = Color.fromARGB(255, 100, 124, 143);
   static const contentColorGreen = Color(0xFF4CAF50);
   static const contentColorWhite = Color(0xFFFFFFFF);
 }
@@ -31,7 +32,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  /////////////////////////////////////////////////////////////////// variables
+  ///////////////////////////////////////////////////////////////////////////////////////////// variables
   final String userName = "Wilou";
   int _selectedIndex = 0;
   late String _currentTime;
@@ -54,18 +55,9 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  void _onCardTap(String cardType) {
-    print('Tapped on \$cardType card');
-  }
-
-  void _onQuickAdd(String itemType) {
-    print('Quick add \$itemType');
-  }
-
   void _onNavBarTap(int index) {
     setState(() {
       _selectedIndex = index;
-      print('Navigated to index \$index');
     });
   }
 
@@ -97,6 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Center(
+                  /////////////////////////////////////////////////////////////////////////  date and time
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
@@ -152,6 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const SizedBox(height: 24),
+                ///////////////////////////////////////////////////////////////////////// Today's Cards
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -184,24 +178,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const SizedBox(height: 12),
+                /////////////////////////////////////////////////////////////////////////    Quick Add Buttons
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    _buildQuickAddButton(
-                      Icons.person_add,
-                      'Client',
-                      () => _onQuickAdd('Client'),
-                    ),
-                    _buildQuickAddButton(
-                      Icons.add_task,
-                      'Task',
-                      () => _onQuickAdd('Task'),
-                    ),
-                    _buildQuickAddButton(
-                      Icons.add_business,
-                      'Deal',
-                      () => _onQuickAdd('Deal'),
-                    ),
+                    _buildQuickAddButton(Icons.person_add, 'Client', () => ()),
+                    _buildQuickAddButton(Icons.add_task, 'Task', () => ()),
+                    _buildQuickAddButton(Icons.add_business, 'Deal', () => ()),
                   ],
                 ),
                 const SizedBox(height: 24),
@@ -216,12 +199,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const SizedBox(height: 12),
+                /////////////////////////////////////////////////////////////////////////   Chart Section
                 const LineChartSample13(),
               ],
             ),
           ),
         ),
       ),
+      /////////////////////////////////////////////////////////////////////////  Bottom Navigation Bar
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.blueGrey[900],
         currentIndex: _selectedIndex,
@@ -255,6 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  ///////////////////////////////////////////////////////////////////////// Build todays cards
   Widget _buildInfoCard(
     String title,
     String count,
@@ -267,7 +253,7 @@ class _HomeScreenState extends State<HomeScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         color: color,
         child: InkWell(
-          onTap: () => _onCardTap(title),
+          onTap: () => (),
           borderRadius: BorderRadius.circular(12),
           child: Container(
             height: 150,
@@ -299,6 +285,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  ///////////////////////////////////////////////////////////////////////// Build quick add buttons
   Widget _buildQuickAddButton(IconData icon, String label, VoidCallback onTap) {
     return Column(
       children: [
@@ -322,6 +309,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
+///////////////////////////////////////////////////////////////////////// Line Chart class
 class LineChartSample13 extends StatefulWidget {
   const LineChartSample13({super.key});
 
@@ -371,7 +359,7 @@ class _LineChartSample13State extends State<LineChartSample13> {
         Text(
           'Clients Added in ${monthsNames[_currentMonthIndex]}',
           style: const TextStyle(
-            fontSize: 14,
+            fontSize: 20,
             fontWeight: FontWeight.bold,
             color: AppColors.contentColorBlue,
           ),
@@ -404,7 +392,7 @@ class _LineChartSample13State extends State<LineChartSample13> {
                     reservedSize: 30,
                     getTitlesWidget: (value, meta) => SideTitleWidget(
                       meta: meta,
-                      child: Text('\${value.toInt()}'),
+                      child: Text('${value.toInt()}'),
                     ),
                   ),
                 ),
@@ -414,7 +402,7 @@ class _LineChartSample13State extends State<LineChartSample13> {
                     interval: 5,
                     getTitlesWidget: (value, meta) => SideTitleWidget(
                       meta: meta,
-                      child: Text('\${value.toInt()}'),
+                      child: Text('${value.toInt()}'),
                     ),
                   ),
                 ),
@@ -432,7 +420,7 @@ class _LineChartSample13State extends State<LineChartSample13> {
                   getTooltipItems: (List<LineBarSpot> touchedSpots) {
                     return touchedSpots.map((spot) {
                       return LineTooltipItem(
-                        '\${monthsNames[_currentMonthIndex]} Day \${spot.x.toInt()}: \${spot.y.toInt()} clients',
+                        '${monthsNames[_currentMonthIndex]} Day ${spot.x.toInt()}: ${spot.y.toInt()} clients',
                         const TextStyle(color: Colors.white),
                       );
                     }).toList();
@@ -446,7 +434,6 @@ class _LineChartSample13State extends State<LineChartSample13> {
     );
   }
 
-  /////////////////////////////////////////////////////////////////// change month functions
   bool get _canGoNext => _currentMonthIndex < 11;
   bool get _canGoPrevious => _currentMonthIndex > 0;
 
