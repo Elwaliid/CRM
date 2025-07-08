@@ -4,6 +4,27 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
+import 'dart:math';
+
+import 'package:equatable/equatable.dart';
+import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+class AppColors {
+  static const contentColorOrange = Color(0xFFFFA500);
+  static const contentColorBlue = Color(0xFF2196F3);
+  static const contentColorGreen = Color(0xFF4CAF50);
+  static const contentColorWhite = Color(0xFFFFFFFF);
+}
+
+class AppUtils {
+  void tryToLaunchUrl(String url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    }
+  }
+}
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -12,9 +33,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  ////////////////////////////////////////////////////////////////////////// state variables
   final String userName = "Wilou";
-
   int _selectedIndex = 0;
   late String _currentTime;
   late Timer _timer;
@@ -37,21 +56,20 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _onCardTap(String cardType) {
-    print('Tapped on $cardType card');
+    print('Tapped on \$cardType card');
   }
 
   void _onQuickAdd(String itemType) {
-    print('Quick add $itemType');
+    print('Quick add \$itemType');
   }
 
   void _onNavBarTap(int index) {
     setState(() {
       _selectedIndex = index;
-      print('Navigated to index $index');
+      print('Navigated to index \$index');
     });
   }
 
-  ////////////////////////////////////////////////////////////////////////// Build
   @override
   Widget build(BuildContext context) {
     String todayDate = DateFormat('EEEE, MMMM d, yyyy').format(DateTime.now());
@@ -75,146 +93,136 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ////////////////////////////////////////////////////////////////////////// Date & Time Row
-              Center(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 10,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.2),
-                        blurRadius: 6,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.calendar_today,
-                        color: Colors.blueGrey[700],
-                        size: 20,
-                      ),
-                      const SizedBox(width: 6),
-                      Text(
-                        todayDate,
-                        style: GoogleFonts.roboto(
-                          textStyle: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.2),
+                          blurRadius: 6,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.calendar_today,
+                          color: Colors.blueGrey[700],
+                          size: 20,
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          todayDate,
+                          style: GoogleFonts.roboto(
+                            textStyle: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 16),
-                      Icon(
-                        Icons.access_time,
-                        color: Colors.blueGrey[700],
-                        size: 20,
-                      ),
-                      const SizedBox(width: 6),
-                      Text(
-                        _currentTime,
-                        style: GoogleFonts.roboto(
-                          textStyle: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
+                        const SizedBox(width: 16),
+                        Icon(
+                          Icons.access_time,
+                          color: Colors.blueGrey[700],
+                          size: 20,
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          _currentTime,
+                          style: GoogleFonts.roboto(
+                            textStyle: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-
-              const SizedBox(height: 24),
-
-              ////////////////////////////////////////////////////////////////////////// Today's Cards
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildInfoCard(
-                    'Clients',
-                    '15',
-                    Icons.people,
-                    Colors.blueGrey,
-                  ),
-                  const SizedBox(width: 8),
-                  _buildInfoCard('Tasks', '8', Icons.task_alt, Colors.teal),
-                  const SizedBox(width: 8),
-                  _buildInfoCard(
-                    'Deals',
-                    '5',
-                    Icons.business_center,
-                    Colors.deepOrange,
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 30),
-
-              ////////////////////////////////////////////////////////////////////////// Quick Add
-              Text(
-                'Quick Add',
-                style: GoogleFonts.roboto(
-                  textStyle: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blueGrey,
+                const SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _buildInfoCard(
+                      'Clients',
+                      '15',
+                      Icons.people,
+                      Colors.blueGrey,
+                    ),
+                    const SizedBox(width: 8),
+                    _buildInfoCard('Tasks', '8', Icons.task_alt, Colors.teal),
+                    const SizedBox(width: 8),
+                    _buildInfoCard(
+                      'Deals',
+                      '5',
+                      Icons.business_center,
+                      Colors.deepOrange,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 30),
+                Text(
+                  'Quick Add',
+                  style: GoogleFonts.roboto(
+                    textStyle: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blueGrey,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 12),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _buildQuickAddButton(
-                    Icons.person_add,
-                    'Client',
-                    () => _onQuickAdd('Client'),
-                  ),
-                  _buildQuickAddButton(
-                    Icons.add_task,
-                    'Task',
-                    () => _onQuickAdd('Task'),
-                  ),
-                  _buildQuickAddButton(
-                    Icons.add_business,
-                    'Deal',
-                    () => _onQuickAdd('Deal'),
-                  ),
-                ],
-              ),
-
-              const SizedBox(height: 24),
-
-              ////////////////////////////////////////////////////////////////////////// Recent Stats
-              Text(
-                'Recent Statics',
-                style: GoogleFonts.roboto(
-                  textStyle: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blueGrey,
+                const SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    _buildQuickAddButton(
+                      Icons.person_add,
+                      'Client',
+                      () => _onQuickAdd('Client'),
+                    ),
+                    _buildQuickAddButton(
+                      Icons.add_task,
+                      'Task',
+                      () => _onQuickAdd('Task'),
+                    ),
+                    _buildQuickAddButton(
+                      Icons.add_business,
+                      'Deal',
+                      () => _onQuickAdd('Deal'),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+                Text(
+                  'Recent Statics',
+                  style: GoogleFonts.roboto(
+                    textStyle: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blueGrey,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 12),
-              //add the line chart here
-            ],
+                const SizedBox(height: 12),
+                const LineChartSample13(),
+              ],
+            ),
           ),
         ),
       ),
-
-      ////////////////////////////////////////////////////////////////////////// Bottom Navigation Bar
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.blueGrey[900],
         currentIndex: _selectedIndex,
@@ -248,7 +256,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  ////////////////////////////////////////////////////////////////////////// Build card widget
   Widget _buildInfoCard(
     String title,
     String count,
@@ -293,7 +300,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  ////////////////////////////////////////////////////////////////////////// Build quick add button widget
   Widget _buildQuickAddButton(IconData icon, String label, VoidCallback onTap) {
     return Column(
       children: [
@@ -314,5 +320,141 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ],
     );
+  }
+}
+
+class LineChartSample13 extends StatefulWidget {
+  const LineChartSample13({super.key});
+
+  @override
+  State<LineChartSample13> createState() => _LineChartSample13State();
+}
+
+class _LineChartSample13State extends State<LineChartSample13> {
+  int _currentMonthIndex = DateTime.now().month - 1;
+  final List<String> monthsNames = const [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
+  late List<List<int>> monthlyClientData;
+
+  @override
+  void initState() {
+    super.initState();
+    _generateMockClientData();
+  }
+
+  void _generateMockClientData() {
+    final random = Random();
+    monthlyClientData = List.generate(12, (monthIndex) {
+      int daysInMonth = DateUtils.getDaysInMonth(2024, monthIndex + 1);
+      return List.generate(daysInMonth, (day) => random.nextInt(10));
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final currentMonthData = monthlyClientData[_currentMonthIndex];
+    return Column(
+      children: [
+        const SizedBox(height: 18),
+        Text(
+          'Clients Added in \${monthsNames[_currentMonthIndex]}',
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: AppColors.contentColorBlue,
+          ),
+        ),
+        const SizedBox(height: 12),
+        AspectRatio(
+          aspectRatio: 1.5,
+          child: LineChart(
+            LineChartData(
+              minY: 0,
+              maxY: 10,
+              minX: 1,
+              maxX: currentMonthData.length.toDouble(),
+              lineBarsData: [
+                LineChartBarData(
+                  spots: currentMonthData.asMap().entries.map((e) {
+                    return FlSpot((e.key + 1).toDouble(), e.value.toDouble());
+                  }).toList(),
+                  isCurved: true,
+                  color: AppColors.contentColorOrange,
+                  barWidth: 2,
+                  dotData: const FlDotData(show: true),
+                ),
+              ],
+              titlesData: FlTitlesData(
+                leftTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: true,
+                    interval: 2,
+                    reservedSize: 30,
+                    getTitlesWidget: (value, meta) => SideTitleWidget(
+                      meta: meta,
+                      child: Text('\${value.toInt()}'),
+                    ),
+                  ),
+                ),
+                bottomTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: true,
+                    interval: 5,
+                    getTitlesWidget: (value, meta) => SideTitleWidget(
+                      meta: meta,
+                      child: Text('\${value.toInt()}'),
+                    ),
+                  ),
+                ),
+                topTitles: const AxisTitles(
+                  sideTitles: SideTitles(showTitles: false),
+                ),
+                rightTitles: const AxisTitles(
+                  sideTitles: SideTitles(showTitles: false),
+                ),
+              ),
+              gridData: FlGridData(show: true),
+              lineTouchData: LineTouchData(
+                handleBuiltInTouches: true,
+                touchTooltipData: LineTouchTooltipData(
+                  getTooltipItems: (List<LineBarSpot> touchedSpots) {
+                    return touchedSpots.map((spot) {
+                      return LineTooltipItem(
+                        '\${monthsNames[_currentMonthIndex]} Day \${spot.x.toInt()}: \${spot.y.toInt()} clients',
+                        const TextStyle(color: Colors.white),
+                      );
+                    }).toList();
+                  },
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  bool get _canGoNext => _currentMonthIndex < 11;
+  bool get _canGoPrevious => _currentMonthIndex > 0;
+
+  void _nextMonth() {
+    if (_canGoNext) setState(() => _currentMonthIndex++);
+  }
+
+  void _previousMonth() {
+    if (_canGoPrevious) setState(() => _currentMonthIndex--);
   }
 }
