@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use, duplicate_ignore, avoid_print
+// ignore_for_file: deprecated_member_use, duplicate_ignore, avoid_print, unnecessary_import
 
 import 'package:crm_frontend/view/Screens/home_screen.dart';
 import 'package:crm_frontend/view/Screens/register_screen.dart';

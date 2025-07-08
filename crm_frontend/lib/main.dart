@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:crm_frontend/view/Screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,6 +15,7 @@ class CRMApp extends StatelessWidget {
     super.initState();
     fetchData();
   }*/
+  // ignore: override_on_non_overriding_member
   Future<void> fetchData() async {
     final response = await http.get(
       Uri.parse('http://localhost:3000/api/data'),
