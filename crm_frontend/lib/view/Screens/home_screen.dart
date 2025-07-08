@@ -319,6 +319,8 @@ class LineChartSample13 extends StatefulWidget {
 
 class _LineChartSample13State extends State<LineChartSample13> {
   int _currentMonthIndex = DateTime.now().month - 1;
+
+  ///////////////////////////////////////////////////////////////////////// Months Names List
   final List<String> monthsNames = const [
     'January',
     'February',
@@ -342,6 +344,7 @@ class _LineChartSample13State extends State<LineChartSample13> {
     _generateMockClientData();
   }
 
+  ///////////////////////////////////////////////////////////////////////// Generate Mock Client Data
   void _generateMockClientData() {
     final random = Random();
     monthlyClientData = List.generate(12, (monthIndex) {
@@ -350,12 +353,15 @@ class _LineChartSample13State extends State<LineChartSample13> {
     });
   }
 
+  /////////// Build Widget
   @override
   Widget build(BuildContext context) {
     final currentMonthData = monthlyClientData[_currentMonthIndex];
     return Column(
       children: [
         const SizedBox(height: 18),
+
+        ///////////////////////////////////////////////////////////////////////// Chart Title
         Text(
           'Clients Added in ${monthsNames[_currentMonthIndex]}',
           style: const TextStyle(
@@ -364,7 +370,10 @@ class _LineChartSample13State extends State<LineChartSample13> {
             color: AppColors.contentColorBlue,
           ),
         ),
+
         const SizedBox(height: 12),
+
+        ///////////////////////////////////////////////////////////////////////// Line Chart
         AspectRatio(
           aspectRatio: 1.5,
           child: LineChart(
@@ -385,6 +394,7 @@ class _LineChartSample13State extends State<LineChartSample13> {
                 ),
               ],
               titlesData: FlTitlesData(
+                ///////////////////////////////////////////////////////////////////////// Y Titles
                 leftTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
@@ -396,6 +406,7 @@ class _LineChartSample13State extends State<LineChartSample13> {
                     ),
                   ),
                 ),
+                ///////////////////////////////////////////////////////////////////////// X Titles
                 bottomTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
@@ -413,6 +424,7 @@ class _LineChartSample13State extends State<LineChartSample13> {
                   sideTitles: SideTitles(showTitles: false),
                 ),
               ),
+              ///////////////////////////////////////////////////////////////////////// day and number of clients data
               gridData: FlGridData(show: true),
               lineTouchData: LineTouchData(
                 handleBuiltInTouches: true,
@@ -420,7 +432,7 @@ class _LineChartSample13State extends State<LineChartSample13> {
                   getTooltipItems: (List<LineBarSpot> touchedSpots) {
                     return touchedSpots.map((spot) {
                       return LineTooltipItem(
-                        '${monthsNames[_currentMonthIndex]} Day ${spot.x.toInt()}: ${spot.y.toInt()} clients',
+                        'Day ${spot.x.toInt()}: ${spot.y.toInt()} clients',
                         const TextStyle(color: Colors.white),
                       );
                     }).toList();
@@ -434,7 +446,9 @@ class _LineChartSample13State extends State<LineChartSample13> {
     );
   }
 
+  ///////////////////////////////////////////////////////////////////////// Can Go Next and Previous Month
   bool get _canGoNext => _currentMonthIndex < 11;
+
   bool get _canGoPrevious => _currentMonthIndex > 0;
 
   void _nextMonth() {
