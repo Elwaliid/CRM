@@ -446,7 +446,7 @@ class _LineChartSample13State extends State<LineChartSample13> {
     );
   }
 
-  ///////////////////////////////////////////////////////////////////////// Can Go Next and Previous Month
+  ///////////////////////////////////////////////////////////////////////////////// Can Go Next and Previous Month
   bool get _canGoNext => _currentMonthIndex < 11;
 
   bool get _canGoPrevious => _currentMonthIndex > 0;
