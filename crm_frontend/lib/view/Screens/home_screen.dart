@@ -5,14 +5,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
 import 'dart:math';
-
-import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppColors {
-  static const contentColorOrange = Color(0xFFFFA500);
-  static const contentColorBlue = Color(0xFF2196F3);
+  static const contentColorOrange = Color.fromARGB(255, 0, 0, 0);
+  static const contentColorBlue = Color.fromARGB(255, 60, 72, 82);
   static const contentColorGreen = Color(0xFF4CAF50);
   static const contentColorWhite = Color(0xFFFFFFFF);
 }
@@ -33,6 +31,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  /////////////////////////////////////////////////////////////////// variables
   final String userName = "Wilou";
   int _selectedIndex = 0;
   late String _currentTime;
@@ -370,9 +369,9 @@ class _LineChartSample13State extends State<LineChartSample13> {
       children: [
         const SizedBox(height: 18),
         Text(
-          'Clients Added in \${monthsNames[_currentMonthIndex]}',
+          'Clients Added in ${monthsNames[_currentMonthIndex]}',
           style: const TextStyle(
-            fontSize: 20,
+            fontSize: 14,
             fontWeight: FontWeight.bold,
             color: AppColors.contentColorBlue,
           ),
@@ -447,6 +446,7 @@ class _LineChartSample13State extends State<LineChartSample13> {
     );
   }
 
+  /////////////////////////////////////////////////////////////////// change month functions
   bool get _canGoNext => _currentMonthIndex < 11;
   bool get _canGoPrevious => _currentMonthIndex > 0;
 
