@@ -5,15 +5,62 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
 import 'dart:math';
-
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+/////////////////////////////////////////////// Colors
 class AppColors {
   static const contentColorOrange = Color.fromARGB(255, 10, 43, 92);
   static const contentColorBlue = Color.fromARGB(255, 100, 124, 143);
   static const contentColorGreen = Color(0xFF4CAF50);
   static const contentColorWhite = Color(0xFFFFFFFF);
+
+  static const contentColorYellow = Color(0xFFFFC107); // Amber Yellow
+  static const contentColorPurple = Color(0xFF9C27B0); // Purple
+  static const mainTextColor1 = Color(0xFF212121); // Dark Grey for main text
+}
+
+//////////////////////////////////////////////////////////////////////// // Indicator class
+class Indicator extends StatelessWidget {
+  final Color color;
+  final String text;
+  final bool isSquare;
+  final double size;
+  final Color textColor;
+
+  const Indicator({
+    Key? key,
+    required this.color,
+    required this.text,
+    this.isSquare = true,
+    this.size = 16,
+    this.textColor = Colors.black,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Container(
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            shape: isSquare ? BoxShape.rectangle : BoxShape.circle,
+            color: color,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Text(
+          text,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: textColor,
+          ),
+        ),
+      ],
+    );
+  }
 }
 
 class AppUtils {
@@ -200,13 +247,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 const SizedBox(height: 12),
                 /////////////////////////////////////////////////////////////////////////   Chart Section
-                const LineChartSample13(),
+                const LineChartSample13(), /////////////////////////////////////////////////////////////////////////////////////////////////
+                /////////////////////////////////////////////////////////////////////////    PIE Chart Section
+                const PieChartSample2(), ///////////////////////////////////////////////////////////////////////////////////////
               ],
             ),
           ),
         ),
       ),
-      /////////////////////////////////////////////////////////////////////////  Bottom Navigation Bar
+      //////////////////////////////////////////////////////////////  Bottom Navigation Bar
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.blueGrey[900],
         currentIndex: _selectedIndex,
@@ -359,8 +408,6 @@ class _LineChartSample13State extends State<LineChartSample13> {
     final currentMonthData = monthlyClientData[_currentMonthIndex];
     return Column(
       children: [
-        const SizedBox(height: 18),
-
         ///////////////////////////////////////////////////////////////////////// Chart Title
         Text(
           'Clients Added in ${monthsNames[_currentMonthIndex]}',
@@ -373,7 +420,7 @@ class _LineChartSample13State extends State<LineChartSample13> {
 
         const SizedBox(height: 12),
 
-        ///////////////////////////////////////////////////////////////////////// Line Chart
+        //////////////////////////////////////////////////// Line Chart
         AspectRatio(
           aspectRatio: 1.5,
           child: LineChart(
@@ -394,11 +441,11 @@ class _LineChartSample13State extends State<LineChartSample13> {
                 ),
               ],
               titlesData: FlTitlesData(
-                ///////////////////////////////////////////////////////////////////////// Y Titles
+                ////////////////////////////////////////////////////// Y Titles
                 leftTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
-                    interval: 2,
+                    interval: 1,
                     reservedSize: 30,
                     getTitlesWidget: (value, meta) => SideTitleWidget(
                       meta: meta,
@@ -406,11 +453,12 @@ class _LineChartSample13State extends State<LineChartSample13> {
                     ),
                   ),
                 ),
-                ///////////////////////////////////////////////////////////////////////// X Titles
+                ////////////////////////////////////////////// X Titles
                 bottomTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
                     interval: 5,
+                    reservedSize: 30,
                     getTitlesWidget: (value, meta) => SideTitleWidget(
                       meta: meta,
                       child: Text('${value.toInt()}'),
@@ -424,7 +472,7 @@ class _LineChartSample13State extends State<LineChartSample13> {
                   sideTitles: SideTitles(showTitles: false),
                 ),
               ),
-              ///////////////////////////////////////////////////////////////////////// day and number of clients data
+              ////////////////////////////////////////////////// day and number of clients data
               gridData: FlGridData(show: true),
               lineTouchData: LineTouchData(
                 handleBuiltInTouches: true,
@@ -446,7 +494,7 @@ class _LineChartSample13State extends State<LineChartSample13> {
     );
   }
 
-  ///////////////////////////////////////////////////////////////////////////////// Can Go Next and Previous Month
+  //////////////////////////// Can Go Next and Previous Month
   bool get _canGoNext => _currentMonthIndex < 11;
 
   bool get _canGoPrevious => _currentMonthIndex > 0;
@@ -457,5 +505,149 @@ class _LineChartSample13State extends State<LineChartSample13> {
 
   void _previousMonth() {
     if (_canGoPrevious) setState(() => _currentMonthIndex--);
+  }
+}
+
+/////////////////////////////////////////////////////////////////////////////////////// PIE CHART
+class PieChartSample2 extends StatefulWidget {
+  const PieChartSample2({super.key});
+
+  @override
+  State<StatefulWidget> createState() => PieChart2State();
+}
+
+class PieChart2State extends State {
+  int touchedIndex = -1;
+
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: 1.3,
+      child: Row(
+        children: <Widget>[
+          const SizedBox(height: 18),
+          Expanded(
+            child: AspectRatio(
+              aspectRatio: 1,
+              child: PieChart(
+                PieChartData(
+                  pieTouchData: PieTouchData(
+                    touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                      setState(() {
+                        if (!event.isInterestedForInteractions ||
+                            pieTouchResponse == null ||
+                            pieTouchResponse.touchedSection == null) {
+                          touchedIndex = -1;
+                          return;
+                        }
+                        touchedIndex = pieTouchResponse
+                            .touchedSection!
+                            .touchedSectionIndex;
+                      });
+                    },
+                  ),
+                  borderData: FlBorderData(show: false),
+                  sectionsSpace: 0,
+                  centerSpaceRadius: 40,
+                  sections: showingSections(),
+                ),
+              ),
+            ),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Indicator(
+                color: AppColors.contentColorBlue,
+                text: 'First',
+                isSquare: true,
+              ),
+              const SizedBox(height: 4),
+              Indicator(
+                color: AppColors.contentColorYellow,
+                text: 'Second',
+                isSquare: true,
+              ),
+              const SizedBox(height: 4),
+              Indicator(
+                color: AppColors.contentColorPurple,
+                text: 'Third',
+                isSquare: true,
+              ),
+              const SizedBox(height: 4),
+              Indicator(
+                color: AppColors.contentColorGreen,
+                text: 'Fourth',
+                isSquare: true,
+              ),
+              const SizedBox(height: 18),
+            ],
+          ),
+          const SizedBox(width: 28),
+        ],
+      ),
+    );
+  }
+
+  List<PieChartSectionData> showingSections() {
+    return List.generate(4, (i) {
+      final isTouched = i == touchedIndex;
+      final fontSize = isTouched ? 25.0 : 16.0;
+      final radius = isTouched ? 60.0 : 50.0;
+
+      switch (i) {
+        case 0:
+          return PieChartSectionData(
+            color: AppColors.contentColorBlue,
+            value: 40,
+            title: '40%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: AppColors.mainTextColor1,
+            ),
+          );
+        case 1:
+          return PieChartSectionData(
+            color: AppColors.contentColorYellow,
+            value: 30,
+            title: '30%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: AppColors.mainTextColor1,
+            ),
+          );
+        case 2:
+          return PieChartSectionData(
+            color: AppColors.contentColorPurple,
+            value: 15,
+            title: '15%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: AppColors.mainTextColor1,
+            ),
+          );
+        case 3:
+          return PieChartSectionData(
+            color: AppColors.contentColorGreen,
+            value: 15,
+            title: '15%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: AppColors.mainTextColor1,
+            ),
+          );
+        default:
+          throw Error();
+      }
+    });
   }
 }
