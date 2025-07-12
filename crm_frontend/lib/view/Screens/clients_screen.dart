@@ -19,24 +19,29 @@ class ClientsScreen extends StatefulWidget {
 
 class _ClientsScreenState extends State<ClientsScreen> {
   final TextEditingController _searchController = TextEditingController();
-  List<Client> _clients = [
+  final List<Client> _clients = [
     Client(
-      name: 'Alice Johnson',
-      phone: '123-456-7890',
-      email: 'alice@example.com',
-    ),
-    Client(name: 'Bob Smith', phone: '987-654-3210', email: 'bob@example.com'),
-    Client(
-      name: 'Charlie Davis',
-      phone: '555-123-4567',
-      email: 'charlie@example.com',
+      name: 'Walid Benali',
+      phone: '06 61 23 45 67',
+      email: 'walid.benali@exemple.dz',
     ),
     Client(
-      name: 'Diana Prince',
-      phone: '444-555-6666',
-      email: 'diana@example.com',
+      name: 'Samira Haddad',
+      phone: '05 50 12 34 56',
+      email: 'samira.haddad@exemple.dz',
+    ),
+    Client(
+      name: 'Yacine Bouzid',
+      phone: '07 70 98 76 54',
+      email: 'yacine.bouzid@exemple.dz',
+    ),
+    Client(
+      name: 'Nadia Belkacem',
+      phone: '06 99 11 22 33',
+      email: 'nadia.belkacem@exemple.dz',
     ),
   ];
+
   List<Client> _filteredClients = [];
 
   @override
@@ -49,9 +54,9 @@ class _ClientsScreenState extends State<ClientsScreen> {
   void _filterClients() {
     final query = _searchController.text.toLowerCase();
     setState(() {
-      _filteredClients = _clients.where((client) {
-        return client.name.toLowerCase().contains(query);
-      }).toList();
+      _filteredClients = _clients
+          .where((client) => client.name.toLowerCase().contains(query))
+          .toList();
     });
   }
 
@@ -78,7 +83,6 @@ class _ClientsScreenState extends State<ClientsScreen> {
   }
 
   void _addClient() {
-    // TODO: Implement add client functionality
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text('Add Client button pressed')));
@@ -91,130 +95,191 @@ class _ClientsScreenState extends State<ClientsScreen> {
     final Color backgroundColor = Colors.blueGrey.shade50;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: primaryColor,
-        title: Text(
-          'Clients',
-          style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 24),
-        ),
-      ),
       body: Container(
-        color: backgroundColor,
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          children: [
-            // Search bar
-            TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                hintText: 'Search clients',
-                prefixIcon: Icon(Icons.search, color: secondaryColor),
-                filled: true,
-                fillColor: Colors.white,
-                contentPadding: const EdgeInsets.symmetric(
-                  vertical: 0,
-                  horizontal: 16,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.0),
-                  borderSide: BorderSide(
-                    color: Colors.blueGrey.shade200,
-                    width: 1.5,
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.0),
-                  borderSide: BorderSide(color: secondaryColor, width: 2.0),
-                ),
-              ),
-              style: TextStyle(color: primaryColor, fontSize: 18),
+        decoration: BoxDecoration(
+          image: const DecorationImage(
+            image: AssetImage('lib/images/login.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 28.0,
+              vertical: 40.0,
             ),
-            const SizedBox(height: 12),
-            // Clients list
-            Expanded(
-              child: _filteredClients.isEmpty
-                  ? Center(
-                      child: Text(
-                        'No clients found',
-                        style: TextStyle(color: secondaryColor, fontSize: 18),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ////////////////////////////////////////////////////////////// Title
+                Text(
+                  'Clients',
+                  style: GoogleFonts.poppins(
+                    fontSize: 42,
+                    fontWeight: FontWeight.bold,
+                    color: primaryColor,
+                    shadows: [
+                      Shadow(
+                        blurRadius: 8,
+                        color: Colors.black12,
+                        offset: Offset(0, 4),
                       ),
-                    )
-                  : ListView.builder(
-                      itemCount: _filteredClients.length,
-                      itemBuilder: (context, index) {
-                        final client = _filteredClients[index];
-                        return Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          margin: const EdgeInsets.symmetric(vertical: 6),
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
+                    ],
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 12),
+                //////////////////////////////////////////////////////////// Search bar
+                TextField(
+                  controller: _searchController,
+                  decoration: InputDecoration(
+                    hintText: 'Search clients...',
+                    prefixIcon: Icon(Icons.search, color: secondaryColor),
+                    filled: true,
+                    fillColor: Colors.blueGrey[50],
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 14,
+                      horizontal: 20,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: BorderSide(
+                        color: Colors.blueGrey.shade200,
+                        width: 1.5,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: BorderSide(
+                        color: Colors.blueGrey.shade400,
+                        width: 2.0,
+                      ),
+                    ),
+                  ),
+                  style: TextStyle(fontSize: 18, color: primaryColor),
+                ),
+                const SizedBox(height: 30),
+                //////////////////////////////////////////////////////////// Client list
+                _filteredClients.isEmpty
+                    ? Text(
+                        'No clients found.',
+                        style: GoogleFonts.roboto(
+                          fontSize: 18,
+                          color: secondaryColor,
+                        ),
+                      )
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: _filteredClients.length,
+                        itemBuilder: (context, index) {
+                          final client = _filteredClients[index];
+                          return Container(
+                            margin: const EdgeInsets.symmetric(vertical: 10),
+                            padding: const EdgeInsets.only(
+                              left: 16,
+                              right: 16,
+                              top: 12,
+                              bottom: 0,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.05),
+                                  blurRadius: 8,
+                                  offset: Offset(0, 4),
+                                ),
+                              ],
+                            ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   client.name,
                                   style: GoogleFonts.poppins(
-                                    fontSize: 20,
+                                    fontSize: 22,
                                     fontWeight: FontWeight.bold,
                                     color: primaryColor,
                                   ),
                                 ),
-                                const SizedBox(height: 4),
+                                const SizedBox(height: 6),
                                 Text(
                                   'Phone: ${client.phone}',
-                                  style: TextStyle(
-                                    color: secondaryColor,
+                                  style: GoogleFonts.roboto(
                                     fontSize: 16,
+                                    color: secondaryColor,
                                   ),
                                 ),
-                                Text(
-                                  'Email: ${client.email}',
-                                  style: TextStyle(
-                                    color: secondaryColor,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    IconButton(
-                                      icon: Icon(
-                                        Icons.call,
-                                        color: primaryColor,
+                                    Text(
+                                      'Email: ${client.email}',
+                                      style: GoogleFonts.roboto(
+                                        fontSize: 16,
+                                        color: secondaryColor,
                                       ),
-                                      onPressed: () =>
-                                          _callClient(client.phone),
-                                      tooltip: 'Call',
                                     ),
-                                    IconButton(
-                                      icon: Icon(
-                                        Icons.message,
-                                        color: primaryColor,
-                                      ),
-                                      onPressed: () =>
-                                          _messageClient(client.phone),
-                                      tooltip: 'Message',
+                                    const Spacer(),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        IconButton(
+                                          icon: Icon(
+                                            Icons.call,
+                                            color: primaryColor,
+                                          ),
+                                          onPressed: () =>
+                                              _callClient(client.phone),
+                                        ),
+                                        IconButton(
+                                          icon: Icon(
+                                            Icons.message,
+                                            color: primaryColor,
+                                          ),
+                                          onPressed: () =>
+                                              _messageClient(client.phone),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
+                                const SizedBox(height: 12),
                               ],
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
+                const SizedBox(height: 30),
+                ////////////////////////////////////////////////////////////// Add Button
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: _addClient,
+                    icon: Icon(Icons.add, size: 24, color: Colors.white),
+                    label: Text(
+                      'Add Client',
+                      style: GoogleFonts.roboto(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white,
+                      ),
                     ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: primaryColor,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 6,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _addClient,
-        backgroundColor: primaryColor,
-        icon: const Icon(Icons.add),
-        label: const Text('Add Client'),
       ),
     );
   }
