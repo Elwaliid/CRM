@@ -255,29 +255,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                 ),
                 const SizedBox(height: 16),
+
                 /////////////////////////////////////////////////////////////////////////  LINE Chart Section
-                SizedBox(
-                  height: 450,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        minHeight: 450,
-                        maxHeight: 450,
-                      ),
-                      child: const LineChartSample13(),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 24),
+                const LineChartSample13(),
+
                 /////////////////////////////////////////////////////////////////////////    PIE Chart Section
-                SizedBox(
-                  height: 300,
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(minHeight: 300, maxHeight: 300),
-                    child: const PieChartSample2(),
-                  ),
-                ),
+                const PieChartSample2(),
               ],
             ),
           ),
@@ -296,7 +279,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Expanded(
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
-        height: 150,
+        height: 152,
         child: Card(
           elevation: 4,
           shape: RoundedRectangleBorder(
