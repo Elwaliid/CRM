@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, unused_element, unnecessary_import, use_super_parameters, deprecated_member_use
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -24,7 +24,6 @@ class AppColors {
 class Indicator extends StatelessWidget {
   final Color color;
   final String text;
-  final bool isSquare;
   final double size;
   final Color textColor;
 
@@ -32,7 +31,6 @@ class Indicator extends StatelessWidget {
     Key? key,
     required this.color,
     required this.text,
-    this.isSquare = true,
     this.size = 16,
     this.textColor = Colors.black,
   }) : super(key: key);
@@ -44,10 +42,7 @@ class Indicator extends StatelessWidget {
         Container(
           width: size,
           height: size,
-          decoration: BoxDecoration(
-            shape: isSquare ? BoxShape.rectangle : BoxShape.circle,
-            color: color,
-          ),
+          decoration: BoxDecoration(shape: BoxShape.rectangle, color: color),
         ),
         const SizedBox(width: 8),
         Text(
@@ -559,29 +554,15 @@ class PieChart2State extends State {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Indicator(
-                color: AppColors.contentColorBlue,
-                text: 'First',
-                isSquare: true,
+                color: const Color.fromARGB(255, 165, 199, 42),
+                text: 'Leads',
               ),
               const SizedBox(height: 4),
               Indicator(
-                color: AppColors.contentColorYellow,
-                text: 'Second',
-                isSquare: true,
+                color: const Color.fromARGB(255, 42, 50, 97),
+                text: 'Clients',
               ),
               const SizedBox(height: 4),
-              Indicator(
-                color: AppColors.contentColorPurple,
-                text: 'Third',
-                isSquare: true,
-              ),
-              const SizedBox(height: 4),
-              Indicator(
-                color: AppColors.contentColorGreen,
-                text: 'Fourth',
-                isSquare: true,
-              ),
-              const SizedBox(height: 18),
             ],
           ),
           const SizedBox(width: 28),
@@ -591,7 +572,7 @@ class PieChart2State extends State {
   }
 
   List<PieChartSectionData> showingSections() {
-    return List.generate(4, (i) {
+    return List.generate(2, (i) {
       final isTouched = i == touchedIndex;
       final fontSize = isTouched ? 25.0 : 16.0;
       final radius = isTouched ? 60.0 : 50.0;
@@ -599,7 +580,7 @@ class PieChart2State extends State {
       switch (i) {
         case 0:
           return PieChartSectionData(
-            color: AppColors.contentColorBlue,
+            color: const Color.fromARGB(255, 204, 255, 20),
             value: 40,
             title: '40%',
             radius: radius,
@@ -611,33 +592,9 @@ class PieChart2State extends State {
           );
         case 1:
           return PieChartSectionData(
-            color: AppColors.contentColorYellow,
-            value: 30,
-            title: '30%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: AppColors.mainTextColor1,
-            ),
-          );
-        case 2:
-          return PieChartSectionData(
-            color: AppColors.contentColorPurple,
-            value: 15,
-            title: '15%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: AppColors.mainTextColor1,
-            ),
-          );
-        case 3:
-          return PieChartSectionData(
-            color: AppColors.contentColorGreen,
-            value: 15,
-            title: '15%',
+            color: const Color.fromARGB(255, 109, 131, 255),
+            value: 60,
+            title: '60%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
