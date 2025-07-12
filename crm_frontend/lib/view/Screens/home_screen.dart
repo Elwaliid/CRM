@@ -44,7 +44,11 @@ class Indicator extends StatelessWidget {
         Container(
           width: size,
           height: size,
-          decoration: BoxDecoration(shape: BoxShape.rectangle, color: color),
+          decoration: BoxDecoration(
+            shape: BoxShape.rectangle,
+            color: color,
+            borderRadius: BorderRadius.circular(4),
+          ),
         ),
         const SizedBox(width: 8),
         Text(
@@ -110,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
     String todayDate = DateFormat('EEEE, MMMM d, yyyy').format(DateTime.now());
 
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.grey[50],
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.blueGrey[900],
@@ -134,19 +138,20 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Center(
                   /////////////////////////////////////////////////////////////////////////  date and time
-                  child: Container(
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
-                      vertical: 10,
+                      vertical: 12,
                     ),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.2),
-                          blurRadius: 6,
-                          offset: const Offset(0, 3),
+                          color: Colors.blueGrey.withOpacity(0.1),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
                         ),
                       ],
                     ),
@@ -158,13 +163,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: Colors.blueGrey[700],
                           size: 20,
                         ),
-                        const SizedBox(width: 6),
+                        const SizedBox(width: 8),
                         Text(
                           todayDate,
                           style: GoogleFonts.roboto(
-                            textStyle: const TextStyle(
-                              fontSize: 18,
+                            textStyle: TextStyle(
+                              fontSize: 16,
                               fontWeight: FontWeight.w500,
+                              color: Colors.blueGrey[800],
                             ),
                           ),
                         ),
@@ -174,13 +180,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: Colors.blueGrey[700],
                           size: 20,
                         ),
-                        const SizedBox(width: 6),
+                        const SizedBox(width: 8),
                         Text(
                           _currentTime,
                           style: GoogleFonts.roboto(
-                            textStyle: const TextStyle(
-                              fontSize: 18,
+                            textStyle: TextStyle(
+                              fontSize: 16,
                               fontWeight: FontWeight.w500,
+                              color: Colors.blueGrey[800],
                             ),
                           ),
                         ),
@@ -197,31 +204,39 @@ class _HomeScreenState extends State<HomeScreen> {
                       'Clients',
                       '15',
                       Icons.people,
-                      Colors.blueGrey,
+                      Colors.blueGrey[800]!,
                     ),
-                    const SizedBox(width: 8),
-                    _buildInfoCard('Tasks', '8', Icons.task_alt, Colors.teal),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: 12),
+                    _buildInfoCard(
+                      'Tasks',
+                      '8',
+                      Icons.task_alt,
+                      Colors.teal[700]!,
+                    ),
+                    const SizedBox(width: 12),
                     _buildInfoCard(
                       'Deals',
                       '5',
                       Icons.business_center,
-                      Colors.deepOrange,
+                      Colors.deepOrange[400]!,
                     ),
                   ],
                 ),
                 const SizedBox(height: 30),
-                Text(
-                  'Quick Add',
-                  style: GoogleFonts.roboto(
-                    textStyle: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blueGrey,
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Text(
+                    'Quick Add',
+                    style: GoogleFonts.roboto(
+                      textStyle: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueGrey[800],
+                      ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 16),
                 /////////////////////////////////////////////////////////////////////////    Quick Add Buttons
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -231,20 +246,24 @@ class _HomeScreenState extends State<HomeScreen> {
                     _buildQuickAddButton(Icons.add_business, 'Deal', () => ()),
                   ],
                 ),
-                const SizedBox(height: 24),
-                Text(
-                  'Recent Statics',
-                  style: GoogleFonts.roboto(
-                    textStyle: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blueGrey,
+                const SizedBox(height: 30),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Text(
+                    'Recent Statistics',
+                    style: GoogleFonts.roboto(
+                      textStyle: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueGrey[800],
+                      ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 16),
                 /////////////////////////////////////////////////////////////////////////  LINE Chart Section
                 const LineChartSample13(), /////////////////////////////////////////////////////////////////////////////////////////////////
+                const SizedBox(height: 24),
                 /////////////////////////////////////////////////////////////////////////    PIE Chart Section
                 const PieChartSample2(), ///////////////////////////////////////////////////////////////////////////////////////
               ],
@@ -257,18 +276,16 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.blueGrey[900],
         currentIndex: _selectedIndex,
         onTap: _onNavBarTap,
-        selectedItemColor: const Color.fromARGB(255, 254, 255, 255),
+        selectedItemColor: Colors.white,
         unselectedItemColor: Colors.blueGrey[400],
         showUnselectedLabels: true,
         selectedLabelStyle: const TextStyle(
-          fontWeight: FontWeight.w700,
-          fontSize: 14,
-          color: Color.fromARGB(255, 253, 253, 253),
+          fontWeight: FontWeight.w600,
+          fontSize: 12,
         ),
         unselectedLabelStyle: const TextStyle(
           fontWeight: FontWeight.w400,
           fontSize: 12,
-          color: Colors.blueGrey,
         ),
         type: BottomNavigationBarType.fixed,
         elevation: 8,
@@ -294,36 +311,46 @@ class _HomeScreenState extends State<HomeScreen> {
     Color color,
   ) {
     return Expanded(
-      child: Card(
-        elevation: 4,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        color: color,
-        child: InkWell(
-          onTap: () => (),
-          borderRadius: BorderRadius.circular(12),
-          child: Container(
-            height: 150,
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(icon, size: 36, color: Colors.white),
-                const SizedBox(height: 6),
-                Text(
-                  count,
-                  style: const TextStyle(
-                    fontSize: 26,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        height: 150,
+        child: Card(
+          elevation: 4,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          color: color,
+          shadowColor: Colors.blueGrey.withOpacity(0.3),
+          child: InkWell(
+            onTap: () => (),
+            borderRadius: BorderRadius.circular(16),
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(icon, size: 36, color: Colors.white),
+                  const SizedBox(height: 8),
+                  Text(
+                    count,
+                    style: const TextStyle(
+                      fontSize: 26,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  title,
-                  style: const TextStyle(fontSize: 16, color: Colors.white),
-                  textAlign: TextAlign.center,
-                ),
-              ],
+                  const SizedBox(height: 8),
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -335,20 +362,38 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildQuickAddButton(IconData icon, String label, VoidCallback onTap) {
     return Column(
       children: [
-        ElevatedButton(
-          onPressed: onTap,
-          style: ElevatedButton.styleFrom(
-            shape: const CircleBorder(),
-            padding: const EdgeInsets.all(16),
-            backgroundColor: Colors.blueGrey[900],
-            alignment: Alignment.center,
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.blueGrey.withOpacity(0.2),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
+              ),
+            ],
           ),
-          child: Icon(icon, size: 32, color: Colors.white),
+          child: ElevatedButton(
+            onPressed: onTap,
+            style: ElevatedButton.styleFrom(
+              shape: const CircleBorder(),
+              padding: const EdgeInsets.all(20),
+              backgroundColor: Colors.blueGrey[900],
+              alignment: Alignment.center,
+              shadowColor: Colors.transparent,
+            ),
+            child: Icon(icon, size: 28, color: Colors.white),
+          ),
         ),
         const SizedBox(height: 8),
         Text(
           label,
-          style: TextStyle(color: Colors.blueGrey[900], fontSize: 14),
+          style: TextStyle(
+            color: Colors.blueGrey[900],
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ],
     );
@@ -402,7 +447,7 @@ class _LineChartSample13State extends State<LineChartSample13> {
   Widget build(BuildContext context) {
     final currentMonthData = monthlyClientData[_currentMonthIndex];
     final daysInMonth = currentMonthData.length;
-    final chartWidth = daysInMonth * 22.0;
+    final chartWidth = daysInMonth * 17.0;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -410,21 +455,21 @@ class _LineChartSample13State extends State<LineChartSample13> {
         Center(
           child: Text(
             'Clients Added in ${monthsNames[_currentMonthIndex]}',
-            style: const TextStyle(
-              fontSize: 20,
+            style: TextStyle(
+              fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: AppColors.contentColorBlue,
+              color: Colors.blueGrey[800],
             ),
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 16),
 
         ////////////////////////////////////////// Scrollable chart with mouse support
         SizedBox(
-          height: 500,
+          height: 450,
+
           child: ScrollConfiguration(
-            behavior:
-                _MouseDragScrollBehavior(), // 👈 Add custom scroll behavior
+            behavior: _MouseDragScrollBehavior(),
             child: Scrollbar(
               thumbVisibility: false,
               child: SingleChildScrollView(
@@ -447,8 +492,14 @@ class _LineChartSample13State extends State<LineChartSample13> {
                           }).toList(),
                           isCurved: true,
                           color: AppColors.contentColorOrange,
-                          barWidth: 2,
+                          barWidth: 3,
                           dotData: const FlDotData(show: true),
+                          belowBarData: BarAreaData(
+                            show: true,
+                            color: AppColors.contentColorOrange.withOpacity(
+                              0.1,
+                            ),
+                          ),
                         ),
                       ],
                       titlesData: FlTitlesData(
@@ -456,32 +507,45 @@ class _LineChartSample13State extends State<LineChartSample13> {
                           sideTitles: SideTitles(
                             showTitles: true,
                             interval: 1,
-                            reservedSize: 30,
+                            reservedSize: 50,
                             getTitlesWidget: (value, meta) => SideTitleWidget(
                               meta: meta,
-                              child: Text('${value.toInt()}'),
+                              space: 4,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 39.0),
+                                child: Text(
+                                  '${value.toInt()}',
+                                  style: TextStyle(
+                                    color: Colors.blueGrey[700],
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ),
                         bottomTitles: AxisTitles(
                           sideTitles: SideTitles(
                             showTitles: true,
-                            interval: 5,
+                            interval: 7,
                             reservedSize: 30,
                             getTitlesWidget: (value, meta) {
-                              // Add extra space for the last two X values
                               int lastDay = currentMonthData.length;
                               int secondLastDay = lastDay - 1;
                               double x = value;
-                              Widget label = Text('${value.toInt()}');
+                              Widget label = Text(
+                                '${value.toInt()}',
+                                style: TextStyle(
+                                  color: Colors.blueGrey[700],
+                                  fontSize: 12,
+                                ),
+                              );
                               if (x == lastDay.toDouble()) {
-                                // Last X value, add more space to the right
                                 return Padding(
                                   padding: const EdgeInsets.only(right: 24.0),
                                   child: label,
                                 );
                               } else if (x == secondLastDay.toDouble()) {
-                                // Second last X value, add some space to the right
                                 return Padding(
                                   padding: const EdgeInsets.only(right: 12.0),
                                   child: label,
@@ -491,7 +555,6 @@ class _LineChartSample13State extends State<LineChartSample13> {
                             },
                           ),
                         ),
-
                         topTitles: const AxisTitles(
                           sideTitles: SideTitles(showTitles: false),
                         ),
@@ -499,7 +562,24 @@ class _LineChartSample13State extends State<LineChartSample13> {
                           sideTitles: SideTitles(showTitles: false),
                         ),
                       ),
-                      gridData: FlGridData(show: true),
+                      gridData: FlGridData(
+                        show: true,
+                        drawVerticalLine: true,
+                        horizontalInterval: 1,
+                        verticalInterval: 5,
+                        getDrawingHorizontalLine: (value) {
+                          return FlLine(
+                            color: Colors.blueGrey.withOpacity(0.1),
+                            strokeWidth: 1,
+                          );
+                        },
+                        getDrawingVerticalLine: (value) {
+                          return FlLine(
+                            color: Colors.blueGrey.withOpacity(0.1),
+                            strokeWidth: 1,
+                          );
+                        },
+                      ),
                       lineTouchData: LineTouchData(
                         handleBuiltInTouches: true,
                         touchTooltipData: LineTouchTooltipData(
@@ -507,7 +587,10 @@ class _LineChartSample13State extends State<LineChartSample13> {
                             return touchedSpots.map((spot) {
                               return LineTooltipItem(
                                 'Day ${spot.x.toInt()}: ${spot.y.toInt()} clients',
-                                const TextStyle(color: Colors.white),
+                                const TextStyle(
+                                  color: Colors.white,
+                                  backgroundColor: Colors.blueGrey,
+                                ),
                               );
                             }).toList();
                           },
@@ -537,7 +620,6 @@ class _LineChartSample13State extends State<LineChartSample13> {
   }
 }
 
-// 👇 This allows mouse drag scroll on desktop/web
 class _MouseDragScrollBehavior extends MaterialScrollBehavior {
   @override
   Set<PointerDeviceKind> get dragDevices => {
@@ -562,56 +644,65 @@ class PieChart2State extends State {
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: 1.3,
-      child: Row(
-        children: <Widget>[
-          const SizedBox(height: 18),
-          const SizedBox(width: 80),
-          Expanded(
-            child: AspectRatio(
-              aspectRatio: 1,
-              child: PieChart(
-                PieChartData(
-                  pieTouchData: PieTouchData(
-                    touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                      setState(() {
-                        if (!event.isInterestedForInteractions ||
-                            pieTouchResponse == null ||
-                            pieTouchResponse.touchedSection == null) {
-                          touchedIndex = -1;
-                          return;
-                        }
-                        touchedIndex = pieTouchResponse
-                            .touchedSection!
-                            .touchedSectionIndex;
-                      });
-                    },
+      child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            children: <Widget>[
+              const SizedBox(height: 18),
+              const SizedBox(width: 28),
+              Expanded(
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: PieChart(
+                    PieChartData(
+                      pieTouchData: PieTouchData(
+                        touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                          setState(() {
+                            if (!event.isInterestedForInteractions ||
+                                pieTouchResponse == null ||
+                                pieTouchResponse.touchedSection == null) {
+                              touchedIndex = -1;
+                              return;
+                            }
+                            touchedIndex = pieTouchResponse
+                                .touchedSection!
+                                .touchedSectionIndex;
+                          });
+                        },
+                      ),
+                      borderData: FlBorderData(show: false),
+                      sectionsSpace: 0,
+                      centerSpaceRadius: 40,
+                      sections: showingSections(),
+                    ),
                   ),
-                  borderData: FlBorderData(show: false),
-                  sectionsSpace: 0,
-                  centerSpaceRadius: 40,
-                  sections: showingSections(),
                 ),
               ),
-            ),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Indicator(
-                color: const Color.fromARGB(255, 165, 199, 42),
-                text: 'Leads',
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Indicator(
+                    color: const Color.fromARGB(255, 204, 255, 20),
+                    text: 'Leads',
+                    textColor: Colors.blueGrey[800]!,
+                  ),
+                  const SizedBox(height: 12),
+                  Indicator(
+                    color: const Color.fromARGB(255, 109, 131, 255),
+                    text: 'Clients',
+                    textColor: Colors.blueGrey[800]!,
+                  ),
+                  const SizedBox(height: 12),
+                ],
               ),
-              const SizedBox(height: 4),
-              Indicator(
-                color: const Color.fromARGB(255, 42, 50, 97),
-                text: 'Clients',
-              ),
-              const SizedBox(height: 4),
+              const SizedBox(width: 28),
             ],
           ),
-          const SizedBox(width: 28),
-        ],
+        ),
       ),
     );
   }
@@ -619,8 +710,8 @@ class PieChart2State extends State {
   List<PieChartSectionData> showingSections() {
     return List.generate(2, (i) {
       final isTouched = i == touchedIndex;
-      final fontSize = isTouched ? 25.0 : 16.0;
-      final radius = isTouched ? 60.0 : 50.0;
+      final fontSize = isTouched ? 20.0 : 16.0;
+      final radius = isTouched ? 55.0 : 50.0;
 
       switch (i) {
         case 0:
