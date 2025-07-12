@@ -1,4 +1,6 @@
 // ignore_for_file: avoid_print, unused_element, unnecessary_import, use_super_parameters, deprecated_member_use
+import 'dart:ui';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -241,7 +243,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const SizedBox(height: 12),
-                /////////////////////////////////////////////////////////////////////////   Chart Section
+                /////////////////////////////////////////////////////////////////////////  LINE Chart Section
                 const LineChartSample13(), /////////////////////////////////////////////////////////////////////////////////////////////////
                 /////////////////////////////////////////////////////////////////////////    PIE Chart Section
                 const PieChartSample2(), ///////////////////////////////////////////////////////////////////////////////////////
@@ -354,6 +356,7 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 ///////////////////////////////////////////////////////////////////////// Line Chart class
+
 class LineChartSample13 extends StatefulWidget {
   const LineChartSample13({super.key});
 
@@ -364,7 +367,6 @@ class LineChartSample13 extends StatefulWidget {
 class _LineChartSample13State extends State<LineChartSample13> {
   int _currentMonthIndex = DateTime.now().month - 1;
 
-  ///////////////////////////////////////////////////////////////////////// Months Names List
   final List<String> monthsNames = const [
     'January',
     'February',
@@ -388,7 +390,6 @@ class _LineChartSample13State extends State<LineChartSample13> {
     _generateMockClientData();
   }
 
-  ///////////////////////////////////////////////////////////////////////// Generate Mock Client Data
   void _generateMockClientData() {
     final random = Random();
     monthlyClientData = List.generate(12, (monthIndex) {
@@ -397,89 +398,124 @@ class _LineChartSample13State extends State<LineChartSample13> {
     });
   }
 
-  /////////// Build Widget
   @override
   Widget build(BuildContext context) {
     final currentMonthData = monthlyClientData[_currentMonthIndex];
+    final daysInMonth = currentMonthData.length;
+    final chartWidth = daysInMonth * 22.0;
+
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ///////////////////////////////////////////////////////////////////////// Chart Title
-        Text(
-          'Clients Added in ${monthsNames[_currentMonthIndex]}',
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: AppColors.contentColorBlue,
+        Center(
+          child: Text(
+            'Clients Added in ${monthsNames[_currentMonthIndex]}',
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: AppColors.contentColorBlue,
+            ),
           ),
         ),
-
         const SizedBox(height: 12),
 
-        //////////////////////////////////////////////////// Line Chart
-        AspectRatio(
-          aspectRatio: 1.5,
-          child: LineChart(
-            LineChartData(
-              minY: 0,
-              maxY: 10,
-              minX: 1,
-              maxX: currentMonthData.length.toDouble(),
-              lineBarsData: [
-                LineChartBarData(
-                  spots: currentMonthData.asMap().entries.map((e) {
-                    return FlSpot((e.key + 1).toDouble(), e.value.toDouble());
-                  }).toList(),
-                  isCurved: true,
-                  color: AppColors.contentColorOrange,
-                  barWidth: 2,
-                  dotData: const FlDotData(show: true),
-                ),
-              ],
-              titlesData: FlTitlesData(
-                ////////////////////////////////////////////////////// Y Titles
-                leftTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    interval: 1,
-                    reservedSize: 30,
-                    getTitlesWidget: (value, meta) => SideTitleWidget(
-                      meta: meta,
-                      child: Text('${value.toInt()}'),
+        ////////////////////////////////////////// Scrollable chart with mouse support
+        SizedBox(
+          height: 500,
+          child: ScrollConfiguration(
+            behavior:
+                _MouseDragScrollBehavior(), // 👈 Add custom scroll behavior
+            child: Scrollbar(
+              thumbVisibility: false,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: SizedBox(
+                  width: chartWidth,
+                  child: LineChart(
+                    LineChartData(
+                      minY: 0,
+                      maxY: 10,
+                      minX: 1,
+                      maxX: daysInMonth.toDouble(),
+                      lineBarsData: [
+                        LineChartBarData(
+                          spots: currentMonthData.asMap().entries.map((e) {
+                            return FlSpot(
+                              (e.key + 1).toDouble(),
+                              e.value.toDouble(),
+                            );
+                          }).toList(),
+                          isCurved: true,
+                          color: AppColors.contentColorOrange,
+                          barWidth: 2,
+                          dotData: const FlDotData(show: true),
+                        ),
+                      ],
+                      titlesData: FlTitlesData(
+                        leftTitles: AxisTitles(
+                          sideTitles: SideTitles(
+                            showTitles: true,
+                            interval: 1,
+                            reservedSize: 30,
+                            getTitlesWidget: (value, meta) => SideTitleWidget(
+                              meta: meta,
+                              child: Text('${value.toInt()}'),
+                            ),
+                          ),
+                        ),
+                        bottomTitles: AxisTitles(
+                          sideTitles: SideTitles(
+                            showTitles: true,
+                            interval: 5,
+                            reservedSize: 30,
+                            getTitlesWidget: (value, meta) {
+                              // Add extra space for the last two X values
+                              int lastDay = currentMonthData.length;
+                              int secondLastDay = lastDay - 1;
+                              double x = value;
+                              Widget label = Text('${value.toInt()}');
+                              if (x == lastDay.toDouble()) {
+                                // Last X value, add more space to the right
+                                return Padding(
+                                  padding: const EdgeInsets.only(right: 24.0),
+                                  child: label,
+                                );
+                              } else if (x == secondLastDay.toDouble()) {
+                                // Second last X value, add some space to the right
+                                return Padding(
+                                  padding: const EdgeInsets.only(right: 12.0),
+                                  child: label,
+                                );
+                              }
+                              return label;
+                            },
+                          ),
+                        ),
+
+                        topTitles: const AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
+                        rightTitles: const AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
+                      ),
+                      gridData: FlGridData(show: true),
+                      lineTouchData: LineTouchData(
+                        handleBuiltInTouches: true,
+                        touchTooltipData: LineTouchTooltipData(
+                          getTooltipItems: (List<LineBarSpot> touchedSpots) {
+                            return touchedSpots.map((spot) {
+                              return LineTooltipItem(
+                                'Day ${spot.x.toInt()}: ${spot.y.toInt()} clients',
+                                const TextStyle(color: Colors.white),
+                              );
+                            }).toList();
+                          },
+                        ),
+                      ),
+                      clipData: FlClipData.all(),
                     ),
                   ),
-                ),
-                ////////////////////////////////////////////// X Titles
-                bottomTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    interval: 5,
-                    reservedSize: 30,
-                    getTitlesWidget: (value, meta) => SideTitleWidget(
-                      meta: meta,
-                      child: Text('${value.toInt()}'),
-                    ),
-                  ),
-                ),
-                topTitles: const AxisTitles(
-                  sideTitles: SideTitles(showTitles: false),
-                ),
-                rightTitles: const AxisTitles(
-                  sideTitles: SideTitles(showTitles: false),
-                ),
-              ),
-              ////////////////////////////////////////////////// day and number of clients data
-              gridData: FlGridData(show: true),
-              lineTouchData: LineTouchData(
-                handleBuiltInTouches: true,
-                touchTooltipData: LineTouchTooltipData(
-                  getTooltipItems: (List<LineBarSpot> touchedSpots) {
-                    return touchedSpots.map((spot) {
-                      return LineTooltipItem(
-                        'Day ${spot.x.toInt()}: ${spot.y.toInt()} clients',
-                        const TextStyle(color: Colors.white),
-                      );
-                    }).toList();
-                  },
                 ),
               ),
             ),
@@ -489,9 +525,7 @@ class _LineChartSample13State extends State<LineChartSample13> {
     );
   }
 
-  //////////////////////////// Can Go Next and Previous Month
   bool get _canGoNext => _currentMonthIndex < 11;
-
   bool get _canGoPrevious => _currentMonthIndex > 0;
 
   void _nextMonth() {
@@ -501,6 +535,16 @@ class _LineChartSample13State extends State<LineChartSample13> {
   void _previousMonth() {
     if (_canGoPrevious) setState(() => _currentMonthIndex--);
   }
+}
+
+// 👇 This allows mouse drag scroll on desktop/web
+class _MouseDragScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+    PointerDeviceKind.mouse,
+    PointerDeviceKind.touch,
+    PointerDeviceKind.trackpad,
+  };
 }
 
 /////////////////////////////////////////////////////////////////////////////////////// PIE CHART
