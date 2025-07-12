@@ -10,6 +10,8 @@ import 'dart:math';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'clients_screen.dart'; // Import ClientsScreen
+
 /////////////////////////////////////////////// Colors
 class AppColors {
   static const contentColorOrange = Color.fromARGB(255, 10, 43, 92);
@@ -104,9 +106,17 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _onNavBarTap(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    if (index == 1) {
+      // Navigate to ClientsScreen when Clients tab is tapped
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const ClientsScreen()),
+      );
+    } else {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
   }
 
   @override
@@ -453,21 +463,22 @@ class _LineChartSample13State extends State<LineChartSample13> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Center(
-          child: Text(
-            'Clients Added in ${monthsNames[_currentMonthIndex]}',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.blueGrey[800],
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 0),
+            child: Text(
+              'Clients Added in ${monthsNames[_currentMonthIndex]}',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.blueGrey[800],
+              ),
             ),
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 12),
 
-        ////////////////////////////////////////// Scrollable chart with mouse support
         SizedBox(
           height: 450,
-
           child: ScrollConfiguration(
             behavior: _MouseDragScrollBehavior(),
             child: Scrollbar(
@@ -507,18 +518,16 @@ class _LineChartSample13State extends State<LineChartSample13> {
                           sideTitles: SideTitles(
                             showTitles: true,
                             interval: 1,
-                            reservedSize: 50,
-                            getTitlesWidget: (value, meta) => SideTitleWidget(
-                              meta: meta,
-                              space: 4,
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 39.0),
-                                child: Text(
-                                  '${value.toInt()}',
-                                  style: TextStyle(
-                                    color: Colors.blueGrey[700],
-                                    fontSize: 12,
-                                  ),
+                            reservedSize: 15, // 💥 reduce space here
+                            getTitlesWidget: (value, meta) => Padding(
+                              padding: const EdgeInsets.only(
+                                top: 9.0,
+                              ), // 👈 Adjust this number
+                              child: Text(
+                                '${value.toInt()}',
+                                style: TextStyle(
+                                  color: Colors.blueGrey[700],
+                                  fontSize: 12,
                                 ),
                               ),
                             ),
@@ -590,6 +599,7 @@ class _LineChartSample13State extends State<LineChartSample13> {
                                 const TextStyle(
                                   color: Colors.white,
                                   backgroundColor: Colors.blueGrey,
+                                  fontSize: 15,
                                 ),
                               );
                             }).toList();
@@ -637,82 +647,14 @@ class PieChartSample2 extends StatefulWidget {
   State<StatefulWidget> createState() => PieChart2State();
 }
 
-class PieChart2State extends State {
+class PieChart2State extends State<PieChartSample2> {
   int touchedIndex = -1;
-
-  @override
-  Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1.3,
-      child: Card(
-        elevation: 4,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            children: <Widget>[
-              const SizedBox(height: 18),
-              const SizedBox(width: 28),
-              Expanded(
-                child: AspectRatio(
-                  aspectRatio: 1,
-                  child: PieChart(
-                    PieChartData(
-                      pieTouchData: PieTouchData(
-                        touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                          setState(() {
-                            if (!event.isInterestedForInteractions ||
-                                pieTouchResponse == null ||
-                                pieTouchResponse.touchedSection == null) {
-                              touchedIndex = -1;
-                              return;
-                            }
-                            touchedIndex = pieTouchResponse
-                                .touchedSection!
-                                .touchedSectionIndex;
-                          });
-                        },
-                      ),
-                      borderData: FlBorderData(show: false),
-                      sectionsSpace: 0,
-                      centerSpaceRadius: 40,
-                      sections: showingSections(),
-                    ),
-                  ),
-                ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Indicator(
-                    color: const Color.fromARGB(255, 204, 255, 20),
-                    text: 'Leads',
-                    textColor: Colors.blueGrey[800]!,
-                  ),
-                  const SizedBox(height: 12),
-                  Indicator(
-                    color: const Color.fromARGB(255, 109, 131, 255),
-                    text: 'Clients',
-                    textColor: Colors.blueGrey[800]!,
-                  ),
-                  const SizedBox(height: 12),
-                ],
-              ),
-              const SizedBox(width: 28),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 
   List<PieChartSectionData> showingSections() {
     return List.generate(2, (i) {
       final isTouched = i == touchedIndex;
-      final fontSize = isTouched ? 20.0 : 16.0;
-      final radius = isTouched ? 55.0 : 50.0;
-
+      final double fontSize = isTouched ? 22.0 : 16.0;
+      final double radius = isTouched ? 60.0 : 50.0;
       switch (i) {
         case 0:
           return PieChartSectionData(
@@ -723,7 +665,7 @@ class PieChart2State extends State {
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
-              color: AppColors.mainTextColor1,
+              color: Colors.black,
             ),
           );
         case 1:
@@ -735,12 +677,95 @@ class PieChart2State extends State {
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
-              color: AppColors.mainTextColor1,
+              color: Colors.black,
             ),
           );
         default:
           throw Error();
       }
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: 1.3,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            child: Text(
+              'Pie chart of Leads and Clients',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.blueGrey[800],
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0), // light padding
+              child: Row(
+                children: <Widget>[
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: PieChart(
+                        PieChartData(
+                          pieTouchData: PieTouchData(
+                            touchCallback:
+                                (FlTouchEvent event, pieTouchResponse) {
+                                  setState(() {
+                                    if (!event.isInterestedForInteractions ||
+                                        pieTouchResponse == null ||
+                                        pieTouchResponse.touchedSection ==
+                                            null) {
+                                      touchedIndex = -1;
+                                      return;
+                                    }
+                                    touchedIndex = pieTouchResponse
+                                        .touchedSection!
+                                        .touchedSectionIndex;
+                                  });
+                                },
+                          ),
+                          borderData: FlBorderData(show: false),
+                          sectionsSpace: 0,
+                          centerSpaceRadius: 40,
+                          sections: showingSections(),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Indicator(
+                        color: const Color.fromARGB(255, 204, 255, 20),
+                        text: 'Leads',
+                        textColor: Colors.blueGrey[800]!,
+                      ),
+                      const SizedBox(height: 12),
+                      Indicator(
+                        color: const Color.fromARGB(255, 109, 131, 255),
+                        text: 'Clients',
+                        textColor: Colors.blueGrey[800]!,
+                      ),
+                      const SizedBox(height: 12),
+                    ],
+                  ),
+                  const SizedBox(width: 12),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
