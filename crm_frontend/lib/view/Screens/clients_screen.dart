@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously, deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -102,7 +104,6 @@ class _ClientsScreenState extends State<ClientsScreen> {
   Widget build(BuildContext context) {
     final Color primaryColor = Colors.blueGrey.shade900;
     final Color secondaryColor = Colors.blueGrey.shade700;
-    final Color backgroundColor = Colors.blueGrey.shade50;
 
     return Scaffold(
       body: Container(
