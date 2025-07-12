@@ -40,6 +40,16 @@ class _ClientsScreenState extends State<ClientsScreen> {
       phone: '06 99 11 22 33',
       email: 'nadia.belkacem@exemple.dz',
     ),
+    Client(
+      name: 'ibrahim Karbousa',
+      phone: '05 44 33 96 00',
+      email: 'ibrahim.Karbousa@exemple.dz',
+    ),
+    Client(
+      name: 'Mouh Latcha',
+      phone: '06 99 24 86 57',
+      email: 'Mouh.Latcha@exemple.dz',
+    ),
   ];
 
   List<Client> _filteredClients = [];
@@ -102,16 +112,15 @@ class _ClientsScreenState extends State<ClientsScreen> {
             fit: BoxFit.cover,
           ),
         ),
-        child: Center(
-          child: SingleChildScrollView(
+        child: SafeArea(
+          child: Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 28.0,
-              vertical: 40.0,
+              vertical: 20.0,
             ),
             child: Column(
-              mainAxisSize: MainAxisSize.min,
               children: [
-                ////////////////////////////////////////////////////////////// Title
+                ///////////////////////////////////////////////////////////////////////////// Title
                 Text(
                   'Clients',
                   style: GoogleFonts.poppins(
@@ -129,11 +138,11 @@ class _ClientsScreenState extends State<ClientsScreen> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 12),
-                //////////////////////////////////////////////////////////// Search bar
+                ///////////////////////////////////////////////////////////////////////////// Search Bar
                 TextField(
                   controller: _searchController,
                   decoration: InputDecoration(
-                    hintText: 'Search clients...',
+                    hintText: 'Search for clients',
                     prefixIcon: Icon(Icons.search, color: secondaryColor),
                     filled: true,
                     fillColor: Colors.blueGrey[50],
@@ -151,108 +160,111 @@ class _ClientsScreenState extends State<ClientsScreen> {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
                       borderSide: BorderSide(
-                        color: Colors.blueGrey.shade400,
+                        color: const Color.fromARGB(255, 41, 49, 53),
                         width: 2.0,
                       ),
                     ),
                   ),
                   style: TextStyle(fontSize: 18, color: primaryColor),
                 ),
-                const SizedBox(height: 30),
-                //////////////////////////////////////////////////////////// Client list
-                _filteredClients.isEmpty
-                    ? Text(
-                        'No clients found.',
-                        style: GoogleFonts.roboto(
-                          fontSize: 18,
-                          color: secondaryColor,
-                        ),
-                      )
-                    : ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: _filteredClients.length,
-                        itemBuilder: (context, index) {
-                          final client = _filteredClients[index];
-                          return Container(
-                            margin: const EdgeInsets.symmetric(vertical: 10),
-                            padding: const EdgeInsets.only(
-                              left: 16,
-                              right: 16,
-                              top: 12,
-                              bottom: 0,
+                const SizedBox(height: 20),
+                ////////////////////////////////////////////////////////////// client list scrollable
+                Expanded(
+                  child: _filteredClients.isEmpty
+                      ? Center(
+                          child: Text(
+                            'No clients added yet.',
+                            style: GoogleFonts.roboto(
+                              fontSize: 18,
+                              color: secondaryColor,
                             ),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(16),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.05),
-                                  blurRadius: 8,
-                                  offset: Offset(0, 4),
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  client.name,
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
-                                    color: primaryColor,
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: _filteredClients.length,
+                          itemBuilder: (context, index) {
+                            final client = _filteredClients[index];
+                            ///////////////////////////////////////////////////////////////////////////// Client/lead card
+                            return Container(
+                              margin: const EdgeInsets.symmetric(vertical: 10),
+                              padding: const EdgeInsets.only(
+                                left: 16,
+                                right: 16,
+                                top: 12,
+                                bottom: 0,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(16),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.05),
+                                    blurRadius: 8,
+                                    offset: Offset(0, 4),
                                   ),
-                                ),
-                                const SizedBox(height: 6),
-                                Text(
-                                  'Phone: ${client.phone}',
-                                  style: GoogleFonts.roboto(
-                                    fontSize: 16,
-                                    color: secondaryColor,
+                                ],
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    client.name,
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                      color: primaryColor,
+                                    ),
                                   ),
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      'Email: ${client.email}',
-                                      style: GoogleFonts.roboto(
-                                        fontSize: 16,
-                                        color: secondaryColor,
+                                  const SizedBox(height: 6),
+                                  Text(
+                                    'Phone: ${client.phone}',
+                                    style: GoogleFonts.roboto(
+                                      fontSize: 16,
+                                      color: secondaryColor,
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Email: ${client.email}',
+                                        style: GoogleFonts.roboto(
+                                          fontSize: 16,
+                                          color: secondaryColor,
+                                        ),
                                       ),
-                                    ),
-                                    const Spacer(),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        IconButton(
-                                          icon: Icon(
-                                            Icons.call,
-                                            color: primaryColor,
+                                      const Spacer(),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          IconButton(
+                                            icon: Icon(
+                                              Icons.call,
+                                              color: primaryColor,
+                                            ),
+                                            onPressed: () =>
+                                                _callClient(client.phone),
                                           ),
-                                          onPressed: () =>
-                                              _callClient(client.phone),
-                                        ),
-                                        IconButton(
-                                          icon: Icon(
-                                            Icons.message,
-                                            color: primaryColor,
+                                          IconButton(
+                                            icon: Icon(
+                                              Icons.message,
+                                              color: primaryColor,
+                                            ),
+                                            onPressed: () =>
+                                                _messageClient(client.phone),
                                           ),
-                                          onPressed: () =>
-                                              _messageClient(client.phone),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 12),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                const SizedBox(height: 30),
-                ////////////////////////////////////////////////////////////// Add Button
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 12),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                ),
+                /////////////////////////////////////////////////////////////////////////////////// Add Button
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
