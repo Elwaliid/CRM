@@ -255,21 +255,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   const SizedBox(height: 24),
 
                   ////////////////////////////////////////////////////////// Pie Chart
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.9),
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: const PieChartSample2(),
-                  ),
+                  const PieChartSample2(),
                 ],
               ),
             ),
@@ -406,8 +392,8 @@ class _LineChartSample13State extends State<LineChartSample13> {
           child: Text(
             'Clients Added in ${monthsNames[_currentMonthIndex]}',
             style: GoogleFonts.poppins(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
               color: primaryColor,
             ),
           ),
@@ -421,8 +407,11 @@ class _LineChartSample13State extends State<LineChartSample13> {
               scrollDirection: Axis.horizontal,
               child: SizedBox(
                 width: chartWidth,
-                child: LineChart(
-                  _generateLineChartData(currentMonthData, daysInMonth),
+                child: ClipRect(
+                  // Clip the chart widget to prevent overflow
+                  child: LineChart(
+                    _generateLineChartData(currentMonthData, daysInMonth),
+                  ),
                 ),
               ),
             ),
@@ -438,6 +427,8 @@ class _LineChartSample13State extends State<LineChartSample13> {
       maxY: 10,
       minX: 1,
       maxX: days.toDouble(),
+      clipData:
+          FlClipData.all(), // Clip chart to prevent drawing outside bounds
       gridData: FlGridData(show: true),
       titlesData: FlTitlesData(
         leftTitles: AxisTitles(
@@ -476,11 +467,20 @@ class _LineChartSample13State extends State<LineChartSample13> {
               .toList(),
           isCurved: true,
           color: AppColors.contentColorOrange,
-          barWidth: 3,
-          dotData: const FlDotData(show: true),
+          barWidth: 2,
+          dotData: FlDotData(
+            show: true,
+            getDotPainter: (spot, percent, barData, index) =>
+                FlDotCirclePainter(
+                  radius: 3,
+                  color: AppColors.contentColorOrange,
+                  strokeWidth: 1,
+                  strokeColor: Colors.white,
+                ),
+          ),
           belowBarData: BarAreaData(
             show: true,
-            color: AppColors.contentColorOrange.withOpacity(0.1),
+            color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.1),
           ),
         ),
       ],
@@ -563,32 +563,35 @@ class PieChart2State extends State<PieChartSample2> {
     final Color primaryColor = Colors.blueGrey.shade900;
     final Color backgroundColor = Colors.white.withOpacity(0.9);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          'Leads vs Clients',
-          style: GoogleFonts.poppins(
-            fontSize: 20,
-            fontWeight: FontWeight.w700,
-            color: primaryColor,
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
           ),
-        ),
-        const SizedBox(height: 16),
-        AspectRatio(
-          aspectRatio: 1.3,
-          child: Container(
-            decoration: BoxDecoration(
-              color: backgroundColor,
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ],
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          /////////////////////////////////////////// Title
+          Text(
+            'Leads and Clients statistics',
+            style: GoogleFonts.poppins(
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
+              color: primaryColor,
             ),
+          ),
+
+          /////////////////////////////////////////// Chart
+          AspectRatio(
+            aspectRatio: 1.3,
             child: PieChart(
               PieChartData(
                 pieTouchData: PieTouchData(
@@ -610,6 +613,40 @@ class PieChart2State extends State<PieChartSample2> {
                 sections: showingSections(),
               ),
             ),
+          ),
+
+          /////////////////////////////////////////// Legend
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildLegendBox(AppColors.contentColorGreen, 'Leads'),
+              const SizedBox(width: 16),
+              _buildLegendBox(AppColors.content, 'Clients'),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLegendBox(Color color, String label) {
+    return Row(
+      children: [
+        Container(
+          width: 16,
+          height: 16,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(4),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Text(
+          label,
+          style: GoogleFonts.roboto(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Colors.blueGrey.shade900,
           ),
         ),
       ],
