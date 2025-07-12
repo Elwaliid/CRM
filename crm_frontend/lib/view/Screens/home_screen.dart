@@ -521,6 +521,7 @@ class PieChart2State extends State {
       child: Row(
         children: <Widget>[
           const SizedBox(height: 18),
+          const SizedBox(width: 80),
           Expanded(
             child: AspectRatio(
               aspectRatio: 1,
