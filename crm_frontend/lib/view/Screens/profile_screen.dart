@@ -1,5 +1,7 @@
 // ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable
 
+import 'dart:ui';
+import 'package:blurrycontainer/blurrycontainer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -17,7 +19,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final Color primaryColor = Colors.blueGrey.shade900;
-    final Color secondaryColor = Colors.blueGrey.shade700;
 
     return Scaffold(
       body: Container(
@@ -28,50 +29,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
         child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 24.0,
+            ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Avatar container
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.9),
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        blurRadius: 8,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  padding: const EdgeInsets.all(8.0),
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
+                ////////////////////////////////////////////////////////////////////////// Avatar
+                BlurryContainer(
+                  blur: 25,
+                  width: 320,
+                  height: 270,
+                  elevation: 6,
+                  color: Colors.white.withOpacity(0.15),
+                  padding: const EdgeInsets.all(12),
+                  borderRadius: BorderRadius.circular(30),
                   child: Center(
                     child: Stack(
                       children: [
-                        CircleAvatar(
-                          radius: 90,
+                        const CircleAvatar(
+                          radius: 100,
                           backgroundImage: AssetImage('lib/images/a1.jpeg'),
                         ),
                         Positioned(
-                          bottom: 0,
-                          left: 0,
+                          bottom: 8,
+                          right: 8,
                           child: Container(
                             decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 28, 35, 39),
+                              color: Colors.blueGrey.shade800,
                               shape: BoxShape.circle,
                               border: Border.all(color: Colors.white, width: 2),
                             ),
                             child: const Padding(
-                              padding: EdgeInsets.all(6.0),
+                              padding: EdgeInsets.all(8.0),
                               child: Icon(
                                 Icons.edit,
-                                size: 23,
+                                size: 24,
                                 color: Colors.white,
                               ),
                             ),
@@ -81,276 +76,128 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 25),
 
-                // Name container
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.9),
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        blurRadius: 8,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+                //////////////////////////////////////////////////////////////////////// Name
+                BlurryContainer(
+                  blur: 8,
+                  width: 360,
+                  height: 70,
+                  elevation: 4,
+                  color: Colors.white.withOpacity(0.15),
+
+                  borderRadius: BorderRadius.circular(24),
                   child: Center(
                     child: Text(
                       userName,
                       style: GoogleFonts.poppins(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                        fontWeight: FontWeight.w700,
                         color: primaryColor,
                       ),
                     ),
                   ),
                 ),
+                const SizedBox(height: 30),
 
-                // Menu items container
+                //////////////////////////////////////////////////////////////////////// Menu Items
                 Column(
                   children: [
-                    //////////////////// my profile
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.9),
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
-                            blurRadius: 8,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 8,
-                        horizontal: 20,
-                      ),
-                      child: ListTile(
-                        leading: Icon(Icons.person, color: primaryColor),
-                        title: Text(
-                          'My Profile',
-                          style: GoogleFonts.roboto(
-                            fontSize: 18,
-                            color: primaryColor,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('My Profile tapped')),
-                          );
-                        },
-                      ),
+                    //////////////////////////////////////////////////////////////////// My Profile
+                    _buildMenuItem(
+                      icon: Icons.person,
+                      label: 'My Profile',
+                      primaryColor: primaryColor,
+                      onTap: () => _showSnack('My Profile tapped'),
                     ),
-                    ////////////////////  settings
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.9),
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
-                            blurRadius: 8,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 8,
-                        horizontal: 20,
-                      ),
-                      child: ListTile(
-                        leading: Icon(Icons.settings, color: primaryColor),
-                        title: Text(
-                          'Settings',
-                          style: GoogleFonts.roboto(
-                            fontSize: 18,
-                            color: primaryColor,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Settings tapped')),
-                          );
-                        },
-                      ),
+                    const SizedBox(height: 20),
+
+                    //////////////////////////////////////////////////////////////////// Settings
+                    _buildMenuItem(
+                      icon: Icons.settings,
+                      label: 'Settings',
+                      primaryColor: primaryColor,
+                      onTap: () => _showSnack('Settings tapped'),
                     ),
-                    ////////////////////  history
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.9),
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
-                            blurRadius: 8,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 8,
-                        horizontal: 20,
-                      ),
-                      child: ListTile(
-                        leading: Icon(Icons.history, color: primaryColor),
-                        title: Text(
-                          'History',
-                          style: GoogleFonts.roboto(
-                            fontSize: 18,
-                            color: primaryColor,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('History tapped')),
-                          );
-                        },
-                      ),
+                    const SizedBox(height: 20),
+
+                    //////////////////////////////////////////////////////////////////// History
+                    _buildMenuItem(
+                      icon: Icons.history,
+                      label: 'History',
+                      primaryColor: primaryColor,
+                      onTap: () => _showSnack('History tapped'),
                     ),
-                    ////////////////////  agents
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.9),
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
-                            blurRadius: 8,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 8,
-                        horizontal: 20,
-                      ),
-                      child: ListTile(
-                        leading: Icon(Icons.group, color: primaryColor),
-                        title: Text(
-                          'Agents',
-                          style: GoogleFonts.roboto(
-                            fontSize: 18,
-                            color: primaryColor,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Agents tapped')),
-                          );
-                        },
-                      ),
+                    const SizedBox(height: 20),
+
+                    //////////////////////////////////////////////////////////////////// Agents
+                    _buildMenuItem(
+                      icon: Icons.group,
+                      label: 'Agents',
+                      primaryColor: primaryColor,
+                      onTap: () => _showSnack('Agents tapped'),
                     ),
-                    ////////////////////  about
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.9),
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
-                            blurRadius: 8,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 8,
-                        horizontal: 20,
-                      ),
-                      child: ListTile(
-                        leading: Icon(Icons.info, color: primaryColor),
-                        title: Text(
-                          'About',
-                          style: GoogleFonts.roboto(
-                            fontSize: 18,
-                            color: primaryColor,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('About tapped')),
-                          );
-                        },
-                      ),
+                    const SizedBox(height: 20),
+
+                    //////////////////////////////////////////////////////////////////// About
+                    _buildMenuItem(
+                      icon: Icons.info,
+                      label: 'About',
+                      primaryColor: primaryColor,
+                      onTap: () => _showSnack('About tapped'),
                     ),
-                    ////////////////////  logout
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.9),
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
-                            blurRadius: 8,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 8,
-                        horizontal: 20,
-                      ),
-                      child: ListTile(
-                        leading: Icon(Icons.logout, color: primaryColor),
-                        title: Text(
-                          'Logout',
-                          style: GoogleFonts.roboto(
-                            fontSize: 18,
-                            color: primaryColor,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        onTap: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Logout tapped')),
-                          );
-                        },
-                      ),
+                    const SizedBox(height: 20),
+
+                    //////////////////////////////////////////////////////////////////// Logout
+                    _buildMenuItem(
+                      icon: Icons.logout,
+                      label: 'Logout',
+                      primaryColor: primaryColor,
+                      onTap: () => _showSnack('Logout tapped'),
                     ),
                   ],
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: 32),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  /// Helper for showing SnackBars
+  void _showSnack(String message) {
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  /// Reusable BlurryContainer menu item
+  Widget _buildMenuItem({
+    required IconData icon,
+    required String label,
+    required Color primaryColor,
+    required VoidCallback onTap,
+  }) {
+    return BlurryContainer(
+      blur: 8,
+      elevation: 4,
+      color: Colors.white.withOpacity(0.15),
+      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+      borderRadius: BorderRadius.circular(24),
+      child: ListTile(
+        leading: Icon(icon, color: primaryColor, size: 26),
+        title: Text(
+          label,
+          style: GoogleFonts.roboto(
+            fontSize: 20,
+            color: primaryColor,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        onTap: onTap,
       ),
     );
   }
