@@ -29,33 +29,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 28.0,
-              vertical: 20.0,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Title
-                Center(
-                  child: Text(
-                    'Profile',
-                    style: GoogleFonts.poppins(
-                      fontSize: 42,
-                      fontWeight: FontWeight.bold,
-                      color: primaryColor,
-                      shadows: const [
-                        Shadow(
-                          blurRadius: 8,
-                          color: Colors.black12,
-                          offset: Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-
                 // Profile info card
                 Container(
                   decoration: BoxDecoration(
@@ -69,22 +46,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ],
                   ),
+                  padding: const EdgeInsets.only(bottom: 120),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Avatar with edit icon and background image
+                      //////////////////////////////////////////////////// Avatar with edit icon and background image
                       Stack(
+                        clipBehavior: Clip.none,
                         children: [
                           // Background image below avatar
                           Container(
                             width: double.infinity,
-                            height: 240, // height to cover avatar + 10px below
+                            height: 300,
                             decoration: BoxDecoration(
                               borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(16),
-                                topRight: Radius.circular(16),
-                                bottomLeft: Radius.circular(9),
-                                bottomRight: Radius.circular(9),
+                                bottomLeft: Radius.circular(6),
+                                bottomRight: Radius.circular(6),
                               ),
                               image: DecorationImage(
                                 image: AssetImage('lib/images/a2.jpeg'),
@@ -93,41 +70,51 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
 
-                          // Avatar with edit icon positioned in center
-                        ],
-                      ),
-                      // Positioned edit icon at bottom left of the image
-                      Positioned(
-                        bottom: 8,
-                        left: 8,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: primaryColor,
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white, width: 2),
-                          ),
-                          child: const Padding(
-                            padding: EdgeInsets.all(4.0),
-                            child: Icon(
-                              Icons.edit,
-                              size: 28,
-                              color: Colors.white,
+                          // Avatar with edit icon positioned with center at bottom of a2 image
+                          Positioned(
+                            top: 230,
+                            left: 0,
+                            right: 0,
+
+                            child: Stack(
+                              children: [
+                                CircleAvatar(
+                                  radius: 60,
+                                  backgroundImage: AssetImage(
+                                    'lib/images/a1.jpeg',
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  left: 0,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: primaryColor,
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: Colors.white,
+                                        width: 2,
+                                      ),
+                                    ),
+                                    child: const Padding(
+                                      padding: EdgeInsets.all(4.0),
+                                      child: Icon(
+                                        Icons.edit,
+                                        size: 24,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ),
+                        ],
                       ),
-                      const SizedBox(height: 2),
-                      /////////////LINE SEPARATOR////////////
-                      Center(
-                        child: Container(
-                          height: 2,
-                          width: 430,
-                          color: primaryColor,
-                        ),
-                      ),
+
                       // Name
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        padding: const EdgeInsets.only(left: 320.0, top: 10.0),
                         child: Text(
                           userName,
                           style: GoogleFonts.poppins(
