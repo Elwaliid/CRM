@@ -33,7 +33,7 @@ class _TasksScreenState extends State<TasksScreen> {
       description: 'Call client to confirm meeting',
       dueDate: '2025-07-14',
       assignedTo: 'Mouh',
-      status: 'Pending',
+      status: 'In Process',
     ),
     Task(
       title: 'Prepare Proposal',
@@ -61,14 +61,14 @@ class _TasksScreenState extends State<TasksScreen> {
       description: 'Follow-up email to Cheb',
       dueDate: '2025-07-18',
       assignedTo: 'Cheb',
-      status: 'Completed',
+      status: 'In Process',
     ),
     Task(
       title: 'Review Notes',
       description: 'Review notes before call',
       dueDate: '2025-07-19',
       assignedTo: 'Fatiha',
-      status: 'Pending',
+      status: 'Completed',
     ),
   ];
 
@@ -223,7 +223,11 @@ class _TasksScreenState extends State<TasksScreen> {
                                         decoration: BoxDecoration(
                                           color: task.status == 'Pending'
                                               ? Colors.deepOrange.shade400
-                                              : Colors.teal.shade700,
+                                              : task.status == 'Completed'
+                                              ? Colors.teal.shade700
+                                              : task.status == 'In Process'
+                                              ? Colors.blueGrey.shade900
+                                              : Colors.grey,
                                           borderRadius: BorderRadius.circular(
                                             20,
                                           ),

@@ -25,14 +25,14 @@ class _HomeScreenState extends State<HomeScreen> {
     'Home',
     'Clients',
     'Tasks',
-    'Deals',
+    'Messages',
     'Profile',
   ];
   final List<Widget> screens = [
     const DashboardScreen(),
     const ClientsScreen(),
     const TasksScreen(),
-    const DealsScreen(),
+    const MessagesScreen(),
     const ProfileScreen(),
   ];
 
@@ -67,10 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Clients'),
           BottomNavigationBarItem(icon: Icon(Icons.task_alt), label: 'Tasks'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business_center),
-            label: 'Deals',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.message), label: 'Messages'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),
