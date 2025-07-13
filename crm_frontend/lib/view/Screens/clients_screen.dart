@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, deprecated_member_use
+// ignore_for_file: use_build_context_synchronously, deprecated_member_use, unnecessary_string_interpolations
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace
+// ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -83,8 +83,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(16),
                                 topRight: Radius.circular(16),
-                                bottomLeft: Radius.circular(4),
-                                bottomRight: Radius.circular(4),
+                                bottomLeft: Radius.circular(9),
+                                bottomRight: Radius.circular(9),
                               ),
                               image: DecorationImage(
                                 image: AssetImage('lib/images/a2.jpeg'),
@@ -92,54 +92,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ),
                           ),
+
                           // Avatar with edit icon positioned in center
-                          Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                top: 20.0,
-                                bottom: 10.0,
-                              ),
-                              child: Stack(
-                                children: [
-                                  CircleAvatar(
-                                    radius: 100,
-                                    backgroundColor: Colors.blueGrey.shade200,
-                                    child: Text(
-                                      userName.isNotEmpty ? userName[0] : '',
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 40,
-                                        fontWeight: FontWeight.bold,
-                                        color: primaryColor,
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    bottom: 0,
-                                    left: 0,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: primaryColor,
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                          color: Colors.white,
-                                          width: 2,
-                                        ),
-                                      ),
-                                      child: const Padding(
-                                        padding: EdgeInsets.all(4.0),
-                                        child: Icon(
-                                          Icons.edit,
-                                          size: 28,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                        ],
+                      ),
+                      // Positioned edit icon at bottom left of the image
+                      Positioned(
+                        bottom: 8,
+                        left: 8,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: primaryColor,
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.white, width: 2),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.all(4.0),
+                            child: Icon(
+                              Icons.edit,
+                              size: 28,
+                              color: Colors.white,
                             ),
                           ),
-                        ],
+                        ),
                       ),
                       const SizedBox(height: 2),
                       /////////////LINE SEPARATOR////////////
@@ -163,44 +138,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                       const SizedBox(height: 12),
-
-                      // Email
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: Row(
-                          children: [
-                            const Icon(Icons.email, size: 24),
-                            const SizedBox(width: 12),
-                            Text(
-                              email,
-                              style: GoogleFonts.roboto(
-                                fontSize: 18,
-                                color: secondaryColor,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-
-                      // Phone
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: Row(
-                          children: [
-                            const Icon(Icons.phone, size: 24),
-                            const SizedBox(width: 12),
-                            Text(
-                              phone,
-                              style: GoogleFonts.roboto(
-                                fontSize: 18,
-                                color: secondaryColor,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 20),
 
                       // Menu items list
                       Padding(
