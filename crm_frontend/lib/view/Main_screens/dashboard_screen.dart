@@ -13,8 +13,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 /////////////////////////////////////////////// Colors
 class AppColors {
-  static const contentColorOrange = Color.fromARGB(255, 10, 43, 92);
-  static const contentColorBlue = Color.fromARGB(255, 100, 124, 143);
+  static final blueGrey = const Color.fromARGB(255, 39, 69, 83);
   static final contentColorGreen = Colors.teal.shade700;
   static final content = Colors.blueGrey.shade900;
   static const contentColorWhite = Color(0xFFFFFFFF);
@@ -433,7 +432,9 @@ class _LineChartSample13State extends State<LineChartSample13> {
       clipData:
           FlClipData.all(), // Clip chart to prevent drawing outside bounds
       gridData: FlGridData(show: true),
+      //////////////////// Titles
       titlesData: FlTitlesData(
+        ////////////////////// left titles
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
@@ -441,6 +442,7 @@ class _LineChartSample13State extends State<LineChartSample13> {
             reservedSize: 30,
           ),
         ),
+        ////////////////////// bottom titles
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
@@ -469,14 +471,14 @@ class _LineChartSample13State extends State<LineChartSample13> {
               .map((e) => FlSpot((e.key + 1).toDouble(), e.value.toDouble()))
               .toList(),
           isCurved: true,
-          color: AppColors.contentColorOrange,
+          color: AppColors.blueGrey,
           barWidth: 2,
           dotData: FlDotData(
             show: true,
             getDotPainter: (spot, percent, barData, index) =>
                 FlDotCirclePainter(
                   radius: 3,
-                  color: AppColors.contentColorOrange,
+                  color: AppColors.blueGrey,
                   strokeWidth: 1,
                   strokeColor: Colors.white,
                 ),

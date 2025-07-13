@@ -1,15 +1,15 @@
 import 'dart:ui';
 
-import 'package:crm_frontend/view/Screens/dashboard_screen.dart';
-import 'package:crm_frontend/view/Screens/deals_screan.dart';
-import 'package:crm_frontend/view/Screens/profile_screen.dart';
-import 'package:crm_frontend/view/Screens/tasks_screen.dart';
+import 'package:crm_frontend/view/Main_screens/dashboard_screen.dart';
+import 'package:crm_frontend/view/Main_screens/messages_screan.dart';
+import 'package:crm_frontend/view/Main_screens/profile_screen.dart';
+import 'package:crm_frontend/view/Main_screens/tasks_screen.dart';
 
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
 
-import 'clients_screen.dart'; // Import ClientsScreen
+import '../Main_screens/clients_screen.dart'; // Import ClientsScreen
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
