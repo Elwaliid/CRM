@@ -78,11 +78,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           // Background image below avatar
                           Container(
                             width: double.infinity,
-                            height: 220, // height to cover avatar + 10px below
+                            height: 240, // height to cover avatar + 10px below
                             decoration: BoxDecoration(
                               borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(16),
                                 topRight: Radius.circular(16),
+                                bottomLeft: Radius.circular(4),
+                                bottomRight: Radius.circular(4),
                               ),
                               image: DecorationImage(
                                 image: AssetImage('lib/images/a2.jpeg'),
@@ -139,9 +141,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 2),
                       /////////////LINE SEPARATOR////////////
-                      Container(height: 1, width: 400, color: primaryColor),
+                      Center(
+                        child: Container(
+                          height: 2,
+                          width: 430,
+                          color: primaryColor,
+                        ),
+                      ),
                       // Name
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
