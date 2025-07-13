@@ -1,8 +1,10 @@
 // ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable
 
 import 'dart:ui';
-import 'package:blurrycontainer/blurrycontainer.dart';
+import 'package:crm_frontend/view/Screens/setting_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -38,14 +40,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ////////////////////////////////////////////////////////////////////////// Avatar
-                BlurryContainer(
-                  blur: 25,
-                  width: 310,
-                  height: 270,
-                  elevation: 6,
-                  color: Colors.white.withOpacity(0.15),
-                  padding: const EdgeInsets.all(12),
-                  borderRadius: BorderRadius.circular(30),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.48,
+                  height: MediaQuery.of(context).size.width * 0.48,
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(
+                      MediaQuery.of(context).size.width * 0.48 / 2,
+                    ),
+                  ),
                   child: Center(
                     child: Stack(
                       children: [
@@ -79,14 +83,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const SizedBox(height: 25),
 
                 //////////////////////////////////////////////////////////////////////// Name
-                BlurryContainer(
-                  blur: 8,
-                  width: 360,
-                  height: 70,
-                  elevation: 4,
-                  color: Colors.white.withOpacity(0.15),
-
-                  borderRadius: BorderRadius.circular(24),
+                Container(
+                  height: 50,
+                  width: 480,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(24),
+                  ),
                   child: Center(
                     child: Text(
                       userName,
@@ -117,7 +120,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       icon: Icons.settings,
                       label: 'Settings',
                       primaryColor: primaryColor,
-                      onTap: () => _showSnack('Settings tapped'),
+                      onTap: () => Get.to(SettingScreen()),
                     ),
                     const SizedBox(height: 20),
 
@@ -174,30 +177,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
     ).showSnackBar(SnackBar(content: Text(message)));
   }
 
-  /// Reusable BlurryContainer menu item
+  /// menu item
   Widget _buildMenuItem({
     required IconData icon,
     required String label,
     required Color primaryColor,
     required VoidCallback onTap,
   }) {
-    return BlurryContainer(
-      blur: 8,
-      elevation: 4,
-      color: Colors.white.withOpacity(0.15),
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+    return InkWell(
+      onTap: onTap,
       borderRadius: BorderRadius.circular(24),
-      child: ListTile(
-        leading: Icon(icon, color: primaryColor, size: 26),
-        title: Text(
-          label,
-          style: GoogleFonts.roboto(
-            fontSize: 20,
-            color: primaryColor,
-            fontWeight: FontWeight.w600,
-          ),
+      child: Container(
+        height: 80,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
-        onTap: onTap,
+        child: Row(
+          children: [
+            Icon(icon, color: primaryColor, size: 28),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Text(
+                label,
+                style: GoogleFonts.poppins(
+                  fontSize: 20,
+                  color: primaryColor,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
