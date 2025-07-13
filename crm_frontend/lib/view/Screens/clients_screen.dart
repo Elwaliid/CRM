@@ -5,11 +5,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Client {
-  final String name;
+  final String firstname;
+  final String lastname;
   final String phone;
   final String email;
 
-  Client({required this.name, required this.phone, required this.email});
+  Client({
+    required this.firstname,
+    required this.lastname,
+    required this.phone,
+    required this.email,
+  });
 }
 
 class ClientsScreen extends StatefulWidget {
@@ -23,34 +29,40 @@ class _ClientsScreenState extends State<ClientsScreen> {
   final TextEditingController _searchController = TextEditingController();
   final List<Client> _clients = [
     Client(
-      name: 'Walid Benali',
+      firstname: 'Mouh',
+      lastname: 'Latcha',
       phone: '06 61 23 45 67',
-      email: 'walid.benali@exemple.dz',
+      email: 'mouh.latcha@dzmail.dz',
     ),
     Client(
-      name: 'Samira Haddad',
+      firstname: 'Ibrahim',
+      lastname: 'Karbousa',
       phone: '05 50 12 34 56',
-      email: 'samira.haddad@exemple.dz',
+      email: 'ibrahim.karbousa@dzmail.dz',
     ),
     Client(
-      name: 'Yacine Bouzid',
+      firstname: 'Khalti',
+      lastname: 'Tbibcha',
       phone: '07 70 98 76 54',
-      email: 'yacine.bouzid@exemple.dz',
+      email: 'khalti.tbibcha@dzmail.dz',
     ),
     Client(
-      name: 'Nadia Belkacem',
+      firstname: 'Sid Ahmed',
+      lastname: 'Doudana',
       phone: '06 99 11 22 33',
-      email: 'nadia.belkacem@exemple.dz',
+      email: 'sid.doudana@dzmail.dz',
     ),
     Client(
-      name: 'ibrahim Karbousa',
-      phone: '05 44 33 96 00',
-      email: 'ibrahim.Karbousa@exemple.dz',
+      firstname: 'Cheb',
+      lastname: 'Batata',
+      phone: '05 44 55 66 77',
+      email: 'cheb.batata@dzmail.dz',
     ),
     Client(
-      name: 'Mouh Latcha',
-      phone: '06 99 24 86 57',
-      email: 'Mouh.Latcha@exemple.dz',
+      firstname: 'Fatiha',
+      lastname: 'Mkara',
+      phone: '07 77 88 99 00',
+      email: 'fatiha.mkara@dzmail.dz',
     ),
   ];
 
@@ -67,7 +79,11 @@ class _ClientsScreenState extends State<ClientsScreen> {
     final query = _searchController.text.toLowerCase();
     setState(() {
       _filteredClients = _clients
-          .where((client) => client.name.toLowerCase().contains(query))
+          .where(
+            (client) => ('${client.firstname} ${client.lastname}')
+                .toLowerCase()
+                .contains(query),
+          )
           .toList();
     });
   }
@@ -208,15 +224,92 @@ class _ClientsScreenState extends State<ClientsScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    client.name,
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.bold,
-                                      color: primaryColor,
-                                    ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        '${client.firstname} ${client.lastname}',
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold,
+                                          color: primaryColor,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 6),
+                                      const Spacer(),
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.more_vert,
+                                          color: secondaryColor,
+                                        ),
+                                        onPressed: () {
+                                          final RenderBox button =
+                                              context.findRenderObject()
+                                                  as RenderBox;
+                                          final RenderBox overlay =
+                                              Overlay.of(
+                                                    context,
+                                                  ).context.findRenderObject()
+                                                  as RenderBox;
+                                          final RelativeRect position =
+                                              RelativeRect.fromRect(
+                                                Rect.fromPoints(
+                                                  button.localToGlobal(
+                                                    Offset.zero,
+                                                    ancestor: overlay,
+                                                  ),
+                                                  button.localToGlobal(
+                                                    button.size.bottomRight(
+                                                      Offset.zero,
+                                                    ),
+                                                    ancestor: overlay,
+                                                  ),
+                                                ),
+                                                Offset.zero & overlay.size,
+                                              );
+                                          showMenu<String>(
+                                            context: context,
+                                            position: position,
+                                            items: [
+                                              PopupMenuItem<String>(
+                                                value: 'edit',
+                                                child: Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.edit,
+                                                      color: Colors
+                                                          .blueGrey
+                                                          .shade700,
+                                                    ),
+                                                    SizedBox(width: 8),
+                                                    Text('Edit'),
+                                                  ],
+                                                ),
+                                              ),
+                                              PopupMenuItem<String>(
+                                                value: 'delete',
+                                                child: Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.delete,
+                                                      color: Colors.red,
+                                                    ),
+                                                    SizedBox(width: 8),
+                                                    Text('Delete'),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ).then((value) {
+                                            if (value == 'edit') {
+                                              // TODO: Implement edit logic
+                                            } else if (value == 'delete') {
+                                              // TODO: Implement delete logic
+                                            }
+                                          });
+                                        },
+                                      ),
+                                    ],
                                   ),
-                                  const SizedBox(height: 6),
                                   Text(
                                     'Phone: ${client.phone}',
                                     style: GoogleFonts.roboto(
