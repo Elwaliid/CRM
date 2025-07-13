@@ -10,9 +10,9 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final String userName = "Wilou";
-  final String email = "wilou@example.com";
-  final String phone = "+1 234 567 890";
+  final String userName = "Wilou dilaw";
+  final String email = "wilou@gmail.com";
+  final String phone = "05 34 56 78 90";
 
   @override
   Widget build(BuildContext context) {
@@ -37,19 +37,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Title
-                Text(
-                  'Profile',
-                  style: GoogleFonts.poppins(
-                    fontSize: 42,
-                    fontWeight: FontWeight.bold,
-                    color: primaryColor,
-                    shadows: const [
-                      Shadow(
-                        blurRadius: 8,
-                        color: Colors.black12,
-                        offset: Offset(0, 4),
-                      ),
-                    ],
+                Center(
+                  child: Text(
+                    'Profile',
+                    style: GoogleFonts.poppins(
+                      fontSize: 42,
+                      fontWeight: FontWeight.bold,
+                      color: primaryColor,
+                      shadows: const [
+                        Shadow(
+                          blurRadius: 8,
+                          color: Colors.black12,
+                          offset: Offset(0, 4),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -72,46 +74,57 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Avatar with edit icon
-                      Stack(
-                        children: [
-                          CircleAvatar(
-                            radius: 50,
-                            backgroundColor: Colors.blueGrey.shade200,
-                            child: Text(
-                              userName.isNotEmpty ? userName[0] : '',
-                              style: GoogleFonts.poppins(
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold,
-                                color: primaryColor,
-                              ),
-                            ),
+                      Container(
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('lib/images/a3.jpeg'),
+                            fit: BoxFit.cover,
                           ),
-                          Positioned(
-                            bottom: 0,
-                            left: 0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: primaryColor,
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: Colors.white,
-                                  width: 2,
+                        ),
+                        child: Center(
+                          child: Stack(
+                            children: [
+                              CircleAvatar(
+                                radius: 100,
+                                backgroundColor: Colors.blueGrey.shade200,
+                                child: Text(
+                                  userName.isNotEmpty ? userName[0] : '',
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 40,
+                                    fontWeight: FontWeight.bold,
+                                    color: primaryColor,
+                                  ),
                                 ),
                               ),
-                              child: const Padding(
-                                padding: EdgeInsets.all(4.0),
-                                child: Icon(
-                                  Icons.edit,
-                                  size: 20,
-                                  color: Colors.white,
+                              Positioned(
+                                bottom: 0,
+                                left: 0,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: primaryColor,
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(4.0),
+                                    child: Icon(
+                                      Icons.edit,
+                                      size: 28,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                       const SizedBox(height: 16),
-
+                      /////////////LINE SEPARATOR////////////
+                      Container(height: 1, width: 400, color: primaryColor),
                       // Name
                       Text(
                         userName,
@@ -155,43 +168,107 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       const SizedBox(height: 20),
 
-                      // Edit Profile Button
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton.icon(
-                          onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Edit Profile pressed'),
-                              ),
-                            );
-                          },
-                          icon: const Icon(
-                            Icons.edit,
-                            size: 24,
-                            color: Colors.white,
-                          ),
-                          label: Text(
-                            'Edit Profile',
-                            style: GoogleFonts.roboto(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                            ),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: primaryColor,
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            elevation: 6,
+                      // Menu items list
+                      ListTile(
+                        leading: Icon(Icons.person, color: primaryColor),
+                        title: Text(
+                          'My Profile',
+                          style: GoogleFonts.roboto(
+                            fontSize: 18,
+                            color: primaryColor,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('My Profile tapped')),
+                          );
+                        },
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.settings, color: primaryColor),
+                        title: Text(
+                          'Settings',
+                          style: GoogleFonts.roboto(
+                            fontSize: 18,
+                            color: primaryColor,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Settings tapped')),
+                          );
+                        },
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.history, color: primaryColor),
+                        title: Text(
+                          'History',
+                          style: GoogleFonts.roboto(
+                            fontSize: 18,
+                            color: primaryColor,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('History tapped')),
+                          );
+                        },
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.group, color: primaryColor),
+                        title: Text(
+                          'Agents',
+                          style: GoogleFonts.roboto(
+                            fontSize: 18,
+                            color: primaryColor,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Agents tapped')),
+                          );
+                        },
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.info, color: primaryColor),
+                        title: Text(
+                          'About',
+                          style: GoogleFonts.roboto(
+                            fontSize: 18,
+                            color: primaryColor,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('About tapped')),
+                          );
+                        },
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.logout, color: primaryColor),
+                        title: Text(
+                          'Logout',
+                          style: GoogleFonts.roboto(
+                            fontSize: 18,
+                            color: primaryColor,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Logout tapped')),
+                          );
+                        },
                       ),
                     ],
                   ),
                 ),
+                const SizedBox(height: 24),
               ],
             ),
           ),
