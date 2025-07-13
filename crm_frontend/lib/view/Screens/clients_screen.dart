@@ -9,12 +9,13 @@ class Client {
   final String lastname;
   final String phone;
   final String email;
-
+  final String type;
   Client({
     required this.firstname,
     required this.lastname,
     required this.phone,
     required this.email,
+    required this.type,
   });
 }
 
@@ -32,37 +33,43 @@ class _ClientsScreenState extends State<ClientsScreen> {
       firstname: 'Mouh',
       lastname: 'Latcha',
       phone: '06 61 23 45 67',
-      email: 'mouh.latcha@dzmail.dz',
+      email: 'mouh.latcha@gmail.com',
+      type: 'Client',
     ),
     Client(
       firstname: 'Ibrahim',
       lastname: 'Karbousa',
       phone: '05 50 12 34 56',
-      email: 'ibrahim.karbousa@dzmail.dz',
+      email: 'ibrahim.karbousa@gmail.com',
+      type: 'Lead',
     ),
     Client(
       firstname: 'Khalti',
       lastname: 'Tbibcha',
       phone: '07 70 98 76 54',
-      email: 'khalti.tbibcha@dzmail.dz',
+      email: 'khalti.tbibcha@gmail.com',
+      type: 'Lead',
     ),
     Client(
       firstname: 'Sid Ahmed',
       lastname: 'Doudana',
       phone: '06 99 11 22 33',
-      email: 'sid.doudana@dzmail.dz',
+      email: 'sid.doudana@gmail.com',
+      type: 'Client',
     ),
     Client(
       firstname: 'Cheb',
       lastname: 'Batata',
       phone: '05 44 55 66 77',
-      email: 'cheb.batata@dzmail.dz',
+      email: 'cheb.batata@gmail.com',
+      type: 'Lead',
     ),
     Client(
       firstname: 'Fatiha',
       lastname: 'Mkara',
       phone: '07 77 88 99 00',
-      email: 'fatiha.mkara@dzmail.dz',
+      email: 'fatiha.mkara@gmail.com',
+      type: 'Lead',
     ),
   ];
 
@@ -226,6 +233,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
                                 children: [
                                   Row(
                                     children: [
+                                      /////////////////////////////////////////// client/lead firstname and lastname
                                       Text(
                                         '${client.firstname} ${client.lastname}',
                                         style: GoogleFonts.poppins(
@@ -234,79 +242,93 @@ class _ClientsScreenState extends State<ClientsScreen> {
                                           color: primaryColor,
                                         ),
                                       ),
-                                      const SizedBox(height: 6),
+                                      const SizedBox(height: 8),
+                                      /////////////////////////////////////type of client
+                                      Container(
+                                        width: 120,
+                                        height: 23,
+                                        decoration: BoxDecoration(
+                                          color: client.type == 'Lead'
+                                              ? Colors.deepOrange.shade400
+                                              : Colors.teal.shade700,
+                                          borderRadius: BorderRadius.circular(
+                                            20,
+                                          ),
+                                        ),
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          '${client.type}',
+
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ),
                                       const Spacer(),
-                                      IconButton(
+                                      PopupMenuButton<String>(
+                                        color: Colors.white,
                                         icon: Icon(
                                           Icons.more_vert,
                                           color: secondaryColor,
                                         ),
-                                        onPressed: () {
-                                          final RenderBox button =
-                                              context.findRenderObject()
-                                                  as RenderBox;
-                                          final RenderBox overlay =
-                                              Overlay.of(
-                                                    context,
-                                                  ).context.findRenderObject()
-                                                  as RenderBox;
-                                          final RelativeRect position =
-                                              RelativeRect.fromRect(
-                                                Rect.fromPoints(
-                                                  button.localToGlobal(
-                                                    Offset.zero,
-                                                    ancestor: overlay,
-                                                  ),
-                                                  button.localToGlobal(
-                                                    button.size.bottomRight(
-                                                      Offset.zero,
-                                                    ),
-                                                    ancestor: overlay,
-                                                  ),
-                                                ),
-                                                Offset.zero & overlay.size,
-                                              );
-                                          showMenu<String>(
-                                            context: context,
-                                            position: position,
-                                            items: [
-                                              PopupMenuItem<String>(
-                                                value: 'edit',
-                                                child: Row(
-                                                  children: [
-                                                    Icon(
-                                                      Icons.edit,
-                                                      color: Colors
-                                                          .blueGrey
-                                                          .shade700,
-                                                    ),
-                                                    SizedBox(width: 8),
-                                                    Text('Edit'),
-                                                  ],
+                                        onSelected: (selected) {
+                                          if (selected == 'edit') {
+                                            ScaffoldMessenger.of(
+                                              context,
+                                            ).showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  'Edit client: ${client.firstname} ${client.lastname}',
                                                 ),
                                               ),
-                                              PopupMenuItem<String>(
-                                                value: 'delete',
-                                                child: Row(
-                                                  children: [
-                                                    Icon(
-                                                      Icons.delete,
-                                                      color: Colors.red,
-                                                    ),
-                                                    SizedBox(width: 8),
-                                                    Text('Delete'),
-                                                  ],
+                                            );
+                                          } else if (selected == 'delete') {
+                                            ScaffoldMessenger.of(
+                                              context,
+                                            ).showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  'Delete client: ${client.firstname} ${client.lastname}',
                                                 ),
                                               ),
-                                            ],
-                                          ).then((value) {
-                                            if (value == 'edit') {
-                                              // TODO: Implement edit logic
-                                            } else if (value == 'delete') {
-                                              // TODO: Implement delete logic
-                                            }
-                                          });
+                                            );
+                                          }
                                         },
+                                        itemBuilder: (BuildContext context) => [
+                                          PopupMenuItem<String>(
+                                            value: 'edit',
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.edit,
+                                                  color: primaryColor,
+                                                ),
+                                                SizedBox(width: 8),
+                                                Text('Edit'),
+                                              ],
+                                            ),
+                                          ),
+                                          PopupMenuItem<String>(
+                                            value: 'delete',
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.delete,
+                                                  color: const Color.fromARGB(
+                                                    255,
+                                                    126,
+                                                    2,
+                                                    2,
+                                                  ),
+                                                ),
+                                                SizedBox(width: 8),
+                                                Text('Delete'),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),

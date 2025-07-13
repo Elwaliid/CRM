@@ -19,7 +19,7 @@ class AppColors {
   static final content = Colors.blueGrey.shade900;
   static const contentColorWhite = Color(0xFFFFFFFF);
 
-  static const contentColorYellow = Color(0xFFFFC107); // Amber Yellow
+  static final deepOrange = Colors.deepOrange.shade400;
   static const contentColorPurple = Color(0xFF9C27B0); // Purple
   static const mainTextColor1 = Color(0xFF212121); // Dark Grey for main text
 }
@@ -199,7 +199,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         'Deals',
                         '5',
                         Icons.business_center,
-                        Colors.deepOrange.shade400,
+                        AppColors.deepOrange,
                       ),
                     ],
                   ),
