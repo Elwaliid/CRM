@@ -131,38 +131,41 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ////////////////////////////////////////////////////////// Title
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
+                  Center(
                     child: Text(
                       'Hello, $userName',
                       style: GoogleFonts.poppins(
-                        fontSize: 28,
+                        fontSize: 42,
                         fontWeight: FontWeight.bold,
                         color: primaryColor,
                       ),
                     ),
                   ),
+                  SizedBox(height: 15),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ////////////////////////////////////////////////////////// Date
+                      Text(
+                        todayDate,
+                        style: GoogleFonts.roboto(
+                          fontSize: 16,
+                          color: secondaryColor,
+                        ),
+                      ),
 
-                  ////////////////////////////////////////////////////////// Time
-                  Text(
-                    _currentTime,
-                    style: GoogleFonts.roboto(
-                      fontSize: 16,
-                      color: secondaryColor,
-                      fontWeight: FontWeight.w500,
-                    ),
+                      ////////////////////////////////////////////////////////// Time
+                      Text(
+                        _currentTime,
+                        style: GoogleFonts.roboto(
+                          fontSize: 16,
+                          color: secondaryColor,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 4),
-
-                  ////////////////////////////////////////////////////////// Date
-                  Text(
-                    todayDate,
-                    style: GoogleFonts.roboto(
-                      fontSize: 16,
-                      color: secondaryColor,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 20),
 
                   ////////////////////////////////////////////////////////// Centered "Today's Overview"
                   Center(

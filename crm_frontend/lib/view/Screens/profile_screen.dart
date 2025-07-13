@@ -40,7 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ////////////////////////////////////////////////////////////////////////// Avatar
                 BlurryContainer(
                   blur: 25,
-                  width: 320,
+                  width: 310,
                   height: 270,
                   elevation: 6,
                   color: Colors.white.withOpacity(0.15),
@@ -152,7 +152,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     _buildMenuItem(
                       icon: Icons.logout,
                       label: 'Logout',
-                      primaryColor: primaryColor,
+                      primaryColor: const Color.fromARGB(255, 255, 93, 93),
                       onTap: () => _showSnack('Logout tapped'),
                     ),
                   ],
