@@ -6,13 +6,14 @@ import 'package:google_fonts/google_fonts.dart';
 class Task {
   final String title;
   final String description;
-  final DateTime dueDate;
-  final String status; // e.g. "Pending", "Completed"
-
+  final String dueDate;
+  final String assignedTo;
+  final String status;
   Task({
     required this.title,
     required this.description,
     required this.dueDate,
+    required this.assignedTo,
     required this.status,
   });
 }
@@ -26,24 +27,47 @@ class TasksScreen extends StatefulWidget {
 
 class _TasksScreenState extends State<TasksScreen> {
   final TextEditingController _searchController = TextEditingController();
-
   final List<Task> _tasks = [
     Task(
-      title: 'Prepare presentation',
-      description: 'Prepare slides for the upcoming client meeting.',
-      dueDate: DateTime.now().add(Duration(days: 2)),
+      title: 'Follow Up Call',
+      description: 'Call client to confirm meeting',
+      dueDate: '2025-07-14',
+      assignedTo: 'Mouh',
       status: 'Pending',
     ),
     Task(
-      title: 'Send invoices',
-      description: 'Send invoices to clients for last month\'s work.',
-      dueDate: DateTime.now().add(Duration(days: 1)),
+      title: 'Prepare Proposal',
+      description: 'Create proposal for new lead',
+      dueDate: '2025-07-15',
+      assignedTo: 'Ibrahim',
       status: 'Completed',
     ),
     Task(
       title: 'Update CRM',
-      description: 'Update client information in the CRM system.',
-      dueDate: DateTime.now().add(Duration(days: 3)),
+      description: 'Enter notes from last call',
+      dueDate: '2025-07-16',
+      assignedTo: 'Khalti',
+      status: 'Pending',
+    ),
+    Task(
+      title: 'Schedule Meeting',
+      description: 'Book meeting with Sid Ahmed',
+      dueDate: '2025-07-17',
+      assignedTo: 'Sid Ahmed',
+      status: 'Pending',
+    ),
+    Task(
+      title: 'Send Email',
+      description: 'Follow-up email to Cheb',
+      dueDate: '2025-07-18',
+      assignedTo: 'Cheb',
+      status: 'Completed',
+    ),
+    Task(
+      title: 'Review Notes',
+      description: 'Review notes before call',
+      dueDate: '2025-07-19',
+      assignedTo: 'Fatiha',
       status: 'Pending',
     ),
   ];
@@ -60,10 +84,9 @@ class _TasksScreenState extends State<TasksScreen> {
   void _filterTasks() {
     final query = _searchController.text.toLowerCase();
     setState(() {
-      _filteredTasks = _tasks.where((task) {
-        return task.title.toLowerCase().contains(query) ||
-            task.description.toLowerCase().contains(query);
-      }).toList();
+      _filteredTasks = _tasks
+          .where((task) => task.title.toLowerCase().contains(query))
+          .toList();
     });
   }
 
@@ -73,30 +96,20 @@ class _TasksScreenState extends State<TasksScreen> {
     ).showSnackBar(SnackBar(content: Text('Add Task button pressed')));
   }
 
-  Color _getStatusColor(String status) {
-    switch (status) {
-      case 'Completed':
-        return Colors.green.shade600;
-      case 'Pending':
-      default:
-        return Colors.orange.shade600;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final Color primaryColor = Colors.blueGrey.shade900;
     final Color secondaryColor = Colors.blueGrey.shade700;
 
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: const DecorationImage(
-            image: AssetImage('lib/images/login.jpg'),
-            fit: BoxFit.cover,
+      body: SafeArea(
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('lib/images/login.jpg'),
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 28.0,
@@ -104,7 +117,7 @@ class _TasksScreenState extends State<TasksScreen> {
             ),
             child: Column(
               children: [
-                // Title
+                ///////////////////////////////////////////////////////////////////////////// Title
                 Text(
                   'Tasks',
                   style: GoogleFonts.poppins(
@@ -122,7 +135,7 @@ class _TasksScreenState extends State<TasksScreen> {
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 12),
-                // Search Bar
+                ///////////////////////////////////////////////////////////////////////////// Search Bar
                 TextField(
                   controller: _searchController,
                   decoration: InputDecoration(
@@ -152,7 +165,7 @@ class _TasksScreenState extends State<TasksScreen> {
                   style: TextStyle(fontSize: 18, color: primaryColor),
                 ),
                 const SizedBox(height: 20),
-                // Task list scrollable
+                ////////////////////////////////////////////////////////////// task list scrollable
                 Expanded(
                   child: _filteredTasks.isEmpty
                       ? Center(
@@ -168,9 +181,15 @@ class _TasksScreenState extends State<TasksScreen> {
                           itemCount: _filteredTasks.length,
                           itemBuilder: (context, index) {
                             final task = _filteredTasks[index];
+                            ///////////////////////////////////////////////////////////////////////////// Task card
                             return Container(
                               margin: const EdgeInsets.symmetric(vertical: 10),
-                              padding: const EdgeInsets.all(16),
+                              padding: const EdgeInsets.only(
+                                left: 16,
+                                right: 16,
+                                top: 12,
+                                bottom: 0,
+                              ),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(16),
@@ -185,72 +204,144 @@ class _TasksScreenState extends State<TasksScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  // Task title and status badge
                                   Row(
                                     children: [
-                                      Expanded(
-                                        child: Text(
-                                          task.title,
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.bold,
-                                            color: primaryColor,
-                                          ),
+                                      /////////////////////////////////////////// Task title
+                                      Text(
+                                        task.title,
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold,
+                                          color: primaryColor,
                                         ),
                                       ),
+                                      const SizedBox(height: 8),
+                                      ///////////////////////////////////// Status
                                       Container(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 12,
-                                          vertical: 4,
-                                        ),
+                                        width: 120,
+                                        height: 23,
                                         decoration: BoxDecoration(
-                                          color: _getStatusColor(task.status),
+                                          color: task.status == 'Pending'
+                                              ? Colors.deepOrange.shade400
+                                              : Colors.teal.shade700,
                                           borderRadius: BorderRadius.circular(
                                             20,
                                           ),
                                         ),
+                                        alignment: Alignment.center,
                                         child: Text(
                                           task.status,
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16,
                                           ),
                                         ),
                                       ),
+                                      const Spacer(),
+                                      PopupMenuButton<String>(
+                                        color: Colors.white,
+                                        icon: Icon(
+                                          Icons.more_vert,
+                                          color: secondaryColor,
+                                        ),
+                                        onSelected: (selected) {
+                                          if (selected == 'edit') {
+                                            ScaffoldMessenger.of(
+                                              context,
+                                            ).showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  'Edit task: ${task.title}',
+                                                ),
+                                              ),
+                                            );
+                                          } else if (selected == 'delete') {
+                                            ScaffoldMessenger.of(
+                                              context,
+                                            ).showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  'Delete task: ${task.title}',
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                        },
+                                        itemBuilder: (BuildContext context) => [
+                                          PopupMenuItem<String>(
+                                            value: 'edit',
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.edit,
+                                                  color: primaryColor,
+                                                ),
+                                                SizedBox(width: 8),
+                                                Text('Edit'),
+                                              ],
+                                            ),
+                                          ),
+                                          PopupMenuItem<String>(
+                                            value: 'delete',
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  Icons.delete,
+                                                  color: const Color.fromARGB(
+                                                    255,
+                                                    126,
+                                                    2,
+                                                    2,
+                                                  ),
+                                                ),
+                                                SizedBox(width: 8),
+                                                Text('Delete'),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ],
                                   ),
-                                  const SizedBox(height: 8),
-                                  // Task description
                                   Text(
-                                    task.description,
+                                    'Due: ${task.dueDate}',
                                     style: GoogleFonts.roboto(
                                       fontSize: 16,
                                       color: secondaryColor,
                                     ),
                                   ),
-                                  const SizedBox(height: 8),
-                                  // Due date
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Assigned to: ${task.assignedTo}',
+                                        style: GoogleFonts.roboto(
+                                          fontSize: 16,
+                                          color: secondaryColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                   Text(
-                                    'Due: ${task.dueDate.day}/${task.dueDate.month}/${task.dueDate.year}',
+                                    'Description: ${task.description}',
                                     style: GoogleFonts.roboto(
-                                      fontSize: 14,
+                                      fontSize: 16,
                                       color: secondaryColor,
-                                      fontStyle: FontStyle.italic,
                                     ),
                                   ),
+                                  const SizedBox(height: 12),
                                 ],
                               ),
                             );
                           },
                         ),
                 ),
-                // Add Task Button
+                /////////////////////////////////////////////////////////////////////////////////// Add Button
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
                     onPressed: _addTask,
-                    icon: const Icon(Icons.add, size: 24, color: Colors.white),
+                    icon: Icon(Icons.add, size: 24, color: Colors.white),
                     label: Text(
                       'Add Task',
                       style: GoogleFonts.roboto(
