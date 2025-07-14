@@ -100,39 +100,48 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ///////////////////////////////////////////////////////////// Title
-                    Center(
-                      child: Text(
-                        'Add / Update Client',
-                        style: GoogleFonts.poppins(
-                          fontSize: 36,
-                          fontWeight: FontWeight.bold,
-                          color: primaryColor,
-                          shadows: [
-                            Shadow(
-                              blurRadius: 8,
-                              color: Colors.black12,
-                              offset: Offset(0, 4),
-                            ),
-                          ],
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Center(
+                        child: Text(
+                          'Add / Update Client',
+                          style: GoogleFonts.poppins(
+                            fontSize: 36,
+                            fontWeight: FontWeight.bold,
+                            color: primaryColor,
+                            shadows: [
+                              Shadow(
+                                blurRadius: 8,
+                                color: Colors.black12,
+                                offset: Offset(0, 4),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
 
                     const SizedBox(height: 100),
 
-                    ///////////////////////////////////////////////////////////// First Name
-                    _buildTextField(
-                      label: 'First Name',
-                      controller: _firstNameController,
-                      primaryColor: primaryColor,
-                    ),
-                    const SizedBox(height: 16),
-
-                    ///////////////////////////////////////////////////////////// Last Name
-                    _buildTextField(
-                      label: 'Last Name',
-                      controller: _lastNameController,
-                      primaryColor: primaryColor,
+                    ///////////////////////////////////////////////////////////// First Name and Last Name in a Row
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildTextField(
+                            label: 'First Name',
+                            controller: _firstNameController,
+                            primaryColor: primaryColor,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: _buildTextField(
+                            label: 'Last Name',
+                            controller: _lastNameController,
+                            primaryColor: primaryColor,
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 16),
 
@@ -359,8 +368,7 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
     );
   }
 
-  /////////////////////////////////////////////////////////////
-  /// Reusable Input Field
+  ///////////////////////////////////////////////////////////// Reusable Input Field
   Widget _buildTextField({
     required String label,
     required TextEditingController controller,
