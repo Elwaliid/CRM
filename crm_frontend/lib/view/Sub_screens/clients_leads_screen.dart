@@ -14,7 +14,7 @@ class ClientsLeadsScreen extends StatefulWidget {
 class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
   /// Form key to validate form fields
   final _formKey = GlobalKey<FormState>();
-
+  bool _secondemail = true;
   ///////////////////////////////////////////////////////////////////////////////////
   /// Controllers for all input fields
   final TextEditingController _firstNameController = TextEditingController();
@@ -78,8 +78,7 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
 
     return Scaffold(
       body: Container(
-        ////////////////////////////////////////////////////////////////////////
-        /// Background Image (same as login.jpg to keep branding consistent)
+        //////////////////////////////////////////////////////////////////////// Background Image
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('lib/images/login.jpg'),
@@ -98,8 +97,7 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    /////////////////////////////////////////////////////////////
-                    /// Title
+                    ///////////////////////////////////////////////////////////// Title
                     Center(
                       child: Text(
                         'Add / Update Client',
@@ -120,8 +118,7 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
 
                     const SizedBox(height: 24),
 
-                    /////////////////////////////////////////////////////////////
-                    /// First Name
+                    ///////////////////////////////////////////////////////////// First Name
                     _buildTextField(
                       label: 'First Name',
                       controller: _firstNameController,
@@ -129,8 +126,7 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                     ),
                     const SizedBox(height: 16),
 
-                    /////////////////////////////////////////////////////////////
-                    /// Last Name
+                    ///////////////////////////////////////////////////////////// Last Name
                     _buildTextField(
                       label: 'Last Name',
                       controller: _lastNameController,
@@ -138,8 +134,7 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                     ),
                     const SizedBox(height: 16),
 
-                    /////////////////////////////////////////////////////////////
-                    /// Identity (Company, Job Title, etc.)
+                    ///////////////////////////////////////////////////////////// Identity (Company, Job Title, etc.)
                     _buildTextField(
                       label: 'Identity (Company, Job Title, etc.)',
                       controller: _identityController,
@@ -147,7 +142,7 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                     ),
                     const SizedBox(height: 16),
 
-                    ///////////////////////////////////////////////////////////// Primary Phone Number and Add Button
+                    ///////////////////////////////////////////////////////////// Primary Phone Number
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -160,6 +155,7 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                           ),
                         ),
                         const SizedBox(width: 8),
+                        //////////////////////////////////// add icon button of phone number
                         Container(
                           decoration: BoxDecoration(
                             color: _additionalPhoneControllers.length < 9
@@ -198,7 +194,7 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                       children: List.generate(
                         _additionalPhoneControllers.length,
                         (index) {
-                          String label = '${_ordinal(index + 2)} phone number';
+                          String label = '${_ordinal(index)} phone number';
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 12.0),
                             child: Row(
@@ -225,6 +221,7 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                                       ),
                                     ],
                                   ),
+                                  /////////////////////// Delete button
                                   child: IconButton(
                                     onPressed: () => _removePhoneField(index),
                                     icon: Icon(
@@ -245,11 +242,48 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                     ),
 
                     ///////////////////////////////////////////////////////////// Email
-                    _buildTextField(
-                      label: 'Email',
-                      controller: _emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      primaryColor: primaryColor,
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: _buildTextField(
+                            label: 'Email',
+                            controller: _emailController,
+                            keyboardType: TextInputType.emailAddress,
+                            primaryColor: primaryColor,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        //////////////////////////////////////// Add email button
+                        Container(
+                          decoration: BoxDecoration(
+                            color: primaryColor,
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 4,
+                                offset: Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _secondemail = !_secondemail;
+                              });
+                            },
+                            icon: Icon(
+                              _secondemail ? Icons.add : Icons.remove,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                            padding: EdgeInsets.zero,
+                            constraints: BoxConstraints(),
+                            splashRadius: 20,
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 16),
 
@@ -364,7 +398,6 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
   /// Ordinal Number Generator (for labels like Second, Third, etc.)
   String _ordinal(int number) {
     const labels = [
-      'First',
       'Second',
       'Third',
       'Fourth',
@@ -375,6 +408,6 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
       'Ninth',
       'Tenth',
     ];
-    return labels[number - 1];
+    return labels[number];
   }
 }
