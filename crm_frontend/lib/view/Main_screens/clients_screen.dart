@@ -243,7 +243,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
                                         ),
                                       ),
                                       const SizedBox(height: 8),
-                                      /////////////////////////////////////type of client
+                                      ///////////////////////////////////////type of client
                                       Container(
                                         width: 120,
                                         height: 23,
@@ -267,6 +267,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
                                         ),
                                       ),
                                       const Spacer(),
+                                      //////////////////////////////////////// 3 dots and Conditions
                                       PopupMenuButton<String>(
                                         color: Colors.white,
                                         icon: Icon(
@@ -297,6 +298,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
                                           }
                                         },
                                         itemBuilder: (BuildContext context) => [
+                                          ////////////////////////////// edit icon button
                                           PopupMenuItem<String>(
                                             value: 'edit',
                                             child: Row(
@@ -310,6 +312,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
                                               ],
                                             ),
                                           ),
+                                          ////////////////////////////// delete icon button
                                           PopupMenuItem<String>(
                                             value: 'delete',
                                             child: Row(
@@ -332,6 +335,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
                                       ),
                                     ],
                                   ),
+                                  ///////////////////////////// phone
                                   Text(
                                     'Phone: ${client.phone}',
                                     style: GoogleFonts.roboto(
@@ -341,13 +345,12 @@ class _ClientsScreenState extends State<ClientsScreen> {
                                   ),
                                   Row(
                                     children: [
-                                      Text(
-                                        'Email: ${client.email}',
+                                      ////////////////////////////////// Email
+                                     TextButton(onPressed: Send Email, child: Text('Email: ${client.email}',
                                         style: GoogleFonts.roboto(
                                           fontSize: 16,
                                           color: secondaryColor,
-                                        ),
-                                      ),
+                                        ),)),
                                       const Spacer(),
                                       Row(
                                         mainAxisAlignment:
