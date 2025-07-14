@@ -17,10 +17,14 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _identityController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _additionalPhoneController =
+      TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _websiteController = TextEditingController();
   final TextEditingController _otherInfoController = TextEditingController();
+
+  bool _showAdditionalPhoneField = false;
 
   void _saveClient() {
     if (_formKey.currentState!.validate()) {
@@ -62,7 +66,7 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                     ////////////////////////////////////////////////////// Title
                     Center(
                       child: Text(
-                        'Add / Edit Client',
+                        'Add / Update Client',
                         style: GoogleFonts.poppins(
                           fontSize: 36,
                           fontWeight: FontWeight.bold,
@@ -102,11 +106,53 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                     ),
                     const SizedBox(height: 16),
 
-                    _buildTextField(
-                      label: 'Phone Number',
-                      controller: _phoneController,
-                      keyboardType: TextInputType.phone,
-                      primaryColor: primaryColor,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _buildTextField(
+                                label: 'Phone Number',
+                                controller: _phoneController,
+                                keyboardType: TextInputType.phone,
+                                primaryColor: primaryColor,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _showAdditionalPhoneField =
+                                      !_showAdditionalPhoneField;
+                                });
+                              },
+                              child: Container(
+                                width: 24,
+                                height: 24,
+                                decoration: BoxDecoration(
+                                  color: Colors.blueGrey.shade900,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  Icons.add,
+                                  color: Colors.white,
+                                  size: 16,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        if (_showAdditionalPhoneField) ...[
+                          const SizedBox(height: 12),
+                          _buildTextField(
+                            label: 'Additional Phone Number',
+                            controller: _additionalPhoneController,
+                            keyboardType: TextInputType.phone,
+                            primaryColor: primaryColor,
+                          ),
+                        ],
+                      ],
                     ),
                     const SizedBox(height: 16),
 
