@@ -25,6 +25,7 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
   /// Dynamic list of additional phone controllers
   final List<TextEditingController> _additionalPhoneControllers = [];
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _secondEmailController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _websiteController = TextEditingController();
   final TextEditingController _otherInfoController = TextEditingController();
@@ -286,6 +287,16 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                       ],
                     ),
                     const SizedBox(height: 16),
+                    ///////////////////////////////////////////////////////////// Second email
+                    if (!_secondemail) ...[
+                      _buildTextField(
+                        label: 'Second Email',
+                        controller: _secondEmailController,
+                        keyboardType: TextInputType.emailAddress,
+                        primaryColor: primaryColor,
+                      ),
+                      const SizedBox(height: 16),
+                    ],
 
                     ///////////////////////////////////////////////////////////// Address
                     _buildTextField(
