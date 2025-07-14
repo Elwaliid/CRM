@@ -78,6 +78,8 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
 
     return Scaffold(
       body: Container(
+        width: double.infinity,
+        height: double.infinity,
         //////////////////////////////////////////////////////////////////////// Background Image
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -116,7 +118,7 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                       ),
                     ),
 
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 100),
 
                     ///////////////////////////////////////////////////////////// First Name
                     _buildTextField(
