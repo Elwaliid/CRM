@@ -1,6 +1,7 @@
 // ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable, avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 /// Screen for adding/updating Client or Lead info
@@ -131,6 +132,12 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                             label: 'First Name',
                             controller: _firstNameController,
                             primaryColor: primaryColor,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter First Name';
+                              }
+                              return null;
+                            },
                           ),
                         ),
                         const SizedBox(width: 16),
@@ -139,6 +146,12 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                             label: 'Last Name',
                             controller: _lastNameController,
                             primaryColor: primaryColor,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter Last Name';
+                              }
+                              return null;
+                            },
                           ),
                         ),
                       ],
@@ -163,6 +176,22 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                             controller: _phoneController,
                             keyboardType: TextInputType.phone,
                             primaryColor: primaryColor,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter Phone Number';
+                              }
+                              final pattern = RegExp(r'^(05|06|07)\d{8}$');
+                              if (!pattern.hasMatch(value)) {
+                                return 'Phone number must start with 05, 06, or 07 and be 10 digits';
+                              }
+                              return null;
+                            },
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                RegExp(r'[0-9]'),
+                              ),
+                              LengthLimitingTextInputFormatter(10),
+                            ],
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -217,6 +246,24 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                                         _additionalPhoneControllers[index],
                                     keyboardType: TextInputType.phone,
                                     primaryColor: primaryColor,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter $label';
+                                      }
+                                      final pattern = RegExp(
+                                        r'^(05|06|07)\d{8}$',
+                                      );
+                                      if (!pattern.hasMatch(value)) {
+                                        return 'Phone number must start with 05, 06, or 07 and be 10 digits';
+                                      }
+                                      return null;
+                                    },
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(
+                                        RegExp(r'[0-9]'),
+                                      ),
+                                      LengthLimitingTextInputFormatter(10),
+                                    ],
                                   ),
                                 ),
                                 const SizedBox(width: 8),
@@ -262,6 +309,13 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                             controller: _emailController,
                             keyboardType: TextInputType.emailAddress,
                             primaryColor: primaryColor,
+                            validator: (value) {
+                              if (value == null ||
+                                  !value.contains('@gmail.com')) {
+                                return "Please enter a valid email";
+                              }
+                              return null;
+                            },
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -304,6 +358,15 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                         controller: _secondEmailController,
                         keyboardType: TextInputType.emailAddress,
                         primaryColor: primaryColor,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter Second Email';
+                          }
+                          if (!value.contains('@gmail.com')) {
+                            return 'Please enter a valid email';
+                          }
+                          return null;
+                        },
                       ),
                       const SizedBox(height: 16),
                     ],
@@ -368,24 +431,23 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
     );
   }
 
-  ///////////////////////////////////////////////////////////// Reusable Input Field
+  ///////////////////////////////////////////////////////////// TextFields widget
+
   Widget _buildTextField({
     required String label,
     required TextEditingController controller,
     Color? primaryColor,
     TextInputType keyboardType = TextInputType.text,
     int maxLines = 1,
+    String? Function(String?)? validator,
+    List<TextInputFormatter>? inputFormatters,
   }) {
     return TextFormField(
       controller: controller,
       keyboardType: keyboardType,
       maxLines: maxLines,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter $label';
-        }
-        return null;
-      },
+      validator: validator,
+      inputFormatters: inputFormatters,
       style: GoogleFonts.roboto(fontSize: 16, color: primaryColor),
       decoration: InputDecoration(
         labelText: label,
@@ -415,7 +477,6 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
   }
 
   /////////////////////////////////////////////////////////////
-  /// Ordinal Number Generator (for labels like Second, Third, etc.)
   String _ordinal(int number) {
     const labels = [
       'Second',
