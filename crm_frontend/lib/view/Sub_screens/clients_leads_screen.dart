@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable
+// ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,8 +15,7 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
   /// Form key to validate form fields
   final _formKey = GlobalKey<FormState>();
   bool _secondemail = true;
-  ///////////////////////////////////////////////////////////////////////////////////
-  /// Controllers for all input fields
+  /////////////////////////////////////////////////////////////////////////////////// Controllers for all input fields
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _identityController = TextEditingController();
@@ -80,8 +79,8 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
     return Scaffold(
       body: Container(
         //////////////////////////////////////////////////////////////////////// Background Image
-        decoration: const BoxDecoration(
-          image: DecorationImage(
+        decoration: BoxDecoration(
+          image: const DecorationImage(
             image: AssetImage('lib/images/login.jpg'),
             fit: BoxFit.cover,
           ),
