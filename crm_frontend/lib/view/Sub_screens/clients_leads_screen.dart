@@ -79,8 +79,8 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
     return Scaffold(
       body: Container(
         //////////////////////////////////////////////////////////////////////// Background Image
-        decoration: BoxDecoration(
-          image: const DecorationImage(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
             image: AssetImage('lib/images/login.jpg'),
             fit: BoxFit.cover,
           ),
