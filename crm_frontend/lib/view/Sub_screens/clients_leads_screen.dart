@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace
+// ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,23 +21,35 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _identityController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+
+  /// Dynamic list of additional phone controllers
+  final List<TextEditingController> _additionalPhoneControllers = [];
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _websiteController = TextEditingController();
   final TextEditingController _otherInfoController = TextEditingController();
 
-  /// Dynamic list of additional phone controllers
-  final List<TextEditingController> _additionalPhoneControllers = [];
-
   /// Save button logic
   void _saveClient() {
     if (_formKey.currentState!.validate()) {
+      // 👇 Gather all phone numbers into a list
+      final allPhones = [
+        _phoneController.text,
+        ..._additionalPhoneControllers.map((c) => c.text),
+      ];
+
+      // 🧭 Example: print or send this to backend
+      print('✅ Saving client with phones: $allPhones');
+
+      // Show confirmation to user
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('✅ Client/Lead saved successfully'),
           behavior: SnackBarBehavior.floating,
         ),
       );
+
+      // Close screen
       Navigator.pop(context);
     }
   }
@@ -135,45 +147,53 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                     ),
                     const SizedBox(height: 16),
 
-                    /////////////////////////////////////////////////////////////
-                    /// Primary Phone Number
+                    ///////////////////////////////////////////////////////////// Primary Phone Number and Add Button
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        _buildTextField(
-                          label: 'Phone Number',
-                          controller: _phoneController,
-                          keyboardType: TextInputType.phone,
-                          primaryColor: primaryColor,
-                        ),
-                        ///////////////////////////////////////////////////////////// Add Phone Number Button
-                        if (_additionalPhoneControllers.length < 9) ...[
-                          Container(
-                            width: 24,
-                            height: 24,
-                            decoration: BoxDecoration(
-                              color: primaryColor,
-                              shape: BoxShape.circle,
-                            ),
-                            child: IconButton(
-                              onPressed: _addPhoneField,
-                              icon: Icon(
-                                Icons.add,
-                                color: Colors.white,
-                                size: 16,
-                              ),
-                              padding: EdgeInsets.zero,
-                              constraints: BoxConstraints(),
-                              splashRadius: 24,
-                            ),
+                        Expanded(
+                          child: _buildTextField(
+                            label: 'Phone Number',
+                            controller: _phoneController,
+                            keyboardType: TextInputType.phone,
+                            primaryColor: primaryColor,
                           ),
-                        ],
+                        ),
+                        const SizedBox(width: 8),
+                        Container(
+                          decoration: BoxDecoration(
+                            color: _additionalPhoneControllers.length < 9
+                                ? primaryColor
+                                : Colors.grey.shade400,
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 4,
+                                offset: Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: IconButton(
+                            onPressed: _additionalPhoneControllers.length < 9
+                                ? _addPhoneField
+                                : null,
+                            icon: Icon(
+                              Icons.add,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                            padding: EdgeInsets.zero,
+                            constraints: BoxConstraints(),
+                            splashRadius: 20,
+                          ),
+                        ),
                       ],
                     ),
 
                     const SizedBox(height: 16),
 
-                    /////////////////////////////////////////////////////////////
-                    /// Dynamic Additional Phone Numbers
+                    ///////////////////////////////////////////////////////////// Secondary Phone numbers
                     Column(
                       children: List.generate(
                         _additionalPhoneControllers.length,
@@ -193,20 +213,28 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                                   ),
                                 ),
                                 const SizedBox(width: 8),
-                                GestureDetector(
-                                  onTap: () => _removePhoneField(index),
-                                  child: Container(
-                                    width: 24,
-                                    height: 24,
-                                    decoration: BoxDecoration(
-                                      color: Colors.red.shade700,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Icon(
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: primaryColor,
+                                    shape: BoxShape.circle,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.1),
+                                        blurRadius: 4,
+                                        offset: Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
+                                  child: IconButton(
+                                    onPressed: () => _removePhoneField(index),
+                                    icon: Icon(
                                       Icons.close,
                                       color: Colors.white,
-                                      size: 16,
+                                      size: 20,
                                     ),
+                                    padding: EdgeInsets.zero,
+                                    constraints: BoxConstraints(),
+                                    splashRadius: 20,
                                   ),
                                 ),
                               ],
@@ -216,21 +244,6 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                       ),
                     ),
 
-                    /*_addPhoneField Container(
-                                width: 24,
-                                height: 24,
-                                decoration: BoxDecoration(
-                                  color: primaryColor,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(
-                                  _showAdditionalPhoneField
-                                      ? Icons.remove
-                                      : Icons.add,
-                                  color: Colors.white,
-                                  size: 16,
-                                ),
-                              ), */
                     ///////////////////////////////////////////////////////////// Email
                     _buildTextField(
                       label: 'Email',
