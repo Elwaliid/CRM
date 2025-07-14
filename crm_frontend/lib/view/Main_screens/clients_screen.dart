@@ -1,10 +1,9 @@
 // ignore_for_file: use_build_context_synchronously, deprecated_member_use, unnecessary_string_interpolations, non_constant_identifier_names
-
-import 'dart:nativewrappers/_internal/vm/lib/ffi_native_type_patch.dart';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:get/get.dart';
+import '../Sub_screens/client_lead_screen.dart';
 
 class Client {
   final String firstname;
@@ -211,182 +210,194 @@ class _ClientsScreenState extends State<ClientsScreen> {
                           itemBuilder: (context, index) {
                             final client = _filteredClients[index];
                             ///////////////////////////////////////////////////////////////////////////// Client/lead card
-                            return Container(
-                              margin: const EdgeInsets.symmetric(vertical: 10),
-                              padding: const EdgeInsets.only(
-                                left: 16,
-                                right: 16,
-                                top: 12,
-                                bottom: 0,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(16),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.05),
-                                    blurRadius: 8,
-                                    offset: Offset(0, 4),
-                                  ),
-                                ],
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      /////////////////////////////////////////// client/lead firstname and lastname
-                                      Text(
-                                        '${client.firstname} ${client.lastname}',
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.bold,
-                                          color: primaryColor,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      ///////////////////////////////////////type of client
-                                      Container(
-                                        width: 120,
-                                        height: 23,
-                                        decoration: BoxDecoration(
-                                          color: client.type == 'Lead'
-                                              ? Colors.deepOrange.shade400
-                                              : Colors.teal.shade700,
-                                          borderRadius: BorderRadius.circular(
-                                            20,
-                                          ),
-                                        ),
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          '${client.type}',
-
-                                          style: TextStyle(
-                                            color: Colors.white,
+                            return GestureDetector(
+                              onTap: () {
+                                Get.to(ClientLeadScreen());
+                              },
+                              child: Container(
+                                ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                margin: const EdgeInsets.symmetric(
+                                  vertical: 10,
+                                ),
+                                padding: const EdgeInsets.only(
+                                  left: 16,
+                                  right: 16,
+                                  top: 12,
+                                  bottom: 0,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(16),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.05),
+                                      blurRadius: 8,
+                                      offset: Offset(0, 4),
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        /////////////////////////////////////////// client/lead firstname and lastname
+                                        Text(
+                                          '${client.firstname} ${client.lastname}',
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 22,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 16,
+                                            color: primaryColor,
                                           ),
                                         ),
-                                      ),
-                                      const Spacer(),
-                                      //////////////////////////////////////// 3 dots and Conditions
-                                      PopupMenuButton<String>(
-                                        color: Colors.white,
-                                        icon: Icon(
-                                          Icons.more_vert,
-                                          color: secondaryColor,
-                                        ),
-                                        onSelected: (selected) {
-                                          if (selected == 'edit') {
-                                            ScaffoldMessenger.of(
-                                              context,
-                                            ).showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                  'Edit client: ${client.firstname} ${client.lastname}',
-                                                ),
-                                              ),
-                                            );
-                                          } else if (selected == 'delete') {
-                                            ScaffoldMessenger.of(
-                                              context,
-                                            ).showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                  'Delete client: ${client.firstname} ${client.lastname}',
-                                                ),
-                                              ),
-                                            );
-                                          }
-                                        },
-                                        itemBuilder: (BuildContext context) => [
-                                          ////////////////////////////// edit icon button
-                                          PopupMenuItem<String>(
-                                            value: 'edit',
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.edit,
-                                                  color: primaryColor,
-                                                ),
-                                                SizedBox(width: 8),
-                                                Text('Edit'),
-                                              ],
+                                        const SizedBox(height: 8),
+                                        ///////////////////////////////////////type of client
+                                        Container(
+                                          width: 120,
+                                          height: 23,
+                                          decoration: BoxDecoration(
+                                            color: client.type == 'Lead'
+                                                ? Colors.deepOrange.shade400
+                                                : Colors.teal.shade700,
+                                            borderRadius: BorderRadius.circular(
+                                              20,
                                             ),
                                           ),
-                                          ////////////////////////////// delete icon button
-                                          PopupMenuItem<String>(
-                                            value: 'delete',
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.delete,
-                                                  color: const Color.fromARGB(
-                                                    255,
-                                                    126,
-                                                    2,
-                                                    2,
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            '${client.type}',
+
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ),
+                                        const Spacer(),
+                                        //////////////////////////////////////// 3 dots and Conditions
+                                        PopupMenuButton<String>(
+                                          color: Colors.white,
+                                          icon: Icon(
+                                            Icons.more_vert,
+                                            color: secondaryColor,
+                                          ),
+                                          onSelected: (selected) {
+                                            if (selected == 'edit') {
+                                              ScaffoldMessenger.of(
+                                                context,
+                                              ).showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    'Edit client: ${client.firstname} ${client.lastname}',
                                                   ),
                                                 ),
-                                                SizedBox(width: 8),
-                                                Text('Delete'),
-                                              ],
+                                              );
+                                            } else if (selected == 'delete') {
+                                              ScaffoldMessenger.of(
+                                                context,
+                                              ).showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    'Delete client: ${client.firstname} ${client.lastname}',
+                                                  ),
+                                                ),
+                                              );
+                                            }
+                                          },
+                                          itemBuilder: (BuildContext context) => [
+                                            ////////////////////////////// edit icon button
+                                            PopupMenuItem<String>(
+                                              value: 'edit',
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.edit,
+                                                    color: primaryColor,
+                                                  ),
+                                                  SizedBox(width: 8),
+                                                  Text('Edit'),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  ///////////////////////////// phone
-                                  Text(
-                                    'Phone: ${client.phone}',
-                                    style: GoogleFonts.roboto(
-                                      fontSize: 16,
-                                      color: secondaryColor,
+                                            ////////////////////////////// delete icon button
+                                            PopupMenuItem<String>(
+                                              value: 'delete',
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.delete,
+                                                    color: const Color.fromARGB(
+                                                      255,
+                                                      126,
+                                                      2,
+                                                      2,
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 8),
+                                                  Text('Delete'),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      ////////////////////////////////// Email
-                                      TextButton(
-                                        onPressed: () =>
-                                            SendEmail(client.email),
-                                        child: Text(
-                                          'Email: ${client.email}',
+                                    ///////////////////////////// phone
+                                    Column(
+                                      children: [
+                                        Text(
+                                          'Phone: ${client.phone}',
                                           style: GoogleFonts.roboto(
                                             fontSize: 16,
                                             color: secondaryColor,
                                           ),
                                         ),
-                                      ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        ////////////////////////////////// Email
+                                        TextButton(
+                                          onPressed: () =>
+                                              SendEmail(client.email),
+                                          child: Text(
+                                            'Email: ${client.email}',
+                                            style: GoogleFonts.roboto(
+                                              fontSize: 16,
+                                              color: secondaryColor,
+                                            ),
+                                          ),
+                                        ),
 
-                                      const Spacer(),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          IconButton(
-                                            icon: Icon(
-                                              Icons.call,
-                                              color: primaryColor,
+                                        const Spacer(),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            IconButton(
+                                              icon: Icon(
+                                                Icons.call,
+                                                color: primaryColor,
+                                              ),
+                                              onPressed: () =>
+                                                  _callClient(client.phone),
                                             ),
-                                            onPressed: () =>
-                                                _callClient(client.phone),
-                                          ),
-                                          IconButton(
-                                            icon: Icon(
-                                              Icons.message,
-                                              color: primaryColor,
+                                            IconButton(
+                                              icon: Icon(
+                                                Icons.message,
+                                                color: primaryColor,
+                                              ),
+                                              onPressed: () =>
+                                                  _messageClient(client.phone),
                                             ),
-                                            onPressed: () =>
-                                                _messageClient(client.phone),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 12),
-                                ],
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 12),
+                                  ],
+                                ),
                               ),
                             );
                           },
