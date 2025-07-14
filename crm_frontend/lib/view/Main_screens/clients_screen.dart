@@ -1,4 +1,6 @@
-// ignore_for_file: use_build_context_synchronously, deprecated_member_use, unnecessary_string_interpolations
+// ignore_for_file: use_build_context_synchronously, deprecated_member_use, unnecessary_string_interpolations, non_constant_identifier_names
+
+import 'dart:nativewrappers/_internal/vm/lib/ffi_native_type_patch.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -44,10 +46,10 @@ class _ClientsScreenState extends State<ClientsScreen> {
       type: 'Lead',
     ),
     Client(
-      firstname: 'Khalti',
-      lastname: 'Tbibcha',
+      firstname: 'Wilou',
+      lastname: 'Boubaidja',
       phone: '07 70 98 76 54',
-      email: 'khalti.tbibcha@gmail.com',
+      email: 'walidboubaidja@gmail.com',
       type: 'Lead',
     ),
     Client(
@@ -346,11 +348,18 @@ class _ClientsScreenState extends State<ClientsScreen> {
                                   Row(
                                     children: [
                                       ////////////////////////////////// Email
-                                     TextButton(onPressed: Send Email, child: Text('Email: ${client.email}',
-                                        style: GoogleFonts.roboto(
-                                          fontSize: 16,
-                                          color: secondaryColor,
-                                        ),)),
+                                      TextButton(
+                                        onPressed: () =>
+                                            SendEmail(client.email),
+                                        child: Text(
+                                          'Email: ${client.email}',
+                                          style: GoogleFonts.roboto(
+                                            fontSize: 16,
+                                            color: secondaryColor,
+                                          ),
+                                        ),
+                                      ),
+
                                       const Spacer(),
                                       Row(
                                         mainAxisAlignment:
@@ -413,5 +422,20 @@ class _ClientsScreenState extends State<ClientsScreen> {
         ),
       ),
     );
+  }
+}
+
+void SendEmail(String email) async {
+  final Uri emailUri = Uri(
+    scheme: 'mailto',
+    path: email,
+    query:
+        'subject=Hello from the CRM App&body=I want to get in touch with you',
+  );
+
+  if (await canLaunchUrl(emailUri)) {
+    await launchUrl(emailUri);
+  } else {
+    print('❌ Could not launch email client');
   }
 }
