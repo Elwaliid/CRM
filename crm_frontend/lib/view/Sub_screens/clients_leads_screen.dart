@@ -418,7 +418,7 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                         ),
                         const SizedBox(width: 10),
 
-                        //////////////////////////////////////////////////////////////// Client Button
+                        //////////////////////////////////////////////////////////// Client Button
                         Expanded(
                           child: GestureDetector(
                             onTap: () {
@@ -426,26 +426,39 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                                 _selectedType = 'Client';
                               });
                             },
-                            child: Container(
-                              height: 35,
-                              decoration: BoxDecoration(
-                                color: Colors.teal.shade700,
 
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 250),
+                              height: 38,
+                              decoration: BoxDecoration(
+                                color: _selectedType == 'Client'
+                                    ? Colors.teal.shade700
+                                    : const Color.fromARGB(255, 233, 255, 251),
                                 borderRadius: BorderRadius.circular(20),
                                 border: Border.all(
-                                  color: _selectedType == 'Client'
-                                      ? Colors.teal.shade700
-                                      : Colors.white,
-                                  width: 1.2,
+                                  color: Colors.teal.shade700,
+                                  width: _selectedType == 'Client' ? 2.5 : 1,
                                 ),
+                                boxShadow: _selectedType == 'Client'
+                                    ? [
+                                        BoxShadow(
+                                          color: Colors.teal.shade900
+                                              .withOpacity(0.2),
+                                          blurRadius: 8,
+                                          offset: const Offset(0, 3),
+                                        ),
+                                      ]
+                                    : [],
                               ),
                               alignment: Alignment.center,
                               child: Text(
                                 'Client',
                                 style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
+                                  color: _selectedType == 'Client'
+                                      ? Colors.white
+                                      : const Color.fromARGB(255, 2, 148, 131),
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 17,
                                 ),
                               ),
                             ),
@@ -453,7 +466,7 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                         ),
                         const SizedBox(width: 12),
 
-                        //////////////////////////////////////////////////////////////// Lead Button
+                        //////////////////////////////////////////////////////////// Lead Button
                         Expanded(
                           child: GestureDetector(
                             onTap: () {
@@ -461,25 +474,38 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                                 _selectedType = 'Lead';
                               });
                             },
-                            child: Container(
-                              height: 35,
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 250),
+                              height: 38,
                               decoration: BoxDecoration(
-                                color: Colors.deepOrange.shade400,
+                                color: _selectedType == 'Lead'
+                                    ? Colors.deepOrange.shade400
+                                    : const Color.fromARGB(255, 255, 213, 201),
                                 borderRadius: BorderRadius.circular(20),
                                 border: Border.all(
-                                  color: _selectedType == 'Lead'
-                                      ? Colors.deepOrange.shade400
-                                      : Colors.white,
-                                  width: 1.2,
+                                  color: Colors.deepOrange.shade400,
+                                  width: _selectedType == 'Lead' ? 2.5 : 1,
                                 ),
+                                boxShadow: _selectedType == 'Lead'
+                                    ? [
+                                        BoxShadow(
+                                          color: Colors.deepOrange.shade900
+                                              .withOpacity(0.2),
+                                          blurRadius: 8,
+                                          offset: const Offset(0, 3),
+                                        ),
+                                      ]
+                                    : [],
                               ),
                               alignment: Alignment.center,
                               child: Text(
                                 'Lead',
                                 style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
+                                  color: _selectedType == 'Lead'
+                                      ? Colors.white
+                                      : const Color.fromARGB(255, 170, 95, 72),
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 17,
                                 ),
                               ),
                             ),
