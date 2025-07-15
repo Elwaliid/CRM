@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, deprecated_member_use, unnecessary_string_interpolations, non_constant_identifier_names
+// ignore_for_file: use_build_context_synchronously, deprecated_member_use, unnecessary_string_interpolations, non_constant_identifier_names, avoid_print
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -209,13 +209,14 @@ class _ClientsScreenState extends State<ClientsScreen> {
                           itemCount: _filteredClients.length,
                           itemBuilder: (context, index) {
                             final client = _filteredClients[index];
-                            ///////////////////////////////////////////////////////////////////////////// Client/lead card
+                            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                             return GestureDetector(
                               onTap: () {
                                 Get.to(ClientsLeadsScreen());
-                              },
-                              child: Container(
                                 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                              },
+                              ///////////////////////////////////////////////////////////////////////////// Clients and Leads cards
+                              child: Container(
                                 margin: const EdgeInsets.symmetric(
                                   vertical: 10,
                                 ),
@@ -251,7 +252,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
                                           ),
                                         ),
                                         const SizedBox(height: 8),
-                                        ///////////////////////////////////////type of client
+                                        //////////////////////////////////////////////// TYPE-----
                                         Container(
                                           width: 120,
                                           height: 23,

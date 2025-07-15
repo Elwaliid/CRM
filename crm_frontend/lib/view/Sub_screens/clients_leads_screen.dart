@@ -16,6 +16,8 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
   /// Form key to validate form fields
   final _formKey = GlobalKey<FormState>();
   bool _secondemail = true;
+  String? _selectedType = 'Client';
+
   /////////////////////////////////////////////////////////////////////////////////// Controllers for all input fields
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
@@ -396,6 +398,96 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                       primaryColor: primaryColor,
                     ),
                     const SizedBox(height: 28),
+                    //////////////////////////////////////////////////////////// Type of Client
+                    Row(
+                      children: [
+                        Text(
+                          'Type:',
+                          style: GoogleFonts.poppins(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: primaryColor,
+                            shadows: [
+                              Shadow(
+                                blurRadius: 8,
+                                color: Colors.black12,
+                                offset: Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+
+                        //////////////////////////////////////////////////////////////// Client Button
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _selectedType = 'Client';
+                              });
+                            },
+                            child: Container(
+                              height: 35,
+                              decoration: BoxDecoration(
+                                color: Colors.teal.shade700,
+
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                  color: _selectedType == 'Client'
+                                      ? Colors.teal.shade700
+                                      : Colors.white,
+                                  width: 1.2,
+                                ),
+                              ),
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Client',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+
+                        //////////////////////////////////////////////////////////////// Lead Button
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _selectedType = 'Lead';
+                              });
+                            },
+                            child: Container(
+                              height: 35,
+                              decoration: BoxDecoration(
+                                color: Colors.deepOrange.shade400,
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                  color: _selectedType == 'Lead'
+                                      ? Colors.deepOrange.shade400
+                                      : Colors.white,
+                                  width: 1.2,
+                                ),
+                              ),
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Lead',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 18),
 
                     ///////////////////////////////////////////////////////////// Save Button
                     SizedBox(
