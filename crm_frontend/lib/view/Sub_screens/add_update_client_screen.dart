@@ -133,7 +133,7 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                           child: _buildTextField(
                             label: 'First Name',
                             controller: _firstNameController,
-                            primaryColor: primaryColor,
+
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter First Name';
@@ -147,7 +147,7 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                           child: _buildTextField(
                             label: 'Last Name',
                             controller: _lastNameController,
-                            primaryColor: primaryColor,
+
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter Last Name';
@@ -164,7 +164,6 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                     _buildTextField(
                       label: 'Identity (Company, Job Title, etc.)',
                       controller: _identityController,
-                      primaryColor: primaryColor,
                     ),
                     const SizedBox(height: 16),
 
@@ -177,7 +176,7 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                             label: 'Phone Number',
                             controller: _phoneController,
                             keyboardType: TextInputType.phone,
-                            primaryColor: primaryColor,
+
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter Phone Number';
@@ -247,7 +246,7 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                                     controller:
                                         _additionalPhoneControllers[index],
                                     keyboardType: TextInputType.phone,
-                                    primaryColor: primaryColor,
+
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
                                         return 'Please enter $label';
@@ -310,7 +309,7 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                             label: 'Email',
                             controller: _emailController,
                             keyboardType: TextInputType.emailAddress,
-                            primaryColor: primaryColor,
+
                             validator: (value) {
                               if (value == null ||
                                   !value.contains('@gmail.com')) {
@@ -359,7 +358,7 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                         label: 'Second Email',
                         controller: _secondEmailController,
                         keyboardType: TextInputType.emailAddress,
-                        primaryColor: primaryColor,
+
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter Second Email';
@@ -377,7 +376,6 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                     _buildTextField(
                       label: 'Address',
                       controller: _addressController,
-                      primaryColor: primaryColor,
                     ),
                     const SizedBox(height: 16),
 
@@ -386,7 +384,6 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                       label: 'Website',
                       controller: _websiteController,
                       keyboardType: TextInputType.url,
-                      primaryColor: primaryColor,
                     ),
                     const SizedBox(height: 16),
 
@@ -395,7 +392,6 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
                       label: 'Notes',
                       controller: _otherInfoController,
                       maxLines: 4,
-                      primaryColor: primaryColor,
                     ),
                     const SizedBox(height: 28),
                     //////////////////////////////////////////////////////////// Type of Client
@@ -554,7 +550,7 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
   Widget _buildTextField({
     required String label,
     required TextEditingController controller,
-    Color? primaryColor,
+    Color? textColor = const Color.fromARGB(255, 38, 44, 48),
     TextInputType keyboardType = TextInputType.text,
     int maxLines = 1,
     String? Function(String?)? validator,
@@ -566,11 +562,11 @@ class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
       maxLines: maxLines,
       validator: validator,
       inputFormatters: inputFormatters,
-      style: GoogleFonts.roboto(fontSize: 16, color: primaryColor),
+      style: GoogleFonts.roboto(fontSize: 16, color: textColor),
       decoration: InputDecoration(
         labelText: label,
         labelStyle: GoogleFonts.poppins(
-          color: primaryColor?.withOpacity(0.85),
+          color: textColor?.withOpacity(0.85),
           fontWeight: FontWeight.w500,
         ),
         filled: true,

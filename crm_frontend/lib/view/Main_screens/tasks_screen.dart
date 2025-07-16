@@ -1,6 +1,10 @@
 // ignore_for_file: use_build_context_synchronously, deprecated_member_use
 
+import 'package:crm_frontend/view/Sub_screens/add_update_client_screen.dart'
+    show ClientsLeadsScreen;
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Task {
@@ -182,159 +186,170 @@ class _TasksScreenState extends State<TasksScreen> {
                           itemBuilder: (context, index) {
                             final task = _filteredTasks[index];
                             ///////////////////////////////////////////////////////////////////////////// Task card
-                            return Container(
-                              margin: const EdgeInsets.symmetric(vertical: 10),
-                              padding: const EdgeInsets.only(
-                                left: 16,
-                                right: 16,
-                                top: 12,
-                                bottom: 0,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(16),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.05),
-                                    blurRadius: 8,
-                                    offset: Offset(0, 4),
-                                  ),
-                                ],
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      /////////////////////////////////////////// Task title
-                                      Text(
-                                        task.title,
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.bold,
-                                          color: primaryColor,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                      ///////////////////////////////////// Status
-                                      Container(
-                                        width: 120,
-                                        height: 23,
-                                        decoration: BoxDecoration(
-                                          color: task.status == 'Pending'
-                                              ? Colors.deepOrange.shade400
-                                              : task.status == 'Completed'
-                                              ? Colors.teal.shade700
-                                              : task.status == 'In Process'
-                                              ? Colors.blueGrey.shade900
-                                              : Colors.grey,
-                                          borderRadius: BorderRadius.circular(
-                                            20,
-                                          ),
-                                        ),
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          task.status,
-                                          style: TextStyle(
-                                            color: Colors.white,
+
+                            return GestureDetector(
+                              onTap: () {
+                                Get.to(ClientsLeadsScreen());
+                                ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.symmetric(
+                                  vertical: 10,
+                                ),
+                                padding: const EdgeInsets.only(
+                                  left: 16,
+                                  right: 16,
+                                  top: 12,
+                                  bottom: 0,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(16),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.05),
+                                      blurRadius: 8,
+                                      offset: Offset(0, 4),
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        /////////////////////////////////////////// Task title
+                                        Text(
+                                          task.title,
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 22,
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 16,
+                                            color: primaryColor,
                                           ),
                                         ),
-                                      ),
-                                      const Spacer(),
-                                      PopupMenuButton<String>(
-                                        color: Colors.white,
-                                        icon: Icon(
-                                          Icons.more_vert,
-                                          color: secondaryColor,
-                                        ),
-                                        onSelected: (selected) {
-                                          if (selected == 'edit') {
-                                            ScaffoldMessenger.of(
-                                              context,
-                                            ).showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                  'Edit task: ${task.title}',
-                                                ),
-                                              ),
-                                            );
-                                          } else if (selected == 'delete') {
-                                            ScaffoldMessenger.of(
-                                              context,
-                                            ).showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                  'Delete task: ${task.title}',
-                                                ),
-                                              ),
-                                            );
-                                          }
-                                        },
-                                        itemBuilder: (BuildContext context) => [
-                                          PopupMenuItem<String>(
-                                            value: 'edit',
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.edit,
-                                                  color: primaryColor,
-                                                ),
-                                                SizedBox(width: 8),
-                                                Text('Edit'),
-                                              ],
+                                        const SizedBox(height: 8),
+                                        ///////////////////////////////////// Status
+                                        Container(
+                                          width: 120,
+                                          height: 23,
+                                          decoration: BoxDecoration(
+                                            color: task.status == 'Pending'
+                                                ? Colors.deepOrange.shade400
+                                                : task.status == 'Completed'
+                                                ? Colors.teal.shade700
+                                                : task.status == 'In Process'
+                                                ? Colors.blueGrey.shade900
+                                                : Colors.grey,
+                                            borderRadius: BorderRadius.circular(
+                                              20,
                                             ),
                                           ),
-                                          PopupMenuItem<String>(
-                                            value: 'delete',
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.delete,
-                                                  color: const Color.fromARGB(
-                                                    255,
-                                                    126,
-                                                    2,
-                                                    2,
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            task.status,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ),
+                                        const Spacer(),
+                                        PopupMenuButton<String>(
+                                          color: Colors.white,
+                                          icon: Icon(
+                                            Icons.more_vert,
+                                            color: secondaryColor,
+                                          ),
+                                          onSelected: (selected) {
+                                            if (selected == 'edit') {
+                                              ScaffoldMessenger.of(
+                                                context,
+                                              ).showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    'Edit task: ${task.title}',
                                                   ),
                                                 ),
-                                                SizedBox(width: 8),
-                                                Text('Delete'),
+                                              );
+                                            } else if (selected == 'delete') {
+                                              ScaffoldMessenger.of(
+                                                context,
+                                              ).showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    'Delete task: ${task.title}',
+                                                  ),
+                                                ),
+                                              );
+                                            }
+                                          },
+                                          itemBuilder: (BuildContext context) =>
+                                              [
+                                                PopupMenuItem<String>(
+                                                  value: 'edit',
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.edit,
+                                                        color: primaryColor,
+                                                      ),
+                                                      SizedBox(width: 8),
+                                                      Text('Edit'),
+                                                    ],
+                                                  ),
+                                                ),
+                                                PopupMenuItem<String>(
+                                                  value: 'delete',
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.delete,
+                                                        color:
+                                                            const Color.fromARGB(
+                                                              255,
+                                                              126,
+                                                              2,
+                                                              2,
+                                                            ),
+                                                      ),
+                                                      SizedBox(width: 8),
+                                                      Text('Delete'),
+                                                    ],
+                                                  ),
+                                                ),
                                               ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                  Text(
-                                    'Due: ${task.dueDate}',
-                                    style: GoogleFonts.roboto(
-                                      fontSize: 16,
-                                      color: secondaryColor,
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'Assigned to: ${task.assignedTo}',
-                                        style: GoogleFonts.roboto(
-                                          fontSize: 16,
-                                          color: secondaryColor,
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  Text(
-                                    'Description: ${task.description}',
-                                    style: GoogleFonts.roboto(
-                                      fontSize: 16,
-                                      color: secondaryColor,
+                                      ],
                                     ),
-                                  ),
-                                  const SizedBox(height: 12),
-                                ],
+                                    Text(
+                                      'Due: ${task.dueDate}',
+                                      style: GoogleFonts.roboto(
+                                        fontSize: 16,
+                                        color: secondaryColor,
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'Assigned to: ${task.assignedTo}',
+                                          style: GoogleFonts.roboto(
+                                            fontSize: 16,
+                                            color: secondaryColor,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Text(
+                                      'Description: ${task.description}',
+                                      style: GoogleFonts.roboto(
+                                        fontSize: 16,
+                                        color: secondaryColor,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 12),
+                                  ],
+                                ),
                               ),
                             );
                           },
