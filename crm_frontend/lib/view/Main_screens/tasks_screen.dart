@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously, deprecated_member_use
 
-import 'package:crm_frontend/view/Sub_screens/add_update_client_screen.dart'
-    show ClientsLeadsScreen;
+import 'package:crm_frontend/view/Sub_screens/add_update_Task_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -189,7 +188,7 @@ class _TasksScreenState extends State<TasksScreen> {
 
                             return GestureDetector(
                               onTap: () {
-                                Get.to(ClientsLeadsScreen());
+                                Get.to(AddUpdateTaskScreen());
                                 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                               },
                               child: Container(
