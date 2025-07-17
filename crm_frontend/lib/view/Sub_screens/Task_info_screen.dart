@@ -5,14 +5,14 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 /// Screen for adding/updating Client or Lead info
-class ClientsLeadsScreen extends StatefulWidget {
-  const ClientsLeadsScreen({super.key});
+class TaskInfoScreen extends StatefulWidget {
+  const TaskInfoScreen({super.key});
 
   @override
-  State<ClientsLeadsScreen> createState() => _ClientsLeadsScreenState();
+  State<TaskInfoScreen> createState() => _TaskInfoScreenState();
 }
 
-class _ClientsLeadsScreenState extends State<ClientsLeadsScreen> {
+class _TaskInfoScreenState extends State<TaskInfoScreen> {
   /// Form key to validate form fields
   final _formKey = GlobalKey<FormState>();
   bool _secondemail = true;
