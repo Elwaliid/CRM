@@ -16,10 +16,10 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
   /// Form key to validate form fields
   final _formKey = GlobalKey<FormState>();
   bool _secondemail = true;
-  String? _selectedType = 'Client';
+  String? _selectedType = 'Pending';
 
   /////////////////////////////////////////////////////////////////////////////////// Controllers for all input fields
-  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _taskNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _identityController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
@@ -107,7 +107,7 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Center(
                         child: Text(
-                          'Add / Update Client',
+                          'Task details',
                           style: GoogleFonts.poppins(
                             fontSize: 36,
                             fontWeight: FontWeight.bold,
@@ -126,13 +126,13 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
 
                     const SizedBox(height: 100),
 
-                    ///////////////////////////////////////////////////////////// First Name and Last Name in a Row
+                    ///////////////////////////////////////////////////////////// Task Title
                     Row(
                       children: [
                         Expanded(
                           child: _buildTextField(
-                            label: 'First Name',
-                            controller: _firstNameController,
+                            label: 'Task Title',
+                            controller: _taskNameController,
 
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -142,7 +142,7 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                             },
                           ),
                         ),
-                        const SizedBox(width: 16),
+                        /*  const SizedBox(width: 16),
                         Expanded(
                           child: _buildTextField(
                             label: 'Last Name',
@@ -155,7 +155,7 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                               return null;
                             },
                           ),
-                        ),
+                        ), */
                       ],
                     ),
                     const SizedBox(height: 16),
@@ -387,13 +387,6 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                     ),
                     const SizedBox(height: 16),
 
-                    ///////////////////////////////////////////////////////////// Notes / Other Info / Description
-                    _buildTextField(
-                      label: 'Notes',
-                      controller: _otherInfoController,
-                      maxLines: 4,
-                    ),
-                    const SizedBox(height: 28),
                     //////////////////////////////////////////////////////////// Type of Client
                     Row(
                       children: [
