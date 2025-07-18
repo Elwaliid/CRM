@@ -263,8 +263,9 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                     ),
                     const SizedBox(height: 16),
 
-                    ////////////////////////////////////////////////////////////////////////////////////////////// Status
+                    ////////////////////////////////////////////////////////////////////////////////////////////// Status Section
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
                           'Status:',
@@ -281,148 +282,43 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                             ],
                           ),
                         ),
-                        const SizedBox(width: 10),
-
-                        //////////////////////////////////////////////////////////// Pending Button
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _selectedType = 'Completed';
-                              });
-                            },
-
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 250),
-                              height: 38,
-                              decoration: BoxDecoration(
-                                color: _selectedType == 'Completed'
-                                    ? Colors.teal.shade700
-                                    : const Color.fromARGB(255, 233, 255, 251),
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                  color: Colors.teal.shade700,
-                                  width: _selectedType == 'Completed' ? 2.5 : 1,
-                                ),
-                                boxShadow: _selectedType == 'Completed'
-                                    ? [
-                                        BoxShadow(
-                                          color: Colors.teal.shade900
-                                              .withOpacity(0.2),
-                                          blurRadius: 8,
-                                          offset: const Offset(0, 3),
-                                        ),
-                                      ]
-                                    : [],
-                              ),
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Completed',
-                                style: TextStyle(
-                                  color: _selectedType == 'Completed'
-                                      ? Colors.white
-                                      : const Color.fromARGB(255, 2, 148, 131),
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 17,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
                         const SizedBox(width: 12),
-
-                        //////////////////////////////////////////////////////////// Pending Button
                         Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _selectedType = 'Pending';
-                              });
-                            },
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 250),
-                              height: 38,
-                              decoration: BoxDecoration(
-                                color: _selectedType == 'Pending'
-                                    ? Colors.deepOrange.shade400
-                                    : const Color.fromARGB(255, 255, 213, 201),
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                  color: Colors.deepOrange.shade400,
-                                  width: _selectedType == 'Pending' ? 2.5 : 1,
-                                ),
-                                boxShadow: _selectedType == 'Pending'
-                                    ? [
-                                        BoxShadow(
-                                          color: Colors.deepOrange.shade900
-                                              .withOpacity(0.2),
-                                          blurRadius: 8,
-                                          offset: const Offset(0, 3),
-                                        ),
-                                      ]
-                                    : [],
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              _buildStatusButton(
+                                label: 'Completed',
+                                isSelected: _selectedType == 'Completed',
+                                selectedColor: Colors.teal.shade700,
+                                unselectedColor: const Color(0xFFE9FFFB),
+                                selectedTextColor: Colors.white,
+                                unselectedTextColor: const Color(0xFF029483),
+                                onTap: () =>
+                                    setState(() => _selectedType = 'Completed'),
                               ),
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Pending',
-                                style: TextStyle(
-                                  color: _selectedType == 'Pending'
-                                      ? Colors.white
-                                      : const Color.fromARGB(255, 170, 95, 72),
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 17,
+                              _buildStatusButton(
+                                label: 'Pending',
+                                isSelected: _selectedType == 'Pending',
+                                selectedColor: Colors.deepOrange.shade400,
+                                unselectedColor: const Color(0xFFFFD5C9),
+                                selectedTextColor: Colors.white,
+                                unselectedTextColor: const Color(0xFFAA5F48),
+                                onTap: () =>
+                                    setState(() => _selectedType = 'Pending'),
+                              ),
+                              _buildStatusButton(
+                                label: 'In process',
+                                isSelected: _selectedType == 'In process',
+                                selectedColor: Colors.blueGrey.shade900,
+                                unselectedColor: const Color(0xFFD9DDE0),
+                                selectedTextColor: Colors.white,
+                                unselectedTextColor: Colors.blueGrey.shade900,
+                                onTap: () => setState(
+                                  () => _selectedType = 'In process',
                                 ),
                               ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        //////////////////////////////////////////////////////////// In process Button
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _selectedType = 'In process';
-                              });
-                            },
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 250),
-                              height: 38,
-                              decoration: BoxDecoration(
-                                color: _selectedType == 'In process'
-                                    ? Colors.blueGrey.shade900
-                                    : const Color.fromARGB(255, 217, 221, 224),
-
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                  color: Colors.blueGrey.shade900,
-                                  width: _selectedType == 'In process'
-                                      ? 2.5
-                                      : 1,
-                                ),
-                                boxShadow: _selectedType == 'In process'
-                                    ? [
-                                        BoxShadow(
-                                          color: Colors.blueGrey.shade900
-                                              .withOpacity(0.2),
-                                          blurRadius: 8,
-                                          offset: const Offset(0, 3),
-                                        ),
-                                      ]
-                                    : [],
-                              ),
-                              alignment: Alignment.center,
-                              child: Text(
-                                'In process',
-                                style: TextStyle(
-                                  color: _selectedType == 'In process'
-                                      ? Colors.white
-                                      : Colors.blueGrey.shade900,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 17,
-                                ),
-                              ),
-                            ),
+                            ],
                           ),
                         ),
                       ],
@@ -523,4 +419,49 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
     ];
     return labels[number];
   }
+}
+
+///////////////////////////////////////////// Status button
+Widget _buildStatusButton({
+  required String label,
+  required bool isSelected,
+  required Color selectedColor,
+  required Color unselectedColor,
+  required Color selectedTextColor,
+  required Color unselectedTextColor,
+  required VoidCallback onTap,
+}) {
+  return Expanded(
+    child: GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        height: 42,
+        margin: const EdgeInsets.symmetric(horizontal: 4),
+        decoration: BoxDecoration(
+          color: isSelected ? selectedColor : unselectedColor,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: selectedColor, width: isSelected ? 2.5 : 1),
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: selectedColor.withOpacity(0.25),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ]
+              : [],
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          label,
+          style: TextStyle(
+            color: isSelected ? selectedTextColor : unselectedTextColor,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    ),
+  );
 }
