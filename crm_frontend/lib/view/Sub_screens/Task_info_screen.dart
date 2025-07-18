@@ -17,10 +17,11 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
   final _formKey = GlobalKey<FormState>();
 
   String? _selectedType = 'Pending';
-
+  List Contacts = ['faisal mouh', 'khalil kaba', 'lisa luisa', 'bounar l7agar'];
   /////////////////////////////////////////////////////////////////////////////////// Controllers for all input fields
   final TextEditingController _taskNameController = TextEditingController();
-
+  final TextEditingController _taskDescriptionController =
+      TextEditingController();
   final TextEditingController _assignedToController = TextEditingController();
 
   /// Dynamic list of additional assignedTo controllers
@@ -143,12 +144,12 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                       children: [
                         Expanded(
                           child: _buildTextField(
-                            label: 'assignedTo full name persone',
+                            label: 'AssignedTo(Full Name)',
                             controller: _assignedToController,
 
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter assignedTo full name';
+                                return 'Please enter a valid name';
                               }
 
                               return null;
@@ -188,12 +189,13 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                         ),
                       ],
                     ),
+                    SizedBox(height: 8),
                     ///////////////////////////////////////////////////////////// Secondary assignedTo numbers
                     Column(
                       children: List.generate(
                         _additionalassignedToControllers.length,
                         (index) {
-                          String label = '${_ordinal(index)} assignedTo person';
+                          String label = '${_ordinal(index)} AssignedTo';
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 12.0),
                             child: Row(
@@ -262,7 +264,13 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                       keyboardType: TextInputType.url,
                     ),
                     const SizedBox(height: 16),
-
+                    ///////////////////////////////////////////////////////////// Task Description
+                    _buildTextField(
+                      label: 'Task description',
+                      controller: _taskDescriptionController,
+                      maxLines: 5,
+                    ),
+                    const SizedBox(height: 28),
                     ////////////////////////////////////////////////////////////////////////////////////////////// Status Section
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -446,7 +454,7 @@ Widget _buildStatusButton({
               ? [
                   BoxShadow(
                     color: selectedColor.withOpacity(0.25),
-                    blurRadius: 10,
+                    blurRadius: 7,
                     offset: const Offset(0, 4),
                   ),
                 ]

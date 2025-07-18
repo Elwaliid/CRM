@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(const Duration(milliseconds: 1500), () {
       //Get.to(const HomeScreen());
-      Get.to(const ClientInfoScreen());
+      Get.to(const TaskInfoScreen());
     });
   }
 
