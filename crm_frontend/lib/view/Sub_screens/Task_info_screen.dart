@@ -251,7 +251,12 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                       ),
                     ),
                     ///////////////////////////////////////////////////////////// Due date
-                    TextField(controller: _dueDateController, label),
+                    _buildTextField(
+                      label: 'Due date',
+                      controller: _dueDateController,
+                      readOnly: true,
+                      onTap: _selectDate,
+                    ),
                     const SizedBox(height: 16),
                     ///////////////////////////////////////////////////////////// Time
                     _buildTextField(label: 'Time', controller: _timeController),
@@ -383,6 +388,8 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
     int maxLines = 1,
     String? Function(String?)? validator,
     List<TextInputFormatter>? inputFormatters,
+    VoidCallback? onTap,
+    bool readOnly = false,
   }) {
     return TextFormField(
       controller: controller,
@@ -390,6 +397,8 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
       maxLines: maxLines,
       validator: validator,
       inputFormatters: inputFormatters,
+      readOnly: readOnly,
+      onTap: onTap,
       style: GoogleFonts.roboto(fontSize: 16, color: textColor),
       decoration: InputDecoration(
         labelText: label,
@@ -433,59 +442,67 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
     ];
     return labels[number];
   }
-}
 
-///////////////////////////////////////////// Status button
-Widget _buildStatusButton({
-  required String label,
-  required bool isSelected,
-  required Color selectedColor,
-  required Color unselectedColor,
-  required Color selectedTextColor,
-  required Color unselectedTextColor,
-  required VoidCallback onTap,
-}) {
-  return Expanded(
-    child: GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 250),
-        height: 42,
-        margin: const EdgeInsets.symmetric(horizontal: 4),
-        decoration: BoxDecoration(
-          color: isSelected ? selectedColor : unselectedColor,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: selectedColor, width: isSelected ? 2.5 : 1),
-          boxShadow: isSelected
-              ? [
-                  BoxShadow(
-                    color: selectedColor.withOpacity(0.25),
-                    blurRadius: 7,
-                    offset: const Offset(0, 4),
-                  ),
-                ]
-              : [],
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          label,
-          style: TextStyle(
-            color: isSelected ? selectedTextColor : unselectedTextColor,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
+  ///////////////////////////////////////////// Status button
+  Widget _buildStatusButton({
+    required String label,
+    required bool isSelected,
+    required Color selectedColor,
+    required Color unselectedColor,
+    required Color selectedTextColor,
+    required Color unselectedTextColor,
+    required VoidCallback onTap,
+  }) {
+    return Expanded(
+      child: GestureDetector(
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 250),
+          height: 42,
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          decoration: BoxDecoration(
+            color: isSelected ? selectedColor : unselectedColor,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: selectedColor,
+              width: isSelected ? 2.5 : 1,
+            ),
+            boxShadow: isSelected
+                ? [
+                    BoxShadow(
+                      color: selectedColor.withOpacity(0.25),
+                      blurRadius: 7,
+                      offset: const Offset(0, 4),
+                    ),
+                  ]
+                : [],
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            label,
+            style: TextStyle(
+              color: isSelected ? selectedTextColor : unselectedTextColor,
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 
-/////////////////////////////////// date table
-Future<void> _selectDate() async {
-  await showDatePicker(
-    context: context,
-    initialDate: DateTime.now(),
-    firstDate: DateTime(2000),
-    lastDate: DateTime(2050),
-  );
+  /////////////////////////////////// date picker
+  Future<void> _selectDate() async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (pickedDate != null) {
+      setState(() {
+        _dueDateController.text = "${pickedDate.toLocal()}".split(' ')[0];
+      });
+    }
+  }
 }
