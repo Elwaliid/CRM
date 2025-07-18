@@ -606,3 +606,48 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
     return labels[number];
   }
 }
+
+///////////////////////////////////////////// Type button
+Widget _buildTypeButton({
+  required String label,
+  required bool isSelected,
+  required Color selectedColor,
+  required Color unselectedColor,
+  required Color selectedTextColor,
+  required Color unselectedTextColor,
+  required VoidCallback onTap,
+}) {
+  return Expanded(
+    child: GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        height: 42,
+        margin: const EdgeInsets.symmetric(horizontal: 4),
+        decoration: BoxDecoration(
+          color: isSelected ? selectedColor : unselectedColor,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: selectedColor, width: isSelected ? 2.5 : 1),
+          boxShadow: isSelected
+              ? [
+                  BoxShadow(
+                    color: selectedColor.withOpacity(0.25),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ]
+              : [],
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          label,
+          style: TextStyle(
+            color: isSelected ? selectedTextColor : unselectedTextColor,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    ),
+  );
+}
