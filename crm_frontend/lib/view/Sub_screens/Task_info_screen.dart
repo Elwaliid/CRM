@@ -15,22 +15,19 @@ class TaskInfoScreen extends StatefulWidget {
 class _TaskInfoScreenState extends State<TaskInfoScreen> {
   /// Form key to validate form fields
   final _formKey = GlobalKey<FormState>();
-  bool _secondemail = true;
+
   String? _selectedType = 'Pending';
 
   /////////////////////////////////////////////////////////////////////////////////// Controllers for all input fields
   final TextEditingController _taskNameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
-  final TextEditingController _identityController = TextEditingController();
+
   final TextEditingController _assignedToController = TextEditingController();
 
   /// Dynamic list of additional assignedTo controllers
   final List<TextEditingController> _additionalassignedToControllers = [];
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _secondEmailController = TextEditingController();
+
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _websiteController = TextEditingController();
-  final TextEditingController _otherInfoController = TextEditingController();
 
   /// Save button logic
   void _saveClient() {
