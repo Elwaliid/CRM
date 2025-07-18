@@ -394,8 +394,9 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
                       maxLines: 4,
                     ),
                     const SizedBox(height: 28),
-                    //////////////////////////////////////////////////////////// Type of Client
+                    ////////////////////////////////////////////////////////////////////////////////////////////// Type Section
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
                           'Type:',
@@ -412,99 +413,32 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
                             ],
                           ),
                         ),
-                        const SizedBox(width: 10),
-
-                        //////////////////////////////////////////////////////////// Client Button
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _selectedType = 'Client';
-                              });
-                            },
-
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 250),
-                              height: 38,
-                              decoration: BoxDecoration(
-                                color: _selectedType == 'Client'
-                                    ? Colors.teal.shade700
-                                    : const Color.fromARGB(255, 233, 255, 251),
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                  color: Colors.teal.shade700,
-                                  width: _selectedType == 'Client' ? 2.5 : 1,
-                                ),
-                                boxShadow: _selectedType == 'Client'
-                                    ? [
-                                        BoxShadow(
-                                          color: Colors.teal.shade900
-                                              .withOpacity(0.2),
-                                          blurRadius: 8,
-                                          offset: const Offset(0, 3),
-                                        ),
-                                      ]
-                                    : [],
-                              ),
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Client',
-                                style: TextStyle(
-                                  color: _selectedType == 'Client'
-                                      ? Colors.white
-                                      : const Color.fromARGB(255, 2, 148, 131),
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 17,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
                         const SizedBox(width: 12),
-
-                        //////////////////////////////////////////////////////////// Lead Button
                         Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                _selectedType = 'Lead';
-                              });
-                            },
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 250),
-                              height: 38,
-                              decoration: BoxDecoration(
-                                color: _selectedType == 'Lead'
-                                    ? Colors.deepOrange.shade400
-                                    : const Color.fromARGB(255, 255, 213, 201),
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                  color: Colors.deepOrange.shade400,
-                                  width: _selectedType == 'Lead' ? 2.5 : 1,
-                                ),
-                                boxShadow: _selectedType == 'Lead'
-                                    ? [
-                                        BoxShadow(
-                                          color: Colors.deepOrange.shade900
-                                              .withOpacity(0.2),
-                                          blurRadius: 8,
-                                          offset: const Offset(0, 3),
-                                        ),
-                                      ]
-                                    : [],
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              _buildTypeButton(
+                                label: 'Client',
+                                isSelected: _selectedType == 'Client',
+                                selectedColor: Colors.teal.shade700,
+                                unselectedColor: const Color(0xFFE9FFFB),
+                                selectedTextColor: Colors.white,
+                                unselectedTextColor: const Color(0xFF029483),
+                                onTap: () =>
+                                    setState(() => _selectedType = 'Client'),
                               ),
-                              alignment: Alignment.center,
-                              child: Text(
-                                'Lead',
-                                style: TextStyle(
-                                  color: _selectedType == 'Lead'
-                                      ? Colors.white
-                                      : const Color.fromARGB(255, 170, 95, 72),
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 17,
-                                ),
+                              _buildTypeButton(
+                                label: 'Lead',
+                                isSelected: _selectedType == 'Lead',
+                                selectedColor: Colors.deepOrange.shade400,
+                                unselectedColor: const Color(0xFFFFD5C9),
+                                selectedTextColor: Colors.white,
+                                unselectedTextColor: const Color(0xFFAA5F48),
+                                onTap: () =>
+                                    setState(() => _selectedType = 'Lead'),
                               ),
-                            ),
+                            ],
                           ),
                         ),
                       ],
@@ -622,7 +556,7 @@ Widget _buildTypeButton({
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
-        height: 42,
+        height: 38,
         margin: const EdgeInsets.symmetric(horizontal: 4),
         decoration: BoxDecoration(
           color: isSelected ? selectedColor : unselectedColor,
@@ -632,7 +566,7 @@ Widget _buildTypeButton({
               ? [
                   BoxShadow(
                     color: selectedColor.withOpacity(0.25),
-                    blurRadius: 10,
+                    blurRadius: 7,
                     offset: const Offset(0, 4),
                   ),
                 ]
