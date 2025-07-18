@@ -251,30 +251,6 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                       ),
                     ),
 
-                    ///////////////////////////////////////////////////////////// Email
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: _buildTextField(
-                            label: 'Email',
-                            controller: _emailController,
-                            keyboardType: TextInputType.emailAddress,
-
-                            validator: (value) {
-                              if (value == null ||
-                                  !value.contains('@gmail.com')) {
-                                return "Please enter a valid email";
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-
                     ///////////////////////////////////////////////////////////// Address
                     _buildTextField(
                       label: 'Address',
@@ -418,7 +394,7 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                               decoration: BoxDecoration(
                                 color: _selectedType == 'In process'
                                     ? Colors.blueGrey.shade900
-                                    : const Color.fromARGB(255, 208, 220, 226),
+                                    : const Color.fromARGB(255, 217, 221, 224),
 
                                 borderRadius: BorderRadius.circular(20),
                                 border: Border.all(
