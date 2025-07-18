@@ -1,5 +1,5 @@
 // ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable, avoid_print
-
+import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,7 +26,8 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
 
   /// Dynamic list of additional assignedTo controllers
   final List<TextEditingController> _additionalassignedToControllers = [];
-
+  final TextEditingController _dueDateController = TextEditingController();
+  final TextEditingController _timeController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _websiteController = TextEditingController();
 
@@ -249,7 +250,12 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                         },
                       ),
                     ),
-
+                    ///////////////////////////////////////////////////////////// Due date
+                    TextField(controller: _dueDateController, label),
+                    const SizedBox(height: 16),
+                    ///////////////////////////////////////////////////////////// Time
+                    _buildTextField(label: 'Time', controller: _timeController),
+                    const SizedBox(height: 16),
                     ///////////////////////////////////////////////////////////// Address
                     _buildTextField(
                       label: 'Address',
@@ -471,5 +477,15 @@ Widget _buildStatusButton({
         ),
       ),
     ),
+  );
+}
+
+/////////////////////////////////// date table
+Future<void> _selectDate() async {
+  await showDatePicker(
+    context: context,
+    initialDate: DateTime.now(),
+    firstDate: DateTime(2000),
+    lastDate: DateTime(2050),
   );
 }

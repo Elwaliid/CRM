@@ -31,7 +31,7 @@ dependencies:
 
   flutter:
     sdk: flutter
-    
+  calendar_view: ^1.4.0
   api_cache_manager: ^1.0.2
   snippet_coder_utils: ^1.0.15  
   fl_chart: ^1.0.0
