@@ -22,10 +22,10 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
   final TextEditingController _taskNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _identityController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _assignedToController = TextEditingController();
 
-  /// Dynamic list of additional phone controllers
-  final List<TextEditingController> _additionalPhoneControllers = [];
+  /// Dynamic list of additional assignedTo controllers
+  final List<TextEditingController> _additionalassignedToControllers = [];
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _secondEmailController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
@@ -35,14 +35,14 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
   /// Save button logic
   void _saveClient() {
     if (_formKey.currentState!.validate()) {
-      // 👇 Gather all phone numbers into a list
-      final allPhones = [
-        _phoneController.text,
-        ..._additionalPhoneControllers.map((c) => c.text),
+      // 👇 Gather all assignedTo numbers into a list
+      final allassignedTos = [
+        _assignedToController.text,
+        ..._additionalassignedToControllers.map((c) => c.text),
       ];
 
       // 🧭 Example: print or send this to backend
-      print('✅ Saving client with phones: $allPhones');
+      print('✅ Saving client with assignedTos: $allassignedTos');
 
       // Show confirmation to user
       ScaffoldMessenger.of(context).showSnackBar(
@@ -57,20 +57,20 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
     }
   }
 
-  /// Add new phone number field
-  void _addPhoneField() {
-    if (_additionalPhoneControllers.length < 9) {
+  /// Add new assignedTo number field
+  void _addassignedToField() {
+    if (_additionalassignedToControllers.length < 9) {
       setState(() {
-        _additionalPhoneControllers.add(TextEditingController());
+        _additionalassignedToControllers.add(TextEditingController());
       });
     }
   }
 
-  /// Remove a specific phone number field
-  void _removePhoneField(int index) {
+  /// Remove a specific assignedTo number field
+  void _removeassignedToField(int index) {
     setState(() {
-      _additionalPhoneControllers[index].dispose();
-      _additionalPhoneControllers.removeAt(index);
+      _additionalassignedToControllers[index].dispose();
+      _additionalassignedToControllers.removeAt(index);
     });
   }
 
@@ -127,79 +127,42 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                     const SizedBox(height: 100),
 
                     ///////////////////////////////////////////////////////////// Task Title
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _buildTextField(
-                            label: 'Task Title',
-                            controller: _taskNameController,
-
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter First Name';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        /*  const SizedBox(width: 16),
-                        Expanded(
-                          child: _buildTextField(
-                            label: 'Last Name',
-                            controller: _lastNameController,
-
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter Last Name';
-                              }
-                              return null;
-                            },
-                          ),
-                        ), */
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-
-                    ///////////////////////////////////////////////////////////// Identity (Company, Job Title, etc.)
                     _buildTextField(
-                      label: 'Identity (Company, Job Title, etc.)',
-                      controller: _identityController,
-                    ),
-                    const SizedBox(height: 16),
+                      label: 'Task Title',
+                      controller: _taskNameController,
 
-                    ///////////////////////////////////////////////////////////// Primary Phone Number
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter First Name';
+                        }
+                        return null;
+                      },
+                    ),
+
+                    const SizedBox(height: 16),
+                    ///////////////////////////////////////////////////////////// Primary assignedTo Number
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
                           child: _buildTextField(
-                            label: 'Phone Number',
-                            controller: _phoneController,
-                            keyboardType: TextInputType.phone,
+                            label: 'assignedTo full name persone',
+                            controller: _assignedToController,
 
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter Phone Number';
+                                return 'Please enter assignedTo full name';
                               }
-                              final pattern = RegExp(r'^(05|06|07)\d{8}$');
-                              if (!pattern.hasMatch(value)) {
-                                return 'Phone number must start with 05, 06, or 07 and be 10 digits';
-                              }
+
                               return null;
                             },
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                RegExp(r'[0-9]'),
-                              ),
-                              LengthLimitingTextInputFormatter(10),
-                            ],
                           ),
                         ),
                         const SizedBox(width: 8),
-                        //////////////////////////////////// add icon button of phone number
+                        //////////////////////////////////// add icon button of assignedTo number
                         Container(
                           decoration: BoxDecoration(
-                            color: _additionalPhoneControllers.length < 9
+                            color: _additionalassignedToControllers.length < 9
                                 ? primaryColor
                                 : Colors.grey.shade400,
                             shape: BoxShape.circle,
@@ -212,8 +175,9 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                             ],
                           ),
                           child: IconButton(
-                            onPressed: _additionalPhoneControllers.length < 9
-                                ? _addPhoneField
+                            onPressed:
+                                _additionalassignedToControllers.length < 9
+                                ? _addassignedToField
                                 : null,
                             icon: Icon(
                               Icons.add,
@@ -227,15 +191,12 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                         ),
                       ],
                     ),
-
-                    const SizedBox(height: 16),
-
-                    ///////////////////////////////////////////////////////////// Secondary Phone numbers
+                    ///////////////////////////////////////////////////////////// Secondary assignedTo numbers
                     Column(
                       children: List.generate(
-                        _additionalPhoneControllers.length,
+                        _additionalassignedToControllers.length,
                         (index) {
-                          String label = '${_ordinal(index)} phone number';
+                          String label = '${_ordinal(index)} assignedTo person';
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 12.0),
                             child: Row(
@@ -244,30 +205,19 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                                   child: _buildTextField(
                                     label: label,
                                     controller:
-                                        _additionalPhoneControllers[index],
-                                    keyboardType: TextInputType.phone,
+                                        _additionalassignedToControllers[index],
 
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
                                         return 'Please enter $label';
                                       }
-                                      final pattern = RegExp(
-                                        r'^(05|06|07)\d{8}$',
-                                      );
-                                      if (!pattern.hasMatch(value)) {
-                                        return 'Phone number must start with 05, 06, or 07 and be 10 digits';
-                                      }
+
                                       return null;
                                     },
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.allow(
-                                        RegExp(r'[0-9]'),
-                                      ),
-                                      LengthLimitingTextInputFormatter(10),
-                                    ],
                                   ),
                                 ),
                                 const SizedBox(width: 8),
+                                /////////////////////// Delete button
                                 Container(
                                   decoration: BoxDecoration(
                                     color: primaryColor,
@@ -280,9 +230,10 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                                       ),
                                     ],
                                   ),
-                                  /////////////////////// Delete button
+
                                   child: IconButton(
-                                    onPressed: () => _removePhoneField(index),
+                                    onPressed: () =>
+                                        _removeassignedToField(index),
                                     icon: Icon(
                                       Icons.close,
                                       color: Colors.white,
@@ -320,57 +271,9 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                           ),
                         ),
                         const SizedBox(width: 8),
-                        //////////////////////////////////////// Add email button
-                        Container(
-                          decoration: BoxDecoration(
-                            color: primaryColor,
-                            shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                blurRadius: 4,
-                                offset: Offset(0, 2),
-                              ),
-                            ],
-                          ),
-                          child: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _secondemail = !_secondemail;
-                              });
-                            },
-                            icon: Icon(
-                              _secondemail ? Icons.add : Icons.remove,
-                              color: Colors.white,
-                              size: 20,
-                            ),
-                            padding: EdgeInsets.zero,
-                            constraints: BoxConstraints(),
-                            splashRadius: 20,
-                          ),
-                        ),
                       ],
                     ),
                     const SizedBox(height: 16),
-                    ///////////////////////////////////////////////////////////// Second email
-                    if (!_secondemail) ...[
-                      _buildTextField(
-                        label: 'Second Email',
-                        controller: _secondEmailController,
-                        keyboardType: TextInputType.emailAddress,
-
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter Second Email';
-                          }
-                          if (!value.contains('@gmail.com')) {
-                            return 'Please enter a valid email';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 16),
-                    ],
 
                     ///////////////////////////////////////////////////////////// Address
                     _buildTextField(
@@ -387,11 +290,11 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                     ),
                     const SizedBox(height: 16),
 
-                    //////////////////////////////////////////////////////////// Type of Client
+                    ////////////////////////////////////////////////////////////////////////////////////////////// Status
                     Row(
                       children: [
                         Text(
-                          'Type:',
+                          'Status:',
                           style: GoogleFonts.poppins(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -407,12 +310,12 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                         ),
                         const SizedBox(width: 10),
 
-                        //////////////////////////////////////////////////////////// Client Button
+                        //////////////////////////////////////////////////////////// Pending Button
                         Expanded(
                           child: GestureDetector(
                             onTap: () {
                               setState(() {
-                                _selectedType = 'Client';
+                                _selectedType = 'Completed';
                               });
                             },
 
@@ -420,15 +323,15 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                               duration: const Duration(milliseconds: 250),
                               height: 38,
                               decoration: BoxDecoration(
-                                color: _selectedType == 'Client'
+                                color: _selectedType == 'Completed'
                                     ? Colors.teal.shade700
                                     : const Color.fromARGB(255, 233, 255, 251),
                                 borderRadius: BorderRadius.circular(20),
                                 border: Border.all(
                                   color: Colors.teal.shade700,
-                                  width: _selectedType == 'Client' ? 2.5 : 1,
+                                  width: _selectedType == 'Completed' ? 2.5 : 1,
                                 ),
-                                boxShadow: _selectedType == 'Client'
+                                boxShadow: _selectedType == 'Completed'
                                     ? [
                                         BoxShadow(
                                           color: Colors.teal.shade900
@@ -441,9 +344,9 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                               ),
                               alignment: Alignment.center,
                               child: Text(
-                                'Client',
+                                'Completed',
                                 style: TextStyle(
-                                  color: _selectedType == 'Client'
+                                  color: _selectedType == 'Completed'
                                       ? Colors.white
                                       : const Color.fromARGB(255, 2, 148, 131),
                                   fontWeight: FontWeight.w600,
@@ -455,27 +358,27 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                         ),
                         const SizedBox(width: 12),
 
-                        //////////////////////////////////////////////////////////// Lead Button
+                        //////////////////////////////////////////////////////////// Pending Button
                         Expanded(
                           child: GestureDetector(
                             onTap: () {
                               setState(() {
-                                _selectedType = 'Lead';
+                                _selectedType = 'Pending';
                               });
                             },
                             child: AnimatedContainer(
                               duration: const Duration(milliseconds: 250),
                               height: 38,
                               decoration: BoxDecoration(
-                                color: _selectedType == 'Lead'
+                                color: _selectedType == 'Pending'
                                     ? Colors.deepOrange.shade400
                                     : const Color.fromARGB(255, 255, 213, 201),
                                 borderRadius: BorderRadius.circular(20),
                                 border: Border.all(
                                   color: Colors.deepOrange.shade400,
-                                  width: _selectedType == 'Lead' ? 2.5 : 1,
+                                  width: _selectedType == 'Pending' ? 2.5 : 1,
                                 ),
-                                boxShadow: _selectedType == 'Lead'
+                                boxShadow: _selectedType == 'Pending'
                                     ? [
                                         BoxShadow(
                                           color: Colors.deepOrange.shade900
@@ -488,11 +391,60 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                               ),
                               alignment: Alignment.center,
                               child: Text(
-                                'Lead',
+                                'Pending',
                                 style: TextStyle(
-                                  color: _selectedType == 'Lead'
+                                  color: _selectedType == 'Pending'
                                       ? Colors.white
                                       : const Color.fromARGB(255, 170, 95, 72),
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 17,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        //////////////////////////////////////////////////////////// In process Button
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _selectedType = 'In process';
+                              });
+                            },
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 250),
+                              height: 38,
+                              decoration: BoxDecoration(
+                                color: _selectedType == 'In process'
+                                    ? Colors.blueGrey.shade900
+                                    : const Color.fromARGB(255, 208, 220, 226),
+
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                  color: Colors.blueGrey.shade900,
+                                  width: _selectedType == 'In process'
+                                      ? 2.5
+                                      : 1,
+                                ),
+                                boxShadow: _selectedType == 'In process'
+                                    ? [
+                                        BoxShadow(
+                                          color: Colors.blueGrey.shade900
+                                              .withOpacity(0.2),
+                                          blurRadius: 8,
+                                          offset: const Offset(0, 3),
+                                        ),
+                                      ]
+                                    : [],
+                              ),
+                              alignment: Alignment.center,
+                              child: Text(
+                                'In process',
+                                style: TextStyle(
+                                  color: _selectedType == 'In process'
+                                      ? Colors.white
+                                      : Colors.blueGrey.shade900,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 17,
                                 ),

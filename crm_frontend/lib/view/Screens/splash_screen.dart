@@ -1,6 +1,5 @@
 // ignore_for_file: sized_box_for_whitespace
 
-import 'package:crm_frontend/view/Main_screens/tasks_screen.dart';
 import 'package:crm_frontend/view/Screens/home_screen.dart';
 import 'package:crm_frontend/view/Sub_screens/Task_info_screen.dart';
 
@@ -19,9 +18,8 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(const Duration(milliseconds: 1500), () {
-      // Get.to(const HomeScreen());
-      // Get.to(const TaskInfoScreen());
-      Get.to(const TasksScreen());
+      //Get.to(const HomeScreen());
+      Get.to(const TaskInfoScreen());
     });
   }
 
