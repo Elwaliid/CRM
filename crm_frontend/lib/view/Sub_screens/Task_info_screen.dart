@@ -1,5 +1,5 @@
 // ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable, avoid_print
-import 'package:calendar_view/calendar_view.dart';
+import 'package:day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,7 +27,28 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
   /// Dynamic list of additional assignedTo controllers
   final List<TextEditingController> _additionalassignedToControllers = [];
   final TextEditingController _dueDateController = TextEditingController();
+  final TextEditingController _TimeController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
+
+  Future<void> _pickTime() async {
+    showPicker(
+      context: context,
+      value: TimeOfDay.now(),
+      sunrise: TimeOfDay(hour: 6, minute: 0), // optional
+      sunset: TimeOfDay(hour: 18, minute: 0), // optional
+      duskSpanInMinutes: 120,
+      onChange: (Time newTime) {
+        setState(() {
+          final timeOfDay = TimeOfDay(
+            hour: newTime.hour,
+            minute: newTime.minute,
+          );
+          _timeController.text = timeOfDay.format(context);
+        });
+      },
+    );
+  }
+
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _websiteController = TextEditingController();
 
@@ -259,7 +280,12 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                     ),
                     const SizedBox(height: 16),
                     ///////////////////////////////////////////////////////////// Time
-                    _buildTextField(label: 'Time', controller: _timeController),
+                    _buildTextField(
+                      label: 'Time',
+                      controller: _timeController,
+                      readOnly: true,
+                      onTap: _pickTime,
+                    ),
                     const SizedBox(height: 16),
                     ///////////////////////////////////////////////////////////// Address
                     _buildTextField(
