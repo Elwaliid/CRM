@@ -496,8 +496,8 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
+      firstDate: DateTime(2025),
+      lastDate: DateTime(2075),
     );
     if (pickedDate != null) {
       setState(() {
