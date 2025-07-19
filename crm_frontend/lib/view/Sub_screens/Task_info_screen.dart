@@ -27,7 +27,6 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
   /// Dynamic list of additional assignedTo controllers
   final List<TextEditingController> _additionalassignedToControllers = [];
   final TextEditingController _dueDateController = TextEditingController();
-  final TextEditingController _TimeController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
 
   Future<void> _pickTime() async {
