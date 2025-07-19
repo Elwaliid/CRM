@@ -33,9 +33,9 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
   Future<void> _pickTime() async {
     showPicker(
       context: context,
-      value: TimeOfDay.now(),
-      sunrise: TimeOfDay(hour: 6, minute: 0), // optional
-      sunset: TimeOfDay(hour: 18, minute: 0), // optional
+      value: Time(hour: TimeOfDay.now().hour, minute: TimeOfDay.now().minute),
+      sunrise: Time(hour: 6, minute: 0), // optional
+      sunset: Time(hour: 18, minute: 0), // optional
       duskSpanInMinutes: 120,
       onChange: (Time newTime) {
         setState(() {
