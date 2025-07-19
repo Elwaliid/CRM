@@ -498,7 +498,41 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
       initialDate: DateTime.now(),
       firstDate: DateTime(2025),
       lastDate: DateTime(2075),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Colors.blueGrey.shade900, // Header background
+              onPrimary: Colors.white, // Header text color
+              onSurface: Colors.black87, // Body text color
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: const Color.fromARGB(
+                  255,
+                  0,
+                  0,
+                  0,
+                ), // Button text color
+              ),
+            ),
+            dialogBackgroundColor: const Color.fromARGB(
+              255,
+              255,
+              255,
+              255,
+            ), // Background color
+            datePickerTheme: DatePickerThemeData(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
+
     if (pickedDate != null) {
       setState(() {
         _dueDateController.text = "${pickedDate.toLocal()}".split(' ')[0];
