@@ -30,21 +30,29 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
   final TextEditingController _timeController = TextEditingController();
 
   Future<void> _pickTime() async {
-    showPicker(
-      context: context,
-      value: Time(hour: TimeOfDay.now().hour, minute: TimeOfDay.now().minute),
-      sunrise: Time(hour: 6, minute: 0), // optional
-      sunset: Time(hour: 18, minute: 0), // optional
-      duskSpanInMinutes: 120,
-      onChange: (Time newTime) {
-        setState(() {
-          final timeOfDay = TimeOfDay(
-            hour: newTime.hour,
-            minute: newTime.minute,
-          );
-          _timeController.text = timeOfDay.format(context);
-        });
-      },
+    Navigator.of(context).push(
+      showPicker(
+        context: context,
+        value: Time(hour: TimeOfDay.now().hour, minute: TimeOfDay.now().minute),
+        sunrise: Time(hour: 5, minute: 20), // optional
+        sunset: Time(hour: 19, minute: 55), // optional
+        duskSpanInMinutes: 120,
+        onChange: (Time newTime) {
+          setState(() {
+            final timeOfDay = TimeOfDay(
+              hour: newTime.hour,
+              minute: newTime.minute,
+            );
+            _timeController.text = timeOfDay.format(context);
+          });
+        },
+        is24HrFormat: true,
+
+        accentColor: const Color.fromARGB(255, 62, 80, 88),
+
+        okStyle: TextStyle(color: Color.fromARGB(255, 62, 80, 88)),
+        cancelStyle: TextStyle(color: const Color.fromARGB(255, 62, 80, 88)),
+      ),
     );
   }
 
