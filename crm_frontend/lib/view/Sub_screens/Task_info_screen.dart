@@ -153,7 +153,7 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
 
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter First Name';
+                          return 'Please enter a Task Title';
                         }
                         return null;
                       },
@@ -219,25 +219,21 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 8),
+
                     /////////////////////////////////////////////// add to Contacts message and button
                     if (_invalidAssignedName != null)
                       Padding(
                         padding: const EdgeInsets.only(top: 4.0),
                         child: Row(
                           children: [
-                            Expanded(
-                              child: Text(
-                                '$_invalidAssignedName not found in contacts',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.red,
-                                ),
-                              ),
+                            SizedBox(width: 12),
+                            Text(
+                              '"$_invalidAssignedName" not found in contacts.',
+                              style: TextStyle(fontSize: 12, color: Colors.red),
                             ),
 
                             Text(
-                              '.Add "${_invalidAssignedName!}" to your contacts?',
+                              ' Add "${_invalidAssignedName!}" to your contacts?',
                               style: TextStyle(
                                 fontSize: 12,
                                 color: Color.fromARGB(255, 38, 44, 48),
@@ -251,7 +247,7 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                                   _invalidAssignedName = null;
                                   _assignedToController.clear();
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
+                                    const SnackBar(
                                       content: Text(
                                         '✅ Contact added successfully!',
                                       ),
@@ -261,29 +257,33 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                                 });
                               },
 
-                              label: Text(
+                              label: const Text(
                                 'Yes',
                                 style: TextStyle(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w600,
+                                  fontSize: 12, // 🔽 Smaller text
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.blueGrey.shade900,
                                 foregroundColor: Colors.white,
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 4,
-                                  vertical: 1,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                  vertical: 2,
                                 ),
+                                minimumSize: Size(0, 26),
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                visualDensity: VisualDensity.compact,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(3),
                                 ),
-                                elevation: 1,
+                                elevation: 0.5,
                               ),
                             ),
                           ],
                         ),
                       ),
+                    SizedBox(height: 8),
 
                     ///////////////////////////////////////////////////////////// Secondary assignedTo numbers
                     Column(
