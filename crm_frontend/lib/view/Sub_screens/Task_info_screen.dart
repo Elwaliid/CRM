@@ -241,7 +241,12 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                             ),
                             const SizedBox(width: 8),
                             ElevatedButton.icon(
-                              onPressed: () {showDialog(context: context, builder: builder)},
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (_) => const ClientFormDialog(),
+                                );
+                              },
 
                               label: const Text(
                                 'Yes',
@@ -623,5 +628,344 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
         _dueDateController.text = "${pickedDate.toLocal()}".split(' ')[0];
       });
     }
+  }
+}
+
+/////////////////////////////////////////////////// Dialog add contact
+class ClientFormDialog extends StatefulWidget {
+  const ClientFormDialog({super.key});
+
+  @override
+  State<ClientFormDialog> createState() => _ClientFormDialogState();
+}
+
+class _ClientFormDialogState extends State<ClientFormDialog> {
+  final _formKey = GlobalKey<FormState>();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  final _identityController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _secondEmailController = TextEditingController();
+  final _addressController = TextEditingController();
+  final _websiteController = TextEditingController();
+  final _otherInfoController = TextEditingController();
+  final List<TextEditingController> _additionalPhoneControllers = [];
+
+  bool _secondEmailVisible = true;
+  String? _selectedType = 'Client';
+
+  void _saveClient() {
+    if (_formKey.currentState!.validate()) {
+      final allPhones = [
+        _phoneController.text,
+        ..._additionalPhoneControllers.map((c) => c.text),
+      ];
+
+      print('Saving client with phones: $allPhones');
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('✅ Client saved successfully'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+
+      Navigator.pop(context);
+    }
+  }
+
+  void _addPhoneField() {
+    if (_additionalPhoneControllers.length < 9) {
+      setState(() => _additionalPhoneControllers.add(TextEditingController()));
+    }
+  }
+
+  void _removePhoneField(int index) {
+    setState(() {
+      _additionalPhoneControllers[index].dispose();
+      _additionalPhoneControllers.removeAt(index);
+    });
+  }
+
+  Widget _buildTextField({
+    required String label,
+    required TextEditingController controller,
+    TextInputType keyboardType = TextInputType.text,
+    int maxLines = 1,
+    String? Function(String?)? validator,
+    List<TextInputFormatter>? inputFormatters,
+  }) {
+    return TextFormField(
+      controller: controller,
+      keyboardType: keyboardType,
+      maxLines: maxLines,
+      validator: validator,
+      inputFormatters: inputFormatters,
+      style: GoogleFonts.roboto(fontSize: 16, color: Colors.black87),
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: GoogleFonts.poppins(),
+        filled: true,
+        fillColor: Colors.blueGrey[50],
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 14,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTypeButton({
+    required String label,
+    required bool isSelected,
+    required Color selectedColor,
+    required Color unselectedColor,
+    required Color selectedTextColor,
+    required Color unselectedTextColor,
+    required VoidCallback onTap,
+  }) {
+    return Expanded(
+      child: GestureDetector(
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 250),
+          height: 38,
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          decoration: BoxDecoration(
+            color: isSelected ? selectedColor : unselectedColor,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: selectedColor,
+              width: isSelected ? 2.5 : 1,
+            ),
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            label,
+            style: TextStyle(
+              color: isSelected ? selectedTextColor : unselectedTextColor,
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  String _ordinal(int number) {
+    const labels = [
+      'Second',
+      'Third',
+      'Fourth',
+      'Fifth',
+      'Sixth',
+      'Seventh',
+      'Eighth',
+      'Ninth',
+      'Tenth',
+    ];
+    return labels[number];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final primaryColor = Colors.blueGrey.shade900;
+
+    return AlertDialog(
+      scrollable: true,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      contentPadding: const EdgeInsets.all(20),
+      title: Text(
+        'Add New Client',
+        style: GoogleFonts.poppins(fontSize: 24, fontWeight: FontWeight.bold),
+      ),
+      content: Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: _buildTextField(
+                    label: 'First Name',
+                    controller: _firstNameController,
+                    validator: (v) => v!.isEmpty ? 'Enter first name' : null,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: _buildTextField(
+                    label: 'Last Name',
+                    controller: _lastNameController,
+                    validator: (v) => v!.isEmpty ? 'Enter last name' : null,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            _buildTextField(
+              label: 'Identity (Company, Job Title, etc.)',
+              controller: _identityController,
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Expanded(
+                  child: _buildTextField(
+                    label: 'Phone Number',
+                    controller: _phoneController,
+                    keyboardType: TextInputType.phone,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) return 'Enter phone';
+                      final pattern = RegExp(r'^(05|06|07)\d{8}\$');
+                      return pattern.hasMatch(value)
+                          ? null
+                          : 'Invalid phone format';
+                    },
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(10),
+                    ],
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.add_circle),
+                  color: primaryColor,
+                  onPressed: _addPhoneField,
+                ),
+              ],
+            ),
+            Column(
+              children: List.generate(_additionalPhoneControllers.length, (
+                index,
+              ) {
+                return Row(
+                  children: [
+                    Expanded(
+                      child: _buildTextField(
+                        label: '${_ordinal(index)} phone',
+                        controller: _additionalPhoneControllers[index],
+                        keyboardType: TextInputType.phone,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) return 'Required';
+                          final pattern = RegExp(r'^(05|06|07)\d{8}\$');
+                          return pattern.hasMatch(value)
+                              ? null
+                              : 'Invalid format';
+                        },
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(10),
+                        ],
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.remove_circle),
+                      color: Colors.redAccent,
+                      onPressed: () => _removePhoneField(index),
+                    ),
+                  ],
+                );
+              }),
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Expanded(
+                  child: _buildTextField(
+                    label: 'Email',
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (v) =>
+                        v!.contains('@gmail.com') ? null : 'Enter valid email',
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(_secondEmailVisible ? Icons.add : Icons.remove),
+                  color: primaryColor,
+                  onPressed: () => setState(
+                    () => _secondEmailVisible = !_secondEmailVisible,
+                  ),
+                ),
+              ],
+            ),
+            if (!_secondEmailVisible)
+              _buildTextField(
+                label: 'Second Email',
+                controller: _secondEmailController,
+                keyboardType: TextInputType.emailAddress,
+                validator: (v) =>
+                    v!.contains('@gmail.com') ? null : 'Enter valid email',
+              ),
+            const SizedBox(height: 12),
+            _buildTextField(label: 'Address', controller: _addressController),
+            const SizedBox(height: 12),
+            _buildTextField(
+              label: 'Website',
+              controller: _websiteController,
+              keyboardType: TextInputType.url,
+            ),
+            const SizedBox(height: 12),
+            _buildTextField(
+              label: 'Notes',
+              controller: _otherInfoController,
+              maxLines: 4,
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Text(
+                  'Type:',
+                  style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                _buildTypeButton(
+                  label: 'Client',
+                  isSelected: _selectedType == 'Client',
+                  selectedColor: Colors.teal.shade700,
+                  unselectedColor: const Color(0xFFE9FFFB),
+                  selectedTextColor: Colors.white,
+                  unselectedTextColor: const Color(0xFF029483),
+                  onTap: () => setState(() => _selectedType = 'Client'),
+                ),
+                const SizedBox(width: 6),
+                _buildTypeButton(
+                  label: 'Lead',
+                  isSelected: _selectedType == 'Lead',
+                  selectedColor: Colors.deepOrange.shade400,
+                  unselectedColor: const Color(0xFFFFD5C9),
+                  selectedTextColor: Colors.white,
+                  unselectedTextColor: const Color(0xFFAA5F48),
+                  onTap: () => setState(() => _selectedType = 'Lead'),
+                ),
+              ],
+            ),
+            const SizedBox(height: 18),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: _saveClient,
+                icon: const Icon(Icons.save),
+                label: const Text('Save Client'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: primaryColor,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
