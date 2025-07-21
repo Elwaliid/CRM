@@ -241,21 +241,7 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                             ),
                             const SizedBox(width: 8),
                             ElevatedButton.icon(
-                              onPressed: () {
-                                setState(() {
-                                  Contacts.add(_invalidAssignedName!);
-                                  _invalidAssignedName = null;
-                                  _assignedToController.clear();
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        '✅ Contact added successfully!',
-                                      ),
-                                      behavior: SnackBarBehavior.floating,
-                                    ),
-                                  );
-                                });
-                              },
+                              onPressed: () {showDialog(context: context, builder: builder)},
 
                               label: const Text(
                                 'Yes',

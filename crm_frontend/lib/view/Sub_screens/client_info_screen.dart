@@ -394,6 +394,7 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
                       maxLines: 4,
                     ),
                     const SizedBox(height: 28),
+                   IconButton(onPressed: showDialog(context: context, builder), icon: Icons.add,)
                     ////////////////////////////////////////////////////////////////////////////////////////////// Type Section
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
