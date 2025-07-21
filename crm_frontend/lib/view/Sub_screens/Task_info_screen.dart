@@ -15,8 +15,9 @@ class TaskInfoScreen extends StatefulWidget {
 class _TaskInfoScreenState extends State<TaskInfoScreen> {
   /// Form key to validate form fields
   final _formKey = GlobalKey<FormState>();
-
+  String? _invalidAssignedName;
   String? _selectedType = 'Pending';
+  /////////////////////////////////////////////////////////////Contacts
   List Contacts = ['faisal mouh', 'khalil kaba', 'lisa luisa', 'bounar l7agar'];
   /////////////////////////////////////////////////////////////////////////////////// Controllers for all input fields
   final TextEditingController _taskNameController = TextEditingController();
@@ -63,24 +64,16 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
   void _saveClient() {
     if (_formKey.currentState!.validate()) {
       // 👇 Gather all assignedTo numbers into a list
-      final allassignedTos = [
-        _assignedToController.text,
-        ..._additionalassignedToControllers.map((c) => c.text),
-      ];
 
       // 🧭 Example: print or send this to backend
-      print('✅ Saving client with assignedTos: $allassignedTos');
 
       // Show confirmation to user
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('✅ Client/Lead saved successfully'),
+          content: Text('✅ Updates saved successfully'),
           behavior: SnackBarBehavior.floating,
         ),
       );
-
-      // Close screen
-      Navigator.pop(context);
     }
   }
 
@@ -178,9 +171,18 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
 
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter a valid name';
+                                return 'Please enter a name';
                               }
-
+                              if (!Contacts.contains(value)) {
+                                setState(() {
+                                  _invalidAssignedName =
+                                      value; // Save name for "Add" button
+                                });
+                                return '${_invalidAssignedName} not found in contacts';
+                              }
+                              setState(() {
+                                _invalidAssignedName = null;
+                              });
                               return null;
                             },
                           ),
