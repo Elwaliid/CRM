@@ -173,21 +173,20 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter a name';
                               }
+                              // Validation only, do not call setState here
                               if (!Contacts.contains(value)) {
                                 setState(() {
-                                  _invalidAssignedName =
-                                      value; // Save name for "Add" button
+                                  _invalidAssignedName = value;
                                 });
-                                return '${_invalidAssignedName} not found in contacts';
+                                // Return null to avoid default error text display
+                                return null;
                               }
-                              setState(() {
-                                _invalidAssignedName = null;
-                              });
                               return null;
                             },
                           ),
                         ),
                         const SizedBox(width: 8),
+
                         //////////////////////////////////// add icon button of assignedTo number
                         Container(
                           decoration: BoxDecoration(
@@ -221,6 +220,71 @@ class _TaskInfoScreenState extends State<TaskInfoScreen> {
                       ],
                     ),
                     SizedBox(height: 8),
+                    /////////////////////////////////////////////// add to Contacts message and button
+                    if (_invalidAssignedName != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 4.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                '$_invalidAssignedName not found in contacts',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ),
+
+                            Text(
+                              '.Add "${_invalidAssignedName!}" to your contacts?',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Color.fromARGB(255, 38, 44, 48),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                setState(() {
+                                  Contacts.add(_invalidAssignedName!);
+                                  _invalidAssignedName = null;
+                                  _assignedToController.clear();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        '✅ Contact added successfully!',
+                                      ),
+                                      behavior: SnackBarBehavior.floating,
+                                    ),
+                                  );
+                                });
+                              },
+
+                              label: Text(
+                                'Yes',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blueGrey.shade900,
+                                foregroundColor: Colors.white,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 4,
+                                  vertical: 1,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(3),
+                                ),
+                                elevation: 1,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
                     ///////////////////////////////////////////////////////////// Secondary assignedTo numbers
                     Column(
                       children: List.generate(
