@@ -1,4 +1,6 @@
 // ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable, avoid_print
+import 'package:crm_frontend/view/Widgets/Type_buttons.dart';
+import 'package:crm_frontend/view/Widgets/date_time_picker.dart';
 import 'package:crm_frontend/view/Widgets/quick_adds.dart';
 import 'package:crm_frontend/view/Widgets/wiloutextfield.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart';
@@ -34,30 +36,25 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   final TextEditingController _websiteController = TextEditingController();
   /////////////////////////////////////////////// Dynamic time picker
   Future<void> _pickTime() async {
-    Navigator.of(context).push(
-      showPicker(
-        context: context,
-        value: Time(hour: TimeOfDay.now().hour, minute: TimeOfDay.now().minute),
-        sunrise: Time(hour: 5, minute: 20), // optional
-        sunset: Time(hour: 19, minute: 55), // optional
-        duskSpanInMinutes: 120,
-        onChange: (Time newTime) {
-          setState(() {
-            final timeOfDay = TimeOfDay(
-              hour: newTime.hour,
-              minute: newTime.minute,
-            );
-            _timeController.text = timeOfDay.format(context);
-          });
-        },
-        is24HrFormat: true,
-
-        accentColor: const Color.fromARGB(255, 62, 80, 88),
-
-        okStyle: TextStyle(color: Colors.blueGrey.shade900),
-        cancelStyle: TextStyle(color: Colors.blueGrey.shade900),
-      ),
+    await TimePickerHelper.pickCustomTime(
+      context: context,
+      controller: _timeController,
+      onTimeSelected: (time) {
+        print("Time picked: ${time.format(context)}");
+      },
     );
+  }
+
+  ////////////////////// select Date
+  Future<void> _selectDate() async {
+    final pickedDate = await DatePickerHelper.showCustomDatePicker(
+      context: context,
+    );
+    if (pickedDate != null) {
+      setState(() {
+        _dueDateController.text = pickedDate.toIso8601String().split('T').first;
+      });
+    }
   }
 
   /// Save button logic
@@ -481,7 +478,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              _buildStatusButton(
+                              TypeButton(
                                 label: 'Completed',
                                 isSelected: _selectedType == 'Completed',
                                 selectedColor: Colors.teal.shade700,
@@ -491,7 +488,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                                 onTap: () =>
                                     setState(() => _selectedType = 'Completed'),
                               ),
-                              _buildStatusButton(
+                              TypeButton(
                                 label: 'Pending',
                                 isSelected: _selectedType == 'Pending',
                                 selectedColor: Colors.deepOrange.shade400,
@@ -501,7 +498,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                                 onTap: () =>
                                     setState(() => _selectedType = 'Pending'),
                               ),
-                              _buildStatusButton(
+                              TypeButton(
                                 label: 'In process',
                                 isSelected: _selectedType == 'In process',
                                 selectedColor: Colors.blueGrey.shade900,
@@ -569,102 +566,5 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
       'Tenth',
     ];
     return labels[number];
-  }
-
-  ///////////////////////////////////////////// Status button
-  Widget _buildStatusButton({
-    required String label,
-    required bool isSelected,
-    required Color selectedColor,
-    required Color unselectedColor,
-    required Color selectedTextColor,
-    required Color unselectedTextColor,
-    required VoidCallback onTap,
-  }) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 250),
-          height: 42,
-          margin: const EdgeInsets.symmetric(horizontal: 4),
-          decoration: BoxDecoration(
-            color: isSelected ? selectedColor : unselectedColor,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: selectedColor,
-              width: isSelected ? 2.5 : 1,
-            ),
-            boxShadow: isSelected
-                ? [
-                    BoxShadow(
-                      color: selectedColor.withOpacity(0.25),
-                      blurRadius: 7,
-                      offset: const Offset(0, 4),
-                    ),
-                  ]
-                : [],
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            label,
-            style: TextStyle(
-              color: isSelected ? selectedTextColor : unselectedTextColor,
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  /////////////////////////////////// date picker
-  Future<void> _selectDate() async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2025),
-      lastDate: DateTime(2075),
-      builder: (BuildContext context, Widget? child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.light(
-              primary: Colors.blueGrey.shade900, // Header background
-              onPrimary: Colors.white, // Header text color
-              onSurface: Colors.black87, // Body text color
-            ),
-            textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                foregroundColor: const Color.fromARGB(
-                  255,
-                  0,
-                  0,
-                  0,
-                ), // Button text color
-              ),
-            ),
-            dialogBackgroundColor: const Color.fromARGB(
-              255,
-              255,
-              255,
-              255,
-            ), // Background color
-            datePickerTheme: DatePickerThemeData(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
-
-    if (pickedDate != null) {
-      setState(() {
-        _dueDateController.text = "${pickedDate.toLocal()}".split(' ')[0];
-      });
-    }
   }
 }
