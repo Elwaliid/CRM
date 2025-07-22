@@ -1,5 +1,6 @@
 // ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable, avoid_print
 
+import 'package:crm_frontend/view/Widgets/wiloutextfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -130,7 +131,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
                     Row(
                       children: [
                         Expanded(
-                          child: _buildTextField(
+                          child: WilouTextField(
                             label: 'First Name',
                             controller: _firstNameController,
 
@@ -144,7 +145,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
                         ),
                         const SizedBox(width: 16),
                         Expanded(
-                          child: _buildTextField(
+                          child: WilouTextField(
                             label: 'Last Name',
                             controller: _lastNameController,
 
@@ -161,7 +162,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
                     const SizedBox(height: 16),
 
                     ///////////////////////////////////////////////////////////// Identity (Company, Job Title, etc.)
-                    _buildTextField(
+                    WilouTextField(
                       label: 'Identity (Company, Job Title, etc.)',
                       controller: _identityController,
                     ),
@@ -172,7 +173,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
-                          child: _buildTextField(
+                          child: WilouTextField(
                             label: 'Phone Number',
                             controller: _phoneController,
                             keyboardType: TextInputType.phone,
@@ -241,7 +242,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
                             child: Row(
                               children: [
                                 Expanded(
-                                  child: _buildTextField(
+                                  child: WilouTextField(
                                     label: label,
                                     controller:
                                         _additionalPhoneControllers[index],
@@ -305,7 +306,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
-                          child: _buildTextField(
+                          child: WilouTextField(
                             label: 'Email',
                             controller: _emailController,
                             keyboardType: TextInputType.emailAddress,
@@ -354,7 +355,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
                     const SizedBox(height: 16),
                     ///////////////////////////////////////////////////////////// Second email
                     if (!_secondemail) ...[
-                      _buildTextField(
+                      WilouTextField(
                         label: 'Second Email',
                         controller: _secondEmailController,
                         keyboardType: TextInputType.emailAddress,
@@ -373,14 +374,14 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
                     ],
 
                     ///////////////////////////////////////////////////////////// Address
-                    _buildTextField(
+                    WilouTextField(
                       label: 'Address',
                       controller: _addressController,
                     ),
                     const SizedBox(height: 16),
 
                     //////////////////////////////////////////////////////////////// Website
-                    _buildTextField(
+                    WilouTextField(
                       label: 'Website',
                       controller: _websiteController,
                       keyboardType: TextInputType.url,
@@ -388,7 +389,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
                     const SizedBox(height: 16),
 
                     ///////////////////////////////////////////////////////////// Notes / Other Info / Description
-                    _buildTextField(
+                    WilouTextField(
                       label: 'Notes',
                       controller: _otherInfoController,
                       maxLines: 4,
@@ -473,51 +474,6 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
                 ),
               ),
             ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  ///////////////////////////////////////////////////////////// TextFields widget
-
-  Widget _buildTextField({
-    required String label,
-    required TextEditingController controller,
-    Color? textColor = const Color.fromARGB(255, 38, 44, 48),
-    TextInputType keyboardType = TextInputType.text,
-    int maxLines = 1,
-    String? Function(String?)? validator,
-    List<TextInputFormatter>? inputFormatters,
-  }) {
-    return TextFormField(
-      controller: controller,
-      keyboardType: keyboardType,
-      maxLines: maxLines,
-      validator: validator,
-      inputFormatters: inputFormatters,
-      style: GoogleFonts.roboto(fontSize: 16, color: textColor),
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: GoogleFonts.poppins(
-          color: textColor?.withOpacity(0.85),
-          fontWeight: FontWeight.w500,
-        ),
-        filled: true,
-        fillColor: Colors.blueGrey[50],
-        contentPadding: const EdgeInsets.symmetric(
-          vertical: 14,
-          horizontal: 20,
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.blueGrey.shade200, width: 1.5),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: const Color.fromARGB(255, 41, 49, 53),
-            width: 2.0,
           ),
         ),
       ),
