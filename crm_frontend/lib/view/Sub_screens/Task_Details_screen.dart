@@ -802,7 +802,10 @@ class _ClientDetailsFormContentState extends State<ClientDetailsFormContent> {
     final primaryColor = Colors.blueGrey.shade900;
 
     return Container(
-      color: Colors.white,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20),
