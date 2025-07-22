@@ -702,6 +702,7 @@ class _ClientDetailsFormContentState extends State<ClientDetailsFormContent> {
   Widget _buildTextField({
     required String label,
     required TextEditingController controller,
+    Color? textColor = const Color.fromARGB(255, 38, 44, 48),
     TextInputType keyboardType = TextInputType.text,
     int maxLines = 1,
     String? Function(String?)? validator,
@@ -713,16 +714,29 @@ class _ClientDetailsFormContentState extends State<ClientDetailsFormContent> {
       maxLines: maxLines,
       validator: validator,
       inputFormatters: inputFormatters,
-      style: GoogleFonts.roboto(fontSize: 16, color: Colors.black87),
+      style: GoogleFonts.roboto(fontSize: 16, color: textColor),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: GoogleFonts.poppins(),
+        labelStyle: GoogleFonts.poppins(
+          color: textColor?.withOpacity(0.85),
+          fontWeight: FontWeight.w500,
+        ),
         filled: true,
         fillColor: Colors.blueGrey[50],
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
         contentPadding: const EdgeInsets.symmetric(
-          horizontal: 20,
           vertical: 14,
+          horizontal: 20,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.blueGrey.shade200, width: 1.5),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(
+            color: const Color.fromARGB(255, 41, 49, 53),
+            width: 2.0,
+          ),
         ),
       ),
     );
@@ -787,226 +801,287 @@ class _ClientDetailsFormContentState extends State<ClientDetailsFormContent> {
   Widget build(BuildContext context) {
     final primaryColor = Colors.blueGrey.shade900;
 
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  //////////////////////// First Name
-                  Expanded(
-                    child: _buildTextField(
-                      label: 'First Name',
-                      controller: _firstNameController,
-                      validator: (v) => v!.isEmpty ? 'Enter first name' : null,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  //////////////////////// Last Name
-                  Expanded(
-                    child: _buildTextField(
-                      label: 'Last Name',
-                      controller: _lastNameController,
-                      validator: (v) => v!.isEmpty ? 'Enter last name' : null,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              //////////////////////// Identity
-              _buildTextField(
-                label: 'Identity (Company, Job Title, etc.)',
-                controller: _identityController,
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  //////////////////////////// Primary Phone Number
-                  Expanded(
-                    child: _buildTextField(
-                      label: 'Phone Number',
-                      controller: _phoneController,
-                      keyboardType: TextInputType.phone,
-                      validator: (value) {
-                        if (value == null || value.isEmpty)
-                          return 'Enter phone';
-                        final pattern = RegExp(r'^(05|06|07)\d{8}\$');
-                        return pattern.hasMatch(value)
-                            ? null
-                            : 'Invalid phone format';
-                      },
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                        LengthLimitingTextInputFormatter(10),
-                      ],
-                    ),
-                  ),
-                  //////////////////////////////////////////////////////////////// Add Phone Button
-                  Container(
-                    decoration: BoxDecoration(
-                      color: _additionalPhoneControllers.length < 9
-                          ? primaryColor
-                          : Colors.grey.shade400,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 4,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: IconButton(
-                      onPressed: _additionalPhoneControllers.length < 9
-                          ? _addPhoneField
-                          : null,
-                      icon: Icon(Icons.add, color: Colors.white, size: 20),
-                      padding: EdgeInsets.zero,
-                      constraints: BoxConstraints(),
-                      splashRadius: 20,
-                    ),
-                  ),
-                ],
-              ),
-              ////////////////////////////////////////////////// Secondary Phone Numbers
-              Column(
-                children: List.generate(_additionalPhoneControllers.length, (
-                  index,
-                ) {
-                  return Row(
-                    children: [
-                      Expanded(
-                        child: _buildTextField(
-                          label: '${_ordinal(index)} phone',
-                          controller: _additionalPhoneControllers[index],
-                          keyboardType: TextInputType.phone,
-                          validator: (value) {
-                            if (value == null || value.isEmpty)
-                              return 'Required';
-                            final pattern = RegExp(r'^(05|06|07)\d{8}\$');
-                            return pattern.hasMatch(value)
-                                ? null
-                                : 'Invalid format';
-                          },
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            LengthLimitingTextInputFormatter(10),
-                          ],
-                        ),
+    return Container(
+      color: Colors.white,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    //////////////////////// First Name
+                    Expanded(
+                      child: _buildTextField(
+                        label: 'First Name',
+                        controller: _firstNameController,
+                        validator: (v) =>
+                            v!.isEmpty ? 'Enter first name' : null,
                       ),
-                      /////////////////////////// remove button
-                      IconButton(
-                        icon: const Icon(Icons.remove_circle),
-                        color: primaryColor,
-                        onPressed: () => _removePhoneField(index),
+                    ),
+                    const SizedBox(width: 12),
+                    //////////////////////// Last Name
+                    Expanded(
+                      child: _buildTextField(
+                        label: 'Last Name',
+                        controller: _lastNameController,
+                        validator: (v) => v!.isEmpty ? 'Enter last name' : null,
                       ),
-                    ],
-                  );
-                }),
-              ),
-              const SizedBox(height: 12),
-              Row(
-                children: [
-                  ////////////////////////////////// Email
-                  Expanded(
-                    child: _buildTextField(
-                      label: 'Email',
-                      controller: _emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (v) => v!.contains('@gmail.com')
-                          ? null
-                          : 'Enter valid email',
                     ),
-                  ),
-                  /////////////////////////////////// add EMAIL button
-                  IconButton(
-                    icon: Icon(
-                      _secondEmailVisible ? Icons.add : Icons.remove_circle,
-                      color: primaryColor,
-                    ),
-                    color: primaryColor,
-                    onPressed: () => setState(
-                      () => _secondEmailVisible = !_secondEmailVisible,
-                    ),
-                  ),
-                ],
-              ),
-              if (!_secondEmailVisible)
+                  ],
+                ),
+                const SizedBox(height: 12),
+                //////////////////////// Identity
                 _buildTextField(
-                  label: 'Second Email',
-                  controller: _secondEmailController,
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (v) =>
-                      v!.contains('@gmail.com') ? null : 'Enter valid email',
+                  label: 'Identity (Company, Job Title, etc.)',
+                  controller: _identityController,
                 ),
-              const SizedBox(height: 16),
-              _buildTextField(label: 'Address', controller: _addressController),
-              const SizedBox(height: 16),
-              _buildTextField(
-                label: 'Website',
-                controller: _websiteController,
-                keyboardType: TextInputType.url,
-              ),
-              const SizedBox(height: 16),
-              _buildTextField(
-                label: 'Notes',
-                controller: _otherInfoController,
-                maxLines: 4,
-              ),
-              const SizedBox(height: 28),
-              Row(
-                children: [
-                  Text(
-                    'Type:',
-                    style: GoogleFonts.poppins(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    //////////////////////////// Primary Phone Number
+                    Expanded(
+                      child: _buildTextField(
+                        label: 'Phone Number',
+                        controller: _phoneController,
+                        keyboardType: TextInputType.phone,
+                        validator: (value) {
+                          if (value == null || value.isEmpty)
+                            return 'Enter phone';
+                          final pattern = RegExp(r'^(05|06|07)\d{8}\$');
+                          return pattern.hasMatch(value)
+                              ? null
+                              : 'Invalid phone format';
+                        },
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(10),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    //////////////////////////////////////////////////////////////// Add Phone Button
+                    Container(
+                      decoration: BoxDecoration(
+                        color: _additionalPhoneControllers.length < 9
+                            ? primaryColor
+                            : Colors.grey.shade400,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 4,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: IconButton(
+                        onPressed: _additionalPhoneControllers.length < 9
+                            ? _addPhoneField
+                            : null,
+                        icon: Icon(Icons.add, color: Colors.white, size: 20),
+                        padding: EdgeInsets.zero,
+                        constraints: BoxConstraints(),
+                        splashRadius: 20,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 8),
+                ////////////////////////////////////////////////// Secondary Phone Numbers
+                Column(
+                  children: List.generate(_additionalPhoneControllers.length, (
+                    index,
+                  ) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 12.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: _buildTextField(
+                              label: '${_ordinal(index)} phone',
+                              controller: _additionalPhoneControllers[index],
+                              keyboardType: TextInputType.phone,
+                              validator: (value) {
+                                if (value == null || value.isEmpty)
+                                  return 'Required';
+                                final pattern = RegExp(r'^(05|06|07)\d{8}\$');
+                                return pattern.hasMatch(value)
+                                    ? null
+                                    : 'Invalid format';
+                              },
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                LengthLimitingTextInputFormatter(10),
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: 8),
+                          /////////////////////// Delete button
+                          Container(
+                            decoration: BoxDecoration(
+                              color: primaryColor,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 4,
+                                  offset: Offset(0, 2),
+                                ),
+                              ],
+                            ),
+
+                            child: IconButton(
+                              onPressed: () => _removePhoneField(index),
+                              icon: Icon(
+                                Icons.close,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                              padding: EdgeInsets.zero,
+                              constraints: BoxConstraints(),
+                              splashRadius: 20,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    ////////////////////////////////// Email
+                    Expanded(
+                      child: _buildTextField(
+                        label: 'Email',
+                        controller: _emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (v) => v!.contains('@gmail.com')
+                            ? null
+                            : 'Enter valid email',
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    /////////////////////////////////// add EMAIL button
+                    Container(
+                      decoration: BoxDecoration(
+                        color: primaryColor,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 4,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _secondEmailVisible = !_secondEmailVisible;
+                          });
+                        },
+                        icon: Icon(
+                          _secondEmailVisible ? Icons.add : Icons.remove,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                        padding: EdgeInsets.zero,
+                        constraints: BoxConstraints(),
+                        splashRadius: 20,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 8),
+                ///////////////////////////////////////////////////////////// Second Email
+                if (!_secondEmailVisible)
+                  _buildTextField(
+                    label: 'Second Email',
+                    controller: _secondEmailController,
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (v) =>
+                        v!.contains('@gmail.com') ? null : 'Enter valid email',
+                  ),
+                const SizedBox(height: 16),
+                ///////////////////////////////////////////////////////////// Address
+                _buildTextField(
+                  label: 'Address',
+                  controller: _addressController,
+                ),
+                const SizedBox(height: 16),
+                ///////////////////////////////////////////////////////////// Website
+                _buildTextField(
+                  label: 'Website',
+                  controller: _websiteController,
+                  keyboardType: TextInputType.url,
+                ),
+                const SizedBox(height: 16),
+                ///////////////////////////////////////////////////////////// Notes
+                _buildTextField(
+                  label: 'Notes',
+                  controller: _otherInfoController,
+                  maxLines: 4,
+                ),
+                const SizedBox(height: 28),
+                ////////////////////////////////////////////////////////////////////////////////////////////// Type Section
+                Row(
+                  children: [
+                    Text(
+                      'Type:',
+                      style: GoogleFonts.poppins(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    ////////////////////////////// CLient
+                    _buildTypeButton(
+                      label: 'Client',
+                      isSelected: _selectedType == 'Client',
+                      selectedColor: Colors.teal.shade700,
+                      unselectedColor: const Color(0xFFE9FFFB),
+                      selectedTextColor: Colors.white,
+                      unselectedTextColor: const Color(0xFF029483),
+                      onTap: () => setState(() => _selectedType = 'Client'),
+                    ),
+                    const SizedBox(width: 6),
+                    ///////////////////////////////////// Lead
+                    _buildTypeButton(
+                      label: 'Lead',
+                      isSelected: _selectedType == 'Lead',
+                      selectedColor: Colors.deepOrange.shade400,
+                      unselectedColor: const Color(0xFFFFD5C9),
+                      selectedTextColor: Colors.white,
+                      unselectedTextColor: const Color(0xFFAA5F48),
+                      onTap: () => setState(() => _selectedType = 'Lead'),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 18),
+                //////////////////////////////////////////////////////////////////////////////////////////////// Save Button
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: _saveClient,
+                    icon: const Icon(Icons.save),
+                    label: const Text('Save Client'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: primaryColor,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 6,
                     ),
                   ),
-                  const SizedBox(width: 8),
-                  _buildTypeButton(
-                    label: 'Client',
-                    isSelected: _selectedType == 'Client',
-                    selectedColor: Colors.teal.shade700,
-                    unselectedColor: const Color(0xFFE9FFFB),
-                    selectedTextColor: Colors.white,
-                    unselectedTextColor: const Color(0xFF029483),
-                    onTap: () => setState(() => _selectedType = 'Client'),
-                  ),
-                  const SizedBox(width: 6),
-                  _buildTypeButton(
-                    label: 'Lead',
-                    isSelected: _selectedType == 'Lead',
-                    selectedColor: Colors.deepOrange.shade400,
-                    unselectedColor: const Color(0xFFFFD5C9),
-                    selectedTextColor: Colors.white,
-                    unselectedTextColor: const Color(0xFFAA5F48),
-                    onTap: () => setState(() => _selectedType = 'Lead'),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 18),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: _saveClient,
-                  icon: const Icon(Icons.save),
-                  label: const Text('Save Client'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: primaryColor,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    elevation: 6,
-                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
