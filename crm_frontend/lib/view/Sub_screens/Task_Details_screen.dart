@@ -32,6 +32,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   final TextEditingController _dueDateController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
 
+  /////////////////////////////////////////////// Dynamic time picker
   Future<void> _pickTime() async {
     Navigator.of(context).push(
       showPicker(
@@ -53,8 +54,8 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
 
         accentColor: const Color.fromARGB(255, 62, 80, 88),
 
-        okStyle: TextStyle(color: Color.fromARGB(255, 62, 80, 88)),
-        cancelStyle: TextStyle(color: const Color.fromARGB(255, 62, 80, 88)),
+        okStyle: TextStyle(color: Colors.blueGrey.shade900),
+        cancelStyle: TextStyle(color: Colors.blueGrey.shade900),
       ),
     );
   }
@@ -222,7 +223,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                       ],
                     ),
 
-                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// add to Contacts message and button
+                    ///////////////////////////////////////////////////////// add to Contacts message and button
                     if (_invalidAssignedName != null)
                       Padding(
                         padding: const EdgeInsets.only(top: 4.0),
@@ -355,11 +356,11 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                         },
                       ),
                     ),
-                    /////////////////////////////// ///////////////////////// ////////////////////////
+                    ///////////// ///////////// ////////// Secondary assignedTo add to Contacts message and button
                     Column(
                       children: _invalidAssignedToNames.map((name) {
                         return Padding(
-                          padding: const EdgeInsets.only(top: 1.0),
+                          padding: const EdgeInsets.only(top: .0),
                           child: Row(
                             children: [
                               const SizedBox(width: 12),
@@ -891,6 +892,27 @@ class _ClientDetailsFormContentState extends State<ClientDetailsFormContent> {
             key: _formKey,
             child: Column(
               children: [
+                //////////////////////////////// Quick Add title
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Center(
+                    child: Text(
+                      'Quick Add',
+                      style: GoogleFonts.poppins(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: primaryColor,
+                        shadows: [
+                          Shadow(
+                            blurRadius: 8,
+                            color: Colors.black12,
+                            offset: Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
                 Row(
                   children: [
                     //////////////////////// First Name
@@ -1153,6 +1175,536 @@ class _ClientDetailsFormContentState extends State<ClientDetailsFormContent> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: primaryColor,
                       foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 6,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+////////////////////////////////////////////////////// /////////////////// /////////// /////////// /////////// /////// / / / / / / / / / / / / / / / / /
+
+class TaskDetailsFormContent extends StatefulWidget {
+  const TaskDetailsFormContent({super.key});
+
+  @override
+  State<TaskDetailsFormContent> createState() => _TaskDetailsFormContentState();
+}
+
+class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
+  final _formKey = GlobalKey<FormState>();
+  final _taskNameController = TextEditingController();
+  final _taskDescriptionController = TextEditingController();
+  final _assignedToController = TextEditingController();
+  final List<TextEditingController> _additionalAssignedToControllers = [];
+  final _dueDateController = TextEditingController();
+  final _timeController = TextEditingController();
+  final _addressController = TextEditingController();
+  final _websiteController = TextEditingController();
+
+  String? _selectedStatus = 'Pending';
+  List<String> contacts = [
+    'faisal mouh',
+    'khalil kaba',
+    'lisa luisa',
+    'bounar l7agar',
+  ];
+  List<String?> _invalidAssignedNames = [];
+
+  void _saveTask() {
+    if (_formKey.currentState!.validate()) {
+      // Gather all assigned names
+      final allAssignedTo = [
+        _assignedToController.text,
+        ..._additionalAssignedToControllers.map((c) => c.text),
+      ];
+
+      print('Saving task with assigned to: $allAssignedTo');
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('✅ Task saved successfully'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+
+      Navigator.pop(context);
+    }
+  }
+
+  void _addAssignedToField() {
+    if (_additionalAssignedToControllers.length < 9) {
+      setState(
+        () => _additionalAssignedToControllers.add(TextEditingController()),
+      );
+    }
+  }
+
+  void _removeAssignedToField(int index) {
+    setState(() {
+      _additionalAssignedToControllers[index].dispose();
+      _additionalAssignedToControllers.removeAt(index);
+    });
+  }
+
+  Future<void> _pickTime() async {
+    Navigator.of(context).push(
+      showTimePicker(context: context, initialTime: TimeOfDay.now()).then((
+            time,
+          ) {
+            if (time != null) {
+              setState(() {
+                _timeController.text = time.format(context);
+              });
+            }
+          })
+          as Route<Object?>,
+    );
+  }
+
+  Future<void> _selectDate() async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2100),
+    );
+
+    if (pickedDate != null) {
+      setState(() {
+        _dueDateController.text = "${pickedDate.toLocal()}".split(' ')[0];
+      });
+    }
+  }
+
+  Widget _buildTextField({
+    required String label,
+    required TextEditingController controller,
+    Color? textColor = const Color.fromARGB(255, 38, 44, 48),
+    TextInputType keyboardType = TextInputType.text,
+    int maxLines = 1,
+    String? Function(String?)? validator,
+    List<TextInputFormatter>? inputFormatters,
+    VoidCallback? onTap,
+    bool readOnly = false,
+  }) {
+    return TextFormField(
+      controller: controller,
+      keyboardType: keyboardType,
+      maxLines: maxLines,
+      validator: validator,
+      inputFormatters: inputFormatters,
+      readOnly: readOnly,
+      onTap: onTap,
+      style: GoogleFonts.roboto(fontSize: 16, color: textColor),
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: GoogleFonts.poppins(
+          color: textColor?.withOpacity(0.85),
+          fontWeight: FontWeight.w500,
+        ),
+        filled: true,
+        fillColor: Colors.blueGrey[50],
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 14,
+          horizontal: 20,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.blueGrey.shade200, width: 1.5),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(
+            color: const Color.fromARGB(255, 41, 49, 53),
+            width: 2.0,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStatusButton({
+    required String label,
+    required bool isSelected,
+    required Color selectedColor,
+    required Color unselectedColor,
+    required Color selectedTextColor,
+    required Color unselectedTextColor,
+    required VoidCallback onTap,
+  }) {
+    return Expanded(
+      child: GestureDetector(
+        onTap: onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 250),
+          height: 38,
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          decoration: BoxDecoration(
+            color: isSelected ? selectedColor : unselectedColor,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: selectedColor,
+              width: isSelected ? 2.5 : 1,
+            ),
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            label,
+            style: TextStyle(
+              color: isSelected ? selectedTextColor : unselectedTextColor,
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  String _ordinal(int number) {
+    const labels = [
+      'Second',
+      'Third',
+      'Fourth',
+      'Fifth',
+      'Sixth',
+      'Seventh',
+      'Eighth',
+      'Ninth',
+      'Tenth',
+    ];
+    return labels[number];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final primaryColor = Colors.blueGrey.shade900;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                // Title
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Center(
+                    child: Text(
+                      'Add New Task',
+                      style: GoogleFonts.poppins(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: primaryColor,
+                        shadows: [
+                          Shadow(
+                            blurRadius: 8,
+                            color: Colors.black12,
+                            offset: Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
+                // Task Name
+                _buildTextField(
+                  label: 'Task Name',
+                  controller: _taskNameController,
+                  validator: (v) => v!.isEmpty ? 'Enter task name' : null,
+                ),
+                const SizedBox(height: 12),
+
+                // Assigned To
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildTextField(
+                        label: 'Assigned To',
+                        controller: _assignedToController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a name';
+                          }
+                          if (!contacts.contains(value)) {
+                            if (!_invalidAssignedNames.contains(value)) {
+                              setState(() {
+                                _invalidAssignedNames.add(value);
+                              });
+                            }
+                            return null;
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    // Add Assigned To button
+                    Container(
+                      decoration: BoxDecoration(
+                        color: _additionalAssignedToControllers.length < 9
+                            ? primaryColor
+                            : Colors.grey.shade400,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 4,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: IconButton(
+                        onPressed: _additionalAssignedToControllers.length < 9
+                            ? _addAssignedToField
+                            : null,
+                        icon: Icon(Icons.add, color: Colors.white, size: 20),
+                        padding: EdgeInsets.zero,
+                        constraints: BoxConstraints(),
+                        splashRadius: 20,
+                      ),
+                    ),
+                  ],
+                ),
+
+                // Invalid assigned names messages
+                if (_invalidAssignedNames.isNotEmpty)
+                  Column(
+                    children: _invalidAssignedNames.map((name) {
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 4.0),
+                        child: Row(
+                          children: [
+                            const SizedBox(width: 12),
+                            Text(
+                              '"$name" not found in contacts.',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Colors.red,
+                              ),
+                            ),
+                            Text(
+                              ' Add "$name" to contacts?',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Color(0xFF262C30),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                // You can implement adding to contacts here
+                              },
+                              label: const Text(
+                                'Yes',
+                                style: TextStyle(fontSize: 12),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: primaryColor,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                  vertical: 2,
+                                ),
+                                minimumSize: const Size(0, 26),
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(3),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                const SizedBox(height: 8),
+
+                // Additional Assigned To fields
+                Column(
+                  children: List.generate(
+                    _additionalAssignedToControllers.length,
+                    (index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 12.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: _buildTextField(
+                                label: '${_ordinal(index)} Assigned To',
+                                controller:
+                                    _additionalAssignedToControllers[index],
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter a name';
+                                  }
+                                  if (!contacts.contains(value)) {
+                                    if (!_invalidAssignedNames.contains(
+                                      value,
+                                    )) {
+                                      setState(() {
+                                        _invalidAssignedNames.add(value);
+                                      });
+                                    }
+                                    return null;
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            // Remove button
+                            Container(
+                              decoration: BoxDecoration(
+                                color: primaryColor,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    blurRadius: 4,
+                                    offset: Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: IconButton(
+                                onPressed: () => _removeAssignedToField(index),
+                                icon: Icon(
+                                  Icons.close,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                                padding: EdgeInsets.zero,
+                                constraints: BoxConstraints(),
+                                splashRadius: 20,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+
+                // Due Date
+                _buildTextField(
+                  label: 'Due Date',
+                  controller: _dueDateController,
+                  readOnly: true,
+                  onTap: _selectDate,
+                ),
+                const SizedBox(height: 12),
+
+                // Time
+                _buildTextField(
+                  label: 'Time',
+                  controller: _timeController,
+                  readOnly: true,
+                  onTap: _pickTime,
+                ),
+                const SizedBox(height: 12),
+
+                // Address
+                _buildTextField(
+                  label: 'Address',
+                  controller: _addressController,
+                ),
+                const SizedBox(height: 12),
+
+                // Website
+                _buildTextField(
+                  label: 'Website',
+                  controller: _websiteController,
+                  keyboardType: TextInputType.url,
+                ),
+                const SizedBox(height: 12),
+
+                // Task Description
+                _buildTextField(
+                  label: 'Task Description',
+                  controller: _taskDescriptionController,
+                  maxLines: 4,
+                ),
+                const SizedBox(height: 20),
+
+                // Status Selection
+                Row(
+                  children: [
+                    Text(
+                      'Status:',
+                      style: GoogleFonts.poppins(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    _buildStatusButton(
+                      label: 'Completed',
+                      isSelected: _selectedStatus == 'Completed',
+                      selectedColor: Colors.teal.shade700,
+                      unselectedColor: const Color(0xFFE9FFFB),
+                      selectedTextColor: Colors.white,
+                      unselectedTextColor: const Color(0xFF029483),
+                      onTap: () =>
+                          setState(() => _selectedStatus = 'Completed'),
+                    ),
+                    const SizedBox(width: 6),
+                    _buildStatusButton(
+                      label: 'Pending',
+                      isSelected: _selectedStatus == 'Pending',
+                      selectedColor: Colors.deepOrange.shade400,
+                      unselectedColor: const Color(0xFFFFD5C9),
+                      selectedTextColor: Colors.white,
+                      unselectedTextColor: const Color(0xFFAA5F48),
+                      onTap: () => setState(() => _selectedStatus = 'Pending'),
+                    ),
+                    const SizedBox(width: 6),
+                    _buildStatusButton(
+                      label: 'In Progress',
+                      isSelected: _selectedStatus == 'In Progress',
+                      selectedColor: primaryColor,
+                      unselectedColor: const Color(0xFFD9DDE0),
+                      selectedTextColor: Colors.white,
+                      unselectedTextColor: primaryColor,
+                      onTap: () =>
+                          setState(() => _selectedStatus = 'In Progress'),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+
+                // Save Button
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: _saveTask,
+                    icon: const Icon(Icons.save, size: 24, color: Colors.white),
+                    label: Text(
+                      'Save Task',
+                      style: GoogleFonts.roboto(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: primaryColor,
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),

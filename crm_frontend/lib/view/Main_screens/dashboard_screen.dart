@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print, unused_element, unnecessary_import, use_super_parameters, deprecated_member_use, unused_local_variable, prefer_final_fields
 import 'dart:ui';
 
+import 'package:crm_frontend/view/Sub_screens/Task_Details_screen.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -220,8 +221,38 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      _buildQuickAddButton(Icons.person_add, 'Client', () {}),
-                      _buildQuickAddButton(Icons.add_task, 'Task', () {}),
+                      _buildQuickAddButton(Icons.person_add, 'Client', () {
+                        showDialog(
+                          context: context,
+                          builder: (_) => Dialog(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: const SizedBox(
+                              width: 600,
+                              height: 700,
+                              child: ClientDetailsFormContent(),
+                            ),
+                          ),
+                        );
+                      }),
+                      _buildQuickAddButton(Icons.add_task, 'Task', () {
+                        showAddTaskDialog(BuildContext context) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => Dialog(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: const SizedBox(
+                                width: 600, // Adjust width as needed
+                                height: 700, // Adjust height as needed
+                                child: TaskDetailsFormContent(),
+                              ),
+                            ),
+                          );
+                        }
+                      }),
                       _buildQuickAddButton(Icons.add_business, 'Deal', () {}),
                     ],
                   ),
