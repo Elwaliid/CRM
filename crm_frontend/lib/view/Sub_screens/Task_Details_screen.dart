@@ -16,6 +16,8 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   /// Form key to validate form fields
   final _formKey = GlobalKey<FormState>();
   String? _invalidAssignedName;
+  List<String?> _invalidAssignedToNames = [];
+
   String? _selectedType = 'Pending';
   /////////////////////////////////////////////////////////////Contacts
   List Contacts = ['faisal mouh', 'khalil kaba', 'lisa luisa', 'bounar l7agar'];
@@ -305,7 +307,16 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                                       if (value == null || value.isEmpty) {
                                         return 'Please enter $label';
                                       }
-
+                                      if (!Contacts.contains(value)) {
+                                        if (!_invalidAssignedToNames.contains(
+                                          value,
+                                        )) {
+                                          setState(() {
+                                            _invalidAssignedToNames.add(value);
+                                          });
+                                        }
+                                        return null; // Let the UI handle the error display
+                                      }
                                       return null;
                                     },
                                   ),
@@ -344,6 +355,73 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                         },
                       ),
                     ),
+                    /////////////////////////////// ///////////////////////// ////////////////////////
+                    Column(
+                      children: _invalidAssignedToNames.map((name) {
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 1.0),
+                          child: Row(
+                            children: [
+                              const SizedBox(width: 12),
+                              Text(
+                                '"$name" not found in contacts.',
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.red,
+                                ),
+                              ),
+                              Text(
+                                ' Add "$name" to your contacts?',
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Color(0xFF262C30),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              ElevatedButton.icon(
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (_) => Dialog(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: const SizedBox(
+                                        width: 600,
+                                        height: 700,
+                                        child: ClientDetailsFormContent(),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                label: const Text(
+                                  'Yes',
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.blueGrey.shade900,
+                                  foregroundColor: Colors.white,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 6,
+                                    vertical: 2,
+                                  ),
+                                  minimumSize: const Size(0, 26),
+                                  tapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                  visualDensity: VisualDensity.compact,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(3),
+                                  ),
+                                  elevation: 0.5,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                    SizedBox(height: 8),
+
                     ///////////////////////////////////////////////////////////// Due date
                     _buildTextField(
                       label: 'Due date',
