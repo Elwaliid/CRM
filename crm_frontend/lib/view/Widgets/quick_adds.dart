@@ -1,6 +1,6 @@
 import 'package:crm_frontend/view/Widgets/Type_buttons.dart';
 import 'package:crm_frontend/view/Widgets/date_time_picker.dart';
-import 'package:crm_frontend/view/Widgets/wiloutextfield.dart';
+import 'package:crm_frontend/view/Widgets/wilou_textfield.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,6 +15,7 @@ class ClientDetailsFormContent extends StatefulWidget {
       _ClientDetailsFormContentState();
 }
 
+///////////////////////////////////////// controllers
 class _ClientDetailsFormContentState extends State<ClientDetailsFormContent> {
   final _formKey = GlobalKey<FormState>();
   final _firstNameController = TextEditingController();
@@ -63,52 +64,6 @@ class _ClientDetailsFormContentState extends State<ClientDetailsFormContent> {
       _additionalPhoneControllers.removeAt(index);
     });
   }
-
-  /////////////////////////// text field widget
-  Widget WilouTextField({
-    required String label,
-    required TextEditingController controller,
-    Color? textColor = const Color.fromARGB(255, 38, 44, 48),
-    TextInputType keyboardType = TextInputType.text,
-    int maxLines = 1,
-    String? Function(String?)? validator,
-    List<TextInputFormatter>? inputFormatters,
-  }) {
-    return TextFormField(
-      controller: controller,
-      keyboardType: keyboardType,
-      maxLines: maxLines,
-      validator: validator,
-      inputFormatters: inputFormatters,
-      style: GoogleFonts.roboto(fontSize: 16, color: textColor),
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: GoogleFonts.poppins(
-          color: textColor?.withOpacity(0.85),
-          fontWeight: FontWeight.w500,
-        ),
-        filled: true,
-        fillColor: Colors.blueGrey[50],
-        contentPadding: const EdgeInsets.symmetric(
-          vertical: 14,
-          horizontal: 20,
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.blueGrey.shade200, width: 1.5),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: const Color.fromARGB(255, 41, 49, 53),
-            width: 2.0,
-          ),
-        ),
-      ),
-    );
-  }
-
-  /////////////////////////////Type button widget
 
   /////////////////////////// ordinal
   String _ordinal(int number) {
@@ -442,8 +397,7 @@ class _ClientDetailsFormContentState extends State<ClientDetailsFormContent> {
   }
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// Quick add task
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// Quick Add Task Dialog
 class TaskDetailsFormContent extends StatefulWidget {
   const TaskDetailsFormContent({super.key});
 
@@ -452,6 +406,7 @@ class TaskDetailsFormContent extends StatefulWidget {
 }
 
 class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
+  ////////////////////// Form Key & Controllers
   final _formKey = GlobalKey<FormState>();
   final _taskNameController = TextEditingController();
   final _taskDescriptionController = TextEditingController();
@@ -462,6 +417,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
   final _addressController = TextEditingController();
   final _websiteController = TextEditingController();
 
+  ////////////////////// Dummy Contacts List
   String? _selectedStatus = 'Pending';
   List<String> contacts = [
     'faisal mouh',
@@ -471,9 +427,9 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
   ];
   List<String?> _invalidAssignedNames = [];
 
+  ///////////////////////////////////////////////// Save Task
   void _saveTask() {
     if (_formKey.currentState!.validate()) {
-      // Gather all assigned names
       final allAssignedTo = [
         _assignedToController.text,
         ..._additionalAssignedToControllers.map((c) => c.text),
@@ -492,6 +448,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
     }
   }
 
+  ////////////////////////////////////////////// Add Assigned To Field
   void _addAssignedToField() {
     if (_additionalAssignedToControllers.length < 9) {
       setState(
@@ -500,6 +457,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
     }
   }
 
+  ////////////////////////////////////////////// Remove Assigned To Field
   void _removeAssignedToField(int index) {
     setState(() {
       _additionalAssignedToControllers[index].dispose();
@@ -507,7 +465,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
     });
   }
 
-  /////////////////////////////////////////////// Dynamic time picker
+  ////////////////////////////////////////////// Time Picker Handler
   Future<void> _pickTime() async {
     await TimePickerHelper.pickCustomTime(
       context: context,
@@ -518,7 +476,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
     );
   }
 
-  /////////////////////////////////// date picker
+  ////////////////////////////////////////////// Date Picker Handler
   Future<void> _selectDate() async {
     final pickedDate = await DatePickerHelper.showCustomDatePicker(
       context: context,
@@ -530,6 +488,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
     }
   }
 
+  ////////////////////////////////////////////// Ordinal Labels for Assigned To fields
   String _ordinal(int number) {
     const labels = [
       'Second',
@@ -561,7 +520,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
             key: _formKey,
             child: Column(
               children: [
-                // Title
+                ////////////////////////////////////////////// Title
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Center(
@@ -583,7 +542,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                   ),
                 ),
 
-                // Task Name
+                ////////////////////////////////////////////// Task Name
                 WilouTextField(
                   label: 'Task Name',
                   controller: _taskNameController,
@@ -591,7 +550,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                 ),
                 const SizedBox(height: 12),
 
-                // Assigned To
+                ////////////////////////////////////////////// Assigned To (Primary)
                 Row(
                   children: [
                     Expanded(
@@ -615,7 +574,8 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                       ),
                     ),
                     const SizedBox(width: 8),
-                    // Add Assigned To button
+
+                    ////////////////////////////////////////////////////////////// Add Assigned To Button
                     Container(
                       decoration: BoxDecoration(
                         color: _additionalAssignedToControllers.length < 9
@@ -643,7 +603,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                   ],
                 ),
 
-                // Invalid assigned names messages
+                ////////////////////////////////////////////// Add To contact section
                 if (_invalidAssignedNames.isNotEmpty)
                   Column(
                     children: _invalidAssignedNames.map((name) {
@@ -669,7 +629,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                             const SizedBox(width: 8),
                             ElevatedButton.icon(
                               onPressed: () {
-                                // You can implement adding to contacts here
+                                // Add-to-contact logic
                               },
                               label: const Text(
                                 'Yes',
@@ -694,9 +654,10 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                       );
                     }).toList(),
                   ),
+
                 const SizedBox(height: 8),
 
-                // Additional Assigned To fields
+                ////////////////////////////////////////////// Additional Assigned To fields
                 Column(
                   children: List.generate(
                     _additionalAssignedToControllers.length,
@@ -729,7 +690,8 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                               ),
                             ),
                             const SizedBox(width: 8),
-                            // Remove button
+
+                            ////////////////////////////////////////////////// Remove Field Button
                             Container(
                               decoration: BoxDecoration(
                                 color: primaryColor,
@@ -761,7 +723,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                   ),
                 ),
 
-                // Due Date
+                ////////////////////////////////////////////// Due Date Picker
                 WilouTextField(
                   label: 'Due Date',
                   controller: _dueDateController,
@@ -770,7 +732,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                 ),
                 const SizedBox(height: 12),
 
-                // Time
+                ////////////////////////////////////////////// Time Picker
                 WilouTextField(
                   label: 'Time',
                   controller: _timeController,
@@ -779,14 +741,14 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                 ),
                 const SizedBox(height: 12),
 
-                // Address
+                ////////////////////////////////////////////// Address
                 WilouTextField(
                   label: 'Address',
                   controller: _addressController,
                 ),
                 const SizedBox(height: 12),
 
-                // Website
+                ////////////////////////////////////////////// Website
                 WilouTextField(
                   label: 'Website',
                   controller: _websiteController,
@@ -794,7 +756,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                 ),
                 const SizedBox(height: 12),
 
-                // Task Description
+                ////////////////////////////////////////////// Task Description
                 WilouTextField(
                   label: 'Task Description',
                   controller: _taskDescriptionController,
@@ -802,7 +764,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                 ),
                 const SizedBox(height: 20),
 
-                // Status Selection
+                ////////////////////////////////////////////// Status Selection
                 Row(
                   children: [
                     Text(
@@ -813,6 +775,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                       ),
                     ),
                     const SizedBox(width: 8),
+                    ////////////////////////////////////////////// Completed
                     TypeButton(
                       label: 'Completed',
                       isSelected: _selectedStatus == 'Completed',
@@ -824,6 +787,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                           setState(() => _selectedStatus = 'Completed'),
                     ),
                     const SizedBox(width: 6),
+                    ////////////////////////////////////////////// Pending
                     TypeButton(
                       label: 'Pending',
                       isSelected: _selectedStatus == 'Pending',
@@ -834,6 +798,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                       onTap: () => setState(() => _selectedStatus = 'Pending'),
                     ),
                     const SizedBox(width: 6),
+                    ////////////////////////////////////////////// In Progress
                     TypeButton(
                       label: 'In Progress',
                       isSelected: _selectedStatus == 'In Progress',
@@ -848,7 +813,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                 ),
                 const SizedBox(height: 20),
 
-                // Save Button
+                ////////////////////////////////////////////// Save Task Button
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(

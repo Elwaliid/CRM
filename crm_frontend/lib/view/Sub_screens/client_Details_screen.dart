@@ -1,6 +1,6 @@
 // ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable, avoid_print
 
-import 'package:crm_frontend/view/Widgets/wiloutextfield.dart';
+import 'package:crm_frontend/view/Widgets/wilou_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
