@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:get/get.dart';
-import '../Sub_screens/client_info_screen.dart';
+import '../Sub_screens/client_Details_screen.dart';
 
 class Client {
   final String firstname;
@@ -212,7 +212,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
                             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                             return GestureDetector(
                               onTap: () {
-                                Get.to(ClientInfoScreen());
+                                Get.to(ClientDetailsScreen());
                                 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                               },
                               ///////////////////////////////////////////////////////////////////////////// Clients and Leads cards
