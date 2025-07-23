@@ -18,16 +18,16 @@ class ClientDetailsFormContent extends StatefulWidget {
 ///////////////////////////////////////// controllers
 class _ClientDetailsFormContentState extends State<ClientDetailsFormContent> {
   final _formKey = GlobalKey<FormState>();
-  final _firstNameController = TextEditingController();
-  final _lastNameController = TextEditingController();
-  final _identityController = TextEditingController();
-  final _phoneController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _secondEmailController = TextEditingController();
-  final _addressController = TextEditingController();
-  final _websiteController = TextEditingController();
-  final _otherInfoController = TextEditingController();
-  final List<TextEditingController> _additionalPhoneControllers = [];
+  final _qcFirstNameController = TextEditingController();
+  final _qcLastNameController = TextEditingController();
+  final _qcIdentityController = TextEditingController();
+  final _qcPhoneController = TextEditingController();
+  final _qcEmailController = TextEditingController();
+  final _qcSecondEmailController = TextEditingController();
+  final _qcAddressController = TextEditingController();
+  final _qcWebsiteController = TextEditingController();
+  final _qcOtherInfoController = TextEditingController();
+  final List<TextEditingController> _qcAdditionalPhoneControllers = [];
 
   bool _secondEmailVisible = true;
   String? _selectedType = 'Client';
@@ -35,8 +35,8 @@ class _ClientDetailsFormContentState extends State<ClientDetailsFormContent> {
   void _saveClient() {
     if (_formKey.currentState!.validate()) {
       final allPhones = [
-        _phoneController.text,
-        ..._additionalPhoneControllers.map((c) => c.text),
+        _qcPhoneController.text,
+        ..._qcAdditionalPhoneControllers.map((c) => c.text),
       ];
 
       print('Saving client with phones: $allPhones');
@@ -53,15 +53,17 @@ class _ClientDetailsFormContentState extends State<ClientDetailsFormContent> {
   }
 
   void _addPhoneField() {
-    if (_additionalPhoneControllers.length < 9) {
-      setState(() => _additionalPhoneControllers.add(TextEditingController()));
+    if (_qcAdditionalPhoneControllers.length < 9) {
+      setState(
+        () => _qcAdditionalPhoneControllers.add(TextEditingController()),
+      );
     }
   }
 
   void _removePhoneField(int index) {
     setState(() {
-      _additionalPhoneControllers[index].dispose();
-      _additionalPhoneControllers.removeAt(index);
+      _qcAdditionalPhoneControllers[index].dispose();
+      _qcAdditionalPhoneControllers.removeAt(index);
     });
   }
 
@@ -124,7 +126,7 @@ class _ClientDetailsFormContentState extends State<ClientDetailsFormContent> {
                     Expanded(
                       child: WilouTextField(
                         label: 'First Name',
-                        controller: _firstNameController,
+                        controller: _qcFirstNameController,
                         validator: (v) =>
                             v!.isEmpty ? 'Enter first name' : null,
                       ),
@@ -134,7 +136,7 @@ class _ClientDetailsFormContentState extends State<ClientDetailsFormContent> {
                     Expanded(
                       child: WilouTextField(
                         label: 'Last Name',
-                        controller: _lastNameController,
+                        controller: _qcLastNameController,
                         validator: (v) => v!.isEmpty ? 'Enter last name' : null,
                       ),
                     ),
@@ -144,7 +146,7 @@ class _ClientDetailsFormContentState extends State<ClientDetailsFormContent> {
                 //////////////////////// Identity
                 WilouTextField(
                   label: 'Identity (Company, Job Title, etc.)',
-                  controller: _identityController,
+                  controller: _qcIdentityController,
                 ),
                 const SizedBox(height: 12),
                 Row(
@@ -153,7 +155,7 @@ class _ClientDetailsFormContentState extends State<ClientDetailsFormContent> {
                     Expanded(
                       child: WilouTextField(
                         label: 'Phone Number',
-                        controller: _phoneController,
+                        controller: _qcPhoneController,
                         keyboardType: TextInputType.phone,
                         validator: (value) {
                           if (value == null || value.isEmpty)
@@ -173,7 +175,7 @@ class _ClientDetailsFormContentState extends State<ClientDetailsFormContent> {
                     //////////////////////////////////////////////////////////////// Add Phone Button
                     Container(
                       decoration: BoxDecoration(
-                        color: _additionalPhoneControllers.length < 9
+                        color: _qcAdditionalPhoneControllers.length < 9
                             ? primaryColor
                             : Colors.grey.shade400,
                         shape: BoxShape.circle,
@@ -186,7 +188,7 @@ class _ClientDetailsFormContentState extends State<ClientDetailsFormContent> {
                         ],
                       ),
                       child: IconButton(
-                        onPressed: _additionalPhoneControllers.length < 9
+                        onPressed: _qcAdditionalPhoneControllers.length < 9
                             ? _addPhoneField
                             : null,
                         icon: Icon(Icons.add, color: Colors.white, size: 20),
@@ -200,63 +202,65 @@ class _ClientDetailsFormContentState extends State<ClientDetailsFormContent> {
                 SizedBox(height: 8),
                 ////////////////////////////////////////////////// Secondary Phone Numbers
                 Column(
-                  children: List.generate(_additionalPhoneControllers.length, (
-                    index,
-                  ) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 12.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: WilouTextField(
-                              label: '${_ordinal(index)} phone',
-                              controller: _additionalPhoneControllers[index],
-                              keyboardType: TextInputType.phone,
-                              validator: (value) {
-                                if (value == null || value.isEmpty)
-                                  return 'Required';
-                                final pattern = RegExp(r'^(05|06|07)\d{8}\$');
-                                return pattern.hasMatch(value)
-                                    ? null
-                                    : 'Invalid format';
-                              },
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly,
-                                LengthLimitingTextInputFormatter(10),
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: 8),
-                          /////////////////////// Delete button
-                          Container(
-                            decoration: BoxDecoration(
-                              color: primaryColor,
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  blurRadius: 4,
-                                  offset: Offset(0, 2),
-                                ),
-                              ],
-                            ),
-
-                            child: IconButton(
-                              onPressed: () => _removePhoneField(index),
-                              icon: Icon(
-                                Icons.close,
-                                color: Colors.white,
-                                size: 20,
+                  children: List.generate(
+                    _qcAdditionalPhoneControllers.length,
+                    (index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 12.0),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: WilouTextField(
+                                label: '${_ordinal(index)} phone',
+                                controller:
+                                    _qcAdditionalPhoneControllers[index],
+                                keyboardType: TextInputType.phone,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty)
+                                    return 'Required';
+                                  final pattern = RegExp(r'^(05|06|07)\d{8}\$');
+                                  return pattern.hasMatch(value)
+                                      ? null
+                                      : 'Invalid format';
+                                },
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  LengthLimitingTextInputFormatter(10),
+                                ],
                               ),
-                              padding: EdgeInsets.zero,
-                              constraints: BoxConstraints(),
-                              splashRadius: 20,
                             ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }),
+                            SizedBox(width: 8),
+                            /////////////////////// Delete button
+                            Container(
+                              decoration: BoxDecoration(
+                                color: primaryColor,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    blurRadius: 4,
+                                    offset: Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+
+                              child: IconButton(
+                                onPressed: () => _removePhoneField(index),
+                                icon: Icon(
+                                  Icons.close,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                                padding: EdgeInsets.zero,
+                                constraints: BoxConstraints(),
+                                splashRadius: 20,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                 ),
                 const SizedBox(height: 12),
                 Row(
@@ -265,7 +269,7 @@ class _ClientDetailsFormContentState extends State<ClientDetailsFormContent> {
                     Expanded(
                       child: WilouTextField(
                         label: 'Email',
-                        controller: _emailController,
+                        controller: _qcEmailController,
                         keyboardType: TextInputType.emailAddress,
                         validator: (v) => v!.contains('@gmail.com')
                             ? null
@@ -309,7 +313,7 @@ class _ClientDetailsFormContentState extends State<ClientDetailsFormContent> {
                 if (!_secondEmailVisible)
                   WilouTextField(
                     label: 'Second Email',
-                    controller: _secondEmailController,
+                    controller: _qcSecondEmailController,
                     keyboardType: TextInputType.emailAddress,
                     validator: (v) =>
                         v!.contains('@gmail.com') ? null : 'Enter valid email',
@@ -318,20 +322,20 @@ class _ClientDetailsFormContentState extends State<ClientDetailsFormContent> {
                 ///////////////////////////////////////////////////////////// Address
                 WilouTextField(
                   label: 'Address',
-                  controller: _addressController,
+                  controller: _qcAddressController,
                 ),
                 const SizedBox(height: 16),
                 ///////////////////////////////////////////////////////////// Website
                 WilouTextField(
                   label: 'Website',
-                  controller: _websiteController,
+                  controller: _qcWebsiteController,
                   keyboardType: TextInputType.url,
                 ),
                 const SizedBox(height: 16),
                 ///////////////////////////////////////////////////////////// Notes
                 WilouTextField(
                   label: 'Notes',
-                  controller: _otherInfoController,
+                  controller: _qcOtherInfoController,
                   maxLines: 4,
                 ),
                 const SizedBox(height: 28),
@@ -408,14 +412,14 @@ class TaskDetailsFormContent extends StatefulWidget {
 class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
   ////////////////////// Form Key & Controllers
   final _formKey = GlobalKey<FormState>();
-  final _taskNameController = TextEditingController();
-  final _taskDescriptionController = TextEditingController();
-  final _assignedToController = TextEditingController();
-  final List<TextEditingController> _additionalAssignedToControllers = [];
-  final _dueDateController = TextEditingController();
-  final _timeController = TextEditingController();
-  final _addressController = TextEditingController();
-  final _websiteController = TextEditingController();
+  final _qtTaskNameController = TextEditingController();
+  final _qtTaskDescriptionController = TextEditingController();
+  final _qtAssignedToController = TextEditingController();
+  final List<TextEditingController> _qtAdditionalAssignedToControllers = [];
+  final _qtDueDateController = TextEditingController();
+  final _qtTimeController = TextEditingController();
+  final _qtAddressController = TextEditingController();
+  final _qtWebsiteController = TextEditingController();
 
   ////////////////////// Dummy Contacts List
   String? _selectedStatus = 'Pending';
@@ -425,14 +429,14 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
     'lisa luisa',
     'bounar l7agar',
   ];
-  List<String?> _invalidAssignedNames = [];
+  List<String?> _qtInvalidAssignedNames = [];
 
   ///////////////////////////////////////////////// Save Task
   void _saveTask() {
     if (_formKey.currentState!.validate()) {
       final allAssignedTo = [
-        _assignedToController.text,
-        ..._additionalAssignedToControllers.map((c) => c.text),
+        _qtAssignedToController.text,
+        ..._qtAdditionalAssignedToControllers.map((c) => c.text),
       ];
 
       print('Saving task with assigned to: $allAssignedTo');
@@ -450,9 +454,9 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
 
   ////////////////////////////////////////////// Add Assigned To Field
   void _addAssignedToField() {
-    if (_additionalAssignedToControllers.length < 9) {
+    if (_qtAdditionalAssignedToControllers.length < 9) {
       setState(
-        () => _additionalAssignedToControllers.add(TextEditingController()),
+        () => _qtAdditionalAssignedToControllers.add(TextEditingController()),
       );
     }
   }
@@ -460,8 +464,8 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
   ////////////////////////////////////////////// Remove Assigned To Field
   void _removeAssignedToField(int index) {
     setState(() {
-      _additionalAssignedToControllers[index].dispose();
-      _additionalAssignedToControllers.removeAt(index);
+      _qtAdditionalAssignedToControllers[index].dispose();
+      _qtAdditionalAssignedToControllers.removeAt(index);
     });
   }
 
@@ -469,7 +473,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
   Future<void> _pickTime() async {
     await TimePickerHelper.pickCustomTime(
       context: context,
-      controller: _timeController,
+      controller: _qtTimeController,
       onTimeSelected: (time) {
         print("Time picked: ${time.format(context)}");
       },
@@ -483,7 +487,10 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
     );
     if (pickedDate != null) {
       setState(() {
-        _dueDateController.text = pickedDate.toIso8601String().split('T').first;
+        _qtDueDateController.text = pickedDate
+            .toIso8601String()
+            .split('T')
+            .first;
       });
     }
   }
@@ -525,7 +532,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Center(
                     child: Text(
-                      'Add New Task',
+                      'Quick Add',
                       style: GoogleFonts.poppins(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
@@ -545,7 +552,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                 ////////////////////////////////////////////// Task Name
                 WilouTextField(
                   label: 'Task Name',
-                  controller: _taskNameController,
+                  controller: _qtTaskNameController,
                   validator: (v) => v!.isEmpty ? 'Enter task name' : null,
                 ),
                 const SizedBox(height: 12),
@@ -556,15 +563,15 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                     Expanded(
                       child: WilouTextField(
                         label: 'Assigned To',
-                        controller: _assignedToController,
+                        controller: _qtAssignedToController,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a name';
                           }
                           if (!contacts.contains(value)) {
-                            if (!_invalidAssignedNames.contains(value)) {
+                            if (!_qtInvalidAssignedNames.contains(value)) {
                               setState(() {
-                                _invalidAssignedNames.add(value);
+                                _qtInvalidAssignedNames.add(value);
                               });
                             }
                             return null;
@@ -578,7 +585,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                     ////////////////////////////////////////////////////////////// Add Assigned To Button
                     Container(
                       decoration: BoxDecoration(
-                        color: _additionalAssignedToControllers.length < 9
+                        color: _qtAdditionalAssignedToControllers.length < 9
                             ? primaryColor
                             : Colors.grey.shade400,
                         shape: BoxShape.circle,
@@ -591,7 +598,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                         ],
                       ),
                       child: IconButton(
-                        onPressed: _additionalAssignedToControllers.length < 9
+                        onPressed: _qtAdditionalAssignedToControllers.length < 9
                             ? _addAssignedToField
                             : null,
                         icon: Icon(Icons.add, color: Colors.white, size: 20),
@@ -604,9 +611,9 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                 ),
 
                 ////////////////////////////////////////////// Add To contact section
-                if (_invalidAssignedNames.isNotEmpty)
+                if (_qtInvalidAssignedNames.isNotEmpty)
                   Column(
-                    children: _invalidAssignedNames.map((name) {
+                    children: _qtInvalidAssignedNames.map((name) {
                       return Padding(
                         padding: const EdgeInsets.only(top: 4.0),
                         child: Row(
@@ -660,7 +667,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                 ////////////////////////////////////////////// Additional Assigned To fields
                 Column(
                   children: List.generate(
-                    _additionalAssignedToControllers.length,
+                    _qtAdditionalAssignedToControllers.length,
                     (index) {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 12.0),
@@ -670,17 +677,17 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                               child: WilouTextField(
                                 label: '${_ordinal(index)} Assigned To',
                                 controller:
-                                    _additionalAssignedToControllers[index],
+                                    _qtAdditionalAssignedToControllers[index],
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please enter a name';
                                   }
                                   if (!contacts.contains(value)) {
-                                    if (!_invalidAssignedNames.contains(
+                                    if (!_qtInvalidAssignedNames.contains(
                                       value,
                                     )) {
                                       setState(() {
-                                        _invalidAssignedNames.add(value);
+                                        _qtInvalidAssignedNames.add(value);
                                       });
                                     }
                                     return null;
@@ -726,7 +733,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                 ////////////////////////////////////////////// Due Date Picker
                 WilouTextField(
                   label: 'Due Date',
-                  controller: _dueDateController,
+                  controller: _qtDueDateController,
                   readOnly: true,
                   onTap: _selectDate,
                 ),
@@ -735,7 +742,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                 ////////////////////////////////////////////// Time Picker
                 WilouTextField(
                   label: 'Time',
-                  controller: _timeController,
+                  controller: _qtTimeController,
                   readOnly: true,
                   onTap: _pickTime,
                 ),
@@ -744,14 +751,14 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                 ////////////////////////////////////////////// Address
                 WilouTextField(
                   label: 'Address',
-                  controller: _addressController,
+                  controller: _qtAddressController,
                 ),
                 const SizedBox(height: 12),
 
                 ////////////////////////////////////////////// Website
                 WilouTextField(
                   label: 'Website',
-                  controller: _websiteController,
+                  controller: _qtWebsiteController,
                   keyboardType: TextInputType.url,
                 ),
                 const SizedBox(height: 12),
@@ -759,7 +766,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                 ////////////////////////////////////////////// Task Description
                 WilouTextField(
                   label: 'Task Description',
-                  controller: _taskDescriptionController,
+                  controller: _qtTaskDescriptionController,
                   maxLines: 4,
                 ),
                 const SizedBox(height: 20),
