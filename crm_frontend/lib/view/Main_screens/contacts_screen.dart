@@ -20,14 +20,14 @@ class Client {
   });
 }
 
-class ClientsScreen extends StatefulWidget {
-  const ClientsScreen({super.key});
+class ContactsScreen extends StatefulWidget {
+  const ContactsScreen({super.key});
 
   @override
-  State<ClientsScreen> createState() => _ClientsScreenState();
+  State<ContactsScreen> createState() => _ContactsScreenState();
 }
 
-class _ClientsScreenState extends State<ClientsScreen> {
+class _ContactsScreenState extends State<ContactsScreen> {
   final TextEditingController _searchController = TextEditingController();
   final List<Client> _clients = [
     Client(

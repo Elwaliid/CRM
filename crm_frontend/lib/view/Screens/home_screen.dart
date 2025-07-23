@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
 
-import '../Main_screens/clients_screen.dart'; // Import ClientsScreen
+import '../Main_screens/contacts_screen.dart'; // Import ClientsScreen
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
   final List<Widget> screens = [
     const DashboardScreen(),
-    const ClientsScreen(),
+    const ContactsScreen(),
     const TasksScreen(),
     const MessagesScreen(),
     const ProfileScreen(),

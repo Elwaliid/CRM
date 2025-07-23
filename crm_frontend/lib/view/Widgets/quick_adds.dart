@@ -609,61 +609,7 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                     ),
                   ],
                 ),
-
-                ////////////////////////////////////////////// Add To contact section
-                if (_qtInvalidAssignedNames.isNotEmpty)
-                  Column(
-                    children: _qtInvalidAssignedNames.map((name) {
-                      return Padding(
-                        padding: const EdgeInsets.only(top: 4.0),
-                        child: Row(
-                          children: [
-                            const SizedBox(width: 12),
-                            Text(
-                              '"$name" not found in contacts.',
-                              style: const TextStyle(
-                                fontSize: 12,
-                                color: Colors.red,
-                              ),
-                            ),
-                            Text(
-                              ' Add "$name" to contacts?',
-                              style: const TextStyle(
-                                fontSize: 12,
-                                color: Color(0xFF262C30),
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            ElevatedButton.icon(
-                              onPressed: () {
-                                // Add-to-contact logic
-                              },
-                              label: const Text(
-                                'Yes',
-                                style: TextStyle(fontSize: 12),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: primaryColor,
-                                foregroundColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 6,
-                                  vertical: 2,
-                                ),
-                                minimumSize: const Size(0, 26),
-                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(3),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }).toList(),
-                  ),
-
-                const SizedBox(height: 8),
-
+                SizedBox(height: 10),
                 ////////////////////////////////////////////// Additional Assigned To fields
                 Column(
                   children: List.generate(
@@ -729,7 +675,37 @@ class _TaskDetailsFormContentState extends State<TaskDetailsFormContent> {
                     },
                   ),
                 ),
+                const SizedBox(height: 1),
+                ////////////////////////////////////////////// Add it from quick add client
+                if (_qtInvalidAssignedNames.isNotEmpty)
+                  Column(
+                    children: _qtInvalidAssignedNames.map((name) {
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 4.0),
+                        child: Row(
+                          children: [
+                            const SizedBox(width: 12),
+                            Text(
+                              '"$name" not found in contacts.',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Colors.red,
+                              ),
+                            ),
+                            Text(
+                              ' Add "$name" from quick add clients.',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Color(0xFF262C30),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  ),
 
+                const SizedBox(height: 8),
                 ////////////////////////////////////////////// Due Date Picker
                 WilouTextField(
                   label: 'Due Date',
