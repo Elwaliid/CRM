@@ -1,5 +1,6 @@
 // ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable, avoid_print
 
+import 'package:crm_frontend/view/Widgets/Type_buttons.dart';
 import 'package:crm_frontend/view/Widgets/wilou_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -419,7 +420,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              _buildTypeButton(
+                              TypeButton(
                                 label: 'Client',
                                 isSelected: _selectedType == 'Client',
                                 selectedColor: Colors.teal.shade700,
@@ -429,7 +430,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
                                 onTap: () =>
                                     setState(() => _selectedType = 'Client'),
                               ),
-                              _buildTypeButton(
+                              TypeButton(
                                 label: 'Lead',
                                 isSelected: _selectedType == 'Lead',
                                 selectedColor: Colors.deepOrange.shade400,
@@ -438,6 +439,18 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
                                 unselectedTextColor: const Color(0xFFAA5F48),
                                 onTap: () =>
                                     setState(() => _selectedType = 'Lead'),
+                              ),
+                              const SizedBox(width: 6),
+                              ////////////////////////////////////////////// In Progress
+                              TypeButton(
+                                label: 'Vendor',
+                                isSelected: _selectedType == 'Vendor',
+                                selectedColor: primaryColor,
+                                unselectedColor: const Color(0xFFD9DDE0),
+                                selectedTextColor: Colors.white,
+                                unselectedTextColor: primaryColor,
+                                onTap: () =>
+                                    setState(() => _selectedType = 'Vendor'),
                               ),
                             ],
                           ),
@@ -495,49 +508,4 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
     ];
     return labels[number];
   }
-}
-
-///////////////////////////////////////////// Type button
-Widget _buildTypeButton({
-  required String label,
-  required bool isSelected,
-  required Color selectedColor,
-  required Color unselectedColor,
-  required Color selectedTextColor,
-  required Color unselectedTextColor,
-  required VoidCallback onTap,
-}) {
-  return Expanded(
-    child: GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 250),
-        height: 38,
-        margin: const EdgeInsets.symmetric(horizontal: 4),
-        decoration: BoxDecoration(
-          color: isSelected ? selectedColor : unselectedColor,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: selectedColor, width: isSelected ? 2.5 : 1),
-          boxShadow: isSelected
-              ? [
-                  BoxShadow(
-                    color: selectedColor.withOpacity(0.25),
-                    blurRadius: 7,
-                    offset: const Offset(0, 4),
-                  ),
-                ]
-              : [],
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          label,
-          style: TextStyle(
-            color: isSelected ? selectedTextColor : unselectedTextColor,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
-    ),
-  );
 }

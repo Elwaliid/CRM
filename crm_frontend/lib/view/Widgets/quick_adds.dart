@@ -371,6 +371,17 @@ class _ClientDetailsFormContentState extends State<ClientDetailsFormContent> {
                       unselectedTextColor: const Color(0xFFAA5F48),
                       onTap: () => setState(() => _selectedType = 'Lead'),
                     ),
+                    const SizedBox(width: 6),
+                    ////////////////////////////////////////////// In Progress
+                    TypeButton(
+                      label: 'Vendor',
+                      isSelected: _selectedType == 'Vendor',
+                      selectedColor: primaryColor,
+                      unselectedColor: const Color(0xFFD9DDE0),
+                      selectedTextColor: Colors.white,
+                      unselectedTextColor: primaryColor,
+                      onTap: () => setState(() => _selectedType = 'Vendor'),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 18),
