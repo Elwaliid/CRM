@@ -18,6 +18,8 @@ class TaskDetailsScreen extends StatefulWidget {
 class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   final _formKey = GlobalKey<FormState>();
   String? _invalidAssignedName;
+  String? _selectedActivityType;
+
   List<String?> _invalidAssignedToNames = [];
   String? _selectedType = 'Pending';
   List Contacts = ['faisal mouh', 'khalil kaba', 'lisa luisa', 'bounar l7agar'];
@@ -541,8 +543,6 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
       ),
     );
   }
-
-  ///////////////////////////////////////////////////////////// TextFields widget
 
   /////////////////////////////////////////////////////////////
   String _ordinal(int number) {
