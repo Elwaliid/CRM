@@ -21,40 +21,39 @@ class WilouDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color primaryColor = Colors.blueGrey.shade900;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.05),
-                blurRadius: 6,
-                offset: Offset(0, 2),
-              ),
-            ],
-          ),
-          child: DropdownButtonFormField<String>(
-            value: value,
-            items: items.map((String value) {
-              return DropdownMenuItem<String>(value: value, child: Text(value));
-            }).toList(),
-            onChanged: onChanged,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 14,
-              ),
-              suffixIcon: Icon(Icons.arrow_drop_down, color: primaryColor),
-            ),
-            icon: const SizedBox(), // Hide default icon
-            style: GoogleFonts.poppins(fontSize: 16, color: primaryColor),
+    return DropdownButtonFormField<String>(
+      value: value,
+      items: items.map((String value) {
+        return DropdownMenuItem<String>(value: value, child: Text(value));
+      }).toList(),
+      onChanged: onChanged,
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: GoogleFonts.poppins(
+          color: primaryColor.withOpacity(0.85),
+          fontWeight: FontWeight.w500,
+        ),
+        filled: true,
+        fillColor: Colors.blueGrey[50],
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 14,
+          horizontal: 20,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.blueGrey.shade200, width: 1.5),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(
+            color: Color.fromARGB(255, 41, 49, 53),
+            width: 2.0,
           ),
         ),
-      ],
+        suffixIcon: Icon(Icons.arrow_drop_down, color: primaryColor),
+      ),
+      icon: const SizedBox(), // Hide default icon
+      style: GoogleFonts.roboto(fontSize: 16, color: primaryColor),
     );
   }
 }

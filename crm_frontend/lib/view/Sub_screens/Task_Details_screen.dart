@@ -169,6 +169,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                         });
                       },
                     ),
+                    const SizedBox(height: 16),
                     ///////////////////////////////////////////////////////////// Primary assignedTo Number
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
