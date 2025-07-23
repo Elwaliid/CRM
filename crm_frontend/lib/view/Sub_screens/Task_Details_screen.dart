@@ -2,6 +2,7 @@
 import 'package:crm_frontend/view/Widgets/Type_buttons.dart';
 import 'package:crm_frontend/view/Widgets/date_time_picker.dart';
 import 'package:crm_frontend/view/Widgets/quick_adds.dart';
+import 'package:crm_frontend/view/Widgets/wilou_dropdown.dart';
 import 'package:crm_frontend/view/Widgets/wilou_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -157,6 +158,17 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                     ),
 
                     const SizedBox(height: 16),
+                    /////////////////////////////////////////////////////////// Task Type
+                    WilouDropdown(
+                      label: 'Task Type',
+                      value: _selectedTaskType,
+                      items: const ['meeting', 'call', 'email', 'deal'],
+                      onChanged: (newValue) {
+                        setState(() {
+                          _selectedTaskType = newValue;
+                        });
+                      },
+                    ),
                     ///////////////////////////////////////////////////////////// Primary assignedTo Number
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
