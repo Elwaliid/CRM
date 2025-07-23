@@ -228,13 +228,6 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                               style: TextStyle(fontSize: 12, color: Colors.red),
                             ),
 
-                            Text(
-                              ' Add "${_invalidAssignedName!}" to your contacts?',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Color.fromARGB(255, 38, 44, 48),
-                              ),
-                            ),
                             const SizedBox(width: 8),
                             ElevatedButton.icon(
                               onPressed: () {
@@ -254,7 +247,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                               },
 
                               label: const Text(
-                                'Yes',
+                                'ADD',
                                 style: TextStyle(
                                   fontSize: 12, // 🔽 Smaller text
                                   fontWeight: FontWeight.w500,
