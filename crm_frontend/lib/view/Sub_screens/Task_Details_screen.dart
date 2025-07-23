@@ -247,7 +247,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                               },
 
                               label: const Text(
-                                'ADD',
+                                'Add',
                                 style: TextStyle(
                                   fontSize: 12, // 🔽 Smaller text
                                   fontWeight: FontWeight.w500,
