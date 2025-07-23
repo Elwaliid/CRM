@@ -230,8 +230,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: const SizedBox(
-                              width: 600,
-                              height: 700,
+                              width: 500,
+                              height: 600,
                               child: ClientDetailsFormContent(),
                             ),
                           ),
@@ -245,8 +245,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: const SizedBox(
-                              width: 600,
-                              height: 700,
+                              width: 500,
+                              height: 600,
                               child: TaskDetailsFormContent(),
                             ),
                           ),

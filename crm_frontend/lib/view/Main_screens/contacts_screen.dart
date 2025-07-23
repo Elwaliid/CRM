@@ -63,7 +63,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
       lastname: 'Batata',
       phone: '05 44 55 66 77',
       email: 'cheb.batata@gmail.com',
-      type: 'Lead',
+      type: 'Vendor',
     ),
     Client(
       firstname: 'Fatiha',
@@ -212,7 +212,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                             ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                             return GestureDetector(
                               onTap: () {
-                                Get.to(ClientDetailsScreen());
+                                Get.to(ContactDetailsScreen());
                                 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                               },
                               ///////////////////////////////////////////////////////////////////////////// Clients and Leads cards
@@ -259,7 +259,9 @@ class _ContactsScreenState extends State<ContactsScreen> {
                                           decoration: BoxDecoration(
                                             color: client.type == 'Lead'
                                                 ? Colors.deepOrange.shade400
-                                                : Colors.teal.shade700,
+                                                : client.type == 'Client'
+                                                ? Colors.teal.shade700
+                                                : Colors.blueGrey.shade900,
                                             borderRadius: BorderRadius.circular(
                                               20,
                                             ),
@@ -276,7 +278,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                                           ),
                                         ),
                                         const Spacer(),
-                                        //////////////////////////////////////// 3 dots and Conditions
+                                        //////////////////////////////////////// 3 dots
                                         PopupMenuButton<String>(
                                           color: Colors.white,
                                           icon: Icon(
