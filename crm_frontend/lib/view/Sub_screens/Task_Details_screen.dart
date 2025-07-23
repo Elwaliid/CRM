@@ -158,6 +158,47 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                     ),
 
                     const SizedBox(height: 16),
+                    ///////////////////////////////////////////////////////////// Activity Type
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 16.0),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.grey.shade300),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 6,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: DropdownButtonFormField<String>(
+                          value: _selectedActivityType,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                          ),
+                          hint: const Text("Select activity"),
+                          items: ['Meeting', 'Call', 'Email', 'Deal']
+                              .map(
+                                (type) => DropdownMenuItem(
+                                  value: type,
+                                  child: Text(type),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedActivityType = value;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+
                     ///////////////////////////////////////////////////////////// Primary assignedTo Number
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
