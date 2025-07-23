@@ -23,9 +23,11 @@ class WilouDropdown extends StatelessWidget {
 
     return DropdownButtonFormField<String>(
       value: value,
+
       items: items.map((String value) {
         return DropdownMenuItem<String>(value: value, child: Text(value));
       }).toList(),
+
       onChanged: onChanged,
       decoration: InputDecoration(
         labelText: label,
