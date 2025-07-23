@@ -365,7 +365,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                                 ),
                               ),
                               Text(
-                                ' Add "$name" to your contacts?',
+                                ' Add "$name"?',
                                 style: const TextStyle(
                                   fontSize: 12,
                                   color: Color(0xFF262C30),
