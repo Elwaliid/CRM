@@ -365,7 +365,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                                 : task.type == 'Email'
                                                 ? Icons.email
                                                 : Icons.business,
-                                            size: 16,
+
                                             color: primaryColor,
                                           ),
                                         ),
