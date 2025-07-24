@@ -197,7 +197,6 @@ class _TasksScreenState extends State<TasksScreen> {
                             return GestureDetector(
                               onTap: () {
                                 Get.to(TaskDetailsScreen());
-                                ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                               },
                               child: Container(
                                 margin: const EdgeInsets.symmetric(
@@ -262,6 +261,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                           ),
                                         ),
                                         const Spacer(),
+                                        //////////////////////////////////////// 3 Dots menu
                                         PopupMenuButton<String>(
                                           color: Colors.white,
                                           icon: Icon(
@@ -329,6 +329,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                         ),
                                       ],
                                     ),
+                                    /////////////////////////////////////////////// Due Date
                                     Text(
                                       'Due: ${task.dueDate}',
                                       style: GoogleFonts.roboto(
@@ -336,17 +337,15 @@ class _TasksScreenState extends State<TasksScreen> {
                                         color: secondaryColor,
                                       ),
                                     ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          'Assigned to: ${task.assignedTo}',
-                                          style: GoogleFonts.roboto(
-                                            fontSize: 16,
-                                            color: secondaryColor,
-                                          ),
-                                        ),
-                                      ],
+                                    // ///////////////////////////////////////////// Assigned to
+                                    Text(
+                                      'Assigned to: ${task.assignedTo}',
+                                      style: GoogleFonts.roboto(
+                                        fontSize: 16,
+                                        color: secondaryColor,
+                                      ),
                                     ),
+
                                     Row(
                                       children: [
                                         Text(
@@ -401,7 +400,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                           ),
                                       ],
                                     ),
-                                    const SizedBox(height: 12),
+                                    const SizedBox(height: 8),
                                   ],
                                 ),
                               ),
