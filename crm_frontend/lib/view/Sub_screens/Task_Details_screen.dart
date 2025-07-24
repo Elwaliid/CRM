@@ -168,7 +168,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                             label: 'Task Type',
                             value: _selectedTaskType,
                             items: const [
-                              'None',
+                              'Other',
                               'Meeting',
                               'Call',
                               'Email',
@@ -176,7 +176,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                             ],
                             icon:
                                 _selectedTaskType == null ||
-                                    _selectedTaskType == 'None'
+                                    _selectedTaskType == 'Other'
                                 ? Icons.arrow_drop_down
                                 : _selectedTaskType == 'Meeting'
                                 ? Icons.groups
