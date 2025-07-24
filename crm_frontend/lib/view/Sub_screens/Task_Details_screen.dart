@@ -162,7 +162,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                     WilouDropdown(
                       label: 'Task Type',
                       value: _selectedTaskType,
-                      items: const ['meeting', 'call', 'email', 'deal'],
+                      items: const ['Meeting', 'Call', 'Email', 'Deal'],
                       onChanged: (value) {
                         setState(() {
                           _selectedTaskType = value;

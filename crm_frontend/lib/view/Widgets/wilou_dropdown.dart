@@ -25,17 +25,18 @@ class WilouDropdown extends StatelessWidget {
       elevation: 3,
       shadowColor: const Color.fromARGB(255, 255, 255, 255),
       borderRadius: BorderRadius.circular(12),
+
       child: DropdownButtonFormField<String>(
         value: value,
+        borderRadius: BorderRadius.circular(12),
+
         items: items.map((String value) {
           return DropdownMenuItem<String>(
             value: value,
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-              child: Text(
-                value,
-                style: GoogleFonts.roboto(fontSize: 16, color: primaryColor),
-              ),
+
+            child: Text(
+              value,
+              style: GoogleFonts.roboto(fontSize: 16, color: primaryColor),
             ),
           );
         }).toList(),
