@@ -145,29 +145,45 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                     const SizedBox(height: 100),
 
                     ///////////////////////////////////////////////////////////// Task Title
-                    WilouTextField(
-                      label: 'Task Title',
-                      controller: _taskNameController,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: WilouTextField(
+                            label: 'Task Title',
+                            controller: _taskNameController,
 
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter a Task Title';
-                        }
-                        return null;
-                      },
-                    ),
-
-                    const SizedBox(height: 16),
-                    /////////////////////////////////////////////////////////// Task Type
-                    WilouDropdown(
-                      label: 'Task Type',
-                      value: _selectedTaskType,
-                      items: const ['Meeting', 'Call', 'Email', 'Deal'],
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedTaskType = value;
-                        });
-                      },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter a Task Title';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        /////////////////////////////////////////////////////////// Task Type
+                        Expanded(
+                          child: WilouDropdown(
+                            label: 'Task Type',
+                            value: _selectedTaskType,
+                            items: const ['Meeting', 'Call', 'Email', 'Deal'],
+                            icon: _selectedTaskType == null
+                                ? Icons.arrow_drop_down
+                                : _selectedTaskType == 'Meeting'
+                                ? Icons.
+                                : _selectedTaskType == 'Call'
+                                ? Icons.call
+                                : _selectedTaskType == 'Email'
+                                ? Icons.email
+                                : Icons.business,
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedTaskType = value;
+                              });
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 16),
                     ///////////////////////////////////////////////////////////// Primary assignedTo Number

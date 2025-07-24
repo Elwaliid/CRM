@@ -8,13 +8,14 @@ class WilouDropdown extends StatelessWidget {
   final String? value;
   final List<String> items;
   final ValueChanged<String?> onChanged;
-
+  final IconData icon;
   const WilouDropdown({
     Key? key,
     required this.label,
     required this.value,
     required this.items,
     required this.onChanged,
+    required this.icon,
   }) : super(key: key);
 
   @override
@@ -68,7 +69,7 @@ class WilouDropdown extends StatelessWidget {
             ),
           ),
 
-          suffixIcon: Icon(Icons.arrow_drop_down, color: primaryColor),
+          suffixIcon: icon != null ? Icon(icon, color: primaryColor) : null,
         ),
       ),
     );
