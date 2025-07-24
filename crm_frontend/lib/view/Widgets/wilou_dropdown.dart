@@ -19,7 +19,7 @@ class WilouDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color primaryColor = Colors.blueGrey.shade900;
+    final Color primaryColor = const Color.fromARGB(255, 38, 44, 48);
 
     return Material(
       elevation: 3,
@@ -34,7 +34,7 @@ class WilouDropdown extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
               child: Text(
                 value,
-                style: GoogleFonts.poppins(color: primaryColor, fontSize: 15),
+                style: GoogleFonts.roboto(fontSize: 16, color: primaryColor),
               ),
             ),
           );
@@ -66,6 +66,7 @@ class WilouDropdown extends StatelessWidget {
               width: 2.0,
             ),
           ),
+
           suffixIcon: Icon(Icons.arrow_drop_down, color: primaryColor),
         ),
       ),

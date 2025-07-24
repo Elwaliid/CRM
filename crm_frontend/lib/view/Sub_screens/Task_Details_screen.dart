@@ -163,9 +163,9 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                       label: 'Task Type',
                       value: _selectedTaskType,
                       items: const ['meeting', 'call', 'email', 'deal'],
-                      onChanged: (newValue) {
+                      onChanged: (value) {
                         setState(() {
-                          _selectedTaskType = newValue;
+                          _selectedTaskType = value;
                         });
                       },
                     ),
