@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, deprecated_member_use
+// ignore_for_file: use_build_context_synchronously, deprecated_member_use, unnecessary_null_comparison
 
 import 'package:crm_frontend/view/Sub_screens/Task_Details_screen.dart';
 import 'package:flutter/material.dart';
@@ -348,30 +348,35 @@ class _TasksScreenState extends State<TasksScreen> {
                                           'Description: ${task.description}',
                                           style: GoogleFonts.roboto(
                                             fontSize: 16,
-                                            color: secondaryColor,
+                                            color: primaryColor,
                                           ),
                                         ),
                                         Spacer(),
-                                        Icon(
-                                          task.type == null
-                                              ? null
-                                              : task.type == 'Meeting'
-                                              ? Icons.groups
-                                              : task.type == 'Call'
-                                              ? Icons.call
-                                              : task.type == 'Email'
-                                              ? Icons.email
-                                              : Icons.business,
-                                          size: 16,
-                                          color: secondaryColor,
+                                        IconButton(
+                                          color: primaryColor,
+                                          onPressed: () {},
+                                          icon: Icon(
+                                            task.type == null
+                                                ? null
+                                                : task.type == 'Meeting'
+                                                ? Icons.groups
+                                                : task.type == 'Call'
+                                                ? Icons.call
+                                                : task.type == 'Email'
+                                                ? Icons.email
+                                                : Icons.business,
+                                            size: 16,
+                                            color: primaryColor,
+                                          ),
                                         ),
-                                        Icon(
-                                          task.type == 'Call'
-                                              ? Icons.message
-                                              : null,
-
-                                          size: 16,
-                                          color: secondaryColor,
+                                        IconButton(
+                                          color: primaryColor,
+                                          onPressed: () {},
+                                          icon: Icon(
+                                            task.type == 'Call'
+                                                ? Icons.message
+                                                : null,
+                                          ),
                                         ),
                                       ],
                                     ),
