@@ -9,6 +9,8 @@ class WilouDropdown extends StatelessWidget {
   final List<String> items;
   final ValueChanged<String?> onChanged;
   final IconData icon;
+  final String? Function(String?)? validator;
+
   const WilouDropdown({
     Key? key,
     required this.label,
@@ -16,6 +18,7 @@ class WilouDropdown extends StatelessWidget {
     required this.items,
     required this.onChanged,
     required this.icon,
+    this.validator, // ✅ Optional custom validator, fallback below
   }) : super(key: key);
 
   @override
