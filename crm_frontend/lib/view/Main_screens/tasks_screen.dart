@@ -8,6 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 class Task {
   final String title;
+  final String revenue;
+  final String cost;
   final String description;
   final String dueDate;
   final String assignedTo;
@@ -19,6 +21,8 @@ class Task {
     required this.dueDate,
     required this.assignedTo,
     required this.status,
+    this.revenue = '',
+    this.cost = '',
     this.type = '',
   });
 }
@@ -63,6 +67,8 @@ class _TasksScreenState extends State<TasksScreen> {
       dueDate: '2025-07-17',
       assignedTo: 'Sid Ahmed',
       status: 'Pending',
+      revenue: '29385',
+      cost: '345346',
       type: 'Deal',
     ),
     Task(
