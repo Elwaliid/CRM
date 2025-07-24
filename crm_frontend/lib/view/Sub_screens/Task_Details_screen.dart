@@ -165,14 +165,20 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                         /////////////////////////////////////////////////////////// Task Type
                         Expanded(
                           child: WilouDropdown(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter a Task Title';
+                              }
+                              return null;
+                            },
                             label: 'Task Type',
                             value: _selectedTaskType,
                             items: const [
-                              'Other',
                               'Meeting',
                               'Call',
                               'Email',
                               'Deal',
+                              'Other',
                             ],
                             icon:
                                 _selectedTaskType == null ||
