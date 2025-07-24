@@ -359,44 +359,46 @@ class _TasksScreenState extends State<TasksScreen> {
                                         Spacer(),
                                         ///////////////////////////////////////////// Task type icons
                                         ////////////////////////// call and message
-                                        IconButton(
-                                          color: primaryColor,
-                                          onPressed: () {},
-                                          icon: Icon(
-                                            task.type == 'Call'
-                                                ? Icons.call
-                                                : null,
+                                        if (task.type == 'Call')
+                                          IconButton(
+                                            color: primaryColor,
+                                            onPressed: () {},
+                                            icon: Icon(Icons.call),
                                           ),
-                                        ),
-                                        IconButton(
-                                          color: primaryColor,
-                                          onPressed: () {},
-                                          icon: Icon(
-                                            task.type == 'Call'
-                                                ? Icons.message
-                                                : null,
+                                        if (task.type == 'Call')
+                                          IconButton(
+                                            color: primaryColor,
+                                            onPressed: () {},
+                                            icon: Icon(Icons.message),
                                           ),
-                                        ),
                                         ///////////////////////////////////////////// Email
-                                        IconButton(
-                                          color: primaryColor,
-                                          onPressed: () {},
-                                          icon: Icon(
-                                            task.type == 'Email'
-                                                ? Icons.email
-                                                : null,
+                                        if (task.type == 'Email')
+                                          IconButton(
+                                            color: primaryColor,
+                                            onPressed: () {},
+                                            icon: Icon(Icons.email),
                                           ),
-                                        ),
                                         ///////////////////////////////////////////// Deal
-                                        IconButton(
-                                          color: primaryColor,
-                                          onPressed: () {},
-                                          icon: Icon(
-                                            task.type == 'Deal'
-                                                ? Icons.business
-                                                : null,
+                                        if (task.type == 'Deal')
+                                          IconButton(
+                                            color: primaryColor,
+                                            onPressed: () {},
+                                            icon: Icon(Icons.business),
                                           ),
-                                        ),
+                                        ///////////////////////////////////////////// meeting
+                                        if (task.type == 'Meeting')
+                                          IconButton(
+                                            color: primaryColor,
+                                            onPressed: () {},
+                                            icon: Icon(Icons.group),
+                                          ),
+                                        ///////////////////////////////////////////// None
+                                        if (task.type == '')
+                                          IconButton(
+                                            color: primaryColor,
+                                            onPressed: () {},
+                                            icon: Icon(Icons.task_alt),
+                                          ),
                                       ],
                                     ),
                                     const SizedBox(height: 12),
