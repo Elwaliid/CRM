@@ -29,7 +29,8 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   final TextEditingController _taskDescriptionController =
       TextEditingController();
   final TextEditingController _assignedToController = TextEditingController();
-  final TextEditingController _AmountController = TextEditingController();
+  final TextEditingController _revenueController = TextEditingController();
+  final TextEditingController _costController = TextEditingController();
   final List<TextEditingController> _additionalassignedToControllers = [];
   final TextEditingController _dueDateController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
@@ -166,8 +167,16 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                           child: WilouDropdown(
                             label: 'Task Type',
                             value: _selectedTaskType,
-                            items: const ['Meeting', 'Call', 'Email', 'Deal'],
-                            icon: _selectedTaskType == null
+                            items: const [
+                              'None',
+                              'Meeting',
+                              'Call',
+                              'Email',
+                              'Deal',
+                            ],
+                            icon:
+                                _selectedTaskType == null ||
+                                    _selectedTaskType == 'None'
                                 ? Icons.arrow_drop_down
                                 : _selectedTaskType == 'Meeting'
                                 ? Icons.groups
@@ -188,20 +197,36 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                     const SizedBox(height: 12),
                     ////////////////////////////////////////////////////////////// Amount text field
                     if (_selectedTaskType == 'Deal')
-                      Container(
-                        width: 230,
-                        child: WilouTextField(
-                          label: 'Amount',
-                          controller: _AmountController,
-                          icon: Icons.attach_money,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter an amount';
-                            }
-                            return null;
-                          },
-                        ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: WilouTextField(
+                              label: 'Revenue',
+                              icon: Icons.trending_up,
+                              controller: _revenueController,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: Text(
+                              '&',
+                              style: GoogleFonts.poppins(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                color: primaryColor,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: WilouTextField(
+                              label: 'Cost',
+                              icon: Icons.trending_down,
+                              controller: _costController,
+                            ),
+                          ),
+                        ],
                       ),
+
                     const SizedBox(height: 12),
                     ///////////////////////////////////////////////////////////// Primary assignedTo Number
                     Row(
