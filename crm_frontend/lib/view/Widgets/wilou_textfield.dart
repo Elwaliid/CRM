@@ -12,7 +12,7 @@ class WilouTextField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final VoidCallback? onTap;
   final bool readOnly;
-
+  final IconData? icon;
   const WilouTextField({
     super.key,
     required this.label,
@@ -24,6 +24,7 @@ class WilouTextField extends StatelessWidget {
     this.inputFormatters,
     this.onTap,
     this.readOnly = false,
+    this.icon,
   });
 
   @override
@@ -38,6 +39,9 @@ class WilouTextField extends StatelessWidget {
       onTap: onTap,
       style: GoogleFonts.roboto(fontSize: 16, color: textColor),
       decoration: InputDecoration(
+        suffixIcon: icon != null
+            ? Icon(icon, color: textColor.withOpacity(0.7))
+            : null,
         labelText: label,
         labelStyle: GoogleFonts.poppins(
           color: textColor.withOpacity(0.85),

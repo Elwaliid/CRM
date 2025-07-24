@@ -29,7 +29,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   final TextEditingController _taskDescriptionController =
       TextEditingController();
   final TextEditingController _assignedToController = TextEditingController();
-
+  final TextEditingController _AmountController = TextEditingController();
   final List<TextEditingController> _additionalassignedToControllers = [];
   final TextEditingController _dueDateController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
@@ -170,7 +170,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                             icon: _selectedTaskType == null
                                 ? Icons.arrow_drop_down
                                 : _selectedTaskType == 'Meeting'
-                                ? Icons.
+                                ? Icons.groups
                                 : _selectedTaskType == 'Call'
                                 ? Icons.call
                                 : _selectedTaskType == 'Email'
@@ -185,7 +185,24 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 12),
+                    ////////////////////////////////////////////////////////////// Amount text field
+                    if (_selectedTaskType == 'Deal')
+                      Container(
+                        width: 230,
+                        child: WilouTextField(
+                          label: 'Amount',
+                          controller: _AmountController,
+                          icon: Icons.attach_money,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter an amount';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    const SizedBox(height: 12),
                     ///////////////////////////////////////////////////////////// Primary assignedTo Number
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
