@@ -353,15 +353,23 @@ class _TasksScreenState extends State<TasksScreen> {
                                         ),
                                         Spacer(),
                                         Icon(
-                                          _Type == null || _Type == 'Other'
-                                              ? Icons.arrow_drop_down
-                                              : _Type == 'Meeting'
+                                          task.type == null
+                                              ? null
+                                              : task.type == 'Meeting'
                                               ? Icons.groups
-                                              : _Type == 'Call'
+                                              : task.type == 'Call'
                                               ? Icons.call
-                                              : _Type == 'Email'
+                                              : task.type == 'Email'
                                               ? Icons.email
                                               : Icons.business,
+                                          size: 16,
+                                          color: secondaryColor,
+                                        ),
+                                        Icon(
+                                          task.type == 'Call'
+                                              ? Icons.message
+                                              : null,
+
                                           size: 16,
                                           color: secondaryColor,
                                         ),
