@@ -12,12 +12,14 @@ class Task {
   final String dueDate;
   final String assignedTo;
   final String status;
+  final String type;
   Task({
     required this.title,
     required this.description,
     required this.dueDate,
     required this.assignedTo,
     required this.status,
+    this.type = '',
   });
 }
 
@@ -37,6 +39,7 @@ class _TasksScreenState extends State<TasksScreen> {
       dueDate: '2025-07-14',
       assignedTo: 'Mouh',
       status: 'In Process',
+      type: 'Call',
     ),
     Task(
       title: 'Prepare Proposal',
@@ -339,12 +342,30 @@ class _TasksScreenState extends State<TasksScreen> {
                                         ),
                                       ],
                                     ),
-                                    Text(
-                                      'Description: ${task.description}',
-                                      style: GoogleFonts.roboto(
-                                        fontSize: 16,
-                                        color: secondaryColor,
-                                      ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'Description: ${task.description}',
+                                          style: GoogleFonts.roboto(
+                                            fontSize: 16,
+                                            color: secondaryColor,
+                                          ),
+                                        ),
+                                        Spacer(),
+                                        Icon(
+                                          _Type == null || _Type == 'Other'
+                                              ? Icons.arrow_drop_down
+                                              : _Type == 'Meeting'
+                                              ? Icons.groups
+                                              : _Type == 'Call'
+                                              ? Icons.call
+                                              : _Type == 'Email'
+                                              ? Icons.email
+                                              : Icons.business,
+                                          size: 16,
+                                          color: secondaryColor,
+                                        ),
+                                      ],
                                     ),
                                     const SizedBox(height: 12),
                                   ],
