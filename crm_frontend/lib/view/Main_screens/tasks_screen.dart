@@ -47,6 +47,7 @@ class _TasksScreenState extends State<TasksScreen> {
       dueDate: '2025-07-15',
       assignedTo: 'Ibrahim',
       status: 'Completed',
+      type: 'Email',
     ),
     Task(
       title: 'Update CRM',
@@ -54,6 +55,7 @@ class _TasksScreenState extends State<TasksScreen> {
       dueDate: '2025-07-16',
       assignedTo: 'Khalti',
       status: 'Pending',
+      type: 'Email',
     ),
     Task(
       title: 'Schedule Meeting',
@@ -61,6 +63,7 @@ class _TasksScreenState extends State<TasksScreen> {
       dueDate: '2025-07-17',
       assignedTo: 'Sid Ahmed',
       status: 'Pending',
+      type: 'Deal',
     ),
     Task(
       title: 'Send Email',
@@ -68,6 +71,7 @@ class _TasksScreenState extends State<TasksScreen> {
       dueDate: '2025-07-18',
       assignedTo: 'Cheb',
       status: 'In Process',
+      type: 'Meeting',
     ),
     Task(
       title: 'Review Notes',
@@ -75,6 +79,7 @@ class _TasksScreenState extends State<TasksScreen> {
       dueDate: '2025-07-19',
       assignedTo: 'Fatiha',
       status: 'Completed',
+      type: 'Call',
     ),
   ];
 
@@ -352,21 +357,15 @@ class _TasksScreenState extends State<TasksScreen> {
                                           ),
                                         ),
                                         Spacer(),
+                                        ///////////////////////////////////////////// Task type icons
+                                        ////////////////////////// call and message
                                         IconButton(
                                           color: primaryColor,
                                           onPressed: () {},
                                           icon: Icon(
-                                            task.type == null
-                                                ? null
-                                                : task.type == 'Meeting'
-                                                ? Icons.groups
-                                                : task.type == 'Call'
+                                            task.type == 'Call'
                                                 ? Icons.call
-                                                : task.type == 'Email'
-                                                ? Icons.email
-                                                : Icons.business,
-
-                                            color: primaryColor,
+                                                : null,
                                           ),
                                         ),
                                         IconButton(
@@ -375,6 +374,26 @@ class _TasksScreenState extends State<TasksScreen> {
                                           icon: Icon(
                                             task.type == 'Call'
                                                 ? Icons.message
+                                                : null,
+                                          ),
+                                        ),
+                                        ///////////////////////////////////////////// Email
+                                        IconButton(
+                                          color: primaryColor,
+                                          onPressed: () {},
+                                          icon: Icon(
+                                            task.type == 'Email'
+                                                ? Icons.email
+                                                : null,
+                                          ),
+                                        ),
+                                        ///////////////////////////////////////////// Deal
+                                        IconButton(
+                                          color: primaryColor,
+                                          onPressed: () {},
+                                          icon: Icon(
+                                            task.type == 'Deal'
+                                                ? Icons.business
                                                 : null,
                                           ),
                                         ),
