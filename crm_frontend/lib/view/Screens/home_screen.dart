@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Clients'),
           BottomNavigationBarItem(icon: Icon(Icons.task_alt), label: 'Tasks'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.schedule),
+            icon: Icon(Icons.calendar_month),
             label: 'Schedules',
           ),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),

@@ -1,3 +1,4 @@
+import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 
 class SchedulesScreen extends StatefulWidget {
@@ -44,11 +45,7 @@ class _SchedulesScreenState extends State<SchedulesScreen>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: const [
-                Center(child: Text('Day View Content')),
-                Center(child: Text('Week View Content')),
-                Center(child: Text('Month View Content')),
-              ],
+              children: const <Widget>[DayView(), WeekView(), MonthView()],
             ),
           ),
         ],
