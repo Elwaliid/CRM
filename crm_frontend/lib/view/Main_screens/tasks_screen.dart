@@ -15,6 +15,7 @@ class Task {
   final String assignedTo;
   final String status;
   final String type;
+
   Task({
     required this.title,
     required this.description,
@@ -387,7 +388,84 @@ class _TasksScreenState extends State<TasksScreen> {
                                         if (task.type == 'Deal')
                                           IconButton(
                                             color: primaryColor,
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              PopupMenuButton<String>(
+                                                color: Colors.white,
+
+                                                itemBuilder: (BuildContext context) => [
+                                                  PopupMenuItem<String>(
+                                                    child: Row(
+                                                      children: [
+                                                        Text(
+                                                          'Revenue: ${task.revenue}',
+                                                        ),
+                                                        Text(
+                                                          'DZD',
+                                                          style: TextStyle(
+                                                            fontStyle:
+                                                                GoogleFonts.roboto(
+                                                                  color:
+                                                                      const Color.fromARGB(
+                                                                        255,
+                                                                        0,
+                                                                        0,
+                                                                        0,
+                                                                      ),
+                                                                ).fontStyle,
+                                                          ),
+                                                        ),
+                                                        SizedBox(width: 8),
+                                                        Icon(
+                                                          Icons.trending_down,
+                                                          color:
+                                                              const Color.fromARGB(
+                                                                255,
+                                                                75,
+                                                                138,
+                                                                91,
+                                                              ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  PopupMenuItem<String>(
+                                                    child: Row(
+                                                      children: [
+                                                        Text(
+                                                          'Cost: ${task.cost}',
+                                                        ),
+                                                        Text(
+                                                          'DZD',
+                                                          style: TextStyle(
+                                                            fontStyle:
+                                                                GoogleFonts.roboto(
+                                                                  color:
+                                                                      const Color.fromARGB(
+                                                                        255,
+                                                                        0,
+                                                                        0,
+                                                                        0,
+                                                                      ),
+                                                                ).fontStyle,
+                                                          ),
+                                                        ),
+                                                        SizedBox(width: 8),
+                                                        Icon(
+                                                          Icons.trending_down,
+                                                          color:
+                                                              const Color.fromARGB(
+                                                                255,
+                                                                126,
+                                                                2,
+                                                                2,
+                                                              ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              );
+                                            },
                                             icon: Icon(Icons.business),
                                           ),
                                         ///////////////////////////////////////////// meeting
