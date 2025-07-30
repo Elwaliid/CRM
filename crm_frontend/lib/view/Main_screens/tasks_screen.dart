@@ -51,7 +51,7 @@ class _TasksScreenState extends State<TasksScreen> {
       dueDate: '2025-07-15',
       assignedTo: 'Ibrahim',
       status: 'Completed',
-      type: 'Email',
+      type: '',
     ),
     Task(
       title: 'Update CRM',
@@ -351,7 +351,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                         color: secondaryColor,
                                       ),
                                     ),
-
+                                    /////////////////////////////////////////// Des
                                     Row(
                                       children: [
                                         Text(
@@ -362,26 +362,26 @@ class _TasksScreenState extends State<TasksScreen> {
                                           ),
                                         ),
                                         Spacer(),
-                                        ///////////////////////////////////////////// Task type icons
+                                        // Task type icons
                                         ////////////////////////// call and message
                                         if (task.type == 'Call')
                                           IconButton(
                                             color: primaryColor,
                                             onPressed: () {},
-                                            icon: Icon(Icons.call),
+                                            icon: Icon(Icons.call, size: 10),
                                           ),
                                         if (task.type == 'Call')
                                           IconButton(
                                             color: primaryColor,
                                             onPressed: () {},
-                                            icon: Icon(Icons.message),
+                                            icon: Icon(Icons.message, size: 10),
                                           ),
                                         ///////////////////////////////////////////// Email
                                         if (task.type == 'Email')
                                           IconButton(
                                             color: primaryColor,
                                             onPressed: () {},
-                                            icon: Icon(Icons.email),
+                                            icon: Icon(Icons.email, size: 10),
                                           ),
                                         ///////////////////////////////////////////// Deal
                                         if (task.type == 'Deal')
@@ -478,14 +478,17 @@ class _TasksScreenState extends State<TasksScreen> {
                                           IconButton(
                                             color: primaryColor,
                                             onPressed: () {},
-                                            icon: Icon(Icons.group),
+                                            icon: Icon(Icons.group, size: 10),
                                           ),
                                         ///////////////////////////////////////////// None
                                         if (task.type == '')
                                           IconButton(
                                             color: primaryColor,
                                             onPressed: () {},
-                                            icon: Icon(Icons.task_alt),
+                                            icon: Icon(
+                                              Icons.task_alt,
+                                              size: 10,
+                                            ),
                                           ),
                                       ],
                                     ),
