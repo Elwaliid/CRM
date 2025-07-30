@@ -351,7 +351,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                         color: secondaryColor,
                                       ),
                                     ),
-                                    /////////////////////////////////////////// Des
+                                    /////////////////////////////////////////// Description
                                     Row(
                                       children: [
                                         Text(
@@ -368,20 +368,20 @@ class _TasksScreenState extends State<TasksScreen> {
                                           IconButton(
                                             color: primaryColor,
                                             onPressed: () {},
-                                            icon: Icon(Icons.call, size: 10),
+                                            icon: Icon(Icons.call),
                                           ),
                                         if (task.type == 'Call')
                                           IconButton(
                                             color: primaryColor,
                                             onPressed: () {},
-                                            icon: Icon(Icons.message, size: 10),
+                                            icon: Icon(Icons.message),
                                           ),
                                         ///////////////////////////////////////////// Email
                                         if (task.type == 'Email')
                                           IconButton(
                                             color: primaryColor,
                                             onPressed: () {},
-                                            icon: Icon(Icons.email, size: 10),
+                                            icon: Icon(Icons.email),
                                           ),
                                         ///////////////////////////////////////////// Deal
                                         if (task.type == 'Deal')
@@ -478,17 +478,14 @@ class _TasksScreenState extends State<TasksScreen> {
                                           IconButton(
                                             color: primaryColor,
                                             onPressed: () {},
-                                            icon: Icon(Icons.group, size: 10),
+                                            icon: Icon(Icons.group),
                                           ),
                                         ///////////////////////////////////////////// None
                                         if (task.type == '')
                                           IconButton(
                                             color: primaryColor,
                                             onPressed: () {},
-                                            icon: Icon(
-                                              Icons.task_alt,
-                                              size: 10,
-                                            ),
+                                            icon: Icon(Icons.task_alt),
                                           ),
                                       ],
                                     ),
