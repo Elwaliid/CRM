@@ -11,6 +11,8 @@ class SchedulesScreen extends StatefulWidget {
 class _SchedulesScreenState extends State<SchedulesScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  final EventController _eventController =
+      EventController(); // ✅ Create the controller
 
   @override
   void initState() {
@@ -21,34 +23,37 @@ class _SchedulesScreenState extends State<SchedulesScreen>
   @override
   void dispose() {
     _tabController.dispose();
+    _eventController.dispose(); // ✅ Don't forget to dispose it
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white, // optional aesthetic
-      body: Column(
-        children: [
-          // optional spacing for status bar area
-          TabBar(
-            controller: _tabController,
-            labelColor: Colors.blue,
-            unselectedLabelColor: Colors.grey,
-            indicatorColor: Colors.blue,
-            tabs: const [
-              Tab(text: 'Day View'),
-              Tab(text: 'Week View'),
-              Tab(text: 'Month View'),
-            ],
-          ),
-          Expanded(
-            child: TabBarView(
+    return CalendarControllerProvider(
+      controller: _eventController, // ✅ Provide the controller
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Column(
+          children: [
+            TabBar(
               controller: _tabController,
-              children: const <Widget>[DayView(), WeekView(), MonthView()],
+              labelColor: Colors.blue,
+              unselectedLabelColor: Colors.grey,
+              indicatorColor: Colors.blue,
+              tabs: const [
+                Tab(text: 'Day View'),
+                Tab(text: 'Week View'),
+                Tab(text: 'Month View'),
+              ],
             ),
-          ),
-        ],
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: const <Widget>[DayView(), WeekView(), MonthView()],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
