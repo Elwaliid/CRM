@@ -396,9 +396,18 @@ class _TasksScreenState extends State<TasksScreen> {
                                               PopupMenuItem<String>(
                                                 child: Row(
                                                   children: [
+                                                    SizedBox(width: 12),
                                                     Text(
                                                       'Revenue: ${task.revenue}',
+                                                      style: TextStyle(
+                                                        fontStyle:
+                                                            GoogleFonts.roboto(
+                                                              color:
+                                                                  primaryColor,
+                                                            ).fontStyle,
+                                                      ),
                                                     ),
+                                                    SizedBox(width: 2),
                                                     Text(
                                                       'DZD',
                                                       style: TextStyle(
@@ -426,7 +435,18 @@ class _TasksScreenState extends State<TasksScreen> {
                                               PopupMenuItem<String>(
                                                 child: Row(
                                                   children: [
-                                                    Text('Cost: ${task.cost}'),
+                                                    SizedBox(width: 12),
+                                                    Text(
+                                                      'Cost: ${task.cost}',
+                                                      style: TextStyle(
+                                                        fontStyle:
+                                                            GoogleFonts.roboto(
+                                                              color:
+                                                                  primaryColor,
+                                                            ).fontStyle,
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 2),
                                                     Text(
                                                       'DZD',
                                                       style: TextStyle(
@@ -469,7 +489,6 @@ class _TasksScreenState extends State<TasksScreen> {
                                           ),
                                       ],
                                     ),
-                                    const SizedBox(height: 8),
                                   ],
                                 ),
                               ),
