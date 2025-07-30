@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:crm_frontend/view/Main_screens/dashboard_screen.dart';
-import 'package:crm_frontend/view/Main_screens/messages_screan.dart';
+import 'package:crm_frontend/view/Main_screens/scheduels_screan.dart';
 import 'package:crm_frontend/view/Main_screens/profile_screen.dart';
 import 'package:crm_frontend/view/Main_screens/tasks_screen.dart';
 
@@ -25,14 +25,14 @@ class _HomeScreenState extends State<HomeScreen> {
     'Home',
     'Clients',
     'Tasks',
-    'Messages',
+    'Schedules',
     'Profile',
   ];
   final List<Widget> screens = [
     const DashboardScreen(),
     const ContactsScreen(),
     const TasksScreen(),
-    const MessagesScreen(),
+    const SchedulesScreen(),
     const ProfileScreen(),
   ];
 
@@ -67,7 +67,10 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Clients'),
           BottomNavigationBarItem(icon: Icon(Icons.task_alt), label: 'Tasks'),
-          BottomNavigationBarItem(icon: Icon(Icons.message), label: 'Messages'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.schedule),
+            label: 'Schedules',
+          ),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
       ),
