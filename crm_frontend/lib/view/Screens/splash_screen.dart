@@ -1,6 +1,6 @@
 // ignore_for_file: sized_box_for_whitespace, unused_import
 
-import 'package:crm_frontend/view/Main_screens/tasks_screen.dart';
+import 'package:crm_frontend/view/Home_screens/tasks_screen.dart';
 import 'package:crm_frontend/view/Screens/home_screen.dart';
 import 'package:crm_frontend/view/Sub_screens/Task_Details_screen.dart';
 import 'package:crm_frontend/view/Sub_screens/contact_details_screen.dart';
