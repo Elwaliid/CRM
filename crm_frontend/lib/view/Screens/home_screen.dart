@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:crm_frontend/view/Main_screens/dashboard_screen.dart';
-import 'package:crm_frontend/view/Main_screens/scheduels_screan.dart';
+import 'package:crm_frontend/view/Main_screens/schedule_screan.dart';
 import 'package:crm_frontend/view/Main_screens/profile_screen.dart';
 import 'package:crm_frontend/view/Main_screens/tasks_screen.dart';
 
@@ -19,7 +19,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 2;
+  int _selectedIndex = 3;
 
   final List<String> screenTitles = [
     'Home',
