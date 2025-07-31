@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print, unused_element, unnecessary_import, use_super_parameters, deprecated_member_use, unused_local_variable, prefer_final_fields
 import 'dart:ui';
 
+import 'package:crm_frontend/constants.dart' as constants;
 import 'package:crm_frontend/view/Widgets/quick_adds.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,16 +14,6 @@ import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /////////////////////////////////////////////// Colors
-class AppColors {
-  static final blueGrey = const Color.fromARGB(255, 39, 69, 83);
-  static final contentColorGreen = Colors.teal.shade700;
-  static final content = Colors.blueGrey.shade900;
-  static const contentColorWhite = Color(0xFFFFFFFF);
-
-  static final deepOrange = Colors.deepOrange.shade400;
-  static const contentColorPurple = Color(0xFF9C27B0); // Purple
-  static const mainTextColor1 = Color(0xFF212121); // Dark Grey for main text
-}
 
 //////////////////////////////////////////////////////////////////////// // Indicator class
 class Indicator extends StatelessWidget {
@@ -195,14 +186,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         'Tasks',
                         '8',
                         Icons.task_alt,
-                        AppColors.contentColorGreen,
+                        constants.contentColorGreen,
                       ),
                       const SizedBox(width: 12),
                       _buildInfoCard(
                         'Deals',
                         '5',
                         Icons.business_center,
-                        AppColors.deepOrange,
+                        constants.deepOrange,
                       ),
                     ],
                   ),
@@ -500,14 +491,14 @@ class _LineChartSample13State extends State<LineChartSample13> {
               .map((e) => FlSpot((e.key + 1).toDouble(), e.value.toDouble()))
               .toList(),
           isCurved: true,
-          color: AppColors.blueGrey,
+          color: constants.secondaryColor,
           barWidth: 2,
           dotData: FlDotData(
             show: true,
             getDotPainter: (spot, percent, barData, index) =>
                 FlDotCirclePainter(
                   radius: 3,
-                  color: AppColors.blueGrey,
+                  color: constants.secondaryColor,
                   strokeWidth: 1,
                   strokeColor: Colors.white,
                 ),
@@ -568,7 +559,7 @@ class PieChart2State extends State<PieChartSample2> {
   List<PieChartSectionData> showingSections() {
     return [
       PieChartSectionData(
-        color: AppColors.content,
+        color: constants.primaryColor,
         value: 40,
         title: '40%',
         radius: touchedIndex == 0 ? 60 : 50,
@@ -579,7 +570,7 @@ class PieChart2State extends State<PieChartSample2> {
         ),
       ),
       PieChartSectionData(
-        color: AppColors.contentColorGreen,
+        color: constants.contentColorGreen,
         value: 60,
         title: '60%',
         radius: touchedIndex == 1 ? 60 : 50,
@@ -653,9 +644,9 @@ class PieChart2State extends State<PieChartSample2> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildLegendBox(AppColors.contentColorGreen, 'Leads'),
+              _buildLegendBox(constants.contentColorGreen, 'Leads'),
               const SizedBox(width: 16),
-              _buildLegendBox(AppColors.content, 'Clients'),
+              _buildLegendBox(constants.primaryColor, 'Clients'),
             ],
           ),
         ],
