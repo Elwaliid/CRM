@@ -10,12 +10,9 @@ void main() {
 }
 
 class CRMApp extends StatelessWidget {
-  @override
-  /*void initState() {
-    super.initState();
-    fetchData();
-  }*/
-  // ignore: override_on_non_overriding_member
+  const CRMApp({super.key});
+
+  // Example fetch (not relevant for UI)
   Future<void> fetchData() async {
     final response = await http.get(
       Uri.parse('http://localhost:3000/api/data'),
@@ -27,7 +24,6 @@ class CRMApp extends StatelessWidget {
     }
   }
 
-  const CRMApp({super.key});
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -38,8 +34,20 @@ class CRMApp extends StatelessWidget {
           iconTheme: IconThemeData(color: Colors.white),
           color: Colors.black,
         ),
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(255, 0, 0, 0),
+        // ✅ Custom color scheme for date picker + app
+        colorScheme: ColorScheme.light(
+          primary: Colors.blueGrey.shade900, // header background
+          onPrimary: Colors.white, // header text
+          onSurface: Colors.black87, // body text
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(foregroundColor: Colors.black),
+        ),
+        dialogBackgroundColor: Colors.white,
+        datePickerTheme: DatePickerThemeData(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
         ),
         useMaterial3: true,
       ),
