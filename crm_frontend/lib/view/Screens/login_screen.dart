@@ -1,7 +1,7 @@
 // ignore_for_file: deprecated_member_use, duplicate_ignore, avoid_print, unnecessary_import
 
 import 'dart:convert';
-
+import 'package:crm_frontend/config.dart';
 import 'package:crm_frontend/view/Screens/home_screen.dart';
 import 'package:crm_frontend/view/Screens/register_screen.dart';
 import 'package:flutter/material.dart';
@@ -223,7 +223,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               'password': _passwordTextEditingController.text,
                             };
                             var response = await http.post(
-                              Uri.parse('https://example.com/api/login'),
+                              Uri.parse(registerUrl),
                               headers: {"Content-Type": "application/json"},
                               body: jsonEncode(logBody),
                             );
