@@ -1,5 +1,7 @@
 // ignore_for_file: deprecated_member_use, duplicate_ignore, avoid_print, unnecessary_import
 
+import 'dart:convert';
+
 import 'package:crm_frontend/view/Screens/home_screen.dart';
 import 'package:crm_frontend/view/Screens/register_screen.dart';
 import 'package:flutter/material.dart';
@@ -118,6 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           if (value == null || !value.contains('@')) {
                             return "Please enter a valid email";
                           }
+
                           return null;
                         },
                       ),
@@ -175,6 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           if (value == null || value.length < 6) {
                             return "Password must be at least 6 characters";
                           }
+
                           return null;
                         },
                       ),
@@ -213,7 +217,17 @@ class _LoginScreenState extends State<LoginScreen> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
-                          onPressed: () {
+                          onPressed: () async {
+                            var logBody = {
+                              'email': _emailTextEditingController.text,
+                              'password': _passwordTextEditingController.text,
+                            };
+                            var response = await http.post(
+                              Uri.parse('https://example.com/api/login'),
+                              headers: {"Content-Type": "application/json"},
+                              body: jsonEncode(logBody),
+                            );
+                            print(response);
                             if (_formKey.currentState!.validate()) {
                               Get.to(HomeScreen());
                             }
