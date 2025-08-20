@@ -7,7 +7,7 @@ app.get('/',(req,res)=>{
     res.send("helloooo")
 })
 app.get("/api/data",(req,res)=>{
-    res.json({success: true, message: "Data fetched successfully!"})
+    res.json({success: true, message: "Oumourek Riglou!"})
 })
 
 app.listen(port,()=>{

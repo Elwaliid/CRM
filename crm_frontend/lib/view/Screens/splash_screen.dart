@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:async';
 
+import 'package:http/http.dart' as http;
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
   @override
@@ -19,9 +21,21 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    fetchData();
     Timer(const Duration(milliseconds: 1500), () {
       Get.to(const LoginScreen());
     });
+  }
+
+  Future<void> fetchData() async {
+    final response = await http.get(
+      Uri.parse('http://localhost:3000/api/data'),
+    );
+    if (response.statusCode == 200) {
+      print("Splash Data: ${response.body}");
+    } else {
+      print("Error: ${response.statusCode}");
+    }
   }
 
   @override
