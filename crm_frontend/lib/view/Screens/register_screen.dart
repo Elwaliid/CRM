@@ -383,7 +383,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 headers: {"Content-Type": "application/json"},
                                 body: jsonEncode(logBody),
                               );
-                              print(response);
+                              var responseBody = jsonDecode(response.body);
+                              print(responseBody['status']);
                               if (_formKey.currentState!.validate()) {
                                 Get.to(HomeScreen());
                               }
