@@ -1,11 +1,15 @@
 // ignore_for_file: deprecated_member_use
 
+import 'dart:convert';
+
+import 'package:crm_frontend/config.dart';
 import 'package:crm_frontend/view/Screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -369,7 +373,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 borderRadius: BorderRadius.circular(12),
                               ),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
+                              var logBody = {
+                                'email': _emailTextEditingController.text,
+                                'password': _passwordTextEditingController.text,
+                              };
+                              var response = await http.post(
+                                Uri.parse(registerUrl),
+                                headers: {"Content-Type": "application/json"},
+                                body: jsonEncode(logBody),
+                              );
+                              print(response);
                               if (_formKey.currentState!.validate()) {
                                 Get.to(HomeScreen());
                               }

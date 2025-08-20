@@ -218,16 +218,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           onPressed: () async {
-                            var logBody = {
-                              'email': _emailTextEditingController.text,
-                              'password': _passwordTextEditingController.text,
-                            };
-                            var response = await http.post(
-                              Uri.parse(registerUrl),
-                              headers: {"Content-Type": "application/json"},
-                              body: jsonEncode(logBody),
-                            );
-                            print(response);
                             if (_formKey.currentState!.validate()) {
                               Get.to(HomeScreen());
                             }
