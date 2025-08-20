@@ -2,9 +2,9 @@
 
 import 'package:crm_frontend/view/Home_screens/tasks_screen.dart';
 import 'package:crm_frontend/view/Screens/home_screen.dart';
+import 'package:crm_frontend/view/Screens/login_screen.dart';
 import 'package:crm_frontend/view/Sub_screens/Task_Details_screen.dart';
 import 'package:crm_frontend/view/Sub_screens/contact_details_screen.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:async';
@@ -20,8 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(const Duration(milliseconds: 1500), () {
-      Get.to(const HomeScreen());
-      //  Get.to(const TasksScreen());
+      Get.to(const LoginScreen());
     });
   }
 
