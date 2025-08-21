@@ -16,7 +16,21 @@ exports.login = async (req, res,next) => {
     try{
         const { email, password } = req.body;
 
-     
+        const user =  UserService.loginUser(email);
+      if(!user){
+            throw newError("User not found");
+        }
+        const isMatch = await user.comparePassword(password);
+
+        if(!isMatch){
+              throw newError("password invalid");
+        }
+
+         let tokenData =  {_id: user._id, email: user.email};
+         const token = await UserService.generateToken(tokenData,"secretKey","1h");
+         res.status(200).json({
+            status: true,
+            token: token,})
     }catch(err){
         throw err;
     }
