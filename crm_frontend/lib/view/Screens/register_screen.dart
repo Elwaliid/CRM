@@ -385,7 +385,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               );
                               var responseBody = jsonDecode(response.body);
                               print(responseBody['status']);
-                              if (_formKey.currentState!.validate()) {
+                              if (_formKey.currentState!.validate() &&
+                                  responseBody['status'] == 'true') {
                                 Get.to(HomeScreen());
                               }
                             },
