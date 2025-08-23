@@ -18,7 +18,7 @@ exports.login = async (req, res,next) => {
 
         const user =  UserService.loginUser(email);
       if(!user){
-            throw newError("User not found");
+            throw newError("wrong email ");
         }
         const isMatch = await user.comparePassword(password);
 
