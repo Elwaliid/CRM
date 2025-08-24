@@ -10,7 +10,7 @@ app.get("/api/data",(req,res)=>{
     res.json({success: true, message: "Oumourek Riglou!"})
 })
 
-app.listen(port, '0.0.0.0', ()=>{
+app.listen(port,  ()=>{
     console.log(`server on port http://localhost:${port}`);
-    console.log(`server also accessible on http://192.168.1.7:${port}`);
+   
 })
