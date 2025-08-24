@@ -9,6 +9,7 @@ static async registerUser(email,password){
         throw err;
     }
 }
+
 static async loginUser(email) {
     try{
         return await UserModel({email});
