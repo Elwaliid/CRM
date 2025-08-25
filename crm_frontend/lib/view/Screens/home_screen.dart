@@ -8,6 +8,7 @@ import 'package:crm_frontend/view/Home_screens/tasks_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 import '../Home_screens/contacts_screen.dart'; // Import ClientsScreen
 
@@ -21,6 +22,16 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+  late String email;
+  @override
+  void initState() {
+    super.initState();
+    // You can use widget.token here if needed
+
+    Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+    email = jwtDecodedToken['email'];
+    print(email);
+  }
 
   final List<String> screenTitles = [
     'Dashboard',
@@ -42,6 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[50],
       body: screens[_selectedIndex],
+
       //////////////////////////////////////////////////////////////  Bottom Navigation Bar
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.blueGrey[900],
