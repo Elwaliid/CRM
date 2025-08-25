@@ -219,7 +219,56 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              Get.to(HomeScreen());
+                              try {
+                                var logBody = {
+                                  'email': _emailTextEditingController.text,
+                                  'password':
+                                      _passwordTextEditingController.text,
+                                };
+                                var response = await http.post(
+                                  Uri.parse(loginUrl),
+                                  headers: {"Content-Type": "application/json"},
+                                  body: jsonEncode(logBody),
+                                );
+
+                                // Check if response is JSON
+                                if (response.headers['content-type']?.contains(
+                                      'application/json',
+                                    ) ??
+                                    false) {
+                                  var responseBody = jsonDecode(response.body);
+                                  if (responseBody['status'] == true) {
+                                    Get.to(HomeScreen());
+                                  } else {
+                                    // Show error message from server
+                                    Get.snackbar(
+                                      'Login Failed',
+                                      responseBody['message'] ??
+                                          'Invalid credentials',
+                                      backgroundColor: Colors.red,
+                                      colorText: Colors.white,
+                                    );
+                                  }
+                                } else {
+                                  // Handle non-JSON response (likely HTML error page)
+                                  Get.snackbar(
+                                    'Server Error',
+                                    'Server returned an unexpected response. Please try again later.',
+                                    backgroundColor: Colors.red,
+                                    colorText: Colors.white,
+                                  );
+                                  print('Non-JSON response: ${response.body}');
+                                }
+                              } catch (e) {
+                                // Handle network errors or JSON parsing errors
+                                Get.snackbar(
+                                  'Error',
+                                  'Failed to connect to server. Please check your connection.',
+                                  backgroundColor: Colors.red,
+                                  colorText: Colors.white,
+                                );
+                                print('Login error: $e');
+                              }
                             }
                           },
                           child: const Text(
