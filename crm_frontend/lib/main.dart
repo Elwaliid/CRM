@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  runApp(const CRMApp());
+  runApp(CRMApp(token: prefs.getString('token')));
 }
 
 class CRMApp extends StatelessWidget {

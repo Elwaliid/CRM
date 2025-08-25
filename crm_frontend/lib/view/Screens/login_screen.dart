@@ -252,7 +252,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   prefs.setString('token', token);
 
                                   if (responseBody['status'] == true) {
-                                    Get.to(HomeScreen(token: prefs));
+                                    Get.to(
+                                      HomeScreen(token: token),
+                                    ); // Pass the token string instead of prefs
                                   } else {
                                     // Show error message from server
                                     Get.snackbar(
