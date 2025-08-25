@@ -4,13 +4,17 @@ import 'package:crm_frontend/view/Screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
   runApp(const CRMApp());
 }
 
 class CRMApp extends StatelessWidget {
-  const CRMApp({super.key});
+  final token;
+  const CRMApp({@required this.token, super.key});
 
   // Example fetch (not relevant for UI)
   Future<void> fetchData() async {
