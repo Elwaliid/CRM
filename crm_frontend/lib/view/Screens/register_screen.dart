@@ -387,7 +387,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               print(responseBody['status']);
                               if (_formKey.currentState!.validate() &&
                                   responseBody['status'] == 'true') {
-                                Get.to(HomeScreen());
+                                Get.to(HomeScreen(token: null));
                               }
                             },
                             child: const Text(

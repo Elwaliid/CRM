@@ -1,5 +1,4 @@
 // ignore_for_file: deprecated_member_use, duplicate_ignore, avoid_print, unnecessary_import
-
 import 'dart:convert';
 import 'package:crm_frontend/config.dart';
 import 'package:crm_frontend/view/Screens/home_screen.dart';
@@ -9,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -21,6 +21,17 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailTextEditingController = TextEditingController();
   final _passwordTextEditingController = TextEditingController();
   bool _obscurePassword = true;
+  late SharedPreferences prefs;
+
+  @override
+  void initState() {
+    super.initState();
+    _initSharedPrefers();
+  }
+
+  void _initSharedPrefers() async {
+    prefs = await SharedPreferences.getInstance();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -237,8 +248,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ) ??
                                     false) {
                                   var responseBody = jsonDecode(response.body);
+                                  var token = responseBody['token'];
+                                  prefs.setString('token', token);
+
                                   if (responseBody['status'] == true) {
-                                    Get.to(HomeScreen());
+                                    Get.to(HomeScreen(token: prefs));
                                   } else {
                                     // Show error message from server
                                     Get.snackbar(
@@ -254,7 +268,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                   Get.snackbar(
                                     'Server Error',
                                     'Server returned an unexpected response. Please try again later.',
-                                    backgroundColor: Colors.red,
+                                    backgroundColor: const Color.fromARGB(
+                                      255,
+                                      170,
+                                      119,
+                                      115,
+                                    ),
                                     colorText: Colors.white,
                                   );
                                   print('Non-JSON response: ${response.body}');
@@ -264,7 +283,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Get.snackbar(
                                   'Error',
                                   'Failed to connect to server. Please check your connection.',
-                                  backgroundColor: Colors.red,
+                                  backgroundColor: const Color.fromARGB(
+                                    255,
+                                    158,
+                                    109,
+                                    105,
+                                  ),
                                   colorText: Colors.white,
                                 );
                                 print('Login error: $e');

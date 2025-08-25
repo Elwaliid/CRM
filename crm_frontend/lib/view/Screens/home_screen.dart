@@ -12,7 +12,8 @@ import 'package:flutter/services.dart';
 import '../Home_screens/contacts_screen.dart'; // Import ClientsScreen
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final token;
+  const HomeScreen({required this.token, super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
