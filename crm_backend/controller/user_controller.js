@@ -16,7 +16,7 @@ exports.login = async (req, res,next) => {
     try{
         const { email, password } = req.body;
 
-        const user =  UserService.loginUser(email);
+        const user = await UserService.loginUser(email);
       if(!user){
             throw newError("wrong email ");
         }

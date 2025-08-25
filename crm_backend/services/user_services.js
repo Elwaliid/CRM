@@ -12,7 +12,7 @@ static async registerUser(email,password){
 
 static async loginUser(email) {
     try{
-        return await UserModel({email});
+        return await UserModel.findOne({email});
     }catch(err) {throw err;}
 }
 
