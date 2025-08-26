@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'dart:convert';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:crm_frontend/config.dart';
 import 'package:crm_frontend/view/Screens/home_screen.dart';
@@ -10,11 +11,63 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+//////////////////////////////////////////////////////////////////////// Apple Sign In
+class AppleAuthService {
+  Future<void> signInWithApple() async {
+    try {
+      final credential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+
+      final res = await http.post(
+        Uri.parse("http://10.0.2.2:3000/apple-login"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"idToken": credential.identityToken}),
+      );
+
+      final data = jsonDecode(res.body);
+      print("JWT: ${data['token']}");
+    } catch (e) {
+      print("Apple login error: $e");
+    }
+  }
+}
+
+//////////////////////////////////////////////////////////////////////// Google Sign In
+class GoogleAuthService {
+  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email', 'profile']);
+
+  Future<void> signInWithGoogle() async {
+    try {
+      final account = await _googleSignIn.signIn();
+      if (account == null) return; // user canceled
+
+      final auth = await account.authentication;
+
+      // Send ID token to backend
+      final res = await http.post(
+        Uri.parse("GloginUrl"), // use your backend IP
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"idToken": auth.idToken}),
+      );
+
+      final data = jsonDecode(res.body);
+      print("JWT: ${data['token']}");
+    } catch (e) {
+      print("Google login error: $e");
+    }
+  }
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
@@ -26,7 +79,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _firstNameTextEditingController = TextEditingController();
   final _lastNameTextEditingController = TextEditingController();
   final _phoneNumberTextEditingController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -454,7 +506,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     child: InkWell(
                                       borderRadius: BorderRadius.circular(12),
                                       onTap: () {
-                                        // TODO: Google login logic
+                                        GoogleAuthService().signInWithGoogle();
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.all(12.0),
@@ -490,7 +542,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     child: InkWell(
                                       borderRadius: BorderRadius.circular(12),
                                       onTap: () {
-                                        // TODO: Google login logic
+                                        AppleAuthService().signInWithApple();
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.all(12.0),
