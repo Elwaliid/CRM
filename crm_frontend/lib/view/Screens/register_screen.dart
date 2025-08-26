@@ -56,17 +56,47 @@ class GoogleAuthService {
 
       final auth = await account.authentication;
 
-      // Send ID token to backend
+      // Send ID token to backend using config variable
       final res = await http.post(
-        Uri.parse("GloginUrl"), // use your backend IP
+        Uri.parse(GloginUrl),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({"idToken": auth.idToken}),
       );
 
-      final data = jsonDecode(res.body);
-      print("JWT: ${data['token']}");
+      if (res.statusCode == 200) {
+        final data = jsonDecode(res.body);
+        final token = data['token'] as String?;
+
+        if (token != null) {
+          // Store token and navigate to home screen
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('token', token);
+
+          Get.offAll(HomeScreen(token: token));
+        } else {
+          Get.snackbar(
+            'Login Failed',
+            'No token received from server',
+            backgroundColor: Colors.red,
+            colorText: Colors.white,
+          );
+        }
+      } else {
+        Get.snackbar(
+          'Login Failed',
+          'Server error: ${res.statusCode}',
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      }
     } catch (e) {
       print("Google login error: $e");
+      Get.snackbar(
+        'Error',
+        'Failed to sign in with Google: $e',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     }
   }
 }
