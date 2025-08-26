@@ -51,11 +51,11 @@ class GoogleAuthService {
   Future<void> signInWithGoogle() async {
     try {
       final account = await _googleSignIn.signIn();
-      if (account == null) return; // user canceled
+      if (account == null) return; // User canceled login
 
-      final auth = await account!.authentication;
+      final auth = await account.authentication;
 
-      // Send ID token to backend using config variable
+      // ✅ On web: use accessToken instead of idToken
       final res = await http.post(
         Uri.parse(GloginUrl),
         headers: {"Content-Type": "application/json"},
@@ -67,10 +67,11 @@ class GoogleAuthService {
         final token = data['token'] as String?;
 
         if (token != null) {
-          // Store token and navigate to home screen
+          // Save token locally
           final prefs = await SharedPreferences.getInstance();
           await prefs.setString('token', token);
 
+          // Navigate to home
           Get.offAll(HomeScreen(token: token));
         } else {
           Get.snackbar(
