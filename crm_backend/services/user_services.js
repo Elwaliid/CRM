@@ -1,16 +1,10 @@
-/**
- * User Service Module - Handles all user authentication and management operations
- * This service layer contains business logic for user registration, login, and OAuth flows
- */
+const UserModel = require('../models/user_model');
+const jwt = require('jsonwebtoken');
+const { OAuth2Client } = require('google-auth-library');
+const axios = require('axios');
+const appleSignin = require('apple-signin-auth');
 
-const UserModel = require('../models/user_model'); // User data model
-const jwt = require('jsonwebtoken'); // JSON Web Token for authentication
-const { OAuth2Client } = require('google-auth-library'); // Google OAuth2 client library
-const axios = require('axios'); // HTTP client for API calls
-const appleSignin = require('apple-signin-auth'); // Apple Sign-In authentication library
-
-// Initialize Google OAuth2 client with environment configuration
-// This client is used to verify Google ID tokens from mobile/desktop applications
+// Google client (for mobile/desktop where idToken is available)
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 class UserService {

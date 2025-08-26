@@ -12,7 +12,6 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -54,13 +53,13 @@ class GoogleAuthService {
       final account = await _googleSignIn.signIn();
       if (account == null) return; // user canceled
 
-      final auth = await account.authentication;
+      final auth = await account!.authentication;
 
       // Send ID token to backend using config variable
       final res = await http.post(
         Uri.parse(GloginUrl),
         headers: {"Content-Type": "application/json"},
-        body: jsonEncode({"idToken": auth.idToken}),
+        body: jsonEncode({"accessToken": auth.accessToken}),
       );
 
       if (res.statusCode == 200) {
