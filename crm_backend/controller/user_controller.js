@@ -5,14 +5,23 @@ exports.register = async (req, res,next) => {
     try{
         const { email, password } = req.body;
 
-        const successRes = await UserService.registerUser(email, password);
+        const newUser = await UserService.registerUser(email, password);
 
-        res.json({status: "true", success: "User registered successfully" })
-    }catch(err){
-        console.error('Login error:', err);
-        res.status(500).json({ status: false, message: 'Internal server error' });
-    }
+         let tokenData = { _id: newUser._id, email: newUser.email };
+    const token = await UserService.generateToken(tokenData, "secretKey", "300h");
+
+    res.status(201).json({
+      status: true,
+      success: "User registered successfully",
+      token: token,  // 🔑 include the token in response
+    });
+  } catch (err) {
+    console.error("Register error:", err);
+    res.status(500).json({ status: false, message: "Internal server error" });
+  }
 }
+
+
 exports.login = async (req, res,next) => {
     try{
         const { email, password } = req.body;

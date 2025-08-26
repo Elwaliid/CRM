@@ -249,6 +249,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     false) {
                                   var responseBody = jsonDecode(response.body);
                                   var token = responseBody['token'];
+
                                   prefs.setString('token', token);
 
                                   if (responseBody['status'] == true) {
