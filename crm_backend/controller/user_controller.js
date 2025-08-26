@@ -28,7 +28,7 @@ exports.login = async (req, res,next) => {
         }
 
          let tokenData =  {_id: user._id, email: user.email};
-         const token = await UserService.generateToken(tokenData,"secretKey","1h");
+         const token = await UserService.generateToken(tokenData,"secretKey","300h");
          res.status(200).json({
             status: true,
             token: token,
@@ -37,3 +37,23 @@ exports.login = async (req, res,next) => {
         throw err;
     }
 }
+
+exports.googleLogin = async (req, res, next) => {
+  try {
+    const { idToken } = req.body; // from Flutter GoogleSignIn
+    const user = await UserService.loginWithGoogle(idToken);
+    res.json({ status: true, user, token: user.token });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.appleLogin = async (req, res, next) => {
+  try {
+    const { idToken } = req.body; // from Flutter SignInWithApple
+    const user = await UserService.loginWithApple(idToken);
+    res.json({ status: true, user, token: user.token });
+  } catch (err) {
+    next(err);
+  }
+};
