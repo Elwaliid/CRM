@@ -248,14 +248,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ) ??
                                     false) {
                                   var responseBody = jsonDecode(response.body);
-                                  var token = responseBody['token'];
+                                  var token = responseBody['token'] as String?;
 
-                                  prefs.setString('token', token);
+                                  if (token != null) {
+                                    final prefs =
+                                        await SharedPreferences.getInstance();
+                                    await prefs.setString('token', token);
 
-                                  if (responseBody['status'] == true) {
-                                    Get.to(
-                                      HomeScreen(token: token),
-                                    ); // Pass the token string instead of prefs
+                                    // ✅ Go directly to HomeScreen with token
+                                    Get.to(HomeScreen(token: token));
                                   } else {
                                     // Show error message from server
                                     Get.snackbar(

@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:crm_frontend/config.dart';
@@ -426,22 +427,51 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                             ),
                             onPressed: () async {
-                              var logBody = {
-                                'email': _emailTextEditingController.text,
-                                'password': _passwordTextEditingController.text,
-                              };
-                              var response = await http.post(
-                                Uri.parse(registerUrl),
-                                headers: {"Content-Type": "application/json"},
-                                body: jsonEncode(logBody),
-                              );
-                              var responseBody = jsonDecode(response.body);
-                              print(responseBody['status']);
-                              if (_formKey.currentState!.validate() &&
-                                  responseBody['status'] == 'true') {
-                                Get.to(HomeScreen(token: null));
+                              if (_formKey.currentState!.validate()) {
+                                var logBody = {
+                                  'email': _emailTextEditingController.text,
+                                  'password':
+                                      _passwordTextEditingController.text,
+                                };
+
+                                var response = await http.post(
+                                  Uri.parse(registerUrl),
+                                  headers: {"Content-Type": "application/json"},
+                                  body: jsonEncode(logBody),
+                                );
+
+                                if (response.statusCode == 201) {
+                                  // ✅ check for 201 Created
+                                  var responseBody = jsonDecode(response.body);
+
+                                  var token = responseBody['token'] as String?;
+                                  if (token != null) {
+                                    final prefs =
+                                        await SharedPreferences.getInstance();
+                                    await prefs.setString('token', token);
+
+                                    // ✅ Go directly to HomeScreen with token
+                                    Get.to(HomeScreen(token: token));
+                                  }
+                                } else {
+                                  // ❌ registration failed
+                                  var responseBody = jsonDecode(response.body);
+                                  Get.snackbar(
+                                    'Registration Failed',
+                                    responseBody['message'] ??
+                                        'Please try again',
+                                    backgroundColor: const Color.fromARGB(
+                                      255,
+                                      128,
+                                      78,
+                                      74,
+                                    ),
+                                    colorText: Colors.white,
+                                  );
+                                }
                               }
                             },
+
                             child: const Text(
                               'Register',
                               style: TextStyle(
