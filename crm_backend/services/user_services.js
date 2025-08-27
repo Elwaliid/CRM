@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
 const axios = require('axios');
 const appleSignin = require('apple-signin-auth');
-
+const JWT_SECRET = "my_super_secret_key";
 // Google client (for mobile/desktop where idToken is available)
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -49,7 +49,7 @@ class UserService {
 
             const token = await this.generateToken(
                 { id: user._id, email: user.email },
-                process.env.JWT_SECRET,
+                JWT_SECRET,
                 "300h"
             );
 
