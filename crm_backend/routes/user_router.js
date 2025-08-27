@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const UserService = require("../services/user_services");
 const UserController = require("../controller/user_controller");
 
 router.post('/registeration', UserController.register);
@@ -14,7 +15,6 @@ router.post("/googleLogin", async (req, res) => {
     res.status(500).json({ error: "Google login failed", details: err.message });
   }
 });
-
 router.post("/appleLogin", UserController.appleLogin);
 
 module.exports = router;
