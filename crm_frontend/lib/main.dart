@@ -17,16 +17,7 @@ class CRMApp extends StatelessWidget {
   const CRMApp({@required this.token, super.key});
 
   // Example fetch (not relevant for UI)
-  Future<void> fetchData() async {
-    final response = await http.get(
-      Uri.parse('http://localhost:3000/api/data'),
-    );
-    if (response.statusCode == 200) {
-      print('Riglou: ${response.body}');
-    } else {
-      print('Failed to fetch data: ${response.statusCode}');
-    }
-  }
+  
 
   @override
   Widget build(BuildContext context) {
