@@ -55,7 +55,8 @@ exports.googleLogin = async (req, res, next) => {
       return res.status(400).json({ status: false, message: "No access token provided" });
     }
 
-    const { user, token } = await UserService.loginWithGoogle(accessToken);
+    const { user, token } = await UserService.loginWithGoogleAccessToken(req.body.accessToken);
+
 
     res.json({ status: true, user, token });
   } catch (err) {

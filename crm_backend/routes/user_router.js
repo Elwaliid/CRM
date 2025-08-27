@@ -5,27 +5,28 @@ const UserController = require("../controller/user_controller");
 router.post('/registeration', UserController.register);
 router.post('/login', UserController.login);
 
-router.post("/googleLogin", async (req, res) => {
+router.post("/google-login", async (req, res) => {
   try {
-    const accessToken = req.body.accessToken;
-    console.log("Received token from client:", accessToken?.slice(0, 20));
+    const { accessToken } = req.body;
 
     if (!accessToken) {
-      return res.status(400).json({ error: "No access token provided" });
+      return res.status(400).json({ error: "Access token is required" });
     }
 
-    const result = await UserService.loginWithGoogleAccessToken(accessToken);
+    console.log("Received token from client:", accessToken);
 
-    res.json(result);
-  } catch (err) {
-    console.error(
-      "Google login error:",
-      err.response?.data || err.message || err
-    );
-    res.status(500).json({
-      error: "Google login failed",
-      details: err.message,
+    // Call service
+    const { user, token } = await UserService.loginWithGoogleAccessToken(accessToken);
+
+    return res.status(200).json({
+      message: "Google login successful",
+      user,
+      token,
     });
+
+  } catch (err) {
+    console.error("Google login error:", err.message);
+    return res.status(500).json({ error: err.message });
   }
 });
 router.post("/appleLogin", UserController.appleLogin);
