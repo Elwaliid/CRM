@@ -47,31 +47,7 @@ exports.login = async (req, res,next) => {
     }
 }
 
-exports.googleLogin = async (req, res, next) => {
-  try {
-    const { accessToken } = req.body; // Flutter sends accessToken now
-
-    if (!accessToken) {
-      return res.status(400).json({ status: false, message: "No access token provided" });
-    }
-
-    const { user, token } = await UserService.loginWithGoogleAccessToken(req.body.accessToken);
 
 
-    res.json({ status: true, user, token });
-  } catch (err) {
-    console.error("Google login error:", err.response?.data || err.message);
-    res.status(500).json({ status: false, message: "Google login failed" });
-  }
-};
 
 
-exports.appleLogin = async (req, res, next) => {
-  try {
-    const { idToken } = req.body; // from Flutter SignInWithApple
-    const user = await UserService.loginWithApple(idToken);
-    res.json({ status: true, user, token: user.token });
-  } catch (err) {
-    next(err);
-  }
-};

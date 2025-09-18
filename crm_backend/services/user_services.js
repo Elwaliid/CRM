@@ -33,39 +33,7 @@ class UserService {
         return jwt.sign(tokenData, secretKey, { expiresIn: jwt_expire });
     }
 
-    // Login with Google (using accessToken)
-    static async loginWithGoogleAccessToken(accessToken) {
-        try {
-            // Call Google userinfo API
-            const response = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
-                headers: { Authorization: `Bearer ${accessToken}` },
-            });
-
-            const profile = response.data; // { email, name, picture }
-
-            let user = await UserModel.findOne({ email: profile.email });
-            if (!user) {
-                user = new UserModel({
-                    email: profile.email,
-                    password: "google-oauth",
-                    name: profile.name,
-                    picture: profile.picture,
-                });
-                await user.save();
-            }
-
-            const token = await this.generateToken(
-                { id: user._id, email: user.email },
-                JWT_SECRET,   // ✅ use value from config.js
-                "300h"
-            );
-
-            return { user, token };
-        } catch (err) {
-            console.error("Google login error:", err.message);
-            throw err;
-        }
-    }
+   
 }
 
 module.exports = UserService;

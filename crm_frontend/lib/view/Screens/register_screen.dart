@@ -19,88 +19,6 @@ class RegisterScreen extends StatefulWidget {
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-//////////////////////////////////////////////////////////////////////// Apple Sign In
-class AppleAuthService {
-  Future<void> signInWithApple() async {
-    try {
-      final credential = await SignInWithApple.getAppleIDCredential(
-        scopes: [
-          AppleIDAuthorizationScopes.email,
-          AppleIDAuthorizationScopes.fullName,
-        ],
-      );
-
-      final res = await http.post(
-        Uri.parse("http://10.0.2.2:3000/apple-login"),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode({"idToken": credential.identityToken}),
-      );
-
-      final data = jsonDecode(res.body);
-      print("JWT: ${data['token']}");
-    } catch (e) {
-      print("Apple login error: $e");
-    }
-  }
-}
-
-//////////////////////////////////////////////////////////////////////// Google Sign In
-class GoogleAuthService {
-  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email', 'profile']);
-
-  Future<void> signInWithGoogle() async {
-    try {
-      final account = await _googleSignIn.signIn();
-      if (account == null) return; // User canceled login
-
-      final auth = await account.authentication;
-
-      // ✅ On web: use accessToken instead of idToken
-      final res = await http.post(
-        Uri.parse(GloginUrl),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode({"accessToken": auth.accessToken}),
-      );
-
-      if (res.statusCode == 200) {
-        final data = jsonDecode(res.body);
-        final token = data['token'] as String?;
-
-        if (token != null) {
-          // Save token locally
-          final prefs = await SharedPreferences.getInstance();
-          await prefs.setString('token', token);
-
-          // Navigate to home
-          Get.offAll(HomeScreen(token: token));
-        } else {
-          Get.snackbar(
-            'Login Failed',
-            'No token received from server',
-            backgroundColor: Colors.red,
-            colorText: Colors.white,
-          );
-        }
-      } else {
-        Get.snackbar(
-          'Login Failed',
-          'Server error: ${res.statusCode}',
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-        );
-      }
-    } catch (e) {
-      print("Google login error: $e");
-      Get.snackbar(
-        'Error',
-        'Failed to sign in with Google: $e',
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
-    }
-  }
-}
-
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailTextEditingController = TextEditingController();
@@ -566,7 +484,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     child: InkWell(
                                       borderRadius: BorderRadius.circular(12),
                                       onTap: () {
-                                        GoogleAuthService().signInWithGoogle();
+                                        /////////// waitinhg for GoogleAuthService
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.all(12.0),
@@ -602,7 +520,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     child: InkWell(
                                       borderRadius: BorderRadius.circular(12),
                                       onTap: () {
-                                        AppleAuthService().signInWithApple();
+                                        ///// waiting for AppleAuthService
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.all(12.0),

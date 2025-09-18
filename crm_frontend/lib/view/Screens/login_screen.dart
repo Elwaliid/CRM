@@ -21,16 +21,10 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailTextEditingController = TextEditingController();
   final _passwordTextEditingController = TextEditingController();
   bool _obscurePassword = true;
-  late SharedPreferences prefs;
 
   @override
   void initState() {
     super.initState();
-    _initSharedPrefers();
-  }
-
-  void _initSharedPrefers() async {
-    prefs = await SharedPreferences.getInstance();
   }
 
   @override
