@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "885141582672",
+    "project_id": "wilou-crm",
+    "storage_bucket": "wilou-crm.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:885141582672:android:18a890785ebcba61b37255",
+        "android_client_info": {
+          "package_name": "com.example.crmfrontend"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzwsQyYqIn8S64hwzD_J3ERaLwVEHl5aQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
