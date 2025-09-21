@@ -10,13 +10,13 @@ Future<void> main() async {
   if (kIsWeb) {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
-        apiKey: "",
-        authDomain: "",
-        projectId: "",
-        storageBucket: "",
-        messagingSenderId: "",
-        appId: "",
-        measurementId: "",
+        apiKey: "AIzaSyB_40UPcCNLppkv4uArk216zeP5k7i2MPU",
+        authDomain: "wilou-crm.firebaseapp.com",
+        projectId: "wilou-crm",
+        storageBucket: "wilou-crm.firebasestorage.app",
+        messagingSenderId: "885141582672",
+        appId: "1:885141582672:web:b6149dd2cf7d9846b37255",
+        measurementId: "G-8PNE7LD3YB",
       ),
     );
   } else {
