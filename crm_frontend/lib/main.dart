@@ -1,13 +1,27 @@
 import 'package:crm_frontend/view/Screens/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  await Firebase.initializeApp();
-
+  // Initialize Firebase
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+        apiKey: "",
+        authDomain: "",
+        projectId: "",
+        storageBucket: "",
+        messagingSenderId: "",
+        appId: "",
+        measurementId: "",
+      ),
+    );
+  } else {
+    await Firebase.initializeApp();
+  }
   runApp(const CRMApp());
 }
 
@@ -26,11 +40,11 @@ class CRMApp extends StatelessWidget {
           color: Colors.black,
         ),
 
-        // ✅ Custom color scheme for date picker + app
+        // ✅ Custom calender
         colorScheme: ColorScheme.light(
-          primary: Colors.blueGrey.shade900, // header background
-          onPrimary: Colors.white, // header text
-          onSurface: Colors.black87, // body text
+          primary: Colors.blueGrey.shade900,
+          onPrimary: Colors.white,
+          onSurface: Colors.black87,
         ),
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(foregroundColor: Colors.black),

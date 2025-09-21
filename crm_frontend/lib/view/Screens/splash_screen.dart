@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    fetchData();
+    //fetchData();
     Timer(const Duration(milliseconds: 1500), () {
       Get.to(const LoginScreen());
     });
