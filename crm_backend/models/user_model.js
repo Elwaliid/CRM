@@ -10,7 +10,12 @@ const userSchema = new Schema({
         required:true,
         unique:true,
     },
-    password:{type:String, required:true},
+    password:{type:String, required: function() {
+        return !this.googleId; // Password required only if not a Google user
+    }},
+    name:{type:String, required: false},
+    googleId:{type:String, required: false, sparse: true, unique: true},
+    authProvider: {type: String, enum: ['local', 'google'], default: 'local'}
 });
 
 userSchema.pre('save',async function(){

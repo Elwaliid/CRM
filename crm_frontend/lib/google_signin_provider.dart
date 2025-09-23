@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:crm_frontend/config.dart' as Config;
+import 'package:crm_frontend/config.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
@@ -17,13 +18,19 @@ class GoogleSigninProvider extends ChangeNotifier {
 
   Future<String?> oauthAndGetToken() async {
     try {
+      // Try silent sign-in first
       final googleUser = await googleSignIn.signInSilently();
-      if (googleUser == null) {
+
+      // If silent sign-in fails, try interactive sign-in
+      final finalGoogleUser = googleUser ?? await googleSignIn.signIn();
+
+      if (finalGoogleUser == null) {
+        print('Google Sign-In: User cancelled sign-in');
         return null;
       }
 
-      _user = googleUser;
-      final googleAuth = await googleUser.authentication;
+      _user = finalGoogleUser;
+      final googleAuth = await finalGoogleUser.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
@@ -33,23 +40,30 @@ class GoogleSigninProvider extends ChangeNotifier {
 
       // Send to backend to get JWT token
       final response = await http.post(
-        Uri.parse('${Config.baseUrl}/google-signin'),
+        Uri.parse(OauthUrl),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({
-          'email': googleUser.email,
-          'name': googleUser.displayName,
-          'googleId': googleUser.id,
+          'email': finalGoogleUser.email,
+          'name': finalGoogleUser.displayName,
+          'googleId': finalGoogleUser.id,
         }),
       );
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         return data['token'];
+      } else {
+        print('Backend error: ${response.statusCode} - ${response.body}');
+        return null;
       }
-
-      return null;
     } catch (e) {
       print('Google Sign-In Error: $e');
+      // Handle specific errors
+      if (e.toString().contains('unknown_reason')) {
+        print(
+          'Google Sign-In failed due to unknown reason. This might be due to client ID configuration or CORS issues.',
+        );
+      }
       rethrow;
     }
   }

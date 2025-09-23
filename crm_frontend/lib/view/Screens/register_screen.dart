@@ -400,7 +400,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     await prefs.setString('token', token);
 
                                     // ✅ Go directly to HomeScreen with token
-                                    Get.to(HomeScreen(token: token));
+                                    Get.to(() => HomeScreen(token: token));
                                   }
                                 } else {
                                   // ❌ registration failed
@@ -496,11 +496,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                               .oauthAndGetToken();
 
                                           if (token != null) {
-                                            Get.to(HomeScreen(token: token));
+                                            Get.to(
+                                              () => HomeScreen(token: token),
+                                            );
                                           } else {
                                             Get.snackbar(
                                               'Google Sign-In Failed',
-                                              'Unable to authenticate with server',
+                                              'Unable to authenticate with server. Please try again.',
                                               backgroundColor:
                                                   const Color.fromARGB(
                                                     255,

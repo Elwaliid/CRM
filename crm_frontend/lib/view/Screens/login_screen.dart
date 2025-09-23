@@ -469,6 +469,48 @@ class _LoginScreenState extends State<LoginScreen> {
                           const SizedBox(width: 20),
                         ],
                       ),
+                      const SizedBox(height: 20),
+
+                      ///////////////////////////////////////////////////////////////////////////////// Sign Out button
+                      /*   SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red[900],
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          onPressed: () async {
+                            try {
+                              final provider =
+                                  Provider.of<GoogleSigninProvider>(
+                                    context,
+                                    listen: false,
+                                  );
+                              await provider.signOut();
+                              Get.snackbar(
+                                'Signed Out',
+                                'You have been signed out successfully.',
+                                backgroundColor: Colors.green,
+                                colorText: Colors.white,
+                              );
+                            } catch (e) {
+                              Get.snackbar(
+                                'Sign Out Failed',
+                                'Error signing out: $e',
+                                backgroundColor: Colors.red,
+                                colorText: Colors.white,
+                              );
+                            }
+                          },
+                          child: const Text(
+                            'Sign Out',
+                            style: TextStyle(fontSize: 22, color: Colors.white),
+                          ),
+                        ),
+                      ),*/
                     ],
                   ),
                 ),
