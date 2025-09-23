@@ -1,9 +1,8 @@
 // ignore_for_file: deprecated_member_use
 
 import 'dart:convert';
+import 'package:crm_frontend/google_signin_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:crm_frontend/config.dart';
 import 'package:crm_frontend/view/Screens/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -483,8 +483,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   Ink(
                                     child: InkWell(
                                       borderRadius: BorderRadius.circular(12),
-                                      onTap: () {
-                                        /////////// waitinhg for GoogleAuthService
+                                      ///////////////////////////// GoogleSigninProvider
+                                      onTap: () async {
+                                        try {
+                                          final provider =
+                                              Provider.of<GoogleSigninProvider>(
+                                                context,
+                                                listen: false,
+                                              );
+                                          await provider.googleLogin();
+                                          // If successful, navigate to home screen
+                                          Get.to(
+                                            HomeScreen(
+                                              token: 'google_auth_token',
+                                            ),
+                                          );
+                                        } catch (e) {
+                                          Get.snackbar(
+                                            'Google Sign-In Failed',
+                                            'Please check your Google account and try again: $e',
+                                            backgroundColor:
+                                                const Color.fromARGB(
+                                                  255,
+                                                  128,
+                                                  78,
+                                                  74,
+                                                ),
+                                            colorText: Colors.white,
+                                          );
+                                        }
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.all(12.0),

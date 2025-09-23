@@ -10,15 +10,31 @@ class GoogleSigninProvider extends ChangeNotifier {
   GoogleSignInAccount get user => _user!;
 
   Future googleLogin() async {
-    final googleUser = await googleSignIn.signIn();
-    if (googleUser == null) return;
-    _user = googleUser;
-    final googleAuth = await googleUser.authentication;
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-    await FirebaseAuth.instance.signInWithCredential(credential);
-    notifyListeners();
+    try {
+      final googleUser = await googleSignIn.signIn();
+      if (googleUser == null) {
+        print('Google Sign-In: User cancelled the sign-in process');
+        return;
+      }
+
+      _user = googleUser;
+      print('Google Sign-In: User signed in: ${googleUser.email}');
+
+      final googleAuth = await googleUser.authentication;
+      print('Google Sign-In: Got authentication tokens');
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      print('Google Sign-In: Successfully signed in with Firebase');
+      notifyListeners();
+    } catch (e) {
+      print('Google Sign-In Error: $e');
+      // You can show a snackbar or dialog here to inform the user
+      rethrow; // Re-throw to let the UI handle it
+    }
   }
 }

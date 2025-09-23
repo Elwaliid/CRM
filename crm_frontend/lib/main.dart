@@ -1,8 +1,12 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:crm_frontend/view/Screens/splash_screen.dart';
+import 'package:crm_frontend/google_signin_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/Get.dart';
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,33 +35,36 @@ class CRMApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'CRM App',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        appBarTheme: const AppBarTheme(
-          iconTheme: IconThemeData(color: Colors.white),
-          color: Colors.black,
-        ),
-
-        // ✅ Custom calender
-        colorScheme: ColorScheme.light(
-          primary: Colors.blueGrey.shade900,
-          onPrimary: Colors.white,
-          onSurface: Colors.black87,
-        ),
-        textButtonTheme: TextButtonThemeData(
-          style: TextButton.styleFrom(foregroundColor: Colors.black),
-        ),
-        dialogBackgroundColor: Colors.white,
-        datePickerTheme: DatePickerThemeData(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+    return ChangeNotifierProvider(
+      create: (context) => GoogleSigninProvider(),
+      child: GetMaterialApp(
+        title: 'CRM App',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          appBarTheme: const AppBarTheme(
+            iconTheme: IconThemeData(color: Colors.white),
+            color: Colors.black,
           ),
+
+          // ✅ Custom calender
+          colorScheme: ColorScheme.light(
+            primary: Colors.blueGrey.shade900,
+            onPrimary: Colors.white,
+            onSurface: Colors.black87,
+          ),
+          textButtonTheme: TextButtonThemeData(
+            style: TextButton.styleFrom(foregroundColor: Colors.black),
+          ),
+          dialogBackgroundColor: Colors.white,
+          datePickerTheme: DatePickerThemeData(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+          ),
+          useMaterial3: true,
         ),
-        useMaterial3: true,
+        home: const SplashScreen(),
       ),
-      home: const SplashScreen(),
     );
   }
 }
