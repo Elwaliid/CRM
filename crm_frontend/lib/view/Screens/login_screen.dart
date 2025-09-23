@@ -383,23 +383,40 @@ class _LoginScreenState extends State<LoginScreen> {
                                               context,
                                               listen: false,
                                             );
-                                        await provider.oauth();
-                                        // Navigate to HomeScreen or handle success
-                                        Get.to(
-                                          HomeScreen(
-                                            token: 'google_auth_token',
-                                          ),
-                                        ); // Replace with actual token handling
+                                        final token = await provider
+                                            .oauthAndGetToken();
+
+                                        if (token != null) {
+                                          Get.to(HomeScreen(token: token));
+                                        } else {
+                                          Get.snackbar(
+                                            'Google Sign-In Failed',
+                                            'Unable to authenticate with server',
+                                            backgroundColor:
+                                                const Color.fromARGB(
+                                                  255,
+                                                  128,
+                                                  78,
+                                                  74,
+                                                ),
+                                            colorText: Colors.white,
+                                          );
+                                        }
                                       } catch (e) {
                                         Get.snackbar(
-                                          'Google Sign-In Error',
-                                          'Failed to sign in with Google. Please try again.',
-                                          backgroundColor: Colors.red,
+                                          'Google Sign-In Failed',
+                                          'Please check your Google account and try again: $e',
+                                          backgroundColor: const Color.fromARGB(
+                                            255,
+                                            128,
+                                            78,
+                                            74,
+                                          ),
                                           colorText: Colors.white,
                                         );
-                                        print('Google Sign-In Error: $e');
                                       }
                                     },
+
                                     child: Padding(
                                       padding: const EdgeInsets.all(12.0),
                                       child: Image.asset(

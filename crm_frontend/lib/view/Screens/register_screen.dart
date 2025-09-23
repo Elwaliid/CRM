@@ -492,9 +492,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                 context,
                                                 listen: false,
                                               );
-                                          await provider.oauth();
-                                          // If successful, navigate to home screen
-                                          Get.to(HomeScreen(token: ''));
+                                          final token = await provider
+                                              .oauthAndGetToken();
+
+                                          if (token != null) {
+                                            Get.to(HomeScreen(token: token));
+                                          } else {
+                                            Get.snackbar(
+                                              'Google Sign-In Failed',
+                                              'Unable to authenticate with server',
+                                              backgroundColor:
+                                                  const Color.fromARGB(
+                                                    255,
+                                                    128,
+                                                    78,
+                                                    74,
+                                                  ),
+                                              colorText: Colors.white,
+                                            );
+                                          }
                                         } catch (e) {
                                           Get.snackbar(
                                             'Google Sign-In Failed',
@@ -510,6 +526,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           );
                                         }
                                       },
+
                                       child: Padding(
                                         padding: const EdgeInsets.all(12.0),
                                         child: Image.asset(

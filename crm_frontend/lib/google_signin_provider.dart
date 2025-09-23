@@ -1,6 +1,10 @@
+import 'dart:convert';
+
+import 'package:crm_frontend/config.dart' as Config;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class GoogleSigninProvider extends ChangeNotifier {
   final googleSignIn = GoogleSignIn(
@@ -11,34 +15,42 @@ class GoogleSigninProvider extends ChangeNotifier {
 
   GoogleSignInAccount get user => _user!;
 
-  Future oauth() async {
+  Future<String?> oauthAndGetToken() async {
     try {
-      // Use signInSilently for returning users and renderButton for new sign-ins
       final googleUser = await googleSignIn.signInSilently();
       if (googleUser == null) {
-        // If no silent sign-in, prompt with renderButton (handled in UI)
-        print('Google Sign-In: No silent sign-in available, use renderButton');
-        return;
+        return null;
       }
 
       _user = googleUser;
-      print('Google Sign-In: User signed in: ${googleUser.email}');
-
       final googleAuth = await googleUser.authentication;
-      print('Google Sign-In: Got authentication tokens');
-
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
       await FirebaseAuth.instance.signInWithCredential(credential);
-      print('Google Sign-In: Successfully signed in with Firebase');
-      notifyListeners();
+
+      // Send to backend to get JWT token
+      final response = await http.post(
+        Uri.parse('${Config.baseUrl}/google-signin'),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          'email': googleUser.email,
+          'name': googleUser.displayName,
+          'googleId': googleUser.id,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        return data['token'];
+      }
+
+      return null;
     } catch (e) {
       print('Google Sign-In Error: $e');
-      // You can show a snackbar or dialog here to inform the user
-      rethrow; // Re-throw to let the UI handle it
+      rethrow;
     }
   }
 }

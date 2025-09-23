@@ -47,6 +47,29 @@ exports.login = async (req, res,next) => {
     }
 }
 
+exports.googleSignin = async (req, res, next) => {
+    try {
+        const { email, name, googleId } = req.body;
+
+        // Check if user exists
+        let user = await UserService.findOrCreateGoogleUser(email, name, googleId);
+        
+        // Generate JWT token
+        let tokenData = { _id: user._id, email: user.email };
+        const token = await UserService.generateToken(tokenData, "secretKey", "300h");
+
+        res.status(200).json({
+            status: true,
+            token: token,
+            user: user
+        });
+    } catch (err) {
+        console.error("Google Sign-In error:", err);
+        res.status(500).json({ status: false, message: "Internal server error" });
+    }
+}
+
+
 
 
 
