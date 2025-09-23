@@ -18,24 +18,22 @@ class GoogleSigninProvider extends ChangeNotifier {
 
   Future<String?> oauthAndGetToken() async {
     try {
-      // Try silent sign-in first
-      final googleUser = await googleSignIn.signInSilently();
+      // Use the recommended approach for web
+      final googleUser = await googleSignIn.signIn();
 
-      // If silent sign-in fails, try interactive sign-in
-      final finalGoogleUser = googleUser ?? await googleSignIn.signIn();
-
-      if (finalGoogleUser == null) {
+      if (googleUser == null) {
         print('Google Sign-In: User cancelled sign-in');
         return null;
       }
 
-      _user = finalGoogleUser;
-      final googleAuth = await finalGoogleUser.authentication;
+      _user = googleUser;
+      final googleAuth = await googleUser.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
+      // Sign in with Firebase
       await FirebaseAuth.instance.signInWithCredential(credential);
 
       // Send to backend to get JWT token
@@ -43,15 +41,20 @@ class GoogleSigninProvider extends ChangeNotifier {
         Uri.parse(OauthUrl),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({
-          'email': finalGoogleUser.email,
-          'name': finalGoogleUser.displayName,
-          'googleId': finalGoogleUser.id,
+          'email': googleUser.email,
+          'name': googleUser.displayName,
+          'googleId': googleUser.id,
         }),
       );
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        return data['token'];
+        if (data['status'] == true) {
+          return data['token'];
+        } else {
+          print('Backend error: ${response.body}');
+          return null;
+        }
       } else {
         print('Backend error: ${response.statusCode} - ${response.body}');
         return null;
@@ -63,6 +66,10 @@ class GoogleSigninProvider extends ChangeNotifier {
         print(
           'Google Sign-In failed due to unknown reason. This might be due to client ID configuration or CORS issues.',
         );
+      } else if (e.toString().contains('popup_closed_by_user')) {
+        print('User closed the popup before completing sign-in');
+      } else if (e.toString().contains('network_error')) {
+        print('Network error during Google Sign-In');
       }
       rethrow;
     }

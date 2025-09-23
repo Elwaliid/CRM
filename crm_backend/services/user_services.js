@@ -26,22 +26,33 @@ class UserService {
     
    static async findOrCreateGoogleUser(email, name, googleId) {
     try {
-        // Try to find existing user
+        // Try to find existing user by email
         let user = await UserModel.findOne({ email });
-        
+
         if (!user) {
             // Create new user with Google data
-            user = new UserModel({ 
-                email, 
+            user = new UserModel({
+                email,
                 name,
                 googleId,
-                // You might want to set a default password or handle this differently
+                authProvider: 'google'
             });
             await user.save();
+            console.log('New Google user created:', email);
+        } else {
+            // Update existing user with Google data if they don't have it
+            if (!user.googleId && !user.name) {
+                user.googleId = googleId;
+                user.name = name;
+                user.authProvider = 'google';
+                await user.save();
+                console.log('Existing user updated with Google data:', email);
+            }
         }
-        
+
         return user;
     } catch (err) {
+        console.error('Error in findOrCreateGoogleUser:', err);
         throw err;
     }
 }

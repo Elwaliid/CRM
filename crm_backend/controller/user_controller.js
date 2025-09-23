@@ -51,21 +51,42 @@ exports.googleSignin = async (req, res, next) => {
     try {
         const { email, name, googleId } = req.body;
 
+        // Validate required fields
+        if (!email || !name || !googleId) {
+            return res.status(400).json({
+                status: false,
+                message: "Missing required fields: email, name, and googleId are required"
+            });
+        }
+
+        console.log('Processing Google Sign-In for:', email);
+
         // Check if user exists
         let user = await UserService.findOrCreateGoogleUser(email, name, googleId);
-        
+
         // Generate JWT token
         let tokenData = { _id: user._id, email: user.email };
         const token = await UserService.generateToken(tokenData, "secretKey", "300h");
 
+        console.log('Google Sign-In successful for:', email);
+
         res.status(200).json({
             status: true,
             token: token,
-            user: user
+            user: {
+                _id: user._id,
+                email: user.email,
+                name: user.name,
+                authProvider: user.authProvider
+            }
         });
     } catch (err) {
         console.error("Google Sign-In error:", err);
-        res.status(500).json({ status: false, message: "Internal server error" });
+        res.status(500).json({
+            status: false,
+            message: "Internal server error",
+            error: process.env.NODE_ENV === 'development' ? err.message : undefined
+        });
     }
 }
 
