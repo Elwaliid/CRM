@@ -13,8 +13,6 @@ import 'dart:math';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-/////////////////////////////////////////////// Colors
-
 //////////////////////////////////////////////////////////////////////// // Indicator class
 class Indicator extends StatelessWidget {
   final Color color;
