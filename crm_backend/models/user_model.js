@@ -21,12 +21,14 @@ const userSchema = new Schema({
 userSchema.pre('save',async function(){
     try {
         var user = this;
-        const salt = await(bcrypt.genSalt(10));
-        const hashpass = await bcrypt.hash(user.password,salt);
-
-        user.password = hashpass;
+        // Only hash password if it exists (not for Google users)
+        if (user.password && user.isModified('password')) {
+            const salt = await bcrypt.genSalt(10);
+            const hashpass = await bcrypt.hash(user.password, salt);
+            user.password = hashpass;
+        }
     } catch (error) {
-        throw error;   
+        throw error;
     }
 })
 

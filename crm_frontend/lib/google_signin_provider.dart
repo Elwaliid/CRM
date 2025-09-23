@@ -18,7 +18,14 @@ class GoogleSigninProvider extends ChangeNotifier {
 
   Future<String?> oauthAndGetToken() async {
     try {
-      // Use the recommended approach for web
+      // Use signInSilently first (recommended for web)
+      final silentUser = await googleSignIn.signInSilently();
+      if (silentUser != null) {
+        _user = silentUser;
+        return await _processGoogleUser(silentUser);
+      }
+
+      // If silent sign-in fails, use signIn
       final googleUser = await googleSignIn.signIn();
 
       if (googleUser == null) {
@@ -27,6 +34,25 @@ class GoogleSigninProvider extends ChangeNotifier {
       }
 
       _user = googleUser;
+      return await _processGoogleUser(googleUser);
+    } catch (e) {
+      print('Google Sign-In Error: $e');
+      // Handle specific errors
+      if (e.toString().contains('unknown_reason')) {
+        print(
+          'Google Sign-In failed due to unknown reason. This might be due to client ID configuration or CORS issues.',
+        );
+      } else if (e.toString().contains('popup_closed_by_user')) {
+        print('User closed the popup before completing sign-in');
+      } else if (e.toString().contains('network_error')) {
+        print('Network error during Google Sign-In');
+      }
+      rethrow;
+    }
+  }
+
+  Future<String?> _processGoogleUser(GoogleSignInAccount googleUser) async {
+    try {
       final googleAuth = await googleUser.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
@@ -60,17 +86,7 @@ class GoogleSigninProvider extends ChangeNotifier {
         return null;
       }
     } catch (e) {
-      print('Google Sign-In Error: $e');
-      // Handle specific errors
-      if (e.toString().contains('unknown_reason')) {
-        print(
-          'Google Sign-In failed due to unknown reason. This might be due to client ID configuration or CORS issues.',
-        );
-      } else if (e.toString().contains('popup_closed_by_user')) {
-        print('User closed the popup before completing sign-in');
-      } else if (e.toString().contains('network_error')) {
-        print('Network error during Google Sign-In');
-      }
+      print('Error processing Google user: $e');
       rethrow;
     }
   }
