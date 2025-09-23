@@ -11,11 +11,13 @@ class GoogleSigninProvider extends ChangeNotifier {
 
   GoogleSignInAccount get user => _user!;
 
-  Future googleLogin() async {
+  Future oauth() async {
     try {
-      final googleUser = await googleSignIn.signIn();
+      // Use signInSilently for returning users and renderButton for new sign-ins
+      final googleUser = await googleSignIn.signInSilently();
       if (googleUser == null) {
-        print('Google Sign-In: User cancelled the sign-in process');
+        // If no silent sign-in, prompt with renderButton (handled in UI)
+        print('Google Sign-In: No silent sign-in available, use renderButton');
         return;
       }
 

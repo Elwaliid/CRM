@@ -492,9 +492,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                 context,
                                                 listen: false,
                                               );
-                                          await provider.googleLogin();
+                                          await provider.oauth();
                                           // If successful, navigate to home screen
-                                          Get.to(LoginScreen());
+                                          Get.to(HomeScreen(token: ''));
                                         } catch (e) {
                                           Get.snackbar(
                                             'Google Sign-In Failed',

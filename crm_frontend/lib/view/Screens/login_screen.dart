@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:crm_frontend/config.dart';
 import 'package:crm_frontend/view/Screens/home_screen.dart';
 import 'package:crm_frontend/view/Screens/register_screen.dart';
+import 'package:crm_frontend/google_signin_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -373,8 +375,30 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Ink(
                                   child: InkWell(
                                     borderRadius: BorderRadius.circular(12),
-                                    onTap: () {
-                                      // TODO: Google login logic
+                                    ///////////////////  GoogleLoginProvider
+                                    onTap: () async {
+                                      try {
+                                        final provider =
+                                            Provider.of<GoogleSigninProvider>(
+                                              context,
+                                              listen: false,
+                                            );
+                                        await provider.oauth();
+                                        // Navigate to HomeScreen or handle success
+                                        Get.to(
+                                          HomeScreen(
+                                            token: 'google_auth_token',
+                                          ),
+                                        ); // Replace with actual token handling
+                                      } catch (e) {
+                                        Get.snackbar(
+                                          'Google Sign-In Error',
+                                          'Failed to sign in with Google. Please try again.',
+                                          backgroundColor: Colors.red,
+                                          colorText: Colors.white,
+                                        );
+                                        print('Google Sign-In Error: $e');
+                                      }
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.all(12.0),
