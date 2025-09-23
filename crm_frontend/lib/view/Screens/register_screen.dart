@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'package:crm_frontend/google_signin_provider.dart';
+import 'package:crm_frontend/view/Screens/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:crm_frontend/config.dart';
 import 'package:crm_frontend/view/Screens/home_screen.dart';
@@ -493,11 +494,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                               );
                                           await provider.googleLogin();
                                           // If successful, navigate to home screen
-                                          Get.to(
-                                            HomeScreen(
-                                              token: 'google_auth_token',
-                                            ),
-                                          );
+                                          Get.to(LoginScreen());
                                         } catch (e) {
                                           Get.snackbar(
                                             'Google Sign-In Failed',

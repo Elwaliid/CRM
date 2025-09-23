@@ -3,8 +3,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/material.dart';
 
 class GoogleSigninProvider extends ChangeNotifier {
-  final googleSignIn = GoogleSignIn();
-
+  final googleSignIn = GoogleSignIn(
+    clientId:
+        "885141582672-tb97ps21m1gjlg7rd2nt94orhbseu228.apps.googleusercontent.com",
+  );
   GoogleSignInAccount? _user;
 
   GoogleSignInAccount get user => _user!;
