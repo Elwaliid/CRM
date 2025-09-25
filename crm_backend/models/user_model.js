@@ -5,18 +5,33 @@ const db = require('../config/db');
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-    email:{type:String,
-        lowercase:true,
-        required:true,
-        unique:true,
+  email: {
+    type: String,
+    lowercase: true,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: function () {
+      return !this.googleId;
     },
-    password:{type:String, required: function() {
-        return !this.googleId; // Password required only if not a Google user
-    }},
-    name:{type:String, required: false},
-    googleId:{type:String, required: false, sparse: true, unique: true},
-    authProvider: {type: String, enum: ['local', 'google'], default: 'local'}
+  },
+  name: { type: String },
+  phone: { type: String },
+  avatar: { type: String, default: 'default.png' }, // path or URL
+  googleId: { type: String, sparse: true, unique: true },
+  authProvider: { type: String, enum: ['local', 'google'], default: 'local' },
+
+  // Settings and meta
+  role: { type: String, enum: ['user', 'admin'], default: 'user' },
+  settings: {
+    theme: { type: String, enum: ['light', 'dark'], default: 'light' },
+    notifications: { type: Boolean, default: true },
+  },
+  createdAt: { type: Date, default: Date.now },
 });
+
 
 userSchema.pre('save',async function(){
     try {
