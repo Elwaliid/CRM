@@ -236,13 +236,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                     colorText: Colors.white,
                                   );
                                 }
-                              } else {
-                                Get.snackbar(
-                                  'Error',
-                                  'Failed to send OTP',
-                                  backgroundColor: Colors.red,
-                                  colorText: Colors.white,
-                                );
                               }
                             } catch (e) {
                               Get.snackbar(

@@ -72,7 +72,7 @@ class UserService {
     // Send OTP via email
     static async sendOTP(email, otp) {
         try {
-            const transporter = nodemailer.createTransporter({
+            const transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
                     user: process.env.EMAIL_USER, // Set in .env
