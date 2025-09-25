@@ -75,13 +75,13 @@ class UserService {
             const transporter = nodemailer.createTransport({
                 service: 'gmail',
                 auth: {
-                    user: process.env.EMAIL_USER, // Set in .env
-                    pass: process.env.EMAIL_PASS  // App password
+                    user: 'walidboubaidja@gmail.com', // Set in .env
+                    pass: 'zmex ewmv ycjx muhl'  // App password
                 }
             });
 
             const mailOptions = {
-                from: process.env.EMAIL_USER,
+                from: 'walidboubaidja@gmail.com',
                 to: email,
                 subject: 'Password Reset OTP',
                 text: `Your OTP for password reset is: ${otp}. It expires in 10 minutes.`
