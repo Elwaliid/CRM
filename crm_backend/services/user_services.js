@@ -1,7 +1,6 @@
 const UserModel = require('../models/user_model');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
-const otpGenerator = require('otp-generator');
 
 
 
@@ -66,7 +65,7 @@ class UserService {
 
     // Generate OTP
     static generateOTP() {
-        return otpGenerator.generate(6, { upperCaseAlphabets: false, specialChars: false, lowerCaseAlphabets: false });
+        return Math.floor(100000 + Math.random() * 900000).toString();
     }
 
     // Send OTP via email
