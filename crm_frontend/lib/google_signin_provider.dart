@@ -62,7 +62,7 @@ class GoogleSigninProvider extends ChangeNotifier {
 
       // Send to backend to get JWT token
       final response = await http.post(
-        Uri.parse(OauthUrl),
+        Uri.parse(oauthUrl),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode({
           'email': googleUser.email,
