@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'package:crm_frontend/google_signin_provider.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:crm_frontend/config.dart';
 import 'package:crm_frontend/view/Screens/home_screen.dart';
@@ -378,6 +379,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               if (_formKey.currentState!.validate()) {
                                 name =
                                     '${_firstNameTextEditingController.text} ${_lastNameTextEditingController.text}';
+                                GoogleSignInAccount? googleUser;
+                                String? avatarUrl;
+
+                                try {
+                                  // Use signInSilently first (recommended for web)
+                                  final silentUser = await GoogleSignIn()
+                                      .signInSilently();
+                                  if (silentUser != null) {
+                                    avatarUrl = silentUser.photoUrl;
+                                  }
+
+                                  // If silent sign-in fails, use signIn
+                                  final googleUser = await GoogleSignIn()
+                                      .signIn();
+
+                                  if (googleUser != null) {
+                                    avatarUrl = googleUser.photoUrl;
+                                  }
+                                } catch (e) {
+                                  print("Google sign-in check failed: $e");
+                                }
                                 var logBody = {
                                   'email': _emailTextEditingController.text,
                                   'password':
@@ -385,6 +407,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   'name': name,
                                   'phone':
                                       _phoneNumberTextEditingController.text,
+                                  if (avatarUrl != null)
+                                    'avatar':
+                                        avatarUrl, // only add if Google user
                                 };
 
                                 var response = await http.post(
