@@ -217,6 +217,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                 body: jsonEncode(forgotBody),
                               );
 
+                              print(
+                                'Forgot Password Response Status: ${response.statusCode}',
+                              );
+                              print(
+                                'Forgot Password Response Body: ${response.body}',
+                              );
+
                               if (response.statusCode == 200) {
                                 var responseBody = jsonDecode(response.body);
                                 if (responseBody['status'] == true) {
