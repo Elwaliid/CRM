@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 import 'package:crm_frontend/google_signin_provider.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:crm_frontend/config.dart';
 import 'package:crm_frontend/view/Screens/home_screen.dart';

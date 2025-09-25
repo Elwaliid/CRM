@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use, duplicate_ignore, avoid_print, unnecessary_import
+// ignore_for_file: deprecated_member_use, duplicate_ignore, avoid_print, unnecessary_import, use_build_context_synchronously
 import 'dart:convert';
 import 'package:crm_frontend/config.dart';
 import 'package:crm_frontend/view/Screens/home_screen.dart';

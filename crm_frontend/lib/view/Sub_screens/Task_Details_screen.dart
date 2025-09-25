@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable, avoid_print
+// ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable, avoid_print, prefer_final_fields, non_constant_identifier_names
 import 'package:crm_frontend/view/Widgets/Type_buttons.dart';
 import 'package:crm_frontend/view/Widgets/date_time_picker.dart';
 import 'package:crm_frontend/view/Widgets/quick_adds.dart';
