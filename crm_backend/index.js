@@ -1,6 +1,8 @@
 const app = require('./app');
 const db = require('./config/db');
 const UserModel = require('./models/user_model');
+const ClientModel = require('./models/client_model');
+const TaskModel = require('./models/task_model');
 const port = 3000;
 
 app.get('/',(req,res)=>{

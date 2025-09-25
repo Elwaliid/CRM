@@ -1,5 +1,7 @@
 const UserModel = require('../models/user_model');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+const otpGenerator = require('otp-generator');
 
 
 
@@ -60,6 +62,63 @@ class UserService {
 // Generate JWT
     static async generateToken(tokenData, secretKey, jwt_expire) {
         return jwt.sign(tokenData, secretKey, { expiresIn: jwt_expire });
+    }
+
+    // Generate OTP
+    static generateOTP() {
+        return otpGenerator.generate(6, { upperCaseAlphabets: false, specialChars: false, lowerCaseAlphabets: false });
+    }
+
+    // Send OTP via email
+    static async sendOTP(email, otp) {
+        try {
+            const transporter = nodemailer.createTransporter({
+                service: 'gmail',
+                auth: {
+                    user: process.env.EMAIL_USER, // Set in .env
+                    pass: process.env.EMAIL_PASS  // App password
+                }
+            });
+
+            const mailOptions = {
+                from: process.env.EMAIL_USER,
+                to: email,
+                subject: 'Password Reset OTP',
+                text: `Your OTP for password reset is: ${otp}. It expires in 10 minutes.`
+            };
+
+            await transporter.sendMail(mailOptions);
+            console.log('OTP sent to:', email);
+        } catch (err) {
+            console.error('Error sending OTP:', err);
+            throw err;
+        }
+    }
+
+    // Verify OTP
+    static async verifyOTP(email, otp) {
+        try {
+            const user = await UserModel.findOne({ email, otp, otpExpiry: { $gt: new Date() } });
+            return user;
+        } catch (err) {
+            throw err;
+        }
+    }
+
+    // Reset password
+    static async resetPassword(email, newPassword) {
+        try {
+            const user = await UserModel.findOne({ email });
+            if (!user) throw new Error('User not found');
+
+            user.password = newPassword;
+            user.otp = undefined;
+            user.otpExpiry = undefined;
+            await user.save();
+            return user;
+        } catch (err) {
+            throw err;
+        }
     }
 }
 

@@ -1,6 +1,5 @@
 const UserService = require('../services/user_services');
 
-
 exports.register = async (req, res,next) => {
     try{
         const { email, password } = req.body;
@@ -90,8 +89,55 @@ exports.googleSignin = async (req, res, next) => {
     }
 }
 
+//  send OTP
+exports.forgotPassword = async (req, res) => {
+    try {
+        const { email } = req.body;
 
+        if (!email) {
+            return res.status(400).json({ status: false, message: "Email is required" });
+        }
 
+        const user = await UserService.loginUser(email);
+        if (!user) {
+            return res.status(404).json({ status: false, message: "User not found" });
+        }
 
+        const otp = UserService.generateOTP();
+        const otpExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
 
+        user.otp = otp;
+        user.otpExpiry = otpExpiry;
+        await user.save();
 
+        await UserService.sendOTP(email, otp);
+
+        res.status(200).json({ status: true, message: "OTP sent to your email" });
+    } catch (err) {
+        console.error("Forgot password error:", err);
+        res.status(500).json({ status: false, message: "Internal server error" });
+    }
+};
+
+// Reset password with OTP
+exports.resetPassword = async (req, res) => {
+    try {
+        const { email, otp, newPassword } = req.body;
+
+        if (!email || !otp || !newPassword) {
+            return res.status(400).json({ status: false, message: "Email, OTP, and new password are required" });
+        }
+
+        const user = await UserService.verifyOTP(email, otp);
+        if (!user) {
+            return res.status(400).json({ status: false, message: "Invalid or expired OTP" });
+        }
+
+        await UserService.resetPassword(email, newPassword);
+
+        res.status(200).json({ status: true, message: "Password reset successfully" });
+    } catch (err) {
+        console.error("Reset password error:", err);
+        res.status(500).json({ status: false, message: "Internal server error" });
+    }
+};

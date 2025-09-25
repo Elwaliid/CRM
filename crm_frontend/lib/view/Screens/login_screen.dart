@@ -22,6 +22,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailTextEditingController = TextEditingController();
   final _passwordTextEditingController = TextEditingController();
+  final _otpTextEditingController = TextEditingController();
+  final _newPasswordTextEditingController = TextEditingController();
   bool _obscurePassword = true;
 
   @override
@@ -195,8 +197,62 @@ class _LoginScreenState extends State<LoginScreen> {
                       Align(
                         alignment: Alignment.center,
                         child: TextButton(
-                          onPressed: () {
-                            // TODO: Forgot password
+                          onPressed: () async {
+                            String email = _emailTextEditingController.text
+                                .trim();
+                            if (email.isEmpty || !email.contains('@')) {
+                              Get.snackbar(
+                                'Invalid Email',
+                                'Please enter a valid email address.',
+                                backgroundColor: Colors.red,
+                                colorText: Colors.white,
+                              );
+                              return;
+                            }
+                            try {
+                              var forgotBody = {'email': email};
+                              var response = await http.post(
+                                Uri.parse(forgotPasswordUrl),
+                                headers: {"Content-Type": "application/json"},
+                                body: jsonEncode(forgotBody),
+                              );
+
+                              if (response.statusCode == 200) {
+                                var responseBody = jsonDecode(response.body);
+                                if (responseBody['status'] == true) {
+                                  Get.snackbar(
+                                    'OTP Sent',
+                                    'Check your email for the OTP.',
+                                    backgroundColor: Colors.green,
+                                    colorText: Colors.white,
+                                  );
+                                  _showResetPasswordDialog();
+                                } else {
+                                  Get.snackbar(
+                                    'Error',
+                                    responseBody['message'] ??
+                                        'Failed to send OTP',
+                                    backgroundColor: Colors.red,
+                                    colorText: Colors.white,
+                                  );
+                                }
+                              } else {
+                                Get.snackbar(
+                                  'Error',
+                                  'Failed to send OTP',
+                                  backgroundColor: Colors.red,
+                                  colorText: Colors.white,
+                                );
+                              }
+                            } catch (e) {
+                              Get.snackbar(
+                                'Error',
+                                'Failed to connect to server',
+                                backgroundColor: Colors.red,
+                                colorText: Colors.white,
+                              );
+                              print('Forgot password error: $e');
+                            }
                           },
                           child: Text(
                             'Forgot password? Press here.',
@@ -519,6 +575,101 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  /////////////////////////////////////////////////////////// reset dialog
+  void _showResetPasswordDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Reset Password'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: _otpTextEditingController,
+                decoration: InputDecoration(
+                  labelText: 'OTP',
+                  hintText: 'Enter the OTP sent to your email',
+                ),
+                keyboardType: TextInputType.number,
+              ),
+              TextField(
+                controller: _newPasswordTextEditingController,
+                decoration: InputDecoration(
+                  labelText: 'New Password',
+                  hintText: 'Enter your new password',
+                ),
+                obscureText: true,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                try {
+                  var resetBody = {
+                    'email': _emailTextEditingController.text,
+                    'otp': _otpTextEditingController.text,
+                    'newPassword': _newPasswordTextEditingController.text,
+                  };
+                  var response = await http.post(
+                    Uri.parse(resetPasswordUrl),
+                    headers: {"Content-Type": "application/json"},
+                    body: jsonEncode(resetBody),
+                  );
+
+                  if (response.statusCode == 200) {
+                    var responseBody = jsonDecode(response.body);
+                    if (responseBody['status'] == true) {
+                      Get.snackbar(
+                        'Success',
+                        'Password reset successfully',
+                        backgroundColor: Colors.green,
+                        colorText: Colors.white,
+                      );
+                      Navigator.of(context).pop();
+                      _otpTextEditingController.clear();
+                      _newPasswordTextEditingController.clear();
+                    } else {
+                      Get.snackbar(
+                        'Error',
+                        responseBody['message'] ?? 'Failed to reset password',
+                        backgroundColor: Colors.red,
+                        colorText: Colors.white,
+                      );
+                    }
+                  } else {
+                    Get.snackbar(
+                      'Error',
+                      'Failed to reset password',
+                      backgroundColor: Colors.red,
+                      colorText: Colors.white,
+                    );
+                  }
+                } catch (e) {
+                  Get.snackbar(
+                    'Error',
+                    'Failed to connect to server',
+                    backgroundColor: Colors.red,
+                    colorText: Colors.white,
+                  );
+                  print('Reset password error: $e');
+                }
+              },
+              child: Text('Confirm'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

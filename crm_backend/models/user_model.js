@@ -23,6 +23,10 @@ const userSchema = new Schema({
   googleId: { type: String, sparse: true, unique: true },
   authProvider: { type: String, enum: ['local', 'google'], default: 'local' },
 
+  // OTP fields for password reset
+  otp: { type: String },
+  otpExpiry: { type: Date },
+
   // Settings and meta
   role: { type: String, enum: ['user', 'admin'], default: 'user' },
   settings: {

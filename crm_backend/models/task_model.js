@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 const db = require('../config/db');
 
 const taskSchema = new Schema({
