@@ -590,91 +590,219 @@ class _LoginScreenState extends State<LoginScreen> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Reset Password'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: _otpTextEditingController,
-                decoration: InputDecoration(
-                  labelText: 'OTP',
-                  hintText: 'Enter the OTP sent to your email',
-                ),
-                keyboardType: TextInputType.number,
-              ),
-              TextField(
-                controller: _newPasswordTextEditingController,
-                decoration: InputDecoration(
-                  labelText: 'New Password',
-                  hintText: 'Enter your new password',
-                ),
-                obscureText: true,
-              ),
-            ],
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Cancel'),
+          child: Container(
+            padding: const EdgeInsets.only(
+              right: 20.0,
+              left: 20.0,
+              top: 40.0,
+              bottom: 30.0,
             ),
-            ElevatedButton(
-              onPressed: () async {
-                try {
-                  var resetBody = {
-                    'email': _emailTextEditingController.text,
-                    'otp': _otpTextEditingController.text,
-                    'newPassword': _newPasswordTextEditingController.text,
-                  };
-                  var response = await http.post(
-                    Uri.parse(resetPasswordUrl),
-                    headers: {"Content-Type": "application/json"},
-                    body: jsonEncode(resetBody),
-                  );
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 10,
+                  offset: const Offset(0, 5),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Title
+                Text(
+                  'Reset Password',
+                  style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blueGrey[900],
+                    ),
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 20),
 
-                  if (response.statusCode == 200) {
-                    var responseBody = jsonDecode(response.body);
-                    if (responseBody['status'] == true) {
-                      Get.snackbar(
-                        'Success',
-                        'Password reset successfully',
-                        backgroundColor: Colors.green,
-                        colorText: Colors.white,
-                      );
-                      Navigator.of(context).pop();
-                      _otpTextEditingController.clear();
-                      _newPasswordTextEditingController.clear();
-                    } else {
-                      Get.snackbar(
-                        'Error',
-                        responseBody['message'] ?? 'Failed to reset password',
-                        backgroundColor: Colors.red,
-                        colorText: Colors.white,
-                      );
-                    }
-                  } else {
-                    Get.snackbar(
-                      'Error',
-                      'Failed to reset password',
-                      backgroundColor: Colors.red,
-                      colorText: Colors.white,
-                    );
-                  }
-                } catch (e) {
-                  Get.snackbar(
-                    'Error',
-                    'Failed to connect to server',
-                    backgroundColor: Colors.red,
-                    colorText: Colors.white,
-                  );
-                  print('Reset password error: $e');
-                }
-              },
-              child: Text('Confirm'),
+                // OTP Field
+                TextField(
+                  controller: _otpTextEditingController,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(
+                      Icons.lock_clock_outlined,
+                      color: Colors.blueGrey[700],
+                    ),
+                    hintText: "Enter the code sent to your email",
+                    hintStyle: TextStyle(
+                      color: Colors.blueGrey[400],
+                      fontSize: 16.0,
+                    ),
+                    filled: true,
+                    fillColor: Colors.blueGrey[50],
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: BorderSide(
+                        width: 1.5,
+                        color: Colors.blueGrey.shade200,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: BorderSide(
+                        color: Colors.blueGrey.shade400,
+                        width: 2.0,
+                      ),
+                    ),
+                  ),
+                  style: TextStyle(fontSize: 18, color: Colors.blueGrey[900]),
+                  keyboardType: TextInputType.number,
+                ),
+                const SizedBox(height: 16),
+
+                // New Password Field
+                TextField(
+                  controller: _newPasswordTextEditingController,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(
+                      Icons.lock_outline,
+                      color: Colors.blueGrey[700],
+                    ),
+                    hintText: "new password",
+                    hintStyle: TextStyle(
+                      color: Colors.blueGrey[400],
+                      fontSize: 16.0,
+                    ),
+                    filled: true,
+                    fillColor: Colors.blueGrey[50],
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: BorderSide(
+                        width: 1.5,
+                        color: Colors.blueGrey.shade200,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: BorderSide(
+                        color: Colors.blueGrey.shade400,
+                        width: 2.0,
+                      ),
+                    ),
+                  ),
+                  style: TextStyle(fontSize: 18, color: Colors.blueGrey[900]),
+                  obscureText: true,
+                ),
+                const SizedBox(height: 24),
+
+                // Buttons
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    // Cancel Button
+                    Expanded(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: Text(
+                          'Cancel',
+                          style: GoogleFonts.roboto(
+                            textStyle: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.blueGrey[700],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+
+                    // Confirm Button
+                    Expanded(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blueGrey[900],
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        onPressed: () async {
+                          try {
+                            var resetBody = {
+                              'email': _emailTextEditingController.text,
+                              'otp': _otpTextEditingController.text,
+                              'newPassword':
+                                  _newPasswordTextEditingController.text,
+                            };
+                            var response = await http.post(
+                              Uri.parse(resetPasswordUrl),
+                              headers: {"Content-Type": "application/json"},
+                              body: jsonEncode(resetBody),
+                            );
+
+                            if (response.statusCode == 200) {
+                              var responseBody = jsonDecode(response.body);
+                              if (responseBody['status'] == true) {
+                                Get.snackbar(
+                                  'Success',
+                                  'Password reset successfully',
+                                  backgroundColor: Colors.green,
+                                  colorText: Colors.white,
+                                );
+                                Navigator.of(context).pop();
+                                _otpTextEditingController.clear();
+                                _newPasswordTextEditingController.clear();
+                              } else {
+                                Get.snackbar(
+                                  'Error',
+                                  responseBody['message'] ??
+                                      'Failed to reset password',
+                                  backgroundColor: Colors.red,
+                                  colorText: Colors.white,
+                                );
+                              }
+                            } else {
+                              Get.snackbar(
+                                'Error',
+                                'Failed to reset password',
+                                backgroundColor: Colors.red,
+                                colorText: Colors.white,
+                              );
+                            }
+                          } catch (e) {
+                            Get.snackbar(
+                              'Error',
+                              'Failed to connect to server',
+                              backgroundColor: Colors.red,
+                              colorText: Colors.white,
+                            );
+                            print('Reset password error: $e');
+                          }
+                        },
+                        child: Text(
+                          'Confirm',
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ],
+          ),
         );
       },
     );
