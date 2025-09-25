@@ -23,7 +23,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailTextEditingController = TextEditingController();
   final _passwordTextEditingController = TextEditingController();
-
+  String name = '';
   // Add controllers for new fields
   final _firstNameTextEditingController = TextEditingController();
   final _lastNameTextEditingController = TextEditingController();
@@ -376,10 +376,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
+                                name =
+                                    '${_firstNameTextEditingController.text} ${_lastNameTextEditingController.text}';
                                 var logBody = {
                                   'email': _emailTextEditingController.text,
                                   'password':
                                       _passwordTextEditingController.text,
+                                  'name': name,
+                                  'phone':
+                                      _phoneNumberTextEditingController.text,
                                 };
 
                                 var response = await http.post(
