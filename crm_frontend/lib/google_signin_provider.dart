@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:crm_frontend/config.dart' as Config;
 import 'package:crm_frontend/config.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
