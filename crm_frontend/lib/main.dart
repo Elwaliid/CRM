@@ -1,15 +1,20 @@
 // ignore_for_file: deprecated_member_use
 
+import 'package:crm_frontend/view/Screens/home_screen.dart';
 import 'package:crm_frontend/view/Screens/splash_screen.dart';
 import 'package:crm_frontend/google_signin_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/Get.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.clear();
   // Initialize Firebase
   if (kIsWeb) {
     await Firebase.initializeApp(
@@ -26,12 +31,13 @@ Future<void> main() async {
   } else {
     await Firebase.initializeApp();
   }
-  runApp(const CRMApp());
+  runApp(CRMApp(token: prefs.getString('token')));
 }
 
 class CRMApp extends StatelessWidget {
-  @override
-  const CRMApp({super.key});
+  final token;
+
+  const CRMApp({@required this.token, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +70,7 @@ class CRMApp extends StatelessWidget {
           useMaterial3: true,
         ),
 
-        home: const SplashScreen(),
+        home: SplashScreen(),
       ),
     );
   }

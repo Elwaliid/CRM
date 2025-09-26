@@ -22,29 +22,10 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    //fetchData();
-    _checkAuth();
-  }
 
-  Future<void> _checkAuth() async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token');
-    print('Token from prefs: $token');
-    if (token != null) {
-      bool isExpired = JwtDecoder.isExpired(token);
-      print('Token is expired: $isExpired');
-      if (!isExpired) {
-        Timer(const Duration(milliseconds: 1500), () {
-          Get.to(HomeScreen(token: token));
-        });
-      } else {
-        // Clear expired token
-        await prefs.remove('token');
-        Timer(const Duration(milliseconds: 1500), () {
-          Get.to(const LoginScreen());
-        });
-      }
-    }
+    Timer(const Duration(milliseconds: 1500), () {
+      Get.to(const LoginScreen());
+    });
   }
 
   Future<void> fetchData() async {
