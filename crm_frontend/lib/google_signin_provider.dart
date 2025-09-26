@@ -61,6 +61,9 @@ class GoogleSigninProvider extends ChangeNotifier {
       await FirebaseAuth.instance.signInWithCredential(credential);
 
       // Send to backend to get JWT token
+      print(
+        'Sending to backend: ${jsonEncode({'email': googleUser.email, 'name': googleUser.displayName, 'googleId': googleUser.id, 'avatar': googleUser.photoUrl})}',
+      );
       final response = await http.post(
         Uri.parse(oauthUrl),
         headers: {"Content-Type": "application/json"},
@@ -72,9 +75,13 @@ class GoogleSigninProvider extends ChangeNotifier {
         }),
       );
 
+      print('OAuth Response status: ${response.statusCode}');
+      print('OAuth Response body: ${response.body}');
+
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         if (data['status'] == true) {
+          print('OAuth token: ${data['token']}');
           return data['token'];
         } else {
           print('Backend error: ${response.body}');

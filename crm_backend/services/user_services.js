@@ -7,9 +7,9 @@ const otpGenerator = require('otp-generator');
 
 class UserService {
     // Register with email & password
-    static async registerUser(email, password) {
+    static async registerUser(email, password, name, phone) {
         try {
-            const createUser = new UserModel({ email, password });
+            const createUser = new UserModel({ email, password, name, phone });
             return await createUser.save();
         } catch (err) {
             throw err;

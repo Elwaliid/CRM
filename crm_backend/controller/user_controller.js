@@ -2,9 +2,9 @@ const UserService = require('../services/user_services');
 
 exports.register = async (req, res,next) => {
     try{
-        const { email, password } = req.body;
+        const { email, password, name, phone } = req.body;
 
-        const newUser = await UserService.registerUser(email, password);
+        const newUser = await UserService.registerUser(email, password, name, phone);
 
          let tokenData = { _id: newUser._id, email: newUser.email };
     const token = await UserService.generateToken(tokenData, "secretKey", "1h");

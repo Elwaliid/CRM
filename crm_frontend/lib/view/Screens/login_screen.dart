@@ -301,6 +301,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                   body: jsonEncode(logBody),
                                 );
 
+                                print(
+                                  'Login Response status: ${response.statusCode}',
+                                );
+                                print('Login Response body: ${response.body}');
+
                                 // Check if response is JSON
                                 if (response.headers['content-type']?.contains(
                                       'application/json',
@@ -309,10 +314,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                   var responseBody = jsonDecode(response.body);
                                   var token = responseBody['token'] as String?;
 
+                                  print('Parsed token: $token');
+
                                   if (token != null) {
                                     final prefs =
                                         await SharedPreferences.getInstance();
                                     await prefs.setString('token', token);
+                                    print('Token saved to SharedPreferences');
 
                                     // ✅ Go directly to HomeScreen with token
                                     Get.to(HomeScreen(token: token));
