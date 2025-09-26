@@ -14,7 +14,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.clear();
   // Initialize Firebase
   if (kIsWeb) {
     await Firebase.initializeApp(
@@ -70,7 +69,9 @@ class CRMApp extends StatelessWidget {
           useMaterial3: true,
         ),
 
-        home: SplashScreen(),
+        home: (JwtDecoder.isExpired(token) == false || token != null)
+            ? HomeScreen(token: token)
+            : SplashScreen(),
       ),
     );
   }
