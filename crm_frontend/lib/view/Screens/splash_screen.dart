@@ -34,7 +34,9 @@ class _SplashScreenState extends State<SplashScreen> {
       bool isExpired = JwtDecoder.isExpired(token);
       print('Token is expired: $isExpired');
       if (!isExpired) {
-        Get.to(HomeScreen(token: token));
+        Timer(const Duration(milliseconds: 1500), () {
+          Get.to(HomeScreen(token: token));
+        });
       } else {
         // Clear expired token
         await prefs.remove('token');
@@ -42,10 +44,6 @@ class _SplashScreenState extends State<SplashScreen> {
           Get.to(const LoginScreen());
         });
       }
-    } else {
-      Timer(const Duration(milliseconds: 1500), () {
-        Get.to(const LoginScreen());
-      });
     }
   }
 
