@@ -1,16 +1,12 @@
 // ignore_for_file: deprecated_member_use, prefer_typing_uninitialized_variables, use_super_parameters
 
-import 'dart:html' as html;
-import 'package:crm_frontend/view/Screens/home_screen.dart';
 import 'package:crm_frontend/view/Screens/splash_screen.dart';
 import 'package:crm_frontend/google_signin_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/Get.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
