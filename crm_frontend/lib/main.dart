@@ -1,9 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:crm_frontend/view/Screens/splash_screen.dart';
-import 'package:crm_frontend/view/Screens/login_screen.dart';
-import 'package:crm_frontend/view/Screens/register_screen.dart';
-import 'package:crm_frontend/view/Screens/home_screen.dart';
 import 'package:crm_frontend/google_signin_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -66,16 +63,7 @@ class CRMApp extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
-        initialRoute: '/',
-        getPages: [
-          GetPage(name: '/', page: () => const SplashScreen()),
-          GetPage(name: '/login', page: () => const LoginScreen()),
-          GetPage(name: '/register', page: () => const RegisterScreen()),
-          GetPage(
-            name: '/home',
-            page: () => HomeScreen(token: ''),
-          ),
-        ],
+
         home: const SplashScreen(),
       ),
     );
