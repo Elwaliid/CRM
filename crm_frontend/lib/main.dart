@@ -14,21 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  String? token;
-  if (kIsWeb) {
-    token = html.window.localStorage['token'];
-  } else {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    token = prefs.getString('token');
-  }
 
-  print('Retrieved token: $token');
-  if (token != null) {
-    bool isExpired = JwtDecoder.isExpired(token);
-    print('Token is expired: $isExpired');
-    DateTime? expiryDate = JwtDecoder.getExpirationDate(token);
-    print('Token expiry date: $expiryDate');
-  }
   // Initialize Firebase
   if (kIsWeb) {
     await Firebase.initializeApp(
@@ -45,13 +31,11 @@ void main() async {
   } else {
     await Firebase.initializeApp();
   }
-  runApp(CRMApp(token: token));
+  runApp(const CRMApp());
 }
 
 class CRMApp extends StatelessWidget {
-  final token;
-
-  const CRMApp({@required this.token, Key? key}) : super(key: key);
+  const CRMApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -84,9 +68,7 @@ class CRMApp extends StatelessWidget {
           useMaterial3: true,
         ),
 
-        home: (token != null && JwtDecoder.isExpired(token) == false)
-            ? HomeScreen(token: token)
-            : SplashScreen(),
+        home: const SplashScreen(),
       ),
     );
   }

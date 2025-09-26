@@ -5,12 +5,14 @@ import 'package:crm_frontend/view/Screens/home_screen.dart';
 import 'package:crm_frontend/view/Screens/login_screen.dart';
 import 'package:crm_frontend/view/Sub_screens/Task_Details_screen.dart';
 import 'package:crm_frontend/view/Sub_screens/contact_details_screen.dart';
+import 'package:crm_frontend/google_signin_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -22,10 +24,20 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-
-    Timer(const Duration(milliseconds: 1500), () {
-      Get.to(const LoginScreen());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkAuth();
     });
+  }
+
+  Future<void> _checkAuth() async {
+    await Future.delayed(const Duration(milliseconds: 1500)); // Splash delay
+    final provider = Provider.of<GoogleSigninProvider>(context, listen: false);
+    String? token = await provider.getTokenSilently();
+    if (token != null && !JwtDecoder.isExpired(token)) {
+      Get.to(() => HomeScreen(token: token));
+    } else {
+      Get.to(() => const LoginScreen());
+    }
   }
 
   Future<void> fetchData() async {

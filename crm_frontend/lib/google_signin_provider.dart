@@ -14,6 +14,20 @@ class GoogleSigninProvider extends ChangeNotifier {
 
   GoogleSignInAccount get user => _user!;
 
+  Future<String?> getTokenSilently() async {
+    try {
+      final silentUser = await googleSignIn.signInSilently();
+      if (silentUser != null) {
+        _user = silentUser;
+        return await _processGoogleUser(silentUser);
+      }
+      return null;
+    } catch (e) {
+      print('Silent sign-in failed: $e');
+      return null;
+    }
+  }
+
   Future<String?> oauthAndGetToken() async {
     try {
       // Use signInSilently first (recommended for web)
