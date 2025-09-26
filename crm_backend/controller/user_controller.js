@@ -7,7 +7,7 @@ exports.register = async (req, res,next) => {
         const newUser = await UserService.registerUser(email, password);
 
          let tokenData = { _id: newUser._id, email: newUser.email };
-    const token = await UserService.generateToken(tokenData, "secretKey", "300h");
+    const token = await UserService.generateToken(tokenData, "secretKey", "10m");
 
     res.status(201).json({
       status: true,
@@ -36,7 +36,7 @@ exports.login = async (req, res,next) => {
         }
 
          let tokenData =  {_id: user._id, email: user.email};
-         const token = await UserService.generateToken(tokenData,"secretKey","300h");
+         const token = await UserService.generateToken(tokenData,"secretKey","10m");
          res.status(200).json({
             status: true,
             token: token,
@@ -65,7 +65,7 @@ exports.googleSignin = async (req, res, next) => {
 
         // Generate JWT token
         let tokenData = { _id: user._id, email: user.email };
-        const token = await UserService.generateToken(tokenData, "secretKey", "300h");
+        const token = await UserService.generateToken(tokenData, "secretKey", "10m");
 
         console.log('Google Sign-In successful for:', email);
 
