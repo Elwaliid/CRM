@@ -538,7 +538,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 20),
 
                       ///////////////////////////////////////////////////////////////////////////////// Sign Out button
-                      /*   SizedBox(
+                      SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -576,7 +576,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: TextStyle(fontSize: 22, color: Colors.white),
                           ),
                         ),
-                      ),*/
+                      ),
                     ],
                   ),
                 ),
