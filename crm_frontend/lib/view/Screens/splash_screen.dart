@@ -8,8 +8,9 @@ import 'package:crm_frontend/view/Sub_screens/contact_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:async';
-
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -22,9 +23,23 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     //fetchData();
-    Timer(const Duration(milliseconds: 1500), () {
-      Get.to(const LoginScreen());
-    });
+    _checkAuth();
+  }
+
+  Future<void> _checkAuth() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    if (token != null && !JwtDecoder.isExpired(token)) {
+      Get.to(HomeScreen(token: token));
+    } else {
+      // Clear expired token
+      if (token != null) {
+        await prefs.remove('token');
+      }
+      Timer(const Duration(milliseconds: 1500), () {
+        Get.to(const LoginScreen());
+      });
+    }
   }
 
   Future<void> fetchData() async {

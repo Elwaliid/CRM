@@ -501,6 +501,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                               .oauthAndGetToken();
 
                                           if (token != null) {
+                                            final prefs =
+                                                await SharedPreferences.getInstance();
+                                            await prefs.setString(
+                                              'token',
+                                              token,
+                                            );
                                             Get.to(
                                               () => HomeScreen(token: token),
                                             );
