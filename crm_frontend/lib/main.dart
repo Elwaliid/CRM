@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use, prefer_typing_uninitialized_variables, use_super_parameters
 
+import 'dart:html' as html;
 import 'package:crm_frontend/view/Screens/home_screen.dart';
 import 'package:crm_frontend/view/Screens/splash_screen.dart';
 import 'package:crm_frontend/google_signin_provider.dart';
@@ -13,8 +14,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? token = prefs.getString('token');
+  String? token;
+  if (kIsWeb) {
+    token = html.window.localStorage['token'];
+  } else {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    token = prefs.getString('token');
+  }
   print('Retrieved token: $token');
   if (token != null) {
     bool isExpired = JwtDecoder.isExpired(token);
@@ -77,10 +83,8 @@ class CRMApp extends StatelessWidget {
           useMaterial3: true,
         ),
 
-        home: (token != null)
-            ? (JwtDecoder.isExpired(token) == false)
-                  ? HomeScreen(token: token)
-                  : SplashScreen()
+        home: (token != null && JwtDecoder.isExpired(token) == false)
+            ? HomeScreen(token: token)
             : SplashScreen(),
       ),
     );
