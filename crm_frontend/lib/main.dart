@@ -21,6 +21,7 @@ void main() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString('token');
   }
+
   print('Retrieved token: $token');
   if (token != null) {
     bool isExpired = JwtDecoder.isExpired(token);
