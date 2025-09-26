@@ -5,16 +5,12 @@ import 'package:crm_frontend/view/Screens/home_screen.dart';
 import 'package:crm_frontend/view/Screens/login_screen.dart';
 import 'package:crm_frontend/view/Sub_screens/Task_Details_screen.dart';
 import 'package:crm_frontend/view/Sub_screens/contact_details_screen.dart';
-import 'package:crm_frontend/google_signin_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:async';
-import 'dart:html' as html;
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter/foundation.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -26,45 +22,10 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _checkAuth();
+
+    Timer(const Duration(milliseconds: 1500), () {
+      Get.to(const LoginScreen());
     });
-  }
-
-  Future<String?> _getSavedToken() async {
-    if (kIsWeb) {
-      return html.window.localStorage['token'];
-    } else {
-      final prefs = await SharedPreferences.getInstance();
-      return prefs.getString('token');
-    }
-  }
-
-  Future<void> _checkAuth() async {
-    await Future.delayed(const Duration(milliseconds: 1500)); // Splash delay
-
-    // First, check for saved token
-    String? token = await _getSavedToken();
-    if (token != null && !JwtDecoder.isExpired(token)) {
-      Get.to(() => HomeScreen(token: token));
-      return;
-    }
-
-    // If no saved token, try silent Google sign-in
-    final provider = Provider.of<GoogleSigninProvider>(context, listen: false);
-    token = await provider.getTokenSilently();
-    if (token != null && !JwtDecoder.isExpired(token)) {
-      // Save the token
-      if (kIsWeb) {
-        html.window.localStorage['token'] = token;
-      } else {
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('token', token);
-      }
-      Get.to(() => HomeScreen(token: token));
-    } else {
-      Get.to(() => const LoginScreen());
-    }
   }
 
   Future<void> fetchData() async {
