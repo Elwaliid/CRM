@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, prefer_typing_uninitialized_variables, use_super_parameters
 
 import 'package:crm_frontend/view/Screens/home_screen.dart';
 import 'package:crm_frontend/view/Screens/splash_screen.dart';
@@ -14,6 +14,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? token = prefs.getString('token');
+  print('Retrieved token: $token');
+  if (token != null) {
+    bool isExpired = JwtDecoder.isExpired(token);
+    print('Token is expired: $isExpired');
+    DateTime? expiryDate = JwtDecoder.getExpirationDate(token);
+    print('Token expiry date: $expiryDate');
+  }
   // Initialize Firebase
   if (kIsWeb) {
     await Firebase.initializeApp(
@@ -30,7 +38,7 @@ void main() async {
   } else {
     await Firebase.initializeApp();
   }
-  runApp(CRMApp(token: prefs.getString('token')));
+  runApp(CRMApp(token: token));
 }
 
 class CRMApp extends StatelessWidget {
@@ -69,8 +77,10 @@ class CRMApp extends StatelessWidget {
           useMaterial3: true,
         ),
 
-        home: (JwtDecoder.isExpired(token) == false || token != null)
-            ? HomeScreen(token: token)
+        home: (token != null)
+            ? (JwtDecoder.isExpired(token) == false)
+                  ? HomeScreen(token: token)
+                  : SplashScreen()
             : SplashScreen(),
       ),
     );
