@@ -34,12 +34,12 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
   final List<TextEditingController> _additionalPhoneControllers = [];
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _secondEmailController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _adressController = TextEditingController();
   final TextEditingController _websiteController = TextEditingController();
   final TextEditingController _otherInfoController = TextEditingController();
 
   /// Save button logic
-  Future<void> _addUpdateClient() async {
+  Future<void> _addUpdateContact() async {
     if (_formKey.currentState!.validate()) {
       var name = '${_firstNameController.text} ${_lastNameController.text}';
       // 👇 Gather all phone numbers into a list
@@ -51,7 +51,7 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
         'email': _emailController.text,
         'second_email': _secondEmailController.text,
         'name': name,
-        'adress': _addressController.text,
+        'adress': _adressController.text,
         'identity': _identityController.text,
         'phones': allPhones,
         'website': _websiteController.text,
@@ -413,7 +413,7 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
                     ///////////////////////////////////////////////////////////// Address
                     WilouTextField(
                       label: 'Address',
-                      controller: _addressController,
+                      controller: _adressController,
                     ),
                     const SizedBox(height: 16),
 
@@ -499,7 +499,7 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton.icon(
-                        onPressed: _addUpdateClient,
+                        onPressed: _addUpdateContact,
                         icon: Icon(Icons.save, size: 24, color: Colors.white),
                         label: Text(
                           'Save Client',

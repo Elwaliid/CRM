@@ -1,18 +1,18 @@
-const ClientModel = require('../models/client_model');
+const ContactModel = require('../models/contact_model');
 const jwt = require('jsonwebtoken');
 
 
-class ClientService {
+class ContactService {
  static async existContact(email) {
         try {
-            return await ClientModel.findOne( email );
+            return await ContactModel.findOne( email );
         } catch (err) {
             throw err;
         }
     }
      static async addContact(  email,second_email,name, adress,identity,phones,website,other_info,type ) {
             try {
-                const addContact = new ClientModel({ email,second_email,name,adress,identity,phones,website,other_info,type });
+                const addContact = new ContactModel({ email,second_email,name,adress,identity,phones,website,other_info,type });
                 return await addContact.save();
             } catch (err) {
                 throw err;
@@ -20,7 +20,7 @@ class ClientService {
         }
             static async updateContact(email,second_email,name, adress,identity,phones,website,other_info,type ) {
                 try{
-                    const contact = ClientModel.findOne( email );
+                    const contact = await ContactModel.findOne( email );
                     if(!contact) throw new Error('Contact not found');
                     contact.email = email;
                     contact.second_email = second_email;
@@ -37,4 +37,4 @@ class ClientService {
             }
 
 }
-module.exports = ClientService;
+module.exports = ContactService;

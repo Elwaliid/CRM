@@ -3,7 +3,7 @@ const db = require('../config/db');
 const { Schema } = mongoose;
 
 
-const clientSchema = new Schema({
+const contactSchema = new Schema({
   owner: { type: Schema.Types.ObjectId, ref: 'user', required: flase },
   name: { type: String, required: true },
   type: { type: String, enum: ['Client', 'Lead', 'Vendor'], default: 'Client' },
@@ -21,6 +21,6 @@ const clientSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-const ClientModel = db.model('Client', clientSchema);
+const ContactModel = db.model('Client', contactSchema);
 
-module.exports = ClientModel;
+module.exports = ContactModel;
