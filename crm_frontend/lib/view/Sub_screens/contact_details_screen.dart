@@ -1,10 +1,14 @@
 // ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable, avoid_print
 
+import 'dart:convert';
+
+import 'package:crm_frontend/config.dart';
 import 'package:crm_frontend/view/Widgets/Type_buttons.dart';
 import 'package:crm_frontend/view/Widgets/wilou_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 
 /// Screen for adding/updating Client or Lead info
 class ContactDetailsScreen extends StatefulWidget {
@@ -35,7 +39,7 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
   final TextEditingController _otherInfoController = TextEditingController();
 
   /// Save button logic
-  void _saveClient() {
+  Future<void> _addUpdateClient() async {
     if (_formKey.currentState!.validate()) {
       var name = '${_firstNameController.text} ${_lastNameController.text}';
       // 👇 Gather all phone numbers into a list
@@ -54,16 +58,40 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
         'other_info': _otherInfoController.text,
         'type': _selectedType,
       };
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Contact saved/updated successfully'),
-          behavior: SnackBarBehavior.floating,
-        ),
+      var response = await http.post(
+        Uri.parse(addOrUpdateContactUrl),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(logBody),
       );
-
-      // Close screen
-      Navigator.pop(context);
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        if (responseData['status'] == true) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(responseData['message']),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.green,
+            ),
+          );
+          Navigator.pop(context);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(responseData['message']),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to save contact. Please try again.'),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
@@ -471,7 +499,7 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton.icon(
-                        onPressed: _saveClient,
+                        onPressed: _addUpdateClient,
                         icon: Icon(Icons.save, size: 24, color: Colors.white),
                         label: Text(
                           'Save Client',
