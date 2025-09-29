@@ -37,19 +37,27 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
   /// Save button logic
   void _saveClient() {
     if (_formKey.currentState!.validate()) {
+      var name = '${_firstNameController.text} ${_lastNameController.text}';
       // 👇 Gather all phone numbers into a list
       final allPhones = [
         _phoneController.text,
         ..._additionalPhoneControllers.map((c) => c.text),
       ];
+      var logBody = {
+        'email': _emailController.text,
+        'second_email': _secondEmailController.text,
+        'name': name,
+        'adress': _addressController.text,
+        'identity': _identityController.text,
+        'phones': allPhones,
+        'website': _websiteController.text,
+        'other_info': _otherInfoController.text,
+        'type': _selectedType,
+      };
 
-      // 🧭 Example: print or send this to backend
-      print('✅ Saving client with phones: $allPhones');
-
-      // Show confirmation to user
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('✅ Client/Lead saved successfully'),
+          content: Text('Contact saved/updated successfully'),
           behavior: SnackBarBehavior.floating,
         ),
       );
