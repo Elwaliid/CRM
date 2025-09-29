@@ -21,6 +21,6 @@ const contactSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-const ContactModel = db.model('Client', contactSchema);
+const ContactModel = db.model('Contact', contactSchema);
 
 module.exports = ContactModel;
