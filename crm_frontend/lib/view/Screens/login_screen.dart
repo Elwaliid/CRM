@@ -22,8 +22,10 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _emailTextEditingController = TextEditingController();
-  final _passwordTextEditingController = TextEditingController();
+  final _emailTextEditingController = TextEditingController(
+    text: 'walidwalidalg41@gmail.com',
+  );
+  final _passwordTextEditingController = TextEditingController(text: '123456');
   final _otpTextEditingController = TextEditingController();
   final _newPasswordTextEditingController = TextEditingController();
   bool _obscurePassword = true;
@@ -581,7 +583,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 20),
 
                       ///////////////////////////////////////////////////////////////////////////////// Sign Out button
-                      SizedBox(
+                      /*  SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -619,7 +621,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: TextStyle(fontSize: 22, color: Colors.white),
                           ),
                         ),
-                      ),
+                      ), */
                     ],
                   ),
                 ),

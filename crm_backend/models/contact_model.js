@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 
 const contactSchema = new Schema({
-  owner: { type: Schema.Types.ObjectId, ref: 'user', required: flase },
+  owner: { type: Schema.Types.ObjectId, ref: 'user' },
   name: { type: String, required: true },
   type: { type: String, enum: ['Client', 'Lead', 'Vendor'], default: 'Client' },
 

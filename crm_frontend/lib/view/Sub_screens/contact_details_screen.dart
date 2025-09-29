@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable, avoid_print
+// ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable, avoid_print, use_build_context_synchronously
 
 import 'dart:convert';
 

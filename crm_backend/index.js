@@ -2,7 +2,7 @@ require('dotenv').config();
 const app = require('./app');
 const db = require('./config/db');
 const UserModel = require('./models/user_model');
-const ClientModel = require('./models/client_model');
+const ContactModel = require('./models/contact_model');
 const TaskModel = require('./models/task_model');
 const port = 3000;
 
