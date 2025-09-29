@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
 const db = require('../config/db');
+const { Schema } = mongoose;
+
 
 const clientSchema = new Schema({
   owner: { type: Schema.Types.ObjectId, ref: 'user', required: true },

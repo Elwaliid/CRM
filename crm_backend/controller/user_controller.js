@@ -142,8 +142,4 @@ exports.resetPassword = async (req, res) => {
     }
 };
 
-exports.addOrUpdateContact = async (req, res) => {
-    try{
-     const { email,second_email,name, adress,identity,phones,website,other_info,type } = req.body;
-    }catch(err){}
-}
+
