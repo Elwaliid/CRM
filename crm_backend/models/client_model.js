@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 
 const clientSchema = new Schema({
-  owner: { type: Schema.Types.ObjectId, ref: 'user', required: true },
+  owner: { type: Schema.Types.ObjectId, ref: 'user', required: flase },
   name: { type: String, required: true },
   type: { type: String, enum: ['Client', 'Lead', 'Vendor'], default: 'Client' },
 
@@ -12,13 +12,11 @@ const clientSchema = new Schema({
     type: [String], // array of phone numbers
     validate: [arr => arr.length <= 10, '{PATH} exceeds the limit of 10'],
   },
-
-  emails: {
-    type: [String],
-    validate: [arr => arr.length <= 2, '{PATH} exceeds the limit of 2'],
-  },
-
-  company: { type: String },
+  website: { type: String },
+  email: { type: String, required: true, unique: true },
+  second_email: { type: String },
+  adress: { type: String },
+  identity: { type: String },
   notes: { type: String },
   createdAt: { type: Date, default: Date.now },
 });
