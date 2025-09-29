@@ -23,7 +23,6 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
   final _formKey = GlobalKey<FormState>();
   bool _secondemail = true;
   String? _selectedType = 'Client';
-
   /////////////////////////////////////////////////////////////////////////////////// Controllers for all input fields
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
@@ -480,6 +479,8 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
         _phoneController.text,
         ..._additionalPhoneControllers.map((c) => c.text),
       ];
+      // Add id field here - you need to set _contactId appropriately in your state
+
       var logBody = {
         'email': _emailController.text,
         'second_email': _secondEmailController.text,

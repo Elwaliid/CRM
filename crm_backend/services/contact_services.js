@@ -10,9 +10,9 @@ class ContactService {
             throw err;
         }
     }
-     static async addContact(  email,second_email,name, address,identity,phones,website,other_info,type ) {
+     static async addContact(email,second_email,name, address,identity,phones,website,other_info,type ) {
             try {
-                const addContact = new ContactModel({ email,second_email,name,address,identity,phones,website,notes: other_info,type });
+                const addContact = new ContactModel({email,second_email,name,address,identity,phones,website,notes: other_info,type });
                 return await addContact.save();
             } catch (err) {
                 throw err;
