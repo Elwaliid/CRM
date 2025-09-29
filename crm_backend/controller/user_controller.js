@@ -141,3 +141,9 @@ exports.resetPassword = async (req, res) => {
         res.status(500).json({ status: false, message: "Internal server error" });
     }
 };
+
+exports.addOrUpdateContact = async (req, res) => {
+    try{
+     const { email,second_email,name, adress,identity,phones,website,other_info,type } = req.body;
+    }catch(err){}
+}
