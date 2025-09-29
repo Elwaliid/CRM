@@ -118,12 +118,6 @@ class _ContactsScreenState extends State<ContactsScreen> {
     }
   }
 
-  void _addClient() {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text('Add Client button pressed')));
-  }
-
   @override
   Widget build(BuildContext context) {
     final Color primaryColor = Colors.blueGrey.shade900;
@@ -410,7 +404,9 @@ class _ContactsScreenState extends State<ContactsScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
-                    onPressed: _addClient,
+                    onPressed: () {
+                      Get.to(ContactDetailsScreen());
+                    },
                     icon: Icon(Icons.add, size: 24, color: Colors.white),
                     label: Text(
                       'Add Client',

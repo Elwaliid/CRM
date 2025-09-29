@@ -1,14 +1,30 @@
 {
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
-            "name": "Flutter Web (Chrome)",
-            "type": "dart",
+            "name": "crm_frontend",
+            "cwd": "crm_frontend",
             "request": "launch",
-            "program": "lib/main.dart",
-            "args": [
-                "--web-port=8080"
-            ]
+            "type": "dart",
+             "args": ["-d", "web-server","--web-port", "5000"],
+        },
+        {
+            "name": "crm_frontend (profile mode)",
+            "cwd": "crm_frontend",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "crm_frontend (release mode)",
+            "cwd": "crm_frontend",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
         }
     ]
 }

@@ -1,7 +1,7 @@
 // ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable
 
 import 'dart:ui';
-import 'package:crm_frontend/view/Screens/setting_screen.dart';
+import 'package:crm_frontend/view/Sub_screens/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
