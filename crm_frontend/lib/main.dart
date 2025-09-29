@@ -1,5 +1,4 @@
-// ignore_for_file: avoid_web_libraries_in_flutter
-
+// ignore_for_file: avoid_web_libraries_in_flutter, deprecated_member_use, prefer_typing_uninitialized_variables, use_super_parameters, duplicate_ignore
 // ignore: deprecated_member_use
 import 'dart:html' as html;
 import 'package:crm_frontend/view/Screens/home_screen.dart';
