@@ -38,80 +38,6 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
   final TextEditingController _websiteController = TextEditingController();
   final TextEditingController _otherInfoController = TextEditingController();
 
-  /// Save button logic
-  Future<void> _addUpdateContact() async {
-    if (_formKey.currentState!.validate()) {
-      var name = '${_firstNameController.text} ${_lastNameController.text}';
-      // 👇 Gather all phone numbers into a list
-      final allPhones = [
-        _phoneController.text,
-        ..._additionalPhoneControllers.map((c) => c.text),
-      ];
-      var logBody = {
-        'email': _emailController.text,
-        'second_email': _secondEmailController.text,
-        'name': name,
-        'adress': _adressController.text,
-        'identity': _identityController.text,
-        'phones': allPhones,
-        'website': _websiteController.text,
-        'other_info': _otherInfoController.text,
-        'type': _selectedType,
-      };
-      var response = await http.post(
-        Uri.parse(addOrUpdateContactUrl),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode(logBody),
-      );
-      if (response.statusCode == 201 || response.statusCode == 200) {
-        final responseData = jsonDecode(response.body);
-        if (responseData['status'] == true) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(responseData['message']),
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Colors.green,
-            ),
-          );
-          Navigator.pop(context);
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(responseData['message']),
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Colors.red,
-            ),
-          );
-        }
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Failed to save contact. Please try again.'),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    }
-  }
-
-  /// Add new phone number field
-  void _addPhoneField() {
-    if (_additionalPhoneControllers.length < 9) {
-      setState(() {
-        _additionalPhoneControllers.add(TextEditingController());
-      });
-    }
-  }
-
-  /// Remove a specific phone number field
-  void _removePhoneField(int index) {
-    setState(() {
-      _additionalPhoneControllers[index].dispose();
-      _additionalPhoneControllers.removeAt(index);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     final Color primaryColor = Colors.blueGrey.shade900;
@@ -543,5 +469,79 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
       'Tenth',
     ];
     return labels[number];
+  }
+
+  ///////////////////////////////////////////////////////////// Add or Update Contact
+  Future<void> _addUpdateContact() async {
+    if (_formKey.currentState!.validate()) {
+      var name = '${_firstNameController.text} ${_lastNameController.text}';
+      // 👇 Gather all phone numbers into a list
+      final allPhones = [
+        _phoneController.text,
+        ..._additionalPhoneControllers.map((c) => c.text),
+      ];
+      var logBody = {
+        'email': _emailController.text,
+        'second_email': _secondEmailController.text,
+        'name': name,
+        'adress': _adressController.text,
+        'identity': _identityController.text,
+        'phones': allPhones,
+        'website': _websiteController.text,
+        'other_info': _otherInfoController.text,
+        'type': _selectedType,
+      };
+      var response = await http.post(
+        Uri.parse(addOrUpdateContactUrl),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(logBody),
+      );
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        if (responseData['status'] == true) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(responseData['message']),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.green,
+            ),
+          );
+          Navigator.pop(context);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(responseData['message']),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to save contact. Please try again.'),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
+  /// Add new phone number field
+  void _addPhoneField() {
+    if (_additionalPhoneControllers.length < 9) {
+      setState(() {
+        _additionalPhoneControllers.add(TextEditingController());
+      });
+    }
+  }
+
+  /// Remove a specific phone number field
+  void _removePhoneField(int index) {
+    setState(() {
+      _additionalPhoneControllers[index].dispose();
+      _additionalPhoneControllers.removeAt(index);
+    });
   }
 }
