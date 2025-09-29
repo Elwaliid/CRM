@@ -15,7 +15,7 @@ const contactSchema = new Schema({
   website: { type: String },
   email: { type: String, required: true, unique: true },
   second_email: { type: String },
-  adress: { type: String },
+  address: { type: String },
   identity: { type: String },
   notes: { type: String },
   createdAt: { type: Date, default: Date.now },

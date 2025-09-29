@@ -484,7 +484,7 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
         'email': _emailController.text,
         'second_email': _secondEmailController.text,
         'name': name,
-        'adress': _adressController.text,
+        'address': _adressController.text,
         'identity': _identityController.text,
         'phones': allPhones,
         'website': _websiteController.text,
