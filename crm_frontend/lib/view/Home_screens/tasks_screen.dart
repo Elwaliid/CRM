@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart';
 
 class Task {
   final String title;
@@ -500,7 +501,9 @@ class _TasksScreenState extends State<TasksScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton.icon(
-                    onPressed: _addTask,
+                    onPressed: () {
+                      Get.to(TaskDetailsScreen());
+                    },
                     icon: Icon(Icons.add, size: 24, color: Colors.white),
                     label: Text(
                       'Add Task',

@@ -20,7 +20,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   final _formKey = GlobalKey<FormState>();
   String? _invalidAssignedName;
   String? _selectedTaskType;
-  List<String?> _invalidAssignedToNames = [];
+  List<String?> _invalidRelatedToNames = [];
   String? _selectedType = 'Pending';
   List Contacts = ['faisal mouh', 'khalil kaba', 'lisa luisa', 'bounar l7agar'];
 
@@ -28,12 +28,13 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   final TextEditingController _taskNameController = TextEditingController();
   final TextEditingController _taskDescriptionController =
       TextEditingController();
-  final TextEditingController _assignedToController = TextEditingController();
+  final TextEditingController _RelatedToController = TextEditingController();
   final TextEditingController _revenueController = TextEditingController();
   final TextEditingController _costController = TextEditingController();
-  final List<TextEditingController> _additionalassignedToControllers = [];
+  final List<TextEditingController> _additionalRelatedToControllers = [];
   final TextEditingController _dueDateController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
+  final TextEditingController _endtimeController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _websiteController = TextEditingController();
   /////////////////////////////////////////////// Dynamic time picker
@@ -62,7 +63,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   /// Save button logic
   void _saveClient() {
     if (_formKey.currentState!.validate()) {
-      // 👇 Gather all assignedTo numbers into a list
+      // 👇 Gather all RelatedTo numbers into a list
 
       // 🧭 Example: print or send this to backend
 
@@ -76,20 +77,20 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
     }
   }
 
-  /// Add new assignedTo number field
-  void _addassignedToField() {
-    if (_additionalassignedToControllers.length < 9) {
+  /// Add new RelatedTo number field
+  void _addRelatedToField() {
+    if (_additionalRelatedToControllers.length < 9) {
       setState(() {
-        _additionalassignedToControllers.add(TextEditingController());
+        _additionalRelatedToControllers.add(TextEditingController());
       });
     }
   }
 
-  /// Remove a specific assignedTo number field
-  void _removeassignedToField(int index) {
+  /// Remove a specific RelatedTo number field
+  void _removeRelatedToField(int index) {
     setState(() {
-      _additionalassignedToControllers[index].dispose();
-      _additionalassignedToControllers.removeAt(index);
+      _additionalRelatedToControllers[index].dispose();
+      _additionalRelatedToControllers.removeAt(index);
     });
   }
 
@@ -234,14 +235,14 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                       ),
 
                     const SizedBox(height: 12),
-                    ///////////////////////////////////////////////////////////// Primary assignedTo Number
+                    ///////////////////////////////////////////////////////////// Primary RelatedTo Number
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
                           child: WilouTextField(
-                            label: 'AssignedTo(Full Name)',
-                            controller: _assignedToController,
+                            label: 'RelatedTo(Full Name)',
+                            controller: _RelatedToController,
 
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -261,10 +262,10 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                         ),
                         const SizedBox(width: 8),
 
-                        //////////////////////////////////// add icon button of assignedTo number
+                        //////////////////////////////////// add icon button of RelatedTo number
                         Container(
                           decoration: BoxDecoration(
-                            color: _additionalassignedToControllers.length < 9
+                            color: _additionalRelatedToControllers.length < 9
                                 ? primaryColor
                                 : Colors.grey.shade400,
                             shape: BoxShape.circle,
@@ -278,8 +279,8 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                           ),
                           child: IconButton(
                             onPressed:
-                                _additionalassignedToControllers.length < 9
-                                ? _addassignedToField
+                                _additionalRelatedToControllers.length < 9
+                                ? _addRelatedToField
                                 : null,
                             icon: Icon(
                               Icons.add,
@@ -352,12 +353,12 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                       ),
                     SizedBox(height: 8),
 
-                    ///////////////////////////////////////////////////////////// Secondary assignedTo numbers
+                    ///////////////////////////////////////////////////////////// Secondary RelatedTo numbers
                     Column(
                       children: List.generate(
-                        _additionalassignedToControllers.length,
+                        _additionalRelatedToControllers.length,
                         (index) {
-                          String label = '${_ordinal(index)} AssignedTo';
+                          String label = '${_ordinal(index)} RelatedTo';
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 12.0),
                             child: Row(
@@ -366,18 +367,18 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                                   child: WilouTextField(
                                     label: label,
                                     controller:
-                                        _additionalassignedToControllers[index],
+                                        _additionalRelatedToControllers[index],
 
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
                                         return 'Please enter $label';
                                       }
                                       if (!Contacts.contains(value)) {
-                                        if (!_invalidAssignedToNames.contains(
+                                        if (!_invalidRelatedToNames.contains(
                                           value,
                                         )) {
                                           setState(() {
-                                            _invalidAssignedToNames.add(value);
+                                            _invalidRelatedToNames.add(value);
                                           });
                                         }
                                         return null; // Let the UI handle the error display
@@ -403,7 +404,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
 
                                   child: IconButton(
                                     onPressed: () =>
-                                        _removeassignedToField(index),
+                                        _removeRelatedToField(index),
                                     icon: Icon(
                                       Icons.close,
                                       color: Colors.white,
@@ -420,9 +421,9 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                         },
                       ),
                     ),
-                    ///////////// ///////////// ////////// Secondary assignedTo add to Contacts message and button
+                    ///////////// ///////////// ////////// Secondary RelatedTo add to Contacts message and button
                     Column(
-                      children: _invalidAssignedToNames.map((name) {
+                      children: _invalidRelatedToNames.map((name) {
                         return Padding(
                           padding: const EdgeInsets.only(top: .0),
                           child: Row(
@@ -495,14 +496,26 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                       onTap: _selectDate,
                     ),
                     const SizedBox(height: 16),
-                    ///////////////////////////////////////////////////////////// Time
-                    WilouTextField(
-                      label: 'Time',
-                      controller: _timeController,
-                      readOnly: true,
-                      onTap: _pickTime,
+                    ///////////////////////////////////////////////////////////// Time & End Time
+                    Row(
+                      children: [
+                        WilouTextField(
+                          label: 'Time',
+                          controller: _timeController,
+                          readOnly: true,
+                          onTap: _pickTime,
+                        ),
+                        Spacer(),
+                        WilouTextField(
+                          label: 'End time',
+                          controller: _endtimeController,
+                          readOnly: true,
+                          onTap: _pickTime,
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 16),
+
                     ///////////////////////////////////////////////////////////// Address
                     WilouTextField(
                       label: 'Address',
