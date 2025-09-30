@@ -238,7 +238,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                       ),
 
                     const SizedBox(height: 12),
-                    ////////////////////////////////////////////////////////////////// RelatedTo number
+                    ////////////////////////////////////////////////////////////////// RelatedTo numberrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
                     if (_selectedTaskType == 'Call/Message')
                       Row(
                         children: [
@@ -291,7 +291,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                       ),
                     const SizedBox(height: 12),
                     ////////////////////////////////////////////////////////////////// Phone number textfield
-                    if (phone)
+                    if (phone == true)
                       WilouTextField(
                         label: 'Phone number',
                         controller: _phoneController,
@@ -350,8 +350,8 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                         ],
                       ),
                     const SizedBox(height: 12),
-                    ////////////////////////////////////////////////////////////////// Phone number textfield
-                    if (phone)
+                    ///////////////////////////////////////////////// email textfield
+                    if (email == true)
                       WilouTextField(
                         label: 'Email',
                         controller: _EmailController,
