@@ -58,13 +58,14 @@ class _ContactsScreenState extends State<ContactsScreen> {
                 firstname: firstName,
                 lastname: lastName,
                 phone: phone,
-                phones: contactJson['phones'],
-                identify: contactJson['identify'] ?? '',
+                phones: List<String>.from(contactJson['phones'] ?? []),
+                identity: contactJson['identity'] ?? '',
                 email: contactJson['email'] ?? '',
                 secondEmail: contactJson['secondEmail'] ?? '',
                 address: contactJson['address'] ?? '',
                 notes: contactJson['notes'] ?? '',
                 type: contactJson['type'] ?? '',
+                website: contactJson['website'] ?? '',
               ),
             );
           }
@@ -85,7 +86,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
   void _filterContact() {
     final query = _searchController.text.toLowerCase();
     setState(() {
-      _filterContacts
+      _filterContacts = _contacts
           .where(
             (Contacts) => ('${Contacts.firstname} ${Contacts.lastname}')
                 .toLowerCase()

@@ -60,9 +60,10 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
         _secondEmailController.text = widget.contact!.secondEmail;
       }
       _adressController.text = widget.contact!.address;
-      _identityController.text = widget.contact!.identify;
+      _identityController.text = widget.contact!.identity;
       _otherInfoController.text = widget.contact!.notes;
       _selectedType = widget.contact!.type;
+      _websiteController.text = widget.contact!.website;
     }
   }
 

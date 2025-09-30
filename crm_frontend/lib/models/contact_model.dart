@@ -5,11 +5,12 @@ class Contact {
   final String phone;
   final List<String> phones;
   final String email;
-  final String identify;
+  final String identity;
   final String secondEmail;
   final String address;
   final String notes;
   final String type;
+  final String website;
   Contact({
     required this.id,
     required this.firstname,
@@ -17,10 +18,11 @@ class Contact {
     required this.phone,
     required this.phones,
     required this.email,
-    required this.identify,
+    required this.identity,
     required this.secondEmail,
     required this.address,
     required this.notes,
     required this.type,
+    required this.website,
   });
 }
