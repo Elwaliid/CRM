@@ -18,9 +18,9 @@ class TaskDetailsScreen extends StatefulWidget {
 
 class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   final _formKey = GlobalKey<FormState>();
-  String? _invalidAssignedName;
+  String? _invalidRelatedTo;
   String? _selectedTaskType;
-  List<String?> _invalidRelatedToNames = [];
+  Set<String> _invalidRelatedToNames = {};
   String? _selectedType = 'Pending';
   List Contacts = ['faisal mouh', 'khalil kaba', 'lisa luisa', 'bounar l7agar'];
   bool phone = false;
@@ -51,6 +51,16 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
     );
   }
 
+  Future<void> _pickTime1() async {
+    await TimePickerHelper.pickCustomTime(
+      context: context,
+      controller: _endtimeController,
+      onTimeSelected: (time) {
+        print("Time picked: ${time.format(context)}");
+      },
+    );
+  }
+
   ////////////////////// select Date
   Future<void> _selectDate() async {
     final pickedDate = await DatePickerHelper.showCustomDatePicker(
@@ -66,11 +76,6 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   /// Save button logic
   void _saveClient() {
     if (_formKey.currentState!.validate()) {
-      // 👇 Gather all RelatedTo numbers into a list
-
-      // 🧭 Example: print or send this to backend
-
-      // Show confirmation to user
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('✅ Updates saved successfully'),
@@ -92,8 +97,10 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   /// Remove a specific RelatedTo number field
   void _removeRelatedToField(int index) {
     setState(() {
+      String text = _additionalRelatedToControllers[index].text;
       _additionalRelatedToControllers[index].dispose();
       _additionalRelatedToControllers.removeAt(index);
+      _invalidRelatedToNames.remove(text);
     });
   }
 
@@ -242,7 +249,6 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                     if (_selectedTaskType == 'Call/Message')
                       Row(
                         children: [
-                          SizedBox(width: 12),
                           Text(
                             ' Number of a persone not in contacts?',
                             style: TextStyle(fontSize: 12, color: Colors.red),
@@ -355,10 +361,11 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                       WilouTextField(
                         label: 'Email',
                         controller: _EmailController,
-                        keyboardType: TextInputType.phone,
+                        keyboardType: TextInputType.emailAddress,
                       ),
                     const SizedBox(height: 12),
-                    ///////////////////////////////////////////////////////////// Primary RelatedTo Number
+
+                    ///////////////////////////////////////////////////////////// Primary RelatedTo
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -366,18 +373,21 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                           child: WilouTextField(
                             label: 'RelatedTo(Full Name)',
                             controller: _RelatedToController,
-
+                            onChanged: (value) {
+                              if (value.isNotEmpty &&
+                                  !Contacts.contains(value)) {
+                                setState(() {
+                                  _invalidRelatedTo = value;
+                                });
+                              } else {
+                                setState(() {
+                                  _invalidRelatedTo = null;
+                                });
+                              }
+                            },
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter a name';
-                              }
-                              // Validation only, do not call setState here
-                              if (!Contacts.contains(value)) {
-                                setState(() {
-                                  _invalidAssignedName = value;
-                                });
-                                // Return null to avoid default error text display
-                                return null;
                               }
                               return null;
                             },
@@ -419,14 +429,14 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                     ),
 
                     ///////////////////////////////////////////////////////// add to Contacts message and button
-                    if (_invalidAssignedName != null)
+                    if (_invalidRelatedTo != null)
                       Padding(
                         padding: const EdgeInsets.only(top: 4.0),
                         child: Row(
                           children: [
                             SizedBox(width: 12),
                             Text(
-                              '"$_invalidAssignedName" not found in contacts.',
+                              '"$_invalidRelatedTo" not found in contacts.',
                               style: TextStyle(fontSize: 12, color: Colors.red),
                             ),
 
@@ -622,18 +632,22 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                     ///////////////////////////////////////////////////////////// Time & End Time
                     Row(
                       children: [
-                        WilouTextField(
-                          label: 'Time',
-                          controller: _timeController,
-                          readOnly: true,
-                          onTap: _pickTime,
+                        Expanded(
+                          child: WilouTextField(
+                            label: 'Time',
+                            controller: _timeController,
+                            readOnly: true,
+                            onTap: _pickTime,
+                          ),
                         ),
-                        Spacer(),
-                        WilouTextField(
-                          label: 'End time',
-                          controller: _endtimeController,
-                          readOnly: true,
-                          onTap: _pickTime,
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: WilouTextField(
+                            label: 'End time',
+                            controller: _endtimeController,
+                            readOnly: true,
+                            onTap: _pickTime1,
+                          ),
                         ),
                       ],
                     ),
