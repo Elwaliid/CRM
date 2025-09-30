@@ -37,5 +37,9 @@ exports.getContacts = async (req, res) => {
 exports.deleteContact = async (req, res) => {
     try{
     const { id } = req.body;
+    const contact = await ContactService.existContact(id);
+    if(!contact){res.status(404).json({ status: false, message: "Contact  not found" }); return;}
+    await ContactService.deleteIt(id); 
+    res.status(200).json({ status: true, message: "Contact deleted successfully" });
     }catch(err){console.error("Delete contact error:", err);}
 }

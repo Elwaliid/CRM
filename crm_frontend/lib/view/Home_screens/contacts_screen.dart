@@ -285,20 +285,33 @@ class _ContactsScreenState extends State<ContactsScreen> {
                                                                       .id,
                                                                 },
                                                               );
-                                                          if (response ==
-                                                              201) {}
+                                                          if (response
+                                                                  .statusCode ==
+                                                              200) {
+                                                            ScaffoldMessenger.of(
+                                                              context,
+                                                            ).showSnackBar(
+                                                              SnackBar(
+                                                                content: Text(
+                                                                  '${contact.firstname} ${contact.lastname} deleted',
+                                                                ),
+                                                              ),
+                                                            );
+                                                            _fetchContacts();
+                                                          } else {
+                                                            ScaffoldMessenger.of(
+                                                              context,
+                                                            ).showSnackBar(
+                                                              SnackBar(
+                                                                content: Text(
+                                                                  'Failed to delete ${contact.firstname} ${contact.lastname}',
+                                                                ),
+                                                              ),
+                                                            );
+                                                          }
                                                           Navigator.of(
                                                             context,
                                                           ).pop();
-                                                          ScaffoldMessenger.of(
-                                                            context,
-                                                          ).showSnackBar(
-                                                            SnackBar(
-                                                              content: Text(
-                                                                '${contact.firstname} ${contact.lastname} deleted',
-                                                              ),
-                                                            ),
-                                                          );
                                                         },
                                                         child: Text(
                                                           'Delete',

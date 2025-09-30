@@ -43,6 +43,11 @@ class ContactService {
             throw err;
         }
     }
+    static async deleteIt(id) {
+        try{
+            return await ContactModel.findByIdAndDelete(id);
+        }catch (err) {  throw err;}
+    }
 
 }
 module.exports = ContactService;
