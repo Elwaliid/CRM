@@ -33,3 +33,9 @@ exports.getContacts = async (req, res) => {
         res.status(500).json({ status: false, message: "Internal server error" });
     }
 }
+
+exports.deleteContact = async (req, res) => {
+    try{
+    const { id } = req.body;
+    }catch(err){console.error("Delete contact error:", err);}
+}
