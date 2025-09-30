@@ -1,4 +1,5 @@
 // ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable, avoid_print, prefer_final_fields, non_constant_identifier_names
+import 'package:crm_frontend/ustils/constants.dart';
 import 'package:crm_frontend/view/Widgets/Type_buttons.dart';
 import 'package:crm_frontend/view/Widgets/date_time_picker.dart';
 import 'package:crm_frontend/view/Widgets/quick_adds.dart';
@@ -212,157 +213,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                       ],
                     ),
                     const SizedBox(height: 12),
-                    ////////////////////////////////////////////////////////////// Revenue and Cost textfields
-                    if (_selectedTaskType == 'Deal')
-                      Row(
-                        children: [
-                          Expanded(
-                            child: WilouTextField(
-                              label: 'Revenue',
-                              icon: Icons.trending_up,
-                              controller: _revenueController,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Text(
-                              '&',
-                              style: GoogleFonts.poppins(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                                color: primaryColor,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: WilouTextField(
-                              label: 'Cost',
-                              icon: Icons.trending_down,
-                              controller: _costController,
-                            ),
-                          ),
-                        ],
-                      ),
-
-                    const SizedBox(height: 12),
-                    ////////////////////////////////////////////////////////////////// RelatedTo numberrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
-                    if (_selectedTaskType == 'Call/Message')
-                      Row(
-                        children: [
-                          Text(
-                            ' Number of a persone not in contacts?',
-                            style: TextStyle(fontSize: 12, color: Colors.red),
-                          ),
-
-                          const SizedBox(width: 8),
-                          ElevatedButton.icon(
-                            onPressed: () {
-                              setState(() {
-                                phone = !phone;
-                              });
-                            },
-
-                            label: phone
-                                ? Text(
-                                    'No',
-                                    style: TextStyle(
-                                      fontSize: 12, // 🔽 Smaller text
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  )
-                                : Text(
-                                    'Yes',
-                                    style: TextStyle(
-                                      fontSize: 12, // 🔽 Smaller text
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blueGrey.shade900,
-                              foregroundColor: Colors.white,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 6,
-                                vertical: 2,
-                              ),
-                              minimumSize: Size(0, 26),
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              visualDensity: VisualDensity.compact,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(3),
-                              ),
-                              elevation: 0.5,
-                            ),
-                          ),
-                        ],
-                      ),
-                    const SizedBox(height: 12),
-                    ////////////////////////////////////////////////////////////////// Phone number textfield
-                    if (phone == true)
-                      WilouTextField(
-                        label: 'Phone number',
-                        controller: _phoneController,
-                        keyboardType: TextInputType.phone,
-                      ),
-                    const SizedBox(height: 12),
-                    ////////////////////////////////////////////////////////////////// RelatedTo Email
-                    if (_selectedTaskType == 'Email')
-                      Row(
-                        children: [
-                          SizedBox(width: 12),
-                          Text(
-                            ' Email of a persone not in contacts?',
-                            style: TextStyle(fontSize: 12, color: Colors.red),
-                          ),
-
-                          const SizedBox(width: 8),
-                          ElevatedButton.icon(
-                            onPressed: () {
-                              setState(() {
-                                email = !email;
-                              });
-                            },
-
-                            label: email
-                                ? Text(
-                                    'No',
-                                    style: TextStyle(
-                                      fontSize: 12, // 🔽 Smaller text
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  )
-                                : Text(
-                                    'Yes',
-                                    style: TextStyle(
-                                      fontSize: 12, // 🔽 Smaller text
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blueGrey.shade900,
-                              foregroundColor: Colors.white,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 6,
-                                vertical: 2,
-                              ),
-                              minimumSize: Size(0, 26),
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              visualDensity: VisualDensity.compact,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(3),
-                              ),
-                              elevation: 0.5,
-                            ),
-                          ),
-                        ],
-                      ),
-                    const SizedBox(height: 12),
-                    ///////////////////////////////////////////////// email textfield
-                    if (email == true)
-                      WilouTextField(
-                        label: 'Email',
-                        controller: _EmailController,
-                        keyboardType: TextInputType.emailAddress,
-                      ),
+                    ..._buildConditionalFields(),
                     const SizedBox(height: 12),
 
                     ///////////////////////////////////////////////////////////// Primary RelatedTo
@@ -431,7 +282,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                     ///////////////////////////////////////////////////////// add to Contacts message and button
                     if (_invalidRelatedTo != null)
                       Padding(
-                        padding: const EdgeInsets.only(top: 4.0),
+                        padding: const EdgeInsets.only(top: 8.0),
                         child: Row(
                           children: [
                             SizedBox(width: 12),
@@ -768,6 +619,165 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
         ),
       ),
     );
+  }
+
+  List<Widget> _buildConditionalFields() {
+    List<Widget> widgets = [];
+    if (_selectedTaskType == 'Deal') {
+      widgets.add(
+        Row(
+          children: [
+            Expanded(
+              child: WilouTextField(
+                label: 'Revenue',
+                icon: Icons.trending_up,
+                controller: _revenueController,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(3.0),
+              child: Text(
+                '&',
+                style: GoogleFonts.poppins(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                  color: primaryColor,
+                ),
+              ),
+            ),
+            Expanded(
+              child: WilouTextField(
+                label: 'Cost',
+                icon: Icons.trending_down,
+                controller: _costController,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+    if (_selectedTaskType == 'Call/Message') {
+      widgets.add(
+        Row(
+          children: [
+            Text(
+              ' Number of a persone not in contacts?',
+              style: TextStyle(fontSize: 12, color: Colors.red),
+            ),
+            const SizedBox(width: 8),
+            ElevatedButton.icon(
+              onPressed: () {
+                setState(() {
+                  phone = !phone;
+                });
+              },
+              label: phone
+                  ? Text(
+                      'No',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    )
+                  : Text(
+                      'Yes',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueGrey.shade900,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                minimumSize: Size(0, 26),
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                visualDensity: VisualDensity.compact,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(3),
+                ),
+                elevation: 0.5,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+    if (phone == true) {
+      widgets.add(
+        WilouTextField(
+          label: 'Phone number',
+          controller: _phoneController,
+          keyboardType: TextInputType.phone,
+        ),
+      );
+    }
+    if (_selectedTaskType == 'Email') {
+      widgets.add(
+        Row(
+          children: [
+            SizedBox(width: 12),
+            Text(
+              ' Email of a persone not in contacts?',
+              style: TextStyle(fontSize: 12, color: Colors.red),
+            ),
+            const SizedBox(width: 8),
+            ElevatedButton.icon(
+              onPressed: () {
+                setState(() {
+                  email = !email;
+                });
+              },
+              label: email
+                  ? Text(
+                      'No',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    )
+                  : Text(
+                      'Yes',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueGrey.shade900,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                minimumSize: Size(0, 26),
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                visualDensity: VisualDensity.compact,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(3),
+                ),
+                elevation: 0.5,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+    if (email == true) {
+      widgets.add(
+        WilouTextField(
+          label: 'Email',
+          controller: _EmailController,
+          keyboardType: TextInputType.emailAddress,
+        ),
+      );
+    }
+    // Now, insert SizedBox between them
+    List<Widget> result = [];
+    for (int i = 0; i < widgets.length; i++) {
+      result.add(widgets[i]);
+      if (i < widgets.length - 1) {
+        result.add(const SizedBox(height: 12));
+      }
+    }
+    return result;
   }
 
   /////////////////////////////////////////////////////////////
