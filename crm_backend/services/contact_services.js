@@ -10,20 +10,20 @@ class ContactService {
             throw err;
         }
     }
-     static async addContact(email,second_email,name, address,identity,phones,website,other_info,type ) {
+     static async addContact(email,secondEmail,name, address,identity,phones,website,other_info,type ) {
             try {
-                const addContact = new ContactModel({email,second_email,name,address,identity,phones,website,notes: other_info,type });
+                const addContact = new ContactModel({email,secondEmail,name,address,identity,phones,website,notes: other_info,type });
                 return await addContact.save();
             } catch (err) {
                 throw err;
             }
         }
-            static async updateContact(email,second_email,name, address,identity,phones,website,other_info,type ) {
+            static async updateContact(email,secondEmail,name, address,identity,phones,website,other_info,type ) {
                 try{
                     const contact = await ContactModel.findOne({ email });
                     if(!contact) throw new Error('Contact not found');
                     contact.email = email;
-                    contact.second_email = second_email;
+                    contact.secondEmail = secondEmail;
                     contact.name = name;
                     contact.address = address;
                     contact.identity = identity;

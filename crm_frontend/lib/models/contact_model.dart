@@ -6,7 +6,7 @@ class Contact {
   final List<String> phones;
   final String email;
   final String identify;
-  final String second_email;
+  final String secondEmail;
   final String address;
   final String notes;
   final String type;
@@ -18,7 +18,7 @@ class Contact {
     required this.phones,
     required this.email,
     required this.identify,
-    required this.second_email,
+    required this.secondEmail,
     required this.address,
     required this.notes,
     required this.type,

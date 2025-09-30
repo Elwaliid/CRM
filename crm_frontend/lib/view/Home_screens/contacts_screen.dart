@@ -61,7 +61,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                 phones: contactJson['phones'],
                 identify: contactJson['identify'] ?? '',
                 email: contactJson['email'] ?? '',
-                second_email: contactJson['second_email'] ?? '',
+                secondEmail: contactJson['secondEmail'] ?? '',
                 address: contactJson['address'] ?? '',
                 notes: contactJson['notes'] ?? '',
                 type: contactJson['type'] ?? '',

@@ -55,9 +55,9 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
         );
       }
       _emailController.text = widget.contact!.email;
-      if (widget.contact!.second_email.isNotEmpty) {
+      if (widget.contact!.secondEmail.isNotEmpty) {
         _secondemail = false;
-        _secondEmailController.text = widget.contact!.second_email;
+        _secondEmailController.text = widget.contact!.secondEmail;
       }
       _adressController.text = widget.contact!.address;
       _identityController.text = widget.contact!.identify;
@@ -511,7 +511,7 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
 
       var logBody = {
         'email': _emailController.text,
-        'second_email': _secondEmailController.text,
+        'secondEmail': _secondEmailController.text,
         'name': name,
         'address': _adressController.text,
         'identity': _identityController.text,
