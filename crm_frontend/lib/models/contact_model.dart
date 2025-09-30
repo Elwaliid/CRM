@@ -1,3 +1,7 @@
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import '../idk/config.dart';
+
 class Contact {
   final String id;
   final String firstname;
@@ -25,4 +29,56 @@ class Contact {
     required this.type,
     required this.website,
   });
+
+  static Future<List<Contact>> fetchContacts() async {
+    try {
+      final response = await http.get(Uri.parse(getContactsUrl));
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        if (data['status'] == true) {
+          List<Contact> contacts = [];
+          for (var contactJson in data['contacts']) {
+            // Parse name string into firstname and lastname
+            String fullName = contactJson['name'] ?? '';
+            List<String> nameParts = fullName.split(' ');
+            String firstName = nameParts.isNotEmpty ? nameParts[0] : '';
+            String lastName = nameParts.length > 1
+                ? nameParts.sublist(1).join(' ')
+                : '';
+            // Get phone from phones array if available
+            String phone = '';
+            if (contactJson['phones'] != null &&
+                contactJson['phones'] is List &&
+                contactJson['phones'].isNotEmpty) {
+              phone = contactJson['phones'][0];
+            }
+
+            contacts.add(
+              Contact(
+                id: contactJson['_id'].toString(),
+                firstname: firstName,
+                lastname: lastName,
+                phone: phone,
+                phones: List<String>.from(contactJson['phones'] ?? []),
+                identity: contactJson['identity'] ?? '',
+                email: contactJson['email'] ?? '',
+                secondEmail: contactJson['secondEmail'] ?? '',
+                address: contactJson['address'] ?? '',
+                notes: contactJson['notes'] ?? '',
+                type: contactJson['type'] ?? '',
+                website: contactJson['website'] ?? '',
+              ),
+            );
+          }
+          return contacts;
+        } else {
+          throw Exception('Failed to load contacts: status false');
+        }
+      } else {
+        throw Exception('Failed to load contacts from backend');
+      }
+    } catch (e) {
+      throw Exception('Error fetching contacts: $e');
+    }
+  }
 }

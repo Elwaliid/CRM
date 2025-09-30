@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import '../../idk/config.dart';
 import '../../models/contact_model.dart';
 import '../Sub_screens/contact_details_screen.dart';
 
@@ -20,7 +17,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
   final TextEditingController _searchController = TextEditingController();
   final List<Contact> _contacts = [];
 
-  List<Contact> _filterContacts = [];
+  List<Contact> _Contacts = [];
 
   @override
   void initState() {
@@ -31,53 +28,12 @@ class _ContactsScreenState extends State<ContactsScreen> {
 
   Future<void> _fetchContacts() async {
     try {
-      final response = await http.get(Uri.parse(getContactsUrl));
-      if (response.statusCode == 200) {
-        final message = json.decode(response.body);
-        if (message['status'] == true) {
-          List<Contact> Contacts = [];
-          for (var contactJson in message['contacts']) {
-            // Parse name string into firstname and lastname
-            String fullName = contactJson['name'] ?? '';
-            List<String> nameParts = fullName.split(' ');
-            String firstName = nameParts.isNotEmpty ? nameParts[0] : '';
-            String lastName = nameParts.length > 1
-                ? nameParts.sublist(1).join(' ')
-                : '';
-            // Get phone from phones array if available
-            String phone = '';
-            if (contactJson['phones'] != null &&
-                contactJson['phones'] is List &&
-                contactJson['phones'].isNotEmpty) {
-              phone = contactJson['phones'][0];
-            }
-
-            Contacts.add(
-              Contact(
-                id: contactJson['_id'].toString(),
-                firstname: firstName,
-                lastname: lastName,
-                phone: phone,
-                phones: List<String>.from(contactJson['phones'] ?? []),
-                identity: contactJson['identity'] ?? '',
-                email: contactJson['email'] ?? '',
-                secondEmail: contactJson['secondEmail'] ?? '',
-                address: contactJson['address'] ?? '',
-                notes: contactJson['notes'] ?? '',
-                type: contactJson['type'] ?? '',
-                website: contactJson['website'] ?? '',
-              ),
-            );
-          }
-          setState(() {
-            _contacts.clear();
-            _contacts.addAll(Contacts);
-            _filterContacts = _contacts;
-          });
-        }
-      } else {
-        print('Failed to load contacts from backend');
-      }
+      List<Contact> contacts = await Contact.fetchContacts();
+      setState(() {
+        _contacts.clear();
+        _contacts.addAll(contacts);
+        _Contacts = _contacts;
+      });
     } catch (e) {
       print('Error fetching contacts: $e');
     }
@@ -86,7 +42,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
   void _filterContact() {
     final query = _searchController.text.toLowerCase();
     setState(() {
-      _filterContacts = _contacts
+      _Contacts = _contacts
           .where(
             (Contacts) => ('${Contacts.firstname} ${Contacts.lastname}')
                 .toLowerCase()
@@ -189,7 +145,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                 const SizedBox(height: 20),
                 ////////////////////////////////////////////////////////////// Contact list scrollable
                 Expanded(
-                  child: _filterContacts.isEmpty
+                  child: _Contacts.isEmpty
                       ? Center(
                           child: Text(
                             'No Contacts added yet.',
@@ -200,9 +156,9 @@ class _ContactsScreenState extends State<ContactsScreen> {
                           ),
                         )
                       : ListView.builder(
-                          itemCount: _filterContacts.length,
+                          itemCount: _Contacts.length,
                           itemBuilder: (context, index) {
-                            final contact = _filterContacts[index];
+                            final contact = _Contacts[index];
                             ///////////////////////////////////////////// Contact gesture
                             return GestureDetector(
                               onTap: () {
