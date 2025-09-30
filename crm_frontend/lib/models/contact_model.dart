@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '../idk/config.dart';
+import '../ustils/config.dart';
 
 class Contact {
   final String id;

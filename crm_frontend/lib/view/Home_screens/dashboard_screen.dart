@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print, unused_element, unnecessary_import, use_super_parameters, deprecated_member_use, unused_local_variable, prefer_final_fields
 import 'dart:ui';
 
-import 'package:crm_frontend/idk/constants.dart' as constants;
+import 'package:crm_frontend/ustils/constants.dart' as constants;
 import 'package:crm_frontend/view/Widgets/quick_adds.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';

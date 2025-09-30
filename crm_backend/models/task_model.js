@@ -3,23 +3,26 @@ const { Schema } = mongoose;
 const db = require('../config/db');
 
 const taskSchema = new Schema({
-  owner: { type: Schema.Types.ObjectId, ref: 'user', required: true },
+  owner: { type: Schema.Types.ObjectId, ref: 'user' },
   title: { type: String, required: true },
-  description: { type: String },
-  status: { type: String, enum: ['Pending', 'Completed', 'In Process'], default: 'Pending' },
+  
+ 
   type: { type: String, enum: ['Call', 'Email', 'Deal', 'Meeting', 'None'], default: 'None' },
-
+  revenue: { type: Number },
+  cost: { type: Number },
   dueDate: { type: Date },
-  assignedTo: { type: Schema.Types.ObjectId, ref: 'user' },
-  relatedClient: { type: Schema.Types.ObjectId, ref: 'client' },
-
+  time: { type: String },
+  endTime : { type: String },
+  relatedContact: { type: Schema.Types.ObjectId, ref: 'Contact' },
+  address : { type: String },
   emails: {
     type: [String],
     validate: [arr => arr.length <= 2, '{PATH} exceeds the limit of 2'],
   },
+  website : { type: String },
+description: { type: String },
 
-  revenue: { type: Number },
-  cost: { type: Number },
+   status: { type: String, enum: ['Pending', 'Completed', 'In Process'], default: 'Pending' },
   createdAt: { type: Date, default: Date.now },
 });
 

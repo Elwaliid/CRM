@@ -1,5 +1,5 @@
 // ignore_for_file: use_build_context_synchronously, deprecated_member_use, unnecessary_string_interpolations, non_constant_identifier_names, avoid_print
-import 'package:crm_frontend/idk/config.dart';
+import 'package:crm_frontend/ustils/config.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
