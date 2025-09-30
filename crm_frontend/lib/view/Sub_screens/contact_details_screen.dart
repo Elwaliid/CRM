@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:crm_frontend/idk/config.dart';
+import 'package:crm_frontend/models/contact_model.dart';
 import 'package:crm_frontend/view/Widgets/Type_buttons.dart';
 import 'package:crm_frontend/view/Widgets/wilou_textfield.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,8 @@ import 'package:http/http.dart' as http;
 
 /// Screen for adding/updating Client or Lead info
 class ContactDetailsScreen extends StatefulWidget {
-  const ContactDetailsScreen({super.key});
+  final Contact? contact;
+  const ContactDetailsScreen({super.key, this.contact});
 
   @override
   State<ContactDetailsScreen> createState() => _ContactDetailsScreenState();
@@ -23,6 +25,7 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
   final _formKey = GlobalKey<FormState>();
   bool _secondemail = true;
   String? _selectedType = 'Client';
+  bool isViewMode = false;
   /////////////////////////////////////////////////////////////////////////////////// Controllers for all input fields
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
@@ -36,6 +39,32 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
   final TextEditingController _adressController = TextEditingController();
   final TextEditingController _websiteController = TextEditingController();
   final TextEditingController _otherInfoController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.contact != null) {
+      isViewMode = true;
+      _firstNameController.text = widget.contact!.firstname;
+      _lastNameController.text = widget.contact!.lastname;
+      _phoneController.text = widget.contact!.phone;
+      // Add additional phones
+      for (int i = 1; i < widget.contact!.phones.length; i++) {
+        _additionalPhoneControllers.add(
+          TextEditingController(text: widget.contact!.phones[i]),
+        );
+      }
+      _emailController.text = widget.contact!.email;
+      if (widget.contact!.second_email.isNotEmpty) {
+        _secondemail = false;
+        _secondEmailController.text = widget.contact!.second_email;
+      }
+      _adressController.text = widget.contact!.address;
+      _identityController.text = widget.contact!.identify;
+      _otherInfoController.text = widget.contact!.notes;
+      _selectedType = widget.contact!.type;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +99,7 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Center(
                         child: Text(
-                          'Add / Update Client',
+                          isViewMode ? 'view/Update Contact' : 'Add Contact',
                           style: GoogleFonts.poppins(
                             fontSize: 36,
                             fontWeight: FontWeight.bold,
@@ -479,7 +508,6 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
         _phoneController.text,
         ..._additionalPhoneControllers.map((c) => c.text),
       ];
-      // Add id field here - you need to set _contactId appropriately in your state
 
       var logBody = {
         'email': _emailController.text,
@@ -492,6 +520,11 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
         'other_info': _otherInfoController.text,
         'type': _selectedType,
       };
+
+      if (isViewMode && widget.contact != null) {
+        logBody['id'] = widget.contact!.id;
+      }
+
       var response = await http.post(
         Uri.parse(addOrUpdateContactUrl),
         headers: {"Content-Type": "application/json"},

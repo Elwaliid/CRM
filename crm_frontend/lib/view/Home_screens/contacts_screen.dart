@@ -6,32 +6,8 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../../idk/config.dart';
+import '../../models/contact_model.dart';
 import '../Sub_screens/contact_details_screen.dart';
-
-class Contact {
-  final String firstname;
-  final String lastname;
-  final String phone;
-  final List<String> phones;
-  final String email;
-  final String identify;
-  final String second_email;
-  final String address;
-  final String notes;
-  final String type;
-  Contact({
-    required this.firstname,
-    required this.lastname,
-    required this.phone,
-    required this.phones,
-    required this.email,
-    required this.identify,
-    required this.second_email,
-    required this.address,
-    required this.notes,
-    required this.type,
-  });
-}
 
 class ContactsScreen extends StatefulWidget {
   const ContactsScreen({super.key});
@@ -78,6 +54,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
 
             Contacts.add(
               Contact(
+                id: contactJson['_id'].toString(),
                 firstname: firstName,
                 lastname: lastName,
                 phone: phone,
@@ -108,7 +85,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
   void _filterContact() {
     final query = _searchController.text.toLowerCase();
     setState(() {
-      _filterContacts = _contacts
+      _filterContacts
           .where(
             (Contacts) => ('${Contacts.firstname} ${Contacts.lastname}')
                 .toLowerCase()
@@ -118,7 +95,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
     });
   }
 
-  void _callClient(String phone) async {
+  void _callContact(String phone) async {
     final Uri url = Uri(scheme: 'tel', path: phone);
     if (await canLaunchUrl(url)) {
       await launchUrl(url);
@@ -129,7 +106,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
     }
   }
 
-  void _messageClient(String phone) async {
+  void _messageContact(String phone) async {
     final Uri url = Uri(scheme: 'sms', path: phone);
     if (await canLaunchUrl(url)) {
       await launchUrl(url);
@@ -163,7 +140,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
               children: [
                 ///////////////////////////////////////////////////////////////////////////// Title
                 Text(
-                  'Clients',
+                  'Contacts',
                   style: GoogleFonts.poppins(
                     fontSize: 42,
                     fontWeight: FontWeight.bold,
@@ -183,7 +160,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                 TextField(
                   controller: _searchController,
                   decoration: InputDecoration(
-                    hintText: 'Search for clients',
+                    hintText: 'Search for Contacts',
                     prefixIcon: Icon(Icons.search, color: secondaryColor),
                     filled: true,
                     fillColor: Colors.blueGrey[50],
@@ -209,12 +186,12 @@ class _ContactsScreenState extends State<ContactsScreen> {
                   style: TextStyle(fontSize: 18, color: primaryColor),
                 ),
                 const SizedBox(height: 20),
-                ////////////////////////////////////////////////////////////// client list scrollable
+                ////////////////////////////////////////////////////////////// Contact list scrollable
                 Expanded(
                   child: _filterContacts.isEmpty
                       ? Center(
                           child: Text(
-                            'No clients added yet.',
+                            'No Contacts added yet.',
                             style: GoogleFonts.roboto(
                               fontSize: 18,
                               color: secondaryColor,
@@ -224,11 +201,11 @@ class _ContactsScreenState extends State<ContactsScreen> {
                       : ListView.builder(
                           itemCount: _filterContacts.length,
                           itemBuilder: (context, index) {
-                            final client = _filterContacts[index];
+                            final contact = _filterContacts[index];
                             ///////////////////////////////////////////// Contact gesture
                             return GestureDetector(
                               onTap: () {
-                                Get.to(ContactDetailsScreen());
+                                Get.to(ContactDetailsScreen(contact: contact));
                               },
                               ///////////////////////////////////////////////////////////////////////////// Contacts cards
                               child: Container(
@@ -257,9 +234,9 @@ class _ContactsScreenState extends State<ContactsScreen> {
                                   children: [
                                     Row(
                                       children: [
-                                        /////////////////////////////////////////// client/lead firstname and lastname
+                                        /////////////////////////////////////////// Contact firstname and lastname
                                         Text(
-                                          '${client.firstname} ${client.lastname}',
+                                          '${contact.firstname} ${contact.lastname}',
                                           style: GoogleFonts.poppins(
                                             fontSize: 22,
                                             fontWeight: FontWeight.bold,
@@ -272,9 +249,9 @@ class _ContactsScreenState extends State<ContactsScreen> {
                                           width: 120,
                                           height: 23,
                                           decoration: BoxDecoration(
-                                            color: client.type == 'Lead'
+                                            color: contact.type == 'Lead'
                                                 ? Colors.deepOrange.shade400
-                                                : client.type == 'Client'
+                                                : contact.type == 'Client'
                                                 ? Colors.teal.shade700
                                                 : Colors.blueGrey.shade900,
                                             borderRadius: BorderRadius.circular(
@@ -283,7 +260,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                                           ),
                                           alignment: Alignment.center,
                                           child: Text(
-                                            '${client.type}',
+                                            '${contact.type}',
 
                                             style: TextStyle(
                                               color: Colors.white,
@@ -307,7 +284,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                                               ).showSnackBar(
                                                 SnackBar(
                                                   content: Text(
-                                                    'Edit client: ${client.firstname} ${client.lastname}',
+                                                    'Edit client: ${contact.firstname} ${contact.lastname}',
                                                   ),
                                                 ),
                                               );
@@ -317,7 +294,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                                               ).showSnackBar(
                                                 SnackBar(
                                                   content: Text(
-                                                    'Delete client: ${client.firstname} ${client.lastname}',
+                                                    'Delete client: ${contact.firstname} ${contact.lastname}',
                                                   ),
                                                 ),
                                               );
@@ -365,7 +342,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                                     Column(
                                       children: [
                                         Text(
-                                          'Phone: ${client.phone}',
+                                          'Phone: ${contact.phone}',
                                           style: GoogleFonts.roboto(
                                             fontSize: 16,
                                             color: secondaryColor,
@@ -378,9 +355,9 @@ class _ContactsScreenState extends State<ContactsScreen> {
                                         ////////////////////////////////// Email
                                         TextButton(
                                           onPressed: () =>
-                                              SendEmail(client.email),
+                                              SendEmail(contact.email),
                                           child: Text(
-                                            'Email: ${client.email}',
+                                            'Email: ${contact.email}',
                                             style: GoogleFonts.roboto(
                                               fontSize: 16,
                                               color: secondaryColor,
@@ -399,15 +376,16 @@ class _ContactsScreenState extends State<ContactsScreen> {
                                                 color: primaryColor,
                                               ),
                                               onPressed: () =>
-                                                  _callClient(client.phone),
+                                                  _callContact(contact.phone),
                                             ),
                                             IconButton(
                                               icon: Icon(
                                                 Icons.message,
                                                 color: primaryColor,
                                               ),
-                                              onPressed: () =>
-                                                  _messageClient(client.phone),
+                                              onPressed: () => _messageContact(
+                                                contact.phone,
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -430,7 +408,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                     },
                     icon: Icon(Icons.add, size: 24, color: Colors.white),
                     label: Text(
-                      'Add Client',
+                      'Add Contact',
                       style: GoogleFonts.roboto(
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
