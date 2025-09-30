@@ -2,18 +2,18 @@ const ContactService = require('../services/contact_services');
 
 exports.addOrUpdateContact = async (req, res) => {
     try{
-     const {email,secondEmail,name, address,identity,phones,website,other_info,type } = req.body;
-     const contact = await ContactService.existContact(email);
-        if(!contact){
+     const {id,email,secondEmail,name, address,identity,phones,website,other_info,type } = req.body;
+     id? contact = await ContactService.existContact(id): contact = null;
+        if(contact == null){
             // Create new contact ya babaaaaaaaa
-             const newContact = await ContactService.addContact( email,secondEmail,name, address,identity,phones,website,other_info,type  );
+             const newContact = await ContactService.addContact(email,secondEmail,name, address,identity,phones,website,other_info,type  );
                res.status(201).json({
       status: true,
-      message: " $type added successfully",
+      message: `${type} added successfully`,
     });
         }else{
             // Update existing contact biismallah 3alik
-            await ContactService.updateContact(email,secondEmail,name, address,identity,phones,website,other_info,type );
+            await ContactService.updateContact(id,email,secondEmail,name, address,identity,phones,website,other_info,type );
             res.status(200).json({ status: true, message: "Contact updated successfully" });
         }
 

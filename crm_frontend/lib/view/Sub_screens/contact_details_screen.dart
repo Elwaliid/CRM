@@ -502,22 +502,25 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
   ///////////////////////////////////////////////////////////// Add or Update Contact
   Future<void> _addUpdateContact() async {
     if (_formKey.currentState!.validate()) {
-      var name = '${_firstNameController.text} ${_lastNameController.text}';
-      // 👇 Gather all phone numbers into a list
+      var name =
+          '${_firstNameController.text.trim()} ${_lastNameController.text.trim()}';
+      // 👇 Gather all phone numbers into a list, filtering out empty ones
       final allPhones = [
-        _phoneController.text,
-        ..._additionalPhoneControllers.map((c) => c.text),
+        _phoneController.text.trim(),
+        ..._additionalPhoneControllers
+            .map((c) => c.text.trim())
+            .where((phone) => phone.isNotEmpty),
       ];
 
       var logBody = {
-        'email': _emailController.text,
-        'secondEmail': _secondEmailController.text,
+        'email': _emailController.text.trim(),
+        'secondEmail': _secondEmailController.text.trim(),
         'name': name,
-        'address': _adressController.text,
-        'identity': _identityController.text,
+        'address': _adressController.text.trim(),
+        'identity': _identityController.text.trim(),
         'phones': allPhones,
-        'website': _websiteController.text,
-        'other_info': _otherInfoController.text,
+        'website': _websiteController.text.trim(),
+        'other_info': _otherInfoController.text.trim(),
         'type': _selectedType,
       };
 
@@ -525,35 +528,45 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
         logBody['id'] = widget.contact!.id;
       }
 
-      var response = await http.post(
-        Uri.parse(addOrUpdateContactUrl),
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode(logBody),
-      );
-      if (response.statusCode == 201 || response.statusCode == 200) {
-        final responseData = jsonDecode(response.body);
-        if (responseData['status'] == true) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(responseData['message']),
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Colors.green,
-            ),
-          );
-          Navigator.pop(context);
+      try {
+        var response = await http.post(
+          Uri.parse(addOrUpdateContactUrl),
+          headers: {"Content-Type": "application/json"},
+          body: jsonEncode(logBody),
+        );
+        if (response.statusCode == 201 || response.statusCode == 200) {
+          final responseData = jsonDecode(response.body);
+          if (responseData['status'] == true) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(responseData['message']),
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.green,
+              ),
+            );
+            Navigator.pop(context);
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(responseData['message']),
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(responseData['message']),
+              content: Text('Failed to save contact. Please try again.'),
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.red,
             ),
           );
         }
-      } else {
+      } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to save contact. Please try again.'),
+            content: Text('Network error. Please try again later.'),
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.red,
           ),

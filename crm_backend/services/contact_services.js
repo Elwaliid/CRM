@@ -3,9 +3,9 @@ const jwt = require('jsonwebtoken');
 
 
 class ContactService {
- static async existContact(email) {
+ static async existContact(id) {
         try {
-            return await ContactModel.findOne( {email} );
+            return await ContactModel.findById(id);
         } catch (err) {
             throw err;
         }
@@ -18,9 +18,9 @@ class ContactService {
                 throw err;
             }
         }
-            static async updateContact(email,secondEmail,name, address,identity,phones,website,other_info,type ) {
+            static async updateContact(id,email,secondEmail,name, address,identity,phones,website,other_info,type ) {
                 try{
-                    const contact = await ContactModel.findOne({ email });
+                    const contact = await ContactModel.findById(id);
                     if(!contact) throw new Error('Contact not found');
                     contact.email = email;
                     contact.secondEmail = secondEmail;
