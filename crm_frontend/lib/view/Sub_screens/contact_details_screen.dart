@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 
-import 'package:crm_frontend/config.dart';
+import 'package:crm_frontend/idk/config.dart';
 import 'package:crm_frontend/view/Widgets/Type_buttons.dart';
 import 'package:crm_frontend/view/Widgets/wilou_textfield.dart';
 import 'package:flutter/material.dart';

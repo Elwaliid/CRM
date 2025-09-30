@@ -2,10 +2,10 @@
 
 import 'dart:convert';
 import 'dart:html' as html;
-import 'package:crm_frontend/google_signin_provider.dart';
+import 'package:crm_frontend/idk/google_signin_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:crm_frontend/config.dart';
+import 'package:crm_frontend/idk/config.dart';
 import 'package:crm_frontend/view/Screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
