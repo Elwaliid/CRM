@@ -23,7 +23,8 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   List<String?> _invalidRelatedToNames = [];
   String? _selectedType = 'Pending';
   List Contacts = ['faisal mouh', 'khalil kaba', 'lisa luisa', 'bounar l7agar'];
-
+  bool phone = false;
+  bool email = false;
   /////////////////////////////////////////////////////////////////////////////////// Controllers for all input fields
   final TextEditingController _taskNameController = TextEditingController();
   final TextEditingController _taskDescriptionController =
@@ -31,6 +32,8 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   final TextEditingController _RelatedToController = TextEditingController();
   final TextEditingController _revenueController = TextEditingController();
   final TextEditingController _costController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _EmailController = TextEditingController();
   final List<TextEditingController> _additionalRelatedToControllers = [];
   final TextEditingController _dueDateController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
@@ -176,7 +179,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                             value: _selectedTaskType,
                             items: const [
                               'Meeting',
-                              'Call',
+                              'Call/Message',
                               'Email',
                               'Deal',
                               'Other',
@@ -187,7 +190,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                                 ? Icons.arrow_drop_down
                                 : _selectedTaskType == 'Meeting'
                                 ? Icons.groups
-                                : _selectedTaskType == 'Call'
+                                : _selectedTaskType == 'Call/Message'
                                 ? Icons.call
                                 : _selectedTaskType == 'Email'
                                 ? Icons.email
@@ -202,7 +205,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                       ],
                     ),
                     const SizedBox(height: 12),
-                    ////////////////////////////////////////////////////////////// Amount text field
+                    ////////////////////////////////////////////////////////////// Revenue and Cost textfields
                     if (_selectedTaskType == 'Deal')
                       Row(
                         children: [
@@ -234,6 +237,126 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                         ],
                       ),
 
+                    const SizedBox(height: 12),
+                    ////////////////////////////////////////////////////////////////// RelatedTo number
+                    if (_selectedTaskType == 'Call/Message')
+                      Row(
+                        children: [
+                          SizedBox(width: 12),
+                          Text(
+                            ' Number of a persone not in contacts?',
+                            style: TextStyle(fontSize: 12, color: Colors.red),
+                          ),
+
+                          const SizedBox(width: 8),
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              setState(() {
+                                phone = !phone;
+                              });
+                            },
+
+                            label: phone
+                                ? Text(
+                                    'No',
+                                    style: TextStyle(
+                                      fontSize: 12, // 🔽 Smaller text
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  )
+                                : Text(
+                                    'Yes',
+                                    style: TextStyle(
+                                      fontSize: 12, // 🔽 Smaller text
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blueGrey.shade900,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 2,
+                              ),
+                              minimumSize: Size(0, 26),
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              visualDensity: VisualDensity.compact,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(3),
+                              ),
+                              elevation: 0.5,
+                            ),
+                          ),
+                        ],
+                      ),
+                    const SizedBox(height: 12),
+                    ////////////////////////////////////////////////////////////////// Phone number textfield
+                    if (phone)
+                      WilouTextField(
+                        label: 'Phone number',
+                        controller: _phoneController,
+                        keyboardType: TextInputType.phone,
+                      ),
+                    const SizedBox(height: 12),
+                    ////////////////////////////////////////////////////////////////// RelatedTo Email
+                    if (_selectedTaskType == 'Email')
+                      Row(
+                        children: [
+                          SizedBox(width: 12),
+                          Text(
+                            ' Email of a persone not in contacts?',
+                            style: TextStyle(fontSize: 12, color: Colors.red),
+                          ),
+
+                          const SizedBox(width: 8),
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              setState(() {
+                                email = !email;
+                              });
+                            },
+
+                            label: email
+                                ? Text(
+                                    'No',
+                                    style: TextStyle(
+                                      fontSize: 12, // 🔽 Smaller text
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  )
+                                : Text(
+                                    'Yes',
+                                    style: TextStyle(
+                                      fontSize: 12, // 🔽 Smaller text
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blueGrey.shade900,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 2,
+                              ),
+                              minimumSize: Size(0, 26),
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              visualDensity: VisualDensity.compact,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(3),
+                              ),
+                              elevation: 0.5,
+                            ),
+                          ),
+                        ],
+                      ),
+                    const SizedBox(height: 12),
+                    ////////////////////////////////////////////////////////////////// Phone number textfield
+                    if (phone)
+                      WilouTextField(
+                        label: 'Email',
+                        controller: _EmailController,
+                        keyboardType: TextInputType.phone,
+                      ),
                     const SizedBox(height: 12),
                     ///////////////////////////////////////////////////////////// Primary RelatedTo Number
                     Row(
