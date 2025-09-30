@@ -280,10 +280,12 @@ class _ContactsScreenState extends State<ContactsScreen> {
                                                                 Uri.parse(
                                                                   deleteContactUrl,
                                                                 ),
-                                                                body: {
-                                                                  'id': contact
-                                                                      .id,
+                                                                headers: {
+                                                                  'Content-Type':
+                                                                      'application/json',
                                                                 },
+                                                                body:
+                                                                    '{"id": "${contact.id}"}',
                                                               );
                                                           if (response
                                                                   .statusCode ==
