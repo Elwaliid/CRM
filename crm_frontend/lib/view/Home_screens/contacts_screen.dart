@@ -5,13 +5,13 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:get/get.dart';
 import '../Sub_screens/contact_details_screen.dart';
 
-class Client {
+class Contact {
   final String firstname;
   final String lastname;
   final String phone;
   final String email;
   final String type;
-  Client({
+  Contact({
     required this.firstname,
     required this.lastname,
     required this.phone,
@@ -29,64 +29,21 @@ class ContactsScreen extends StatefulWidget {
 
 class _ContactsScreenState extends State<ContactsScreen> {
   final TextEditingController _searchController = TextEditingController();
-  final List<Client> _clients = [
-    Client(
-      firstname: 'Mouh',
-      lastname: 'Latcha',
-      phone: '06 61 23 45 67',
-      email: 'mouh.latcha@gmail.com',
-      type: 'Client',
-    ),
-    Client(
-      firstname: 'Ibrahim',
-      lastname: 'Karbousa',
-      phone: '05 50 12 34 56',
-      email: 'ibrahim.karbousa@gmail.com',
-      type: 'Lead',
-    ),
-    Client(
-      firstname: 'Wilou',
-      lastname: 'Boubaidja',
-      phone: '07 70 98 76 54',
-      email: 'walidboubaidja@gmail.com',
-      type: 'Lead',
-    ),
-    Client(
-      firstname: 'Sid Ahmed',
-      lastname: 'Doudana',
-      phone: '06 99 11 22 33',
-      email: 'sid.doudana@gmail.com',
-      type: 'Client',
-    ),
-    Client(
-      firstname: 'Cheb',
-      lastname: 'Batata',
-      phone: '05 44 55 66 77',
-      email: 'cheb.batata@gmail.com',
-      type: 'Vendor',
-    ),
-    Client(
-      firstname: 'Fatiha',
-      lastname: 'Mkara',
-      phone: '07 77 88 99 00',
-      email: 'fatiha.mkara@gmail.com',
-      type: 'Lead',
-    ),
-  ];
+  final List<Contact> _contacts = [];
 
-  List<Client> _filteredClients = [];
+  List<Contact> _filterContacts = [];
 
   @override
   void initState() {
     super.initState();
-    _filteredClients = _clients;
+    _filterContacts = _contacts;
     _searchController.addListener(_filterClients);
   }
 
   void _filterClients() {
     final query = _searchController.text.toLowerCase();
     setState(() {
-      _filteredClients = _clients
+      _filterContacts = _contacts
           .where(
             (client) => ('${client.firstname} ${client.lastname}')
                 .toLowerCase()
@@ -189,7 +146,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                 const SizedBox(height: 20),
                 ////////////////////////////////////////////////////////////// client list scrollable
                 Expanded(
-                  child: _filteredClients.isEmpty
+                  child: _filterContacts.isEmpty
                       ? Center(
                           child: Text(
                             'No clients added yet.',
@@ -200,16 +157,15 @@ class _ContactsScreenState extends State<ContactsScreen> {
                           ),
                         )
                       : ListView.builder(
-                          itemCount: _filteredClients.length,
+                          itemCount: _filterContacts.length,
                           itemBuilder: (context, index) {
-                            final client = _filteredClients[index];
-                            ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                            final client = _filterContacts[index];
+                            ///////////////////////////////////////////// Contact gesture
                             return GestureDetector(
                               onTap: () {
                                 Get.to(ContactDetailsScreen());
-                                ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                               },
-                              ///////////////////////////////////////////////////////////////////////////// Clients and Leads cards
+                              ///////////////////////////////////////////////////////////////////////////// Contacts cards
                               child: Container(
                                 margin: const EdgeInsets.symmetric(
                                   vertical: 10,

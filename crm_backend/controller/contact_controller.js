@@ -20,3 +20,16 @@ exports.addOrUpdateContact = async (req, res) => {
     }catch(err){    console.error("Contact error:", err);
     res.status(500).json({ status: false, message: "Internal server error" });}
 }
+
+exports.getContacts = async (req, res) => {
+    try {
+        const contacts = await ContactService.getContacts();
+        res.status(200).json({
+            status: true,
+            contacts: contacts
+        });
+    } catch (err) {
+        console.error("Get contacts error:", err);
+        res.status(500).json({ status: false, message: "Internal server error" });
+    }
+}

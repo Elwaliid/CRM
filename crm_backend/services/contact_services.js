@@ -36,5 +36,13 @@ class ContactService {
                 }catch (err) {  throw err;}
             }
 
+    static async getContacts() {
+        try {
+            return await ContactModel.find();
+        } catch (err) {
+            throw err;
+        }
+    }
+
 }
 module.exports = ContactService;
