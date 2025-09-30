@@ -246,14 +246,62 @@ class _ContactsScreenState extends State<ContactsScreen> {
                                                 ),
                                               );
                                             } else if (selected == 'delete') {
-                                              ScaffoldMessenger.of(
-                                                context,
-                                              ).showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    'Delete client: ${contact.firstname} ${contact.lastname}',
-                                                  ),
-                                                ),
+                                              ////// delete contact
+                                              showDialog(
+                                                context: context,
+                                                builder: (BuildContext context) {
+                                                  return AlertDialog(
+                                                    title: Text(
+                                                      'Delete Contact',
+                                                    ),
+                                                    content: Text(
+                                                      'Are you sure you want to delete ${contact.firstname} ${contact.lastname}?',
+                                                    ),
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          Navigator.of(
+                                                            context,
+                                                          ).pop();
+                                                        },
+                                                        child: Text('Cancel'),
+                                                      ),
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            _Contacts.removeAt(
+                                                              index,
+                                                            );
+                                                          });
+                                                          Navigator.of(
+                                                            context,
+                                                          ).pop();
+                                                          ScaffoldMessenger.of(
+                                                            context,
+                                                          ).showSnackBar(
+                                                            SnackBar(
+                                                              content: Text(
+                                                                '${contact.firstname} ${contact.lastname} deleted',
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                        child: Text(
+                                                          'Delete',
+                                                          style: TextStyle(
+                                                            color:
+                                                                Color.fromARGB(
+                                                                  255,
+                                                                  126,
+                                                                  2,
+                                                                  2,
+                                                                ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
                                               );
                                             }
                                           },
