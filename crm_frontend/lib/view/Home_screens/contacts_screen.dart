@@ -3,19 +3,32 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import '../../idk/config.dart';
 import '../Sub_screens/contact_details_screen.dart';
 
 class Contact {
   final String firstname;
   final String lastname;
   final String phone;
+  final List<String> phones;
   final String email;
+  final String identify;
+  final String second_email;
+  final String address;
+  final String notes;
   final String type;
   Contact({
     required this.firstname,
     required this.lastname,
     required this.phone,
+    required this.phones,
     required this.email,
+    required this.identify,
+    required this.second_email,
+    required this.address,
+    required this.notes,
     required this.type,
   });
 }
@@ -36,16 +49,68 @@ class _ContactsScreenState extends State<ContactsScreen> {
   @override
   void initState() {
     super.initState();
-    _filterContacts = _contacts;
-    _searchController.addListener(_filterClients);
+    _fetchContacts();
+    _searchController.addListener(_filterContact);
   }
 
-  void _filterClients() {
+  Future<void> _fetchContacts() async {
+    try {
+      final response = await http.get(Uri.parse(getContactsUrl));
+      if (response.statusCode == 200) {
+        final message = json.decode(response.body);
+        if (message['status'] == true) {
+          List<Contact> Contacts = [];
+          for (var contactJson in message['contacts']) {
+            // Parse name string into firstname and lastname
+            String fullName = contactJson['name'] ?? '';
+            List<String> nameParts = fullName.split(' ');
+            String firstName = nameParts.isNotEmpty ? nameParts[0] : '';
+            String lastName = nameParts.length > 1
+                ? nameParts.sublist(1).join(' ')
+                : '';
+            // Get phone from phones array if available
+            String phone = '';
+            if (contactJson['phones'] != null &&
+                contactJson['phones'] is List &&
+                contactJson['phones'].isNotEmpty) {
+              phone = contactJson['phones'][0];
+            }
+
+            Contacts.add(
+              Contact(
+                firstname: firstName,
+                lastname: lastName,
+                phone: phone,
+                phones: contactJson['phones'],
+                identify: contactJson['identify'] ?? '',
+                email: contactJson['email'] ?? '',
+                second_email: contactJson['second_email'] ?? '',
+                address: contactJson['address'] ?? '',
+                notes: contactJson['notes'] ?? '',
+                type: contactJson['type'] ?? '',
+              ),
+            );
+          }
+          setState(() {
+            _contacts.clear();
+            _contacts.addAll(Contacts);
+            _filterContacts = _contacts;
+          });
+        }
+      } else {
+        print('Failed to load contacts from backend');
+      }
+    } catch (e) {
+      print('Error fetching contacts: $e');
+    }
+  }
+
+  void _filterContact() {
     final query = _searchController.text.toLowerCase();
     setState(() {
       _filterContacts = _contacts
           .where(
-            (client) => ('${client.firstname} ${client.lastname}')
+            (Contacts) => ('${Contacts.firstname} ${Contacts.lastname}')
                 .toLowerCase()
                 .contains(query),
           )
