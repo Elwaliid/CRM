@@ -248,7 +248,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                                           final response =
                                                               await http.delete(
                                                                 Uri.parse(
-                                                                  deleteTasktUrl,
+                                                                  deleteTaskUrl,
                                                                 ),
                                                                 headers: {
                                                                   'Content-Type':
