@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable, avoid_print, prefer_final_fields, non_constant_identifier_names
+// ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable, avoid_print, prefer_final_fields, non_constant_identifier_names, use_build_context_synchronously
 import 'dart:convert';
 
 import 'package:crm_frontend/ustils/config.dart';
@@ -75,18 +75,6 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
       setState(() {
         _dueDateController.text = pickedDate.toIso8601String().split('T').first;
       });
-    }
-  }
-
-  /// Save button logic
-  void _saveClient() {
-    if (_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('✅ Updates saved successfully'),
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
     }
   }
 

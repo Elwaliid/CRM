@@ -5,28 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart';
-
-class Task {
-  final String title;
-  final String revenue;
-  final String cost;
-  final String description;
-  final String dueDate;
-  final String assignedTo;
-  final String status;
-  final String type;
-  Task({
-    required this.title,
-    required this.description,
-    required this.dueDate,
-    required this.assignedTo,
-    required this.status,
-    this.revenue = '',
-    this.cost = '',
-    this.type = '',
-  });
-}
+import '../../models/task_model.dart';
 
 class TasksScreen extends StatefulWidget {
   const TasksScreen({super.key});
@@ -37,66 +16,27 @@ class TasksScreen extends StatefulWidget {
 
 class _TasksScreenState extends State<TasksScreen> {
   final TextEditingController _searchController = TextEditingController();
-  final List<Task> _tasks = [
-    Task(
-      title: 'Follow Up Call',
-      description: 'Call client to confirm meeting',
-      dueDate: '2025-07-14',
-      assignedTo: 'Mouh',
-      status: 'In Process',
-      type: 'Call',
-    ),
-    Task(
-      title: 'Prepare Proposal',
-      description: 'Create proposal for new lead',
-      dueDate: '2025-07-15',
-      assignedTo: 'Ibrahim',
-      status: 'Completed',
-      type: '',
-    ),
-    Task(
-      title: 'Update CRM',
-      description: 'Enter notes from last call',
-      dueDate: '2025-07-16',
-      assignedTo: 'Khalti',
-      status: 'Pending',
-      type: 'Email',
-    ),
-    Task(
-      title: 'Schedule Meeting',
-      description: 'Book meeting with Sid Ahmed',
-      dueDate: '2025-07-17',
-      assignedTo: 'Sid Ahmed',
-      status: 'Pending',
-      revenue: '29385',
-      cost: '345346',
-      type: 'Deal',
-    ),
-    Task(
-      title: 'Send Email',
-      description: 'Follow-up email to Cheb',
-      dueDate: '2025-07-18',
-      assignedTo: 'Cheb',
-      status: 'In Process',
-      type: 'Meeting',
-    ),
-    Task(
-      title: 'Review Notes',
-      description: 'Review notes before call',
-      dueDate: '2025-07-19',
-      assignedTo: 'Fatiha',
-      status: 'Completed',
-      type: 'Call',
-    ),
-  ];
-
+  List<Task> _tasks = [];
   List<Task> _filteredTasks = [];
 
   @override
   void initState() {
     super.initState();
-    _filteredTasks = _tasks;
+    _fetchTasks();
     _searchController.addListener(_filterTasks);
+  }
+
+  Future<void> _fetchTasks() async {
+    try {
+      List<Task> tasks = await Task.fetchTasks();
+      setState(() {
+        _tasks.clear();
+        _tasks.addAll(tasks);
+        _filteredTasks = _tasks;
+      });
+    } catch (e) {
+      print('Error fetching tasks: $e');
+    }
   }
 
   void _filterTasks() {
@@ -106,12 +46,6 @@ class _TasksScreenState extends State<TasksScreen> {
           .where((task) => task.title.toLowerCase().contains(query))
           .toList();
     });
-  }
-
-  void _addTask() {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text('Add Task button pressed')));
   }
 
   @override
@@ -346,7 +280,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                     ),
                                     // ///////////////////////////////////////////// Assigned to
                                     Text(
-                                      'Assigned to: ${task.assignedTo}',
+                                      'Assigned to: ${task.relatedTo.join(', ')}',
                                       style: GoogleFonts.roboto(
                                         fontSize: 16,
                                         color: secondaryColor,

@@ -8,3 +8,4 @@ final addOrUpdateContactUrl = "$baseUrl/contact/add-update-contact";
 final getContactsUrl = "$baseUrl/contact/get-contacts";
 final deleteContactUrl = "$baseUrl/contact/delete-Contact";
 final addOrUpdateTaskUrl = "$baseUrl/task/add-update-task";
+final getTasksUrl = "$baseUrl/task/get-tasks";
