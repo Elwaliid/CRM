@@ -1,4 +1,7 @@
 // ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable, avoid_print, prefer_final_fields, non_constant_identifier_names
+import 'dart:convert';
+
+import 'package:crm_frontend/ustils/config.dart';
 import 'package:crm_frontend/ustils/constants.dart';
 import 'package:crm_frontend/view/Widgets/Type_buttons.dart';
 import 'package:crm_frontend/view/Widgets/date_time_picker.dart';
@@ -8,6 +11,7 @@ import 'package:crm_frontend/view/Widgets/wilou_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 
 /// Screen for adding/updating Client or Lead info
 class TaskDetailsScreen extends StatefulWidget {
@@ -591,10 +595,10 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton.icon(
-                        onPressed: _saveClient,
+                        onPressed: _addUpdateTask,
                         icon: Icon(Icons.save, size: 24, color: Colors.white),
                         label: Text(
-                          'Save Client',
+                          'Save Task',
                           style: GoogleFonts.roboto(
                             fontSize: 20,
                             fontWeight: FontWeight.w500,
@@ -797,5 +801,87 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
       'Tenth',
     ];
     return labels[number];
+  }
+
+  ///////////////////////////////////////////////////////////// Add or Update Task
+  Future<void> _addUpdateTask() async {
+    if (_formKey.currentState!.validate()) {
+      var relatedToList = [
+        _RelatedToController.text.trim(),
+        ..._additionalRelatedToControllers
+            .map((c) => c.text.trim())
+            .where((related) => related.isNotEmpty),
+      ];
+
+      var logBody = {
+        'title': _taskNameController.text.trim(),
+        'type': _selectedTaskType,
+        'revenue': _revenueController.text.isNotEmpty
+            ? double.tryParse(_revenueController.text.trim())
+            : null,
+        'cost': _costController.text.isNotEmpty
+            ? double.tryParse(_costController.text.trim())
+            : null,
+        'phone': _phoneController.text.trim().isNotEmpty
+            ? _phoneController.text.trim()
+            : null,
+        'email': _EmailController.text.trim().isNotEmpty
+            ? _EmailController.text.trim()
+            : null,
+        'relatedTo': relatedToList,
+        'dueDate': _dueDateController.text.trim(),
+        'time': _timeController.text.trim(),
+        'endTime': _endtimeController.text.trim(),
+        'address': _addressController.text.trim(),
+        'website': _websiteController.text.trim(),
+        'description': _taskDescriptionController.text.trim(),
+        'status': _selectedType ?? 'Pending',
+      };
+
+      try {
+        var response = await http.post(
+          Uri.parse(addOrUpdateTaskUrl),
+          headers: {"Content-Type": "application/json"},
+          body: jsonEncode(logBody),
+        );
+        if (response.statusCode == 201 || response.statusCode == 200) {
+          final responseData = jsonDecode(response.body);
+          if (responseData['status'] == true) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(responseData['message']),
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.green,
+              ),
+            );
+            Navigator.pop(context);
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(responseData['message']),
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Failed to save task. Please try again.'),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Network error. Please try again later.'),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 }
