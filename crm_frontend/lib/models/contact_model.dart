@@ -30,7 +30,7 @@ class Contact {
     required this.website,
   });
 
-  static Future<List<Contact>> fetchContacts() async {
+  static Future<List<Contact>> getContacts() async {
     try {
       final response = await http.get(Uri.parse(getContactsUrl));
       if (response.statusCode == 200) {

@@ -30,7 +30,7 @@ class _TasksScreenState extends State<TasksScreen> {
 
   Future<void> _fetchTasks() async {
     try {
-      List<Task> tasks = await Task.fetchTasks();
+      List<Task> tasks = await Task.getTasks();
       setState(() {
         _tasks.clear();
         _tasks.addAll(tasks);

@@ -37,7 +37,7 @@ class Task {
     this.status = 'Pending',
   });
 
-  static Future<List<Task>> fetchTasks() async {
+  static Future<List<Task>> getTasks() async {
     try {
       final response = await http.get(Uri.parse(getTasksUrl));
       if (response.statusCode == 200) {

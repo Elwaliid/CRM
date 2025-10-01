@@ -30,7 +30,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
 
   Future<void> _fetchContacts() async {
     try {
-      List<Contact> contacts = await Contact.fetchContacts();
+      List<Contact> contacts = await Contact.getContacts();
       setState(() {
         _contacts.clear();
         _contacts.addAll(contacts);
