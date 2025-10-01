@@ -58,6 +58,11 @@ class TaskService {
       throw err;
     }
   }
+  static async deleteIt(id) {
+        try{
+            return await TaskModel.findByIdAndDelete(id);
+        }catch (err) {  throw err;}
+    }
 }
 
 module.exports = TaskService;

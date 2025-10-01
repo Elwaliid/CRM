@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously, deprecated_member_use, unnecessary_null_comparison
 
+import 'package:crm_frontend/ustils/config.dart';
 import 'package:crm_frontend/view/Sub_screens/Task_Details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

@@ -40,3 +40,13 @@ exports.getTasks = async (req, res) => {
     res.status(500).json({ status: false, message: "Internal server error" });
   }
 };
+
+exports.deleteTask = async (req, res) => {
+    try{
+    const { id } = req.body;
+    const task = await TasksService.existTask(id);
+    if(!task){res.status(404).json({ status: false, message: "Task  not found" }); return;}
+    await TaskService.deleteIt(id); 
+    res.status(200).json({ status: true, message: "Task deleted successfully" });
+    }catch(err){console.error("Delete task error:", err);}
+}
