@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 import '../../models/task_model.dart';
 
 class TasksScreen extends StatefulWidget {
@@ -215,58 +216,129 @@ class _TasksScreenState extends State<TasksScreen> {
                                                 context,
                                               ).showSnackBar(
                                                 SnackBar(
-                                                  content: Text(
-                                                    'Edit task: ${task.title}',
-                                                  ),
+                                                  content: Text('Edit task...'),
                                                 ),
                                               );
                                             } else if (selected == 'delete') {
-                                              ScaffoldMessenger.of(
-                                                context,
-                                              ).showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    'Delete task: ${task.title}',
-                                                  ),
-                                                ),
+                                              ////// delete contact
+                                              showDialog(
+                                                context: context,
+                                                builder: (BuildContext context) {
+                                                  return AlertDialog(
+                                                    title: Text('Delete Task'),
+                                                    content: Text(
+                                                      'Are you sure you want to delete ${task.title} ?',
+                                                    ),
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          Navigator.of(
+                                                            context,
+                                                          ).pop();
+                                                        },
+                                                        child: Text('Cancel'),
+                                                      ),
+                                                      TextButton(
+                                                        onPressed: () async {
+                                                          setState(() {
+                                                            _tasks.removeAt(
+                                                              index,
+                                                            );
+                                                          });
+                                                          final response =
+                                                              await http.delete(
+                                                                Uri.parse(
+                                                                  deleteTasktUrl,
+                                                                ),
+                                                                headers: {
+                                                                  'Content-Type':
+                                                                      'application/json',
+                                                                },
+                                                                body:
+                                                                    '{"id": "${task.id}"}',
+                                                              );
+                                                          if (response
+                                                                  .statusCode ==
+                                                              200) {
+                                                            ScaffoldMessenger.of(
+                                                              context,
+                                                            ).showSnackBar(
+                                                              SnackBar(
+                                                                content: Text(
+                                                                  '${task.title}  deleted',
+                                                                ),
+                                                              ),
+                                                            );
+                                                            _fetchTasks();
+                                                          } else {
+                                                            ScaffoldMessenger.of(
+                                                              context,
+                                                            ).showSnackBar(
+                                                              SnackBar(
+                                                                content: Text(
+                                                                  'Failed to delete ${task.title} ',
+                                                                ),
+                                                              ),
+                                                            );
+                                                          }
+                                                          Navigator.of(
+                                                            context,
+                                                          ).pop();
+                                                        },
+                                                        child: Text(
+                                                          'Delete',
+                                                          style: TextStyle(
+                                                            color:
+                                                                Color.fromARGB(
+                                                                  255,
+                                                                  126,
+                                                                  2,
+                                                                  2,
+                                                                ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
                                               );
                                             }
                                           },
-                                          itemBuilder: (BuildContext context) =>
-                                              [
-                                                PopupMenuItem<String>(
-                                                  value: 'edit',
-                                                  child: Row(
-                                                    children: [
-                                                      Icon(
-                                                        Icons.edit,
-                                                        color: primaryColor,
-                                                      ),
-                                                      SizedBox(width: 8),
-                                                      Text('Edit'),
-                                                    ],
+                                          itemBuilder: (BuildContext context) => [
+                                            ////////////////////////////// edit icon button
+                                            PopupMenuItem<String>(
+                                              value: 'edit',
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.edit,
+                                                    color: primaryColor,
                                                   ),
-                                                ),
-                                                PopupMenuItem<String>(
-                                                  value: 'delete',
-                                                  child: Row(
-                                                    children: [
-                                                      Icon(
-                                                        Icons.delete,
-                                                        color:
-                                                            const Color.fromARGB(
-                                                              255,
-                                                              126,
-                                                              2,
-                                                              2,
-                                                            ),
-                                                      ),
-                                                      SizedBox(width: 8),
-                                                      Text('Delete'),
-                                                    ],
+                                                  SizedBox(width: 8),
+                                                  Text('Edit'),
+                                                ],
+                                              ),
+                                            ),
+                                            ////////////////////////////// delete icon button
+                                            PopupMenuItem<String>(
+                                              value: 'delete',
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.delete,
+                                                    color: const Color.fromARGB(
+                                                      255,
+                                                      126,
+                                                      2,
+                                                      2,
+                                                    ),
                                                   ),
-                                                ),
-                                              ],
+                                                  SizedBox(width: 8),
+                                                  Text('Delete'),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
