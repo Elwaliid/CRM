@@ -5,24 +5,19 @@ const db = require('../config/db');
 const taskSchema = new Schema({
   owner: { type: Schema.Types.ObjectId, ref: 'user' },
   title: { type: String, required: true },
-  
- 
-  type: { type: String, enum: ['Call', 'Email', 'Deal', 'Meeting', 'None'], default: 'None' },
+  type: { type: String },
   revenue: { type: Number },
   cost: { type: Number },
-  dueDate: { type: Date },
+  phone: { type: String },
+  email: { type: String },
+  relatedTo: { type: [String], required: true , ref: 'Contact' },
+  dueDate: { type: String },
   time: { type: String },
-  endTime : { type: String },
-  relatedContact: { type: Schema.Types.ObjectId, ref: 'Contact' },
-  address : { type: String },
-  emails: {
-    type: [String],
-    validate: [arr => arr.length <= 2, '{PATH} exceeds the limit of 2'],
-  },
-  website : { type: String },
-description: { type: String },
-
-   status: { type: String, enum: ['Pending', 'Completed', 'In Process'], default: 'Pending' },
+  endTime: { type: String },
+  address: { type: String },
+  website: { type: String },
+  description: { type: String },
+  status: { type: String, default: 'Pending' },
   createdAt: { type: Date, default: Date.now },
 });
 

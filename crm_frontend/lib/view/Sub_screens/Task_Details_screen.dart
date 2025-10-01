@@ -621,6 +621,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
     );
   }
 
+  //////////////////////////////////////////////////////////////// Conditional fields based on Task Type
   List<Widget> _buildConditionalFields() {
     List<Widget> widgets = [];
     if (_selectedTaskType == 'Deal') {
@@ -702,16 +703,17 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
           ],
         ),
       );
+      if (phone == true) {
+        widgets.add(
+          WilouTextField(
+            label: 'Phone number',
+            controller: _phoneController,
+            keyboardType: TextInputType.phone,
+          ),
+        );
+      }
     }
-    if (phone == true) {
-      widgets.add(
-        WilouTextField(
-          label: 'Phone number',
-          controller: _phoneController,
-          keyboardType: TextInputType.phone,
-        ),
-      );
-    }
+
     if (_selectedTaskType == 'Email') {
       widgets.add(
         Row(
@@ -759,16 +761,17 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
           ],
         ),
       );
+      if (email == true) {
+        widgets.add(
+          WilouTextField(
+            label: 'Email',
+            controller: _EmailController,
+            keyboardType: TextInputType.emailAddress,
+          ),
+        );
+      }
     }
-    if (email == true) {
-      widgets.add(
-        WilouTextField(
-          label: 'Email',
-          controller: _EmailController,
-          keyboardType: TextInputType.emailAddress,
-        ),
-      );
-    }
+
     // Now, insert SizedBox between them
     List<Widget> result = [];
     for (int i = 0; i < widgets.length; i++) {
