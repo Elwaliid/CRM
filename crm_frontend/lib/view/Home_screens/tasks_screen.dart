@@ -137,7 +137,7 @@ class _TasksScreenState extends State<TasksScreen> {
 
                             return GestureDetector(
                               onTap: () {
-                                Get.to(TaskDetailsScreen());
+                                Get.to(TaskDetailsScreen(task: task));
                               },
                               child: Container(
                                 margin: const EdgeInsets.symmetric(

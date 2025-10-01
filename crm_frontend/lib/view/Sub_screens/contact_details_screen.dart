@@ -546,6 +546,7 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
               ),
             );
             Navigator.pop(context);
+            isViewMode = false;
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(

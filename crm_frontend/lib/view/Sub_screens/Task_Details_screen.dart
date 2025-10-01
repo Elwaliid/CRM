@@ -1,6 +1,7 @@
 // ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable, avoid_print, prefer_final_fields, non_constant_identifier_names, use_build_context_synchronously
 import 'dart:convert';
 
+import 'package:crm_frontend/models/task_model.dart';
 import 'package:crm_frontend/ustils/config.dart';
 import 'package:crm_frontend/ustils/constants.dart';
 import 'package:crm_frontend/view/Widgets/Type_buttons.dart';
@@ -15,7 +16,9 @@ import 'package:http/http.dart' as http;
 
 /// Screen for adding/updating Client or Lead info
 class TaskDetailsScreen extends StatefulWidget {
-  const TaskDetailsScreen({super.key});
+  final Task? task;
+
+  const TaskDetailsScreen({super.key, this.task});
 
   @override
   State<TaskDetailsScreen> createState() => _TaskDetailsScreenState();
@@ -30,6 +33,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   List Contacts = ['faisal mouh', 'khalil kaba', 'lisa luisa', 'bounar l7agar'];
   bool phone = false;
   bool email = false;
+  bool isViewMode = false;
   /////////////////////////////////////////////////////////////////////////////////// Controllers for all input fields
   final TextEditingController _taskNameController = TextEditingController();
   final TextEditingController _taskDescriptionController =
@@ -98,6 +102,36 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.task != null) {
+      isViewMode = true;
+      _taskNameController.text = widget.task!.title;
+      _selectedTaskType = widget.task!.type;
+      _revenueController.text = widget.task!.revenue?.toString() ?? '';
+      _costController.text = widget.task!.cost?.toString() ?? '';
+      _phoneController.text = widget.task!.phone ?? '';
+      _EmailController.text = widget.task!.email ?? '';
+      // Add additional relatedTo
+      if (widget.task!.relatedTo.isNotEmpty) {
+        _RelatedToController.text = widget.task!.relatedTo[0];
+        for (int i = 1; i < widget.task!.relatedTo.length; i++) {
+          _additionalRelatedToControllers.add(
+            TextEditingController(text: widget.task!.relatedTo[i]),
+          );
+        }
+      }
+      _dueDateController.text = widget.task!.dueDate ?? '';
+      _timeController.text = widget.task!.time ?? '';
+      _endtimeController.text = widget.task!.endTime ?? '';
+      _addressController.text = widget.task!.address ?? '';
+      _websiteController.text = widget.task!.website ?? '';
+      _taskDescriptionController.text = widget.task!.description ?? '';
+      _selectedType = widget.task!.status;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final Color primaryColor = Colors.blueGrey.shade900;
     final Color secondaryColor = Colors.blueGrey.shade700;
@@ -130,7 +164,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                       padding: const EdgeInsets.only(top: 10.0),
                       child: Center(
                         child: Text(
-                          'Task details',
+                          isViewMode ? 'view/Update Task' : 'Add Task',
                           style: GoogleFonts.poppins(
                             fontSize: 36,
                             fontWeight: FontWeight.bold,
@@ -825,7 +859,9 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
         'description': _taskDescriptionController.text.trim(),
         'status': _selectedType ?? 'Pending',
       };
-
+      if (isViewMode && widget.task != null) {
+        logBody['id'] = widget.task!.id;
+      }
       try {
         var response = await http.post(
           Uri.parse(addOrUpdateTaskUrl),
@@ -843,6 +879,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
               ),
             );
             Navigator.pop(context);
+            isViewMode = false;
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
