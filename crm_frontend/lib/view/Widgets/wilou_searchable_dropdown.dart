@@ -140,35 +140,6 @@ class _WilouSearchableDropdownState extends State<WilouSearchableDropdown> {
                                 },
                               ),
                             ),
-                            // Added clear button row
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                left: 16,
-                                top: 8,
-                                bottom: 8,
-                              ),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      widget.onChanged(null);
-                                      _searchController.clear();
-                                      _filteredItems = widget.items;
-                                    });
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text(
-                                    'Clear',
-                                    style: TextStyle(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.primary,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
                             Expanded(
                               child: _filteredItems.isEmpty
                                   ? Center(
@@ -218,6 +189,35 @@ class _WilouSearchableDropdownState extends State<WilouSearchableDropdown> {
                                         );
                                       },
                                     ),
+                            ),
+                            // Added clear button row
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                right: 16,
+                                top: 8,
+                                bottom: 8,
+                              ),
+                              child: Align(
+                                alignment: Alignment.centerRight,
+                                child: TextButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      widget.onChanged(null);
+                                      _searchController.clear();
+                                      _filteredItems = widget.items;
+                                    });
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text(
+                                    'Clear',
+                                    style: TextStyle(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                           ],
                         ),
