@@ -631,14 +631,14 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                                     setState(() => _selectedType = 'Pending'),
                               ),
                               TypeButton(
-                                label: 'In process',
-                                isSelected: _selectedType == 'In process',
+                                label: 'In Process',
+                                isSelected: _selectedType == 'In Process',
                                 selectedColor: Colors.blueGrey.shade900,
                                 unselectedColor: const Color(0xFFD9DDE0),
                                 selectedTextColor: Colors.white,
                                 unselectedTextColor: Colors.blueGrey.shade900,
                                 onTap: () => setState(
-                                  () => _selectedType = 'In process',
+                                  () => _selectedType = 'In Process',
                                 ),
                               ),
                             ],
