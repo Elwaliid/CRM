@@ -19,7 +19,7 @@ class TasksScreen extends StatefulWidget {
 class _TasksScreenState extends State<TasksScreen> {
   final TextEditingController _searchController = TextEditingController();
   List<Task> _tasks = [];
-  List<Task> _filteredTasks = [];
+  List<Task> _Tasks = [];
 
   @override
   void initState() {
@@ -34,7 +34,7 @@ class _TasksScreenState extends State<TasksScreen> {
       setState(() {
         _tasks.clear();
         _tasks.addAll(tasks);
-        _filteredTasks = _tasks;
+        _Tasks = _tasks;
       });
     } catch (e) {
       print('Error fetching tasks: $e');
@@ -44,7 +44,7 @@ class _TasksScreenState extends State<TasksScreen> {
   void _filterTasks() {
     final query = _searchController.text.toLowerCase();
     setState(() {
-      _filteredTasks = _tasks
+      _Tasks = _tasks
           .where((task) => task.title.toLowerCase().contains(query))
           .toList();
     });
@@ -121,7 +121,7 @@ class _TasksScreenState extends State<TasksScreen> {
                 const SizedBox(height: 20),
                 ////////////////////////////////////////////////////////////// task list scrollable
                 Expanded(
-                  child: _filteredTasks.isEmpty
+                  child: _Tasks.isEmpty
                       ? Center(
                           child: Text(
                             'No tasks added yet.',
@@ -132,9 +132,9 @@ class _TasksScreenState extends State<TasksScreen> {
                           ),
                         )
                       : ListView.builder(
-                          itemCount: _filteredTasks.length,
+                          itemCount: _Tasks.length,
                           itemBuilder: (context, index) {
-                            final task = _filteredTasks[index];
+                            final task = _Tasks[index];
                             ///////////////////////////////////////////////////////////////////////////// Task card
 
                             return GestureDetector(
@@ -242,7 +242,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                                       TextButton(
                                                         onPressed: () async {
                                                           setState(() {
-                                                            _tasks.removeAt(
+                                                            _Tasks.removeAt(
                                                               index,
                                                             );
                                                           });
