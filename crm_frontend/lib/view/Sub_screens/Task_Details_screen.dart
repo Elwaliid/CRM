@@ -108,7 +108,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
     super.initState();
     selectedRelatedToIds =
         widget.task != null && widget.task!.relatedToNames.isNotEmpty
-        ? List.filled(widget.task!.relatedToNames.length, '')
+        ? List<String>.from(List.filled(widget.task!.relatedToNames.length, ''))
         : [''];
     _loadContacts();
     if (widget.task != null) {
@@ -388,7 +388,6 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                       ],
                     ),
                     SizedBox(height: 2),
-
                     ///////////////////////////////// add new contact?
                     Padding(
                       padding: const EdgeInsets.only(top: 2.0),

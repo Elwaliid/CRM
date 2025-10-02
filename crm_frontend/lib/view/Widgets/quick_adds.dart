@@ -160,10 +160,11 @@ class _ClientDetailsFormContentState extends State<ClientDetailsFormContent> {
                         validator: (value) {
                           if (value == null || value.isEmpty)
                             return 'Enter phone';
-                          final pattern = RegExp(r'^(05|06|07)\d{8}\$');
-                          return pattern.hasMatch(value)
-                              ? null
-                              : 'Invalid phone format';
+                          final pattern = RegExp(r'^(05|06|07)\d{8}$');
+                          if (!pattern.hasMatch(value)) {
+                            return 'Phone number must start with 05, 06, or 07 and be 10 digits';
+                          }
+                          return null;
                         },
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
