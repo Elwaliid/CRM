@@ -323,7 +323,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                         ),
                         const SizedBox(width: 8),
 
-                        //////////////////////////////////// add icon button of RelatedTo
+                        //////////////////////////////////// add another RelatedTo
                         Container(
                           decoration: BoxDecoration(
                             color: _additionalRelatedToControllers.length < 9
@@ -357,6 +357,67 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                     ),
                     SizedBox(height: 8),
 
+                    ///////////////////////////////// add new contact?
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Row(
+                        children: [
+                          const SizedBox(width: 12),
+                          Text(
+                            '"Add a new contact?',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.red,
+                            ),
+                          ),
+                          Text(
+                            'Add',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Color(0xFF262C30),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (_) => Dialog(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: const SizedBox(
+                                    width: 600,
+                                    height: 700,
+                                    child: ClientDetailsFormContent(),
+                                  ),
+                                ),
+                              );
+                            },
+                            label: const Text(
+                              'Yes',
+                              style: TextStyle(fontSize: 12),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blueGrey.shade900,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 2,
+                              ),
+                              minimumSize: const Size(0, 26),
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              visualDensity: VisualDensity.compact,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(3),
+                              ),
+                              elevation: 0.5,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 8),
                     ///////////////////////////////////////////////////////////// Secondary RelatedTo numbers
                     Column(
                       children: List.generate(
