@@ -283,7 +283,38 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                       ],
                     ),
                     const SizedBox(height: 12),
-                    ..._buildConditionalFields(),
+                    ///////////////////////////////////////////////////////////// Revenue & Cost for Deal type
+                    if (_selectedTaskType == 'Deal')
+                      Row(
+                        children: [
+                          Expanded(
+                            child: WilouTextField(
+                              label: 'Revenue',
+                              icon: Icons.trending_up,
+                              controller: _revenueController,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: Text(
+                              '&',
+                              style: GoogleFonts.poppins(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                color: primaryColor,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: WilouTextField(
+                              label: 'Cost',
+                              icon: Icons.trending_down,
+                              controller: _costController,
+                            ),
+                          ),
+                        ],
+                      ),
+
                     const SizedBox(height: 12),
 
                     ///////////////////////////////////////////////////////////// Primary RelatedTo
@@ -356,29 +387,22 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 5),
 
                     ///////////////////////////////// add new contact?
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Row(
                         children: [
-                          const SizedBox(width: 12),
+                          SizedBox(width: 5),
                           Text(
-                            '"Add a new contact?',
-                            style: const TextStyle(
-                              fontSize: 12,
-                              color: Colors.red,
-                            ),
-                          ),
-                          Text(
-                            'Add',
+                            ' Add a new contact?',
                             style: const TextStyle(
                               fontSize: 12,
                               color: Color(0xFF262C30),
                             ),
                           ),
-                          const SizedBox(width: 8),
+                          const SizedBox(width: 5),
                           ElevatedButton.icon(
                             onPressed: () {
                               showDialog(
@@ -426,7 +450,10 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                         (index) {
                           String label = '${_ordinal(index)} RelatedTo';
                           return Padding(
-                            padding: const EdgeInsets.only(bottom: 12.0),
+                            padding: const EdgeInsets.only(
+                              bottom: 12.0,
+                              top: 5,
+                            ),
                             child: Row(
                               children: [
                                 Expanded(
@@ -654,168 +681,6 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
         ),
       ),
     );
-  }
-
-  //////////////////////////////////////////////////////////////// Conditional fields based on Task Type
-  List<Widget> _buildConditionalFields() {
-    List<Widget> widgets = [];
-    if (_selectedTaskType == 'Deal') {
-      widgets.add(
-        Row(
-          children: [
-            Expanded(
-              child: WilouTextField(
-                label: 'Revenue',
-                icon: Icons.trending_up,
-                controller: _revenueController,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(3.0),
-              child: Text(
-                '&',
-                style: GoogleFonts.poppins(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: primaryColor,
-                ),
-              ),
-            ),
-            Expanded(
-              child: WilouTextField(
-                label: 'Cost',
-                icon: Icons.trending_down,
-                controller: _costController,
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-    if (_selectedTaskType == 'Call/Message') {
-      widgets.add(
-        Row(
-          children: [
-            Text(
-              ' Number of a persone not in contacts?',
-              style: TextStyle(fontSize: 12, color: Colors.red),
-            ),
-            const SizedBox(width: 8),
-            ElevatedButton.icon(
-              onPressed: () {
-                setState(() {
-                  phone = !phone;
-                });
-              },
-              label: phone
-                  ? Text(
-                      'No',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    )
-                  : Text(
-                      'Yes',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blueGrey.shade900,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                minimumSize: Size(0, 26),
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                visualDensity: VisualDensity.compact,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(3),
-                ),
-                elevation: 0.5,
-              ),
-            ),
-          ],
-        ),
-      );
-      if (phone == true) {
-        widgets.add(
-          WilouTextField(
-            label: 'Phone number',
-            controller: _phoneController,
-            keyboardType: TextInputType.phone,
-          ),
-        );
-      }
-    }
-
-    if (_selectedTaskType == 'Email') {
-      widgets.add(
-        Row(
-          children: [
-            SizedBox(width: 12),
-            Text(
-              ' Email of a persone not in contacts?',
-              style: TextStyle(fontSize: 12, color: Colors.red),
-            ),
-            const SizedBox(width: 8),
-            ElevatedButton.icon(
-              onPressed: () {
-                setState(() {
-                  email = !email;
-                });
-              },
-              label: email
-                  ? Text(
-                      'No',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    )
-                  : Text(
-                      'Yes',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blueGrey.shade900,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                minimumSize: Size(0, 26),
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                visualDensity: VisualDensity.compact,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(3),
-                ),
-                elevation: 0.5,
-              ),
-            ),
-          ],
-        ),
-      );
-      if (email == true) {
-        widgets.add(
-          WilouTextField(
-            label: 'Email',
-            controller: _EmailController,
-            keyboardType: TextInputType.emailAddress,
-          ),
-        );
-      }
-    }
-
-    // Now, insert SizedBox between them
-    List<Widget> result = [];
-    for (int i = 0; i < widgets.length; i++) {
-      result.add(widgets[i]);
-      if (i < widgets.length - 1) {
-        result.add(const SizedBox(height: 12));
-      }
-    }
-    return result;
   }
 
   /////////////////////////////////////////////////////////////
