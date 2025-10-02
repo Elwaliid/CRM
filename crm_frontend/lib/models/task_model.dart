@@ -58,7 +58,9 @@ class Task {
                     : null,
                 phone: taskJson['phone'] ?? '',
                 email: taskJson['email'] ?? '',
-                relatedToNames: List<String>.from(taskJson['relatedTo'] ?? []),
+                relatedToNames: List<String>.from(
+                  taskJson['relatedToNames'] ?? [],
+                ),
                 dueDate: taskJson['dueDate'] ?? '',
                 time: taskJson['time'] ?? '',
                 endTime: taskJson['endTime'] ?? '',

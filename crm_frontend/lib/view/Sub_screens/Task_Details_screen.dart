@@ -724,6 +724,9 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
             ? _EmailController.text.trim()
             : null,
         'relatedToNames': relatedToList,
+        'relatedToIds': selectedRelatedToIds
+            .where((id) => id.isNotEmpty)
+            .toList(),
         'dueDate': _dueDateController.text.trim(),
         'time': _timeController.text.trim(),
         'endTime': _endtimeController.text.trim(),

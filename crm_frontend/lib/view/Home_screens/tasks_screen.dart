@@ -353,7 +353,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                     ),
                                     // ///////////////////////////////////////////// Assigned to
                                     Text(
-                                      'Assigned to: ${task.relatedTo.join(', ')}',
+                                      'Assigned to: ${task.relatedToNames.join(', ')}',
                                       style: GoogleFonts.roboto(
                                         fontSize: 16,
                                         color: secondaryColor,
