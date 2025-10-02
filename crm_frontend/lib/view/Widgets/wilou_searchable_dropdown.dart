@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'dart:ui';
-
 import 'package:google_fonts/google_fonts.dart';
 
 class WilouSearchableDropdown extends StatefulWidget {
@@ -80,10 +79,10 @@ class _WilouSearchableDropdownState extends State<WilouSearchableDropdown> {
                       return Container(
                         decoration: BoxDecoration(
                           color: Theme.of(context).canvasColor,
-                          borderRadius: BorderRadius.vertical(
+                          borderRadius: const BorderRadius.vertical(
                             top: Radius.circular(20),
                           ),
-                          boxShadow: [
+                          boxShadow: const [
                             BoxShadow(
                               color: Colors.black26,
                               blurRadius: 10,
@@ -96,6 +95,7 @@ class _WilouSearchableDropdownState extends State<WilouSearchableDropdown> {
                         ),
                         child: Column(
                           children: [
+                            // Header
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 16,
@@ -111,15 +111,16 @@ class _WilouSearchableDropdownState extends State<WilouSearchableDropdown> {
                                       ).textTheme.titleLarge,
                                     ),
                                   ),
-
                                   IconButton(
-                                    icon: Icon(Icons.close),
+                                    icon: const Icon(Icons.close),
                                     onPressed: () =>
                                         Navigator.of(context).pop(),
                                   ),
                                 ],
                               ),
                             ),
+
+                            // Search bar
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 16.0,
@@ -128,7 +129,7 @@ class _WilouSearchableDropdownState extends State<WilouSearchableDropdown> {
                                 controller: _searchController,
                                 decoration: InputDecoration(
                                   hintText: 'Search ${widget.label}',
-                                  prefixIcon: Icon(Icons.search),
+                                  prefixIcon: const Icon(Icons.search),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
@@ -140,6 +141,8 @@ class _WilouSearchableDropdownState extends State<WilouSearchableDropdown> {
                                 },
                               ),
                             ),
+
+                            // List content
                             Expanded(
                               child: _filteredItems.isEmpty
                                   ? Center(
@@ -161,6 +164,11 @@ class _WilouSearchableDropdownState extends State<WilouSearchableDropdown> {
                                         final bool isSelected =
                                             item == widget.value;
                                         return ListTile(
+                                          selected: isSelected,
+                                          selectedTileColor: Theme.of(context)
+                                              .colorScheme
+                                              .primary
+                                              .withOpacity(0.1),
                                           title: Text(
                                             item,
                                             style: TextStyle(
@@ -190,35 +198,49 @@ class _WilouSearchableDropdownState extends State<WilouSearchableDropdown> {
                                       },
                                     ),
                             ),
-                            // Added clear button row
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                right: 16,
-                                top: 8,
-                                bottom: 8,
-                              ),
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      widget.onChanged(null);
-                                      _searchController.clear();
-                                      _filteredItems = widget.items;
-                                    });
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text(
-                                    'Clear',
-                                    style: TextStyle(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.primary,
+
+                            // Bottom-right Clear button
+                            if (widget.value != null)
+                              Align(
+                                alignment: Alignment.bottomRight,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: ElevatedButton.icon(
+                                    onPressed: () {
+                                      setState(() {
+                                        widget.onChanged(null);
+                                        _searchController.clear();
+                                        _filteredItems = widget.items;
+                                      });
+                                      Navigator.pop(context);
+                                    },
+
+                                    label: const Text(
+                                      "Clear",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color.fromARGB(
+                                        255,
+                                        128,
+                                        47,
+                                        47,
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 20,
+                                        vertical: 12,
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                      elevation: 3,
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
                           ],
                         ),
                       );
