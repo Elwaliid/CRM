@@ -11,6 +11,7 @@ class Task {
   String? phone;
   String? email;
   List<String> relatedToNames;
+  List<String>? relatedToIds;
   String? dueDate;
   String? time;
   String? endTime;
@@ -28,6 +29,7 @@ class Task {
     this.phone,
     this.email,
     required this.relatedToNames,
+    required this.relatedToIds,
     this.dueDate,
     this.time,
     this.endTime,
@@ -61,6 +63,7 @@ class Task {
                 relatedToNames: List<String>.from(
                   taskJson['relatedToNames'] ?? [],
                 ),
+                relatedToIds: List<String>.from(taskJson['relatedToIds'] ?? []),
                 dueDate: taskJson['dueDate'] ?? '',
                 time: taskJson['time'] ?? '',
                 endTime: taskJson['endTime'] ?? '',
