@@ -7,7 +7,10 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 import '../../models/task_model.dart';
+import '../../models/contact_model.dart';
+import '../Widgets/wilou_dropdown.dart';
 
 class TasksScreen extends StatefulWidget {
   const TasksScreen({super.key});
@@ -20,6 +23,10 @@ class _TasksScreenState extends State<TasksScreen> {
   final TextEditingController _searchController = TextEditingController();
   List<Task> _tasks = [];
   List<Task> _Tasks = [];
+  List<Contact> _contacts = [];
+  String? _selectedRelatedToName;
+  String? _selectedPhoneNumber;
+  List<String> _phoneNumbers = [];
 
   @override
   void initState() {
@@ -38,6 +45,19 @@ class _TasksScreenState extends State<TasksScreen> {
       });
     } catch (e) {
       print('Error fetching tasks: $e');
+    }
+    _fetchContacts();
+  }
+
+  Future<void> _fetchContacts() async {
+    try {
+      List<Contact> contacts = await Contact.getContacts();
+      setState(() {
+        _contacts.clear();
+        _contacts.addAll(contacts);
+      });
+    } catch (e) {
+      print('Error fetching contacts: $e');
     }
   }
 
