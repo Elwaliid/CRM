@@ -353,7 +353,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                     ),
                                     // ///////////////////////////////////////////// Assigned to
                                     Text(
-                                      'Assigned to: ${task.relatedToNames.join(', ')}',
+                                      'Related to: ${task.relatedToNames.join(', ')}',
                                       style: GoogleFonts.roboto(
                                         fontSize: 16,
                                         color: secondaryColor,
@@ -370,7 +370,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                           ),
                                         ),
                                         Spacer(),
-                                        // Task type icons
+                                        ///////////////////////////////////////////////////////// Task icons
                                         ////////////////////////// call and message
                                         if (task.type == 'Call')
                                           IconButton(
@@ -378,7 +378,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                             onPressed: () {},
                                             icon: Icon(Icons.call),
                                           ),
-                                        if (task.type == 'Call')
+                                        if (task.type == 'Message')
                                           IconButton(
                                             color: primaryColor,
                                             onPressed: () {},
@@ -399,7 +399,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                               Icons.business,
                                               color: secondaryColor,
                                             ),
-
+                                            //////////
                                             itemBuilder: (BuildContext context) => [
                                               PopupMenuItem<String>(
                                                 child: Row(
