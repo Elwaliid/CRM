@@ -1,6 +1,7 @@
 // ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable, avoid_print, prefer_final_fields, non_constant_identifier_names, use_build_context_synchronously
 import 'dart:convert';
 
+import 'package:crm_frontend/models/contact_model.dart';
 import 'package:crm_frontend/models/task_model.dart';
 import 'package:crm_frontend/ustils/config.dart';
 import 'package:crm_frontend/ustils/constants.dart';
@@ -26,11 +27,11 @@ class TaskDetailsScreen extends StatefulWidget {
 
 class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   final _formKey = GlobalKey<FormState>();
-  String? _invalidRelatedTo;
   String? _selectedTaskType;
-  Set<String> _invalidRelatedToNames = {};
   String? _selectedType = 'Pending';
-  List Contacts = ['faisal mouh', 'khalil kaba', 'lisa luisa', 'bounar l7agar'];
+  List<Contact> contacts = [];
+  List<String> contactNames = [];
+  List<String> selectedRelatedToIds = [];
   bool phone = false;
   bool email = false;
   bool isViewMode = false;
@@ -87,6 +88,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
     if (_additionalRelatedToControllers.length < 9) {
       setState(() {
         _additionalRelatedToControllers.add(TextEditingController());
+        selectedRelatedToIds.add('');
       });
     }
   }
@@ -94,16 +96,20 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   /// Remove a specific RelatedTo number field
   void _removeRelatedToField(int index) {
     setState(() {
-      String text = _additionalRelatedToControllers[index].text;
       _additionalRelatedToControllers[index].dispose();
       _additionalRelatedToControllers.removeAt(index);
-      _invalidRelatedToNames.remove(text);
+      selectedRelatedToIds.removeAt(index + 1);
     });
   }
 
   @override
   void initState() {
     super.initState();
+    selectedRelatedToIds =
+        widget.task != null && widget.task!.relatedTo.isNotEmpty
+        ? List.filled(widget.task!.relatedTo.length, '')
+        : [''];
+    _loadContacts();
     if (widget.task != null) {
       isViewMode = true;
       _taskNameController.text = widget.task!.title;
@@ -128,6 +134,43 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
       _websiteController.text = widget.task!.website ?? '';
       _taskDescriptionController.text = widget.task!.description ?? '';
       _selectedType = widget.task!.status;
+    }
+  }
+
+  Future<void> _loadContacts() async {
+    try {
+      contacts = await Contact.getContacts();
+      setState(() {
+        contactNames = contacts
+            .map((c) => '${c.firstname} ${c.lastname}'.trim())
+            .toList();
+      });
+      if (widget.task != null && widget.task!.relatedTo.isNotEmpty) {
+        for (int i = 0; i < widget.task!.relatedTo.length; i++) {
+          String name = widget.task!.relatedTo[i];
+          var contact = contacts.firstWhere(
+            (c) => '${c.firstname} ${c.lastname}'.trim() == name,
+            orElse: () => Contact(
+              id: '',
+              firstname: '',
+              lastname: '',
+              phone: '',
+              phones: [],
+              email: '',
+              identity: '',
+              secondEmail: '',
+              address: '',
+              notes: '',
+              type: '',
+              website: '',
+            ),
+          );
+          selectedRelatedToIds[i] = contact.id;
+        }
+      }
+    } catch (e) {
+      // Handle error or show message
+      print('Failed to load contacts: $e');
     }
   }
 
@@ -247,27 +290,35 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
-                          child: WilouTextField(
+                          child: WilouDropdown(
                             label: 'RelatedTo(Full Name)',
-                            controller: _RelatedToController,
+                            value:
+                                _RelatedToController.text.isNotEmpty &&
+                                    contactNames.contains(
+                                      _RelatedToController.text,
+                                    )
+                                ? _RelatedToController.text
+                                : null,
+                            items: contactNames,
                             onChanged: (value) {
-                              if (value.isNotEmpty &&
-                                  !Contacts.contains(value)) {
-                                setState(() {
-                                  _invalidRelatedTo = value;
-                                });
-                              } else {
-                                setState(() {
-                                  _invalidRelatedTo = null;
-                                });
-                              }
+                              setState(() {
+                                _RelatedToController.text = value ?? '';
+                                if (value != null) {
+                                  var contact = contacts.firstWhere(
+                                    (c) =>
+                                        '${c.firstname} ${c.lastname}'.trim() ==
+                                        value,
+                                  );
+                                  selectedRelatedToIds[0] = contact.id;
+                                } else {
+                                  selectedRelatedToIds[0] = '';
+                                }
+                              });
                             },
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter a name';
-                              }
-                              return null;
-                            },
+                            validator: (value) => value == null || value.isEmpty
+                                ? 'Please select a contact'
+                                : null,
+                            icon: Icons.arrow_drop_down,
                           ),
                         ),
                         const SizedBox(width: 8),
@@ -304,63 +355,6 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                         ),
                       ],
                     ),
-
-                    ///////////////////////////////////////////////////////// add to Contacts message and button
-                    if (_invalidRelatedTo != null)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: Row(
-                          children: [
-                            SizedBox(width: 12),
-                            Text(
-                              '"add a new contact?',
-                              style: TextStyle(fontSize: 12, color: Colors.red),
-                            ),
-
-                            const SizedBox(width: 8),
-                            ElevatedButton.icon(
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (_) => Dialog(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: SizedBox(
-                                      width: 600,
-                                      height: 700,
-                                      child: ClientDetailsFormContent(),
-                                    ),
-                                  ),
-                                );
-                              },
-
-                              label: const Text(
-                                'Add',
-                                style: TextStyle(
-                                  fontSize: 12, // 🔽 Smaller text
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blueGrey.shade900,
-                                foregroundColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 6,
-                                  vertical: 2,
-                                ),
-                                minimumSize: Size(0, 26),
-                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                visualDensity: VisualDensity.compact,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(3),
-                                ),
-                                elevation: 0.5,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
                     SizedBox(height: 8),
 
                     ///////////////////////////////////////////////////////////// Secondary RelatedTo numbers
@@ -374,27 +368,44 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                             child: Row(
                               children: [
                                 Expanded(
-                                  child: WilouTextField(
+                                  child: WilouDropdown(
                                     label: label,
-                                    controller:
-                                        _additionalRelatedToControllers[index],
-
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please enter $label';
-                                      }
-                                      if (!Contacts.contains(value)) {
-                                        if (!_invalidRelatedToNames.contains(
-                                          value,
-                                        )) {
-                                          setState(() {
-                                            _invalidRelatedToNames.add(value);
-                                          });
+                                    value:
+                                        _additionalRelatedToControllers[index]
+                                                .text
+                                                .isNotEmpty &&
+                                            contactNames.contains(
+                                              _additionalRelatedToControllers[index]
+                                                  .text,
+                                            )
+                                        ? _additionalRelatedToControllers[index]
+                                              .text
+                                        : null,
+                                    items: contactNames,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _additionalRelatedToControllers[index]
+                                                .text =
+                                            value ?? '';
+                                        if (value != null) {
+                                          var contact = contacts.firstWhere(
+                                            (c) =>
+                                                '${c.firstname} ${c.lastname}'
+                                                    .trim() ==
+                                                value,
+                                          );
+                                          selectedRelatedToIds[index + 1] =
+                                              contact.id;
+                                        } else {
+                                          selectedRelatedToIds[index + 1] = '';
                                         }
-                                        return null; // Let the UI handle the error display
-                                      }
-                                      return null;
+                                      });
                                     },
+                                    validator: (value) =>
+                                        value == null || value.isEmpty
+                                        ? 'Please select a contact'
+                                        : null,
+                                    icon: Icons.arrow_drop_down,
                                   ),
                                 ),
                                 const SizedBox(width: 8),
@@ -431,71 +442,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                         },
                       ),
                     ),
-                    ///////////// ///////////// ////////// Secondary RelatedTo add to Contacts message and button
-                    Column(
-                      children: _invalidRelatedToNames.map((name) {
-                        return Padding(
-                          padding: const EdgeInsets.only(top: .0),
-                          child: Row(
-                            children: [
-                              const SizedBox(width: 12),
-                              Text(
-                                '"$name" not found in contacts.',
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.red,
-                                ),
-                              ),
-                              Text(
-                                ' Add "$name"?',
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  color: Color(0xFF262C30),
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              ElevatedButton.icon(
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (_) => Dialog(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      child: const SizedBox(
-                                        width: 600,
-                                        height: 700,
-                                        child: ClientDetailsFormContent(),
-                                      ),
-                                    ),
-                                  );
-                                },
-                                label: const Text(
-                                  'Yes',
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.blueGrey.shade900,
-                                  foregroundColor: Colors.white,
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 6,
-                                    vertical: 2,
-                                  ),
-                                  minimumSize: const Size(0, 26),
-                                  tapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
-                                  visualDensity: VisualDensity.compact,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(3),
-                                  ),
-                                  elevation: 0.5,
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }).toList(),
-                    ),
+
                     SizedBox(height: 8),
 
                     ///////////////////////////////////////////////////////////// Due date
