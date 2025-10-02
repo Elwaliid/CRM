@@ -10,7 +10,7 @@ class Task {
   double? cost;
   String? phone;
   String? email;
-  List<String> relatedTo;
+  List<String> relatedToNames;
   String? dueDate;
   String? time;
   String? endTime;
@@ -27,7 +27,7 @@ class Task {
     this.cost,
     this.phone,
     this.email,
-    required this.relatedTo,
+    required this.relatedToNames,
     this.dueDate,
     this.time,
     this.endTime,
@@ -58,7 +58,7 @@ class Task {
                     : null,
                 phone: taskJson['phone'] ?? '',
                 email: taskJson['email'] ?? '',
-                relatedTo: List<String>.from(taskJson['relatedTo'] ?? []),
+                relatedToNames: List<String>.from(taskJson['relatedTo'] ?? []),
                 dueDate: taskJson['dueDate'] ?? '',
                 time: taskJson['time'] ?? '',
                 endTime: taskJson['endTime'] ?? '',

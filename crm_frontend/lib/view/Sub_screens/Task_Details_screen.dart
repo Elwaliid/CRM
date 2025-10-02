@@ -106,8 +106,8 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   void initState() {
     super.initState();
     selectedRelatedToIds =
-        widget.task != null && widget.task!.relatedTo.isNotEmpty
-        ? List.filled(widget.task!.relatedTo.length, '')
+        widget.task != null && widget.task!.relatedToNames.isNotEmpty
+        ? List.filled(widget.task!.relatedToNames.length, '')
         : [''];
     _loadContacts();
     if (widget.task != null) {
@@ -119,11 +119,11 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
       _phoneController.text = widget.task!.phone ?? '';
       _EmailController.text = widget.task!.email ?? '';
       // Add additional relatedTo
-      if (widget.task!.relatedTo.isNotEmpty) {
-        _RelatedToController.text = widget.task!.relatedTo[0];
-        for (int i = 1; i < widget.task!.relatedTo.length; i++) {
+      if (widget.task!.relatedToNames.isNotEmpty) {
+        _RelatedToController.text = widget.task!.relatedToNames[0];
+        for (int i = 1; i < widget.task!.relatedToNames.length; i++) {
           _additionalRelatedToControllers.add(
-            TextEditingController(text: widget.task!.relatedTo[i]),
+            TextEditingController(text: widget.task!.relatedToNames[i]),
           );
         }
       }
@@ -145,9 +145,9 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
             .map((c) => '${c.firstname} ${c.lastname}'.trim())
             .toList();
       });
-      if (widget.task != null && widget.task!.relatedTo.isNotEmpty) {
-        for (int i = 0; i < widget.task!.relatedTo.length; i++) {
-          String name = widget.task!.relatedTo[i];
+      if (widget.task != null && widget.task!.relatedToNames.isNotEmpty) {
+        for (int i = 0; i < widget.task!.relatedToNames.length; i++) {
+          String name = widget.task!.relatedToNames[i];
           var contact = contacts.firstWhere(
             (c) => '${c.firstname} ${c.lastname}'.trim() == name,
             orElse: () => Contact(
@@ -723,7 +723,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
         'email': _EmailController.text.trim().isNotEmpty
             ? _EmailController.text.trim()
             : null,
-        'relatedTo': relatedToList,
+        'relatedToNames': relatedToList,
         'dueDate': _dueDateController.text.trim(),
         'time': _timeController.text.trim(),
         'endTime': _endtimeController.text.trim(),
