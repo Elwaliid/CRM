@@ -62,51 +62,168 @@ class _WilouSearchableDropdownState extends State<WilouSearchableDropdown> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      backgroundColor: Colors.transparent,
       builder: (BuildContext context) {
         return StatefulBuilder(
           builder: (context, setState) {
-            return Padding(
-              padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom,
-              ),
+            return GestureDetector(
+              onTap: () => Navigator.of(context).pop(),
               child: Container(
-                height: MediaQuery.of(context).size.height * 0.6,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: TextField(
-                        controller: _searchController,
-                        decoration: InputDecoration(
-                          hintText: 'Search ${widget.label}',
-                          prefixIcon: Icon(Icons.search),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
+                color: Colors.black54,
+                child: GestureDetector(
+                  onTap: () {},
+                  child: DraggableScrollableSheet(
+                    initialChildSize: 0.6,
+                    minChildSize: 0.4,
+                    maxChildSize: 0.9,
+                    builder: (context, scrollController) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).canvasColor,
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(20),
                           ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 10,
+                              spreadRadius: 5,
+                            ),
+                          ],
                         ),
-                        onChanged: (value) {
-                          setState(() {
-                            _filterItems();
-                          });
-                        },
-                      ),
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: _filteredItems.length,
-                        itemBuilder: (context, index) {
-                          final item = _filteredItems[index];
-                          return ListTile(
-                            title: Text(item),
-                            onTap: () {
-                              widget.onChanged(item);
-                              Navigator.pop(context);
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                  ],
+                        padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom,
+                        ),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 12,
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      'Select ${widget.label}',
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.titleLarge,
+                                    ),
+                                  ),
+
+                                  IconButton(
+                                    icon: Icon(Icons.close),
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0,
+                              ),
+                              child: TextField(
+                                controller: _searchController,
+                                decoration: InputDecoration(
+                                  hintText: 'Search ${widget.label}',
+                                  prefixIcon: Icon(Icons.search),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                                onChanged: (value) {
+                                  setState(() {
+                                    _filterItems();
+                                  });
+                                },
+                              ),
+                            ),
+                            // Added clear button row
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 16,
+                                top: 8,
+                                bottom: 8,
+                              ),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: TextButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      widget.onChanged(null);
+                                      _searchController.clear();
+                                      _filteredItems = widget.items;
+                                    });
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text(
+                                    'Clear',
+                                    style: TextStyle(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: _filteredItems.isEmpty
+                                  ? Center(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Text(
+                                          'No results found',
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.titleMedium,
+                                        ),
+                                      ),
+                                    )
+                                  : ListView.builder(
+                                      controller: scrollController,
+                                      itemCount: _filteredItems.length,
+                                      itemBuilder: (context, index) {
+                                        final item = _filteredItems[index];
+                                        final bool isSelected =
+                                            item == widget.value;
+                                        return ListTile(
+                                          title: Text(
+                                            item,
+                                            style: TextStyle(
+                                              fontWeight: isSelected
+                                                  ? FontWeight.bold
+                                                  : FontWeight.normal,
+                                              color: isSelected
+                                                  ? Theme.of(
+                                                      context,
+                                                    ).colorScheme.primary
+                                                  : null,
+                                            ),
+                                          ),
+                                          trailing: isSelected
+                                              ? Icon(
+                                                  Icons.check,
+                                                  color: Theme.of(
+                                                    context,
+                                                  ).colorScheme.primary,
+                                                )
+                                              : null,
+                                          onTap: () {
+                                            widget.onChanged(item);
+                                            Navigator.pop(context);
+                                          },
+                                        );
+                                      },
+                                    ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             );
