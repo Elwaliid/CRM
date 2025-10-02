@@ -701,7 +701,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   ///////////////////////////////////////////////////////////// Add or Update Task
   Future<void> _addUpdateTask() async {
     if (_formKey.currentState!.validate()) {
-      var relatedToList = [
+      var relatedToNames = [
         _RelatedToController.text.trim(),
         ..._additionalRelatedToControllers
             .map((c) => c.text.trim())
@@ -723,7 +723,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
         'email': _EmailController.text.trim().isNotEmpty
             ? _EmailController.text.trim()
             : null,
-        'relatedToNames': relatedToList,
+        'relatedToNames': relatedToNames,
         'relatedToIds': selectedRelatedToIds
             .where((id) => id.isNotEmpty)
             .toList(),
