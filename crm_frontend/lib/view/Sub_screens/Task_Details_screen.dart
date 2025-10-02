@@ -8,6 +8,7 @@ import 'package:crm_frontend/view/Widgets/Type_buttons.dart';
 import 'package:crm_frontend/view/Widgets/date_time_picker.dart';
 import 'package:crm_frontend/view/Widgets/quick_adds.dart';
 import 'package:crm_frontend/view/Widgets/wilou_dropdown.dart';
+import 'package:crm_frontend/view/Widgets/wilou_searchable_dropdown.dart';
 import 'package:crm_frontend/view/Widgets/wilou_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -321,8 +322,8 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
-                          child: WilouDropdown(
-                            label: 'RelatedTo(Full Name)',
+                          child: WilouSearchableDropdown(
+                            label: 'RelatedTo(Conact)',
                             value:
                                 _RelatedToController.text.isNotEmpty &&
                                     contactNames.contains(
@@ -447,7 +448,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                       children: List.generate(
                         _additionalRelatedToControllers.length,
                         (index) {
-                          String label = '${_ordinal(index)} RelatedTo';
+                          String label = '${_ordinal(index)} Contact';
                           return Padding(
                             padding: const EdgeInsets.only(
                               bottom: 12.0,
@@ -456,7 +457,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                             child: Row(
                               children: [
                                 Expanded(
-                                  child: WilouDropdown(
+                                  child: WilouSearchableDropdown(
                                     label: label,
                                     value:
                                         _additionalRelatedToControllers[index]

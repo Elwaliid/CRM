@@ -11,6 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../models/task_model.dart';
 import '../../models/contact_model.dart';
 import '../Widgets/wilou_dropdown.dart';
+import '../Widgets/wilou_searchable_dropdown.dart';
 
 class TasksScreen extends StatefulWidget {
   const TasksScreen({super.key});
@@ -600,8 +601,8 @@ class _TasksScreenState extends State<TasksScreen> {
                     style: GoogleFonts.poppins(fontSize: 18),
                   ),
                   SizedBox(height: 16),
-                  WilouDropdown(
-                    label: 'Related To',
+                  WilouSearchableDropdown(
+                    label: 'Related To(Contact)',
                     value: _selectedRelatedToName,
                     items: task.relatedToNames,
                     onChanged: (value) {
