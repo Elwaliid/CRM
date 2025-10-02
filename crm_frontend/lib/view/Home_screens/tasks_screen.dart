@@ -70,6 +70,118 @@ class _TasksScreenState extends State<TasksScreen> {
     });
   }
 
+  void _showContactDialog(Task task, String action) {
+    _selectedRelatedToName = null;
+    _selectedPhoneNumber = null;
+    _phoneNumbers = [];
+
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Select Contact and Phone',
+                    style: GoogleFonts.poppins(fontSize: 18),
+                  ),
+                  SizedBox(height: 16),
+                  WilouDropdown(
+                    label: 'Related To',
+                    value: _selectedRelatedToName,
+                    items: task.relatedToNames,
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedRelatedToName = value;
+                        _selectedPhoneNumber = null;
+                        if (value != null) {
+                          int index = task.relatedToNames.indexOf(value);
+                          if (index != -1 &&
+                              task.relatedToIds != null &&
+                              index < task.relatedToIds!.length) {
+                            String id = task.relatedToIds![index];
+                            Contact? contact = _contacts.firstWhere(
+                              (c) => c.id == id,
+                              orElse: () => Contact(
+                                id: '',
+                                firstname: '',
+                                lastname: '',
+                                phone: '',
+                                phones: [],
+                                email: '',
+                                identity: '',
+                                secondEmail: '',
+                                address: '',
+                                notes: '',
+                                type: '',
+                                website: '',
+                              ),
+                            );
+                            if (contact.id.isNotEmpty) {
+                              _phoneNumbers = contact.phones;
+                            } else {
+                              _phoneNumbers = [];
+                            }
+                          }
+                        } else {
+                          _phoneNumbers = [];
+                        }
+                      });
+                    },
+                    icon: Icons.person,
+                  ),
+                  SizedBox(height: 16),
+                  WilouDropdown(
+                    label: 'Phone Numbers',
+                    value: _selectedPhoneNumber,
+                    items: _phoneNumbers,
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedPhoneNumber = value;
+                      });
+                    },
+                    icon: Icons.phone,
+                  ),
+                  SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: _selectedPhoneNumber != null
+                            ? () async {
+                                if (action == 'call') {
+                                  await launchUrl(
+                                    Uri.parse('tel:$_selectedPhoneNumber'),
+                                  );
+                                } else if (action == 'message') {
+                                  await launchUrl(
+                                    Uri.parse('sms:$_selectedPhoneNumber'),
+                                  );
+                                }
+                                Navigator.pop(context);
+                              }
+                            : null,
+                        child: Text(action == 'call' ? 'Call' : 'Message'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: Text('Cancel'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final Color primaryColor = Colors.blueGrey.shade900;
@@ -392,18 +504,31 @@ class _TasksScreenState extends State<TasksScreen> {
                                         Spacer(),
                                         ///////////////////////////////////////////////////////// Task icons
                                         ////////////////////////// call and message
-                                        if (task.type == 'Call')
-                                          IconButton(
-                                            color: primaryColor,
-                                            onPressed: () {},
-                                            icon: Icon(Icons.call),
+                                        if (task.type == 'Call/Message')
+                                          Row(
+                                            children: [
+                                              IconButton(
+                                                color: primaryColor,
+                                                onPressed: () =>
+                                                    _showContactDialog(
+                                                      task,
+                                                      'call',
+                                                    ),
+                                                icon: Icon(Icons.call),
+                                              ),
+                                              SizedBox(width: 2),
+                                              IconButton(
+                                                color: primaryColor,
+                                                onPressed: () =>
+                                                    _showContactDialog(
+                                                      task,
+                                                      'message',
+                                                    ),
+                                                icon: Icon(Icons.message),
+                                              ),
+                                            ],
                                           ),
-                                        if (task.type == 'Message')
-                                          IconButton(
-                                            color: primaryColor,
-                                            onPressed: () {},
-                                            icon: Icon(Icons.message),
-                                          ),
+
                                         ///////////////////////////////////////////// Email
                                         if (task.type == 'Email')
                                           IconButton(
