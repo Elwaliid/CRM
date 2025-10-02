@@ -412,7 +412,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                                 onPressed: () =>
                                                     _callMessageEmail(
                                                       task,
-                                                      'message',
+                                                      'Message',
                                                     ),
                                                 icon: Icon(Icons.message),
                                               ),
@@ -580,8 +580,9 @@ class _TasksScreenState extends State<TasksScreen> {
   void _callMessageEmail(Task task, String action) {
     _selectedRelatedToName = null;
     _selectedPhoneNumber = null;
+    _selectedEmail = null;
     _phoneNumbers = [];
-
+    _emailAddresses = [];
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -632,9 +633,11 @@ class _TasksScreenState extends State<TasksScreen> {
                               ),
                             );
                             if (contact.id.isNotEmpty) {
-                              _emailAddresses = // add email and second email
-                              _phoneNumbers =
-                                  contact.phones;
+                              _emailAddresses = [
+                                contact.email,
+                                contact.secondEmail,
+                              ].where((e) => e.isNotEmpty).toList();
+                              _phoneNumbers = contact.phones;
                             } else {
                               _emailAddresses = [];
                               _phoneNumbers = [];
@@ -669,7 +672,9 @@ class _TasksScreenState extends State<TasksScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       ElevatedButton(
-                        onPressed: _selectedPhoneNumber != null
+                        onPressed:
+                            _selectedPhoneNumber != null ||
+                                _selectedEmail != null
                             ? () async {
                                 if (action == 'call' &&
                                     _selectedPhoneNumber != null) {
@@ -690,10 +695,19 @@ class _TasksScreenState extends State<TasksScreen> {
                                 Navigator.pop(context);
                               }
                             : null,
-                        child: Text(action == 'call' ? 'Call' : 'Message'),
+                        child: Text(
+                          action == 'call'
+                              ? 'Call'
+                              : action == 'Message'
+                              ? 'Message'
+                              : 'Email',
+                        ),
                       ),
                       ElevatedButton(
-                        onPressed: () => Navigator.pop(context),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          action == '';
+                        },
                         child: Text('Cancel'),
                       ),
                     ],
