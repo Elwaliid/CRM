@@ -272,7 +272,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                         ),
                         const SizedBox(width: 8),
 
-                        //////////////////////////////////// add icon button of RelatedTo number
+                        //////////////////////////////////// add icon button of RelatedTo
                         Container(
                           decoration: BoxDecoration(
                             color: _additionalRelatedToControllers.length < 9
@@ -313,7 +313,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                           children: [
                             SizedBox(width: 12),
                             Text(
-                              '"$_invalidRelatedTo" not found in contacts.',
+                              '"add a new contact?',
                               style: TextStyle(fontSize: 12, color: Colors.red),
                             ),
 
