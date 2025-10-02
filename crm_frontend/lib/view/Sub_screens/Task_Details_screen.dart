@@ -35,6 +35,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   bool phone = false;
   bool email = false;
   bool isViewMode = false;
+
   /////////////////////////////////////////////////////////////////////////////////// Controllers for all input fields
   final TextEditingController _taskNameController = TextEditingController();
   final TextEditingController _taskDescriptionController =
