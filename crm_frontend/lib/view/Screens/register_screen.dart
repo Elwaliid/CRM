@@ -1,9 +1,8 @@
 // ignore_for_file: deprecated_member_use
 
 import 'dart:convert';
-import 'dart:html' as html;
+
 import 'package:crm_frontend/ustils/google_signin_provider.dart';
-import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:crm_frontend/ustils/config.dart';
 import 'package:crm_frontend/view/Screens/home_screen.dart';
@@ -402,17 +401,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                                   var token = responseBody['token'] as String?;
                                   if (token != null) {
-                                    if (kIsWeb) {
-                                      html.window.localStorage['token'] = token;
-                                      print(
-                                        'Token saved to localStorageeeeeeeeeeeeeeeeeeeeeee',
-                                      );
-                                    } else {
-                                      final prefs =
-                                          await SharedPreferences.getInstance();
-                                      await prefs.setString('token', token);
-                                      print('Token saved to SharedPreferences');
-                                    }
+                                    final prefs =
+                                        await SharedPreferences.getInstance();
+                                    await prefs.setString('token', token);
+                                    print('Token saved to SharedPreferences');
 
                                     // ✅ Go directly to HomeScreen with token
                                     Get.to(() => HomeScreen(token: token));
@@ -511,25 +503,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                               .oauthAndGetToken();
 
                                           if (token != null) {
-                                            if (kIsWeb) {
-                                              html
-                                                      .window
-                                                      .localStorage['token'] =
-                                                  token;
-                                              print(
-                                                'Token saved to localStorageeeeeeeeeeeeeeeeeeeeeee',
-                                              );
-                                            } else {
-                                              final prefs =
-                                                  await SharedPreferences.getInstance();
-                                              await prefs.setString(
-                                                'token',
-                                                token,
-                                              );
-                                              print(
-                                                'Token saved to SharedPreferences',
-                                              );
-                                            }
+                                            final prefs =
+                                                await SharedPreferences.getInstance();
+                                            await prefs.setString(
+                                              'token',
+                                              token,
+                                            );
+                                            print(
+                                              'Token saved to SharedPreferences',
+                                            );
+
                                             Get.to(
                                               () => HomeScreen(token: token),
                                             );
