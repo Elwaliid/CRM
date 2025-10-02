@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, deprecated_member_use, unnecessary_null_comparison
+// ignore_for_file: use_build_context_synchronously, deprecated_member_use, unnecessary_null_comparison, non_constant_identifier_names, prefer_final_fields
 
 import 'package:crm_frontend/ustils/config.dart';
 import 'package:crm_frontend/view/Sub_screens/Task_Details_screen.dart';
@@ -21,7 +21,7 @@ class TasksScreen extends StatefulWidget {
 
 class _TasksScreenState extends State<TasksScreen> {
   final TextEditingController _searchController = TextEditingController();
-  List<Task> _tasks = [];
+  final List<Task> _tasks = [];
   List<Task> _Tasks = [];
   List<Contact> _contacts = [];
   String? _selectedRelatedToName;
