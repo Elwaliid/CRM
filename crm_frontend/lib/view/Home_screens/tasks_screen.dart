@@ -400,7 +400,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                               IconButton(
                                                 color: primaryColor,
                                                 onPressed: () =>
-                                                    _callMessageEmailDialog(
+                                                    _callMessageEmail(
                                                       task,
                                                       'call',
                                                     ),
@@ -410,7 +410,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                               IconButton(
                                                 color: primaryColor,
                                                 onPressed: () =>
-                                                    _callMessageEmailDialog(
+                                                    _callMessageEmail(
                                                       task,
                                                       'message',
                                                     ),
@@ -423,11 +423,10 @@ class _TasksScreenState extends State<TasksScreen> {
                                         if (task.type == 'Email')
                                           IconButton(
                                             color: primaryColor,
-                                            onPressed: () =>
-                                                _callMessageEmailDialog(
-                                                  task,
-                                                  'Email',
-                                                ),
+                                            onPressed: () => _callMessageEmail(
+                                              task,
+                                              'Email',
+                                            ),
                                             icon: Icon(Icons.email),
                                           ),
                                         ///////////////////////////////////////////// Deal
@@ -578,7 +577,7 @@ class _TasksScreenState extends State<TasksScreen> {
   }
 
   //////////////////////////////////////////////////////////// Call or Message dialog
-  void _callMessageEmailDialog(Task task, String action) {
+  void _callMessageEmail(Task task, String action) {
     _selectedRelatedToName = null;
     _selectedPhoneNumber = null;
     _phoneNumbers = [];
@@ -651,15 +650,19 @@ class _TasksScreenState extends State<TasksScreen> {
                   ),
                   SizedBox(height: 16),
                   WilouDropdown(
-                    label: 'Phone Numbers',
-                    value: _selectedPhoneNumber,
-                    items: _phoneNumbers,
+                    label: action == 'Email' ? 'Emails' : 'Phone Numbers',
+                    value: action == 'Email'
+                        ? _selectedEmail
+                        : _selectedPhoneNumber,
+                    items: action == 'Email' ? _emailAddresses : _phoneNumbers,
                     onChanged: (value) {
                       setState(() {
-                        _selectedPhoneNumber = value;
+                        action == 'Email'
+                            ? _selectedEmail = value
+                            : _selectedPhoneNumber = value;
                       });
                     },
-                    icon: Icons.phone,
+                    icon: action == 'Email' ? Icons.email : Icons.phone,
                   ),
                   SizedBox(height: 16),
                   Row(
@@ -668,13 +671,20 @@ class _TasksScreenState extends State<TasksScreen> {
                       ElevatedButton(
                         onPressed: _selectedPhoneNumber != null
                             ? () async {
-                                if (action == 'call') {
+                                if (action == 'call' &&
+                                    _selectedPhoneNumber != null) {
                                   await launchUrl(
                                     Uri.parse('tel:$_selectedPhoneNumber'),
                                   );
-                                } else if (action == 'message') {
+                                } else if (action == 'message' &&
+                                    _selectedPhoneNumber != null) {
                                   await launchUrl(
                                     Uri.parse('sms:$_selectedPhoneNumber'),
+                                  );
+                                } else if (action == 'Email' &&
+                                    _selectedEmail != null) {
+                                  await launchUrl(
+                                    Uri.parse('email:$_selectedPhoneNumber'),
                                   );
                                 }
                                 Navigator.pop(context);
