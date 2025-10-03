@@ -30,6 +30,7 @@ class _TasksScreenState extends State<TasksScreen> {
   String? _selectedRelatedToName;
   String? _selectedPhoneNumber;
   String? _selectedEmail;
+  String? _meetingUrl;
   List<String> _emailAddresses = [];
   List<String> _phoneNumbers = [];
 
@@ -594,6 +595,7 @@ class _TasksScreenState extends State<TasksScreen> {
     _selectedEmail = null;
     _phoneNumbers = [];
     _emailAddresses = [];
+    _meetingUrl = null;
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -649,14 +651,18 @@ class _TasksScreenState extends State<TasksScreen> {
                                 contact.secondEmail,
                               ].where((e) => e.isNotEmpty).toList();
                               _phoneNumbers = contact.phones;
+                            } else if (task.website != null) {
+                              _meetingUrl = task.website;
                             } else {
                               _emailAddresses = [];
                               _phoneNumbers = [];
+                              _meetingUrl = null;
                             }
                           }
                         } else {
                           _emailAddresses = [];
                           _phoneNumbers = [];
+                          _meetingUrl = null;
                         }
                       });
                     },
@@ -704,6 +710,11 @@ class _TasksScreenState extends State<TasksScreen> {
                                   Navigator.pop(context);
                                   _emailSubjectController.clear();
                                   _emailBodyController.clear();
+                                  EmailshowModalBottomSheet();
+                                } else if (action == 'Meeting' &&
+                                    _meetingUrl != null) {
+                                  await launchUrl(Uri.parse(_meetingUrl!));
+                                  Navigator.pop(context);
                                 }
                               }
                             : null,
