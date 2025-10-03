@@ -704,84 +704,6 @@ class _TasksScreenState extends State<TasksScreen> {
                                   Navigator.pop(context);
                                   _emailSubjectController.clear();
                                   _emailBodyController.clear();
-                                  showModalBottomSheet(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return StatefulBuilder(
-                                        builder: (context, setState) {
-                                          return Padding(
-                                            padding: const EdgeInsets.all(16.0),
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Text(
-                                                  'Compose Email',
-                                                  style: GoogleFonts.poppins(
-                                                    fontSize: 18,
-                                                  ),
-                                                ),
-                                                SizedBox(height: 16),
-                                                TextField(
-                                                  readOnly: true,
-                                                  decoration: InputDecoration(
-                                                    labelText: 'To',
-                                                    border:
-                                                        OutlineInputBorder(),
-                                                  ),
-                                                  controller:
-                                                      TextEditingController(
-                                                        text: _selectedEmail,
-                                                      ),
-                                                ),
-                                                SizedBox(height: 16),
-                                                TextField(
-                                                  controller:
-                                                      _emailSubjectController,
-                                                  decoration: InputDecoration(
-                                                    labelText: 'Subject',
-                                                    border:
-                                                        OutlineInputBorder(),
-                                                  ),
-                                                ),
-                                                SizedBox(height: 16),
-                                                TextField(
-                                                  controller:
-                                                      _emailBodyController,
-                                                  decoration: InputDecoration(
-                                                    labelText: 'Body',
-                                                    border:
-                                                        OutlineInputBorder(),
-                                                  ),
-                                                  maxLines: 5,
-                                                ),
-                                                SizedBox(height: 16),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  children: [
-                                                    ElevatedButton(
-                                                      onPressed: () {
-                                                        sendEmail(context);
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child: Text('Send'),
-                                                    ),
-                                                    ElevatedButton(
-                                                      onPressed: () {
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child: Text('Cancel'),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        },
-                                      );
-                                    },
-                                  );
                                 }
                               }
                             : null,
@@ -797,6 +719,76 @@ class _TasksScreenState extends State<TasksScreen> {
                         onPressed: () {
                           Navigator.pop(context);
                           action == '';
+                        },
+                        child: Text('Cancel'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  ////////////////////////////////////////
+  EmailshowModalBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Compose Email',
+                    style: GoogleFonts.poppins(fontSize: 18),
+                  ),
+                  SizedBox(height: 16),
+                  TextField(
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      labelText: 'To',
+                      border: OutlineInputBorder(),
+                    ),
+                    controller: TextEditingController(text: _selectedEmail),
+                  ),
+                  SizedBox(height: 16),
+                  TextField(
+                    controller: _emailSubjectController,
+                    decoration: InputDecoration(
+                      labelText: 'Subject',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  TextField(
+                    controller: _emailBodyController,
+                    decoration: InputDecoration(
+                      labelText: 'Body',
+                      border: OutlineInputBorder(),
+                    ),
+                    maxLines: 5,
+                  ),
+                  SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          sendEmail(context);
+                          Navigator.pop(context);
+                        },
+                        child: Text('Send'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
                         },
                         child: Text('Cancel'),
                       ),
