@@ -322,48 +322,49 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
 
                     const SizedBox(height: 12),
                     ////////////////////////////////////////////////////////////// online meeting?
-                    Padding(
-                      padding: const EdgeInsets.only(top: 0.0, bottom: 2),
-                      child: Row(
-                        children: [
-                          SizedBox(width: 5),
-                          Text(
-                            'Is it an offline Meeting?',
-                            style: const TextStyle(
-                              fontSize: 12,
-                              color: Color(0xFF262C30),
-                            ),
-                          ),
-                          const SizedBox(width: 5),
-                          ElevatedButton.icon(
-                            onPressed: () {
-                              setState(() {
-                                meeting = !meeting;
-                              });
-                            },
-                            label: Text(
-                              meeting ? 'No' : 'Yes',
-                              style: const TextStyle(fontSize: 12),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blueGrey.shade900,
-                              foregroundColor: Colors.white,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 6,
-                                vertical: 2,
+                    if (_selectedTaskType == 'Meeting/Site Visit')
+                      Padding(
+                        padding: const EdgeInsets.only(top: 0.0, bottom: 2),
+                        child: Row(
+                          children: [
+                            SizedBox(width: 5),
+                            Text(
+                              'Is it an offline Meeting?',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Color(0xFF262C30),
                               ),
-                              minimumSize: const Size(0, 26),
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              visualDensity: VisualDensity.compact,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(3),
-                              ),
-                              elevation: 0.5,
                             ),
-                          ),
-                        ],
+                            const SizedBox(width: 5),
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                setState(() {
+                                  meeting = !meeting;
+                                });
+                              },
+                              label: Text(
+                                meeting ? 'No' : 'Yes',
+                                style: const TextStyle(fontSize: 12),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blueGrey.shade900,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                  vertical: 2,
+                                ),
+                                minimumSize: const Size(0, 26),
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                visualDensity: VisualDensity.compact,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(3),
+                                ),
+                                elevation: 0.5,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
                     SizedBox(height: 8),
                     ///////////////////////////////////////////////////////////// Primary RelatedTo
                     Row(
