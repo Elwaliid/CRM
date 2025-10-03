@@ -151,7 +151,12 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                       ),
 
                       /// ---- Month View ----
-                      MonthView(),
+                      // Custom Month View with event tiles and details
+                      _CustomMonthView(
+                        eventController: _eventController,
+                        buildEventTile: _buildMonthEventTile,
+                        showEventDetails: _showMonthEventDetails,
+                      ),
                     ],
                   ),
             ),
@@ -205,6 +210,63 @@ class _SchedulesScreenState extends State<SchedulesScreen>
   }
 
   void _showEventDetails(BuildContext context, CalendarEventData event) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) => Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              event.title,
+              style: GoogleFonts.roboto(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              "Time: ${DateFormat.Hm().format(event.startTime ?? DateTime.now())} - ${DateFormat.Hm().format(event.endTime ?? DateTime.now())}",
+            ),
+            if (event.description != null && event.description!.isNotEmpty) ...[
+              const SizedBox(height: 8),
+              Text(event.description!),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMonthEventTile(BuildContext context, CalendarEventData event) {
+    return GestureDetector(
+      onTap: () => _showMonthEventDetails(context, event),
+      child: Container(
+        margin: const EdgeInsets.all(2),
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+        decoration: BoxDecoration(
+          color: event.color.withOpacity(0.9),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: Text(
+          event.title,
+          style: GoogleFonts.roboto(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 12,
+          ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+    );
+  }
+
+  void _showMonthEventDetails(BuildContext context, CalendarEventData event) {
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
