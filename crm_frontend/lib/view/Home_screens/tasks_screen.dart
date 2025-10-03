@@ -830,7 +830,7 @@ class _TasksScreenState extends State<TasksScreen> {
           'Success',
           'Email Sent Successfully',
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green,
+          backgroundColor: const Color.fromARGB(255, 116, 148, 117),
           colorText: Colors.white,
         );
       } else {
@@ -839,7 +839,7 @@ class _TasksScreenState extends State<TasksScreen> {
           'Error',
           'Failed to send email',
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.red,
+          backgroundColor: const Color.fromARGB(255, 134, 93, 90),
           colorText: Colors.white,
         );
       }
