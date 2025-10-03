@@ -151,53 +151,7 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                       ),
 
                       /// ---- Month View ----
-                      MonthView(
-                        controller: _eventController,
-                        cellBuilder:
-                            (context, date, isToday, isInMonth, events) {
-                              Object eventss = _eventController ?? [];
-                              return Container(
-                                padding: const EdgeInsets.all(4),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.grey.shade300,
-                                  ),
-                                  borderRadius: BorderRadius.circular(6),
-                                  color: isToday
-                                      ? Colors.blue.shade50
-                                      : Colors.white,
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      date.Now.day.toString(),
-
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: isToday
-                                            ? Colors.blue
-                                            : Colors.black,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: ListView.builder(
-                                        itemCount: eventss.length,
-                                        itemBuilder: (context, index) {
-                                          final event =
-                                              eventss[index]; // ✅ safe access
-                                          return _buildMonthEventTile(
-                                            context,
-                                            event,
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                      ),
+                      MonthView(),
                     ],
                   ),
             ),
