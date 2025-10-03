@@ -120,6 +120,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
       _costController.text = widget.task!.cost?.toString() ?? '';
       _phoneController.text = widget.task!.phone ?? '';
       _EmailController.text = widget.task!.email ?? '';
+      meeting = widget.task!.isMeet;
       // Add additional relatedTo
       if (widget.task!.relatedToNames.isNotEmpty) {
         _RelatedToController.text = widget.task!.relatedToNames[0];
@@ -257,7 +258,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                             label: 'Task Type',
                             value: _selectedTaskType,
                             items: const [
-                              'Meeting',
+                              'Meeting/Site Visit',
                               'Call/Message',
                               'Email',
                               'Deal',
@@ -267,7 +268,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                                 _selectedTaskType == null ||
                                     _selectedTaskType == 'Other'
                                 ? Icons.arrow_drop_down
-                                : _selectedTaskType == 'Meeting'
+                                : _selectedTaskType == 'Meeting/Site Visit'
                                 ? Icons.groups
                                 : _selectedTaskType == 'Call/Message'
                                 ? Icons.call
@@ -284,7 +285,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                       ],
                     ),
 
-                    _selectedTaskType == 'Meeting'
+                    _selectedTaskType == 'Meeting/Site Visit'
                         ? const SizedBox(height: 0)
                         : const SizedBox(height: 12),
                     ///////////////////////////////////////////////////////////// Revenue & Cost for Deal type
@@ -327,7 +328,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                         children: [
                           SizedBox(width: 5),
                           Text(
-                            'Is it an online Meeting?',
+                            'Is it an offline Meeting?',
                             style: const TextStyle(
                               fontSize: 12,
                               color: Color(0xFF262C30),
@@ -621,13 +622,13 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
 
                     //////////////////////////////////////////////////////////////// Website
                     WilouTextField(
-                      label: meeting ? 'Meeting website' : 'Website',
+                      label: 'Website',
                       controller: _websiteController,
                       keyboardType: TextInputType.url,
                       // i want to add a condition : if meeting == true then this field is required
                       validator: (value) {
-                        if (meeting && (value == null || value.isEmpty)) {
-                          return 'Please enter the meeting website';
+                        if (!meeting && (value == null || value.isEmpty)) {
+                          return 'Please enter the website link';
                         }
                         if (value != null && value.isNotEmpty) {
                           final urlPattern =

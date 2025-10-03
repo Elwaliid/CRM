@@ -10,6 +10,7 @@ const taskSchema = new Schema({
   cost: { type: Number },
   phone: { type: String },
   email: { type: String },
+  isMeet: { type: Boolean, default: false },
   relatedToNames: { type: [String], required: true  },
   relatedToIds: { type: [Schema.Types.ObjectId], ref: 'Contact' },
   dueDate: { type: String },

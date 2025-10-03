@@ -30,7 +30,7 @@ class _TasksScreenState extends State<TasksScreen> {
   String? _selectedRelatedToName;
   String? _selectedPhoneNumber;
   String? _selectedEmail;
-  String? _meetingUrl;
+  String? _meeting_web_Url;
   bool meeting = false;
   List<String> _emailAddresses = [];
   List<String> _phoneNumbers = [];
@@ -532,13 +532,13 @@ class _TasksScreenState extends State<TasksScreen> {
                                               ),
                                             ],
                                           ),
-                                        ///////////////////////////////////////////// meeting
-                                        if (task.type == 'Meeting')
+                                        ///////////////////////////////////////////// Meeting/Site Visit
+                                        if (task.type == 'Meeting/Site Visit')
                                           IconButton(
                                             color: primaryColor,
                                             onPressed: () => _callMessageEmail(
                                               task,
-                                              'Meeting',
+                                              'Meeting/Site Visit',
                                             ),
                                             icon: Icon(Icons.group),
                                           ),
@@ -599,8 +599,8 @@ class _TasksScreenState extends State<TasksScreen> {
     _selectedEmail = null;
     _phoneNumbers = [];
     _emailAddresses = [];
-    if (action == 'Meeting') {
-      _meetingUrl = task.website;
+    if (action == 'Meeting/Site Visit') {
+      _meeting_web_Url = task.website;
       meeting = task.isMeet;
     }
     showModalBottomSheet(
@@ -616,15 +616,15 @@ class _TasksScreenState extends State<TasksScreen> {
                   Text(
                     action == 'Email'
                         ? 'Select Contact and Email'
-                        : action == 'Meeting' && meeting
+                        : action == 'Meeting/Site Visit' && meeting
                         ? 'Meeting URL'
-                        : action == 'Meeting' && !meeting
+                        : action == 'Meeting/Site Visit' && !meeting
                         ? 'Visit Website'
                         : 'Select Contact and Phone',
                     style: GoogleFonts.poppins(fontSize: 18),
                   ),
                   SizedBox(height: 16),
-                  if (action != 'Meeting')
+                  if (action != 'Meeting/Site Visit')
                     WilouSearchableDropdown(
                       label: 'Related To(Contact)',
                       value: _selectedRelatedToName,
@@ -677,10 +677,10 @@ class _TasksScreenState extends State<TasksScreen> {
                       icon: Icons.person,
                     ),
                   SizedBox(height: 16),
-                  if (action == 'Meeting')
+                  if (action == 'Meeting/Site Visit')
                     InkWell(
-                      onTap: _meetingUrl != null
-                          ? () => launchUrl(Uri.parse(_meetingUrl!))
+                      onTap: _meeting_web_Url != null
+                          ? () => launchUrl(Uri.parse(_meeting_web_Url!))
                           : null,
                       child: Container(
                         padding: const EdgeInsets.symmetric(
@@ -699,10 +699,10 @@ class _TasksScreenState extends State<TasksScreen> {
                             SizedBox(width: 8),
                             Expanded(
                               child: Text(
-                                'Website: ${_meetingUrl ?? 'No website available'}',
+                                'Website: ${_meeting_web_Url ?? 'No website available'}',
                                 style: GoogleFonts.roboto(
                                   fontSize: 16,
-                                  color: _meetingUrl != null
+                                  color: _meeting_web_Url != null
                                       ? Colors.blue
                                       : Colors.blueGrey.shade700,
                                 ),
@@ -738,7 +738,8 @@ class _TasksScreenState extends State<TasksScreen> {
                         onPressed:
                             _selectedPhoneNumber != null ||
                                 _selectedEmail != null ||
-                                (action == 'Meeting' && _meetingUrl != null)
+                                (action == 'Meeting' &&
+                                    _meeting_web_Url != null)
                             ? () async {
                                 if (action == 'call' &&
                                     _selectedPhoneNumber != null) {
@@ -758,9 +759,9 @@ class _TasksScreenState extends State<TasksScreen> {
                                   _emailSubjectController.clear();
                                   _emailBodyController.clear();
                                   EmailshowModalBottomSheet();
-                                } else if (action == 'Meeting' &&
-                                    _meetingUrl != null) {
-                                  await launchUrl(Uri.parse(_meetingUrl!));
+                                } else if (action == 'Meeting/Site Visit' &&
+                                    _meeting_web_Url != null) {
+                                  await launchUrl(Uri.parse(_meeting_web_Url!));
                                   Navigator.pop(context);
                                 }
                               }
@@ -772,9 +773,9 @@ class _TasksScreenState extends State<TasksScreen> {
                               ? 'Message'
                               : action == 'Email'
                               ? 'Email'
-                              : action == 'Meeting' && meeting
-                              ? 'Join Meeting'
-                              : 'Visit Website',
+                              : action == 'Meeting/Site Visit' && meeting
+                              ? 'Visit Website'
+                              : 'Join Meeting',
                         ),
                       ),
                       ElevatedButton(
