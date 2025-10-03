@@ -12,6 +12,7 @@ import 'package:crm_frontend/view/Widgets/wilou_searchable_dropdown.dart';
 import 'package:crm_frontend/view/Widgets/wilou_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
@@ -35,6 +36,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   bool phone = false;
   bool email = false;
   bool isViewMode = false;
+  bool meeting = false;
 
   /////////////////////////////////////////////////////////////////////////////////// Controllers for all input fields
   final TextEditingController _taskNameController = TextEditingController();
@@ -316,7 +318,50 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                       ),
 
                     const SizedBox(height: 12),
-
+                    ////////////////////////////////////////////////////////////// online meeting?
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2.0),
+                      child: Row(
+                        children: [
+                          SizedBox(width: 5),
+                          Text(
+                            'Is it an online Meeting?',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Color(0xFF262C30),
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              setState(() {
+                                meeting = !meeting;
+                              });
+                            },
+                            label: const Text(
+                              'Yes',
+                              style: TextStyle(fontSize: 12),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blueGrey.shade900,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 2,
+                              ),
+                              minimumSize: const Size(0, 26),
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              visualDensity: VisualDensity.compact,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(3),
+                              ),
+                              elevation: 0.5,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 8),
                     ///////////////////////////////////////////////////////////// Primary RelatedTo
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -574,9 +619,23 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
 
                     //////////////////////////////////////////////////////////////// Website
                     WilouTextField(
-                      label: 'Website',
+                      label: meeting ? 'Meeting website' : 'Website',
                       controller: _websiteController,
                       keyboardType: TextInputType.url,
+                      // i want to add a condition : if meeting == true then this field is required
+                      validator: (value) {
+                        if (value != null && value.isNotEmpty) {
+                          final urlPattern =
+                              r'^(https?:\/\/)?([\w-]+(\.[\w-]+)+)(\/[\w-]*)*(\?.*)?(#.*)?$';
+                          final result = RegExp(
+                            urlPattern,
+                            caseSensitive: false,
+                          ).hasMatch(value);
+                          if (!result) {
+                            return 'Please enter a valid URL';
+                          }
+                        }
+                      },
                     ),
                     const SizedBox(height: 16),
                     ///////////////////////////////////////////////////////////// Task Description
