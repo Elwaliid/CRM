@@ -31,6 +31,7 @@ class _TasksScreenState extends State<TasksScreen> {
   String? _selectedPhoneNumber;
   String? _selectedEmail;
   String? _meetingUrl;
+  bool meeting = false;
   List<String> _emailAddresses = [];
   List<String> _phoneNumbers = [];
 
@@ -600,6 +601,7 @@ class _TasksScreenState extends State<TasksScreen> {
     _emailAddresses = [];
     if (action == 'Meeting') {
       _meetingUrl = task.website;
+      meeting = task.isMeet;
     }
     showModalBottomSheet(
       context: context,

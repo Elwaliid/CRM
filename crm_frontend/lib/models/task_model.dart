@@ -7,6 +7,7 @@ class Task {
   String title;
   String? type;
   double? revenue;
+  bool isMeet;
   double? cost;
   String? phone;
   String? email;
@@ -28,6 +29,7 @@ class Task {
     this.cost,
     this.phone,
     this.email,
+    required this.isMeet,
     required this.relatedToNames,
     required this.relatedToIds,
     this.dueDate,
@@ -58,6 +60,7 @@ class Task {
                 cost: taskJson['cost'] != null
                     ? double.tryParse(taskJson['cost'].toString())
                     : null,
+                isMeet: taskJson['isMeet'] ?? false,
                 phone: taskJson['phone'] ?? '',
                 email: taskJson['email'] ?? '',
                 relatedToNames: List<String>.from(

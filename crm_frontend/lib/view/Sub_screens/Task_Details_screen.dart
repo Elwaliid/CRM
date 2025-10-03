@@ -789,6 +789,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
             ? _EmailController.text.trim()
             : null,
         'relatedToNames': relatedToNames,
+        'isMeet': meeting,
         'relatedToIds': selectedRelatedToIds
             .where((id) => id.isNotEmpty)
             .toList(),
