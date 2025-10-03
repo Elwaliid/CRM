@@ -197,9 +197,139 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                     },
                   ),
 
-                  /// default week & month views
-                  const WeekView(),
-                  const MonthView(),
+                  /// custom week view with styled events
+                  WeekView(
+                    eventTileBuilder: (date, events, boundary, start, end) {
+                      final event = events.first;
+                      return Container(
+                        margin: const EdgeInsets.all(4),
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          color: event.color.withOpacity(0.9),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              event.title,
+                              style: GoogleFonts.roboto(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 4),
+                          ],
+                        ),
+                      );
+                    },
+                    onEventTap: (events, date) {
+                      final event = events.first;
+                      showModalBottomSheet(
+                        context: context,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(20),
+                          ),
+                        ),
+                        builder: (ctx) => Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                event.title,
+                                style: GoogleFonts.roboto(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                "Time: ${DateFormat.Hm().format(event.startTime ?? DateTime.now())} - ${DateFormat.Hm().format(event.endTime ?? DateTime.now())}",
+                              ),
+                              if (event.description != null &&
+                                  event.description!.isNotEmpty) ...[
+                                const SizedBox(height: 8),
+                                Text(event.description!),
+                              ],
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+
+                  /// custom month view with styled events
+                  MonthView(
+                    eventBuilder: (date, events) {
+                      final event = events.first;
+                      return Container(
+                        margin: const EdgeInsets.all(4),
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          color: event.color.withOpacity(0.9),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              event.title,
+                              style: GoogleFonts.roboto(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 4),
+                          ],
+                        ),
+                      );
+                    },
+                    onEventTap: (events, date) {
+                      final event = events.first;
+                      showModalBottomSheet(
+                        context: context,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(20),
+                          ),
+                        ),
+                        builder: (ctx) => Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                event.title,
+                                style: GoogleFonts.roboto(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                "Time: ${DateFormat.Hm().format(event.startTime ?? DateTime.now())} - ${DateFormat.Hm().format(event.endTime ?? DateTime.now())}",
+                              ),
+                              if (event.description != null &&
+                                  event.description!.isNotEmpty) ...[
+                                const SizedBox(height: 8),
+                                Text(event.description!),
+                              ],
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
