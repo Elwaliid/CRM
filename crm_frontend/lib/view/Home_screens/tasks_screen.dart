@@ -4,6 +4,8 @@ import 'package:crm_frontend/ustils/config.dart';
 import 'package:crm_frontend/view/Sub_screens/Task_Details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server/gmail.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -22,6 +24,8 @@ class TasksScreen extends StatefulWidget {
 
 class _TasksScreenState extends State<TasksScreen> {
   final TextEditingController _searchController = TextEditingController();
+  final TextEditingController _emailSubjectController = TextEditingController();
+  final TextEditingController _emailBodyController = TextEditingController();
   final List<Task> _tasks = [];
   List<Task> _Tasks = [];
   List<Contact> _contacts = [];
@@ -71,6 +75,14 @@ class _TasksScreenState extends State<TasksScreen> {
           .where((task) => task.title.toLowerCase().contains(query))
           .toList();
     });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _emailSubjectController.dispose();
+    _emailBodyController.dispose();
+    super.dispose();
   }
 
   @override
@@ -682,18 +694,97 @@ class _TasksScreenState extends State<TasksScreen> {
                                   await launchUrl(
                                     Uri.parse('tel:$_selectedPhoneNumber'),
                                   );
+                                  Navigator.pop(context);
                                 } else if (action == 'message' &&
                                     _selectedPhoneNumber != null) {
                                   await launchUrl(
                                     Uri.parse('sms:$_selectedPhoneNumber'),
                                   );
+                                  Navigator.pop(context);
                                 } else if (action == 'Email' &&
                                     _selectedEmail != null) {
-                                  await launchUrl(
-                                    Uri.parse('email:$_selectedPhoneNumber'),
+                                  Navigator.pop(context);
+                                  _emailSubjectController.clear();
+                                  _emailBodyController.clear();
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return StatefulBuilder(
+                                        builder: (context, setState) {
+                                          return Padding(
+                                            padding: const EdgeInsets.all(16.0),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Text(
+                                                  'Compose Email',
+                                                  style: GoogleFonts.poppins(
+                                                    fontSize: 18,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 16),
+                                                TextField(
+                                                  readOnly: true,
+                                                  decoration: InputDecoration(
+                                                    labelText: 'To',
+                                                    border:
+                                                        OutlineInputBorder(),
+                                                  ),
+                                                  controller:
+                                                      TextEditingController(
+                                                        text: _selectedEmail,
+                                                      ),
+                                                ),
+                                                SizedBox(height: 16),
+                                                TextField(
+                                                  controller:
+                                                      _emailSubjectController,
+                                                  decoration: InputDecoration(
+                                                    labelText: 'Subject',
+                                                    border:
+                                                        OutlineInputBorder(),
+                                                  ),
+                                                ),
+                                                SizedBox(height: 16),
+                                                TextField(
+                                                  controller:
+                                                      _emailBodyController,
+                                                  decoration: InputDecoration(
+                                                    labelText: 'Body',
+                                                    border:
+                                                        OutlineInputBorder(),
+                                                  ),
+                                                  maxLines: 5,
+                                                ),
+                                                SizedBox(height: 16),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceEvenly,
+                                                  children: [
+                                                    ElevatedButton(
+                                                      onPressed: () {
+                                                        sendEmail(context);
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text('Send'),
+                                                    ),
+                                                    ElevatedButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text('Cancel'),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
                                   );
                                 }
-                                Navigator.pop(context);
                               }
                             : null,
                         child: Text(
@@ -720,5 +811,43 @@ class _TasksScreenState extends State<TasksScreen> {
         );
       },
     );
+  }
+
+  //////////////////////////////////////// send email function
+  sendEmail(BuildContext context) async {
+    // TODO : Enter details below
+    String name = 'walid'; // your name
+    String username = 'walidboubaidja@gmail.com'; // mail
+    String password = 'zmex ewmv ycjx muhl'; // 16 character long app password
+    String receiverMail = _selectedEmail ?? ''; // receiver's mail
+    String sub = _emailSubjectController.text; // subject of mail
+    String text = _emailBodyController.text; // text in mail
+
+    final smtpServer = gmail(username, password);
+    // SmtpServer class to configure an SMTP server: final smtpServer = SmtpServer('smtp.domain.com');
+
+    final message = Message()
+      ..from = Address(username, name)
+      ..recipients.add(receiverMail)
+      ..subject = sub
+      ..text = text
+      ..html =
+          "<h4>Your message</h4><p> Your message</p>"; // For Adding Html in email
+    // ..attachments = [
+    //   FileAttachment(File('image.png'))  //For Adding Attachments
+    //     ..location = Location.inline
+    //     ..cid = '<myimg@3.141>'
+    // ];
+
+    try {
+      final sendReport = await send(message, smtpServer);
+      print('Message sent: ' + sendReport.toString());
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Email Send Successfully")));
+    } catch (e) {
+      print('Message not sent.');
+      print(e);
+    }
   }
 }
