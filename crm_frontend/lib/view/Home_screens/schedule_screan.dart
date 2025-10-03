@@ -15,8 +15,7 @@ class SchedulesScreen extends StatefulWidget {
 class _SchedulesScreenState extends State<SchedulesScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  final EventController _eventController =
-      EventController(); // ✅ Create the controller
+  final EventController _eventController = EventController();
   List<Task> _tasks = [];
 
   @override
@@ -29,7 +28,7 @@ class _SchedulesScreenState extends State<SchedulesScreen>
   @override
   void dispose() {
     _tabController.dispose();
-    _eventController.dispose(); // ✅ Don't forget to dispose it
+    _eventController.dispose();
     super.dispose();
   }
 
@@ -38,7 +37,6 @@ class _SchedulesScreenState extends State<SchedulesScreen>
       _tasks = await Task.getTasks();
       _addTasksToEvents();
     } catch (e) {
-      // Handle error, perhaps show a snackbar
       print('Error loading tasks: $e');
     }
   }
@@ -48,6 +46,7 @@ class _SchedulesScreenState extends State<SchedulesScreen>
       if (task.dueDate != null && task.dueDate!.isNotEmpty) {
         try {
           DateTime date = DateFormat('yyyy-MM-dd').parse(task.dueDate!);
+
           DateTime startTime;
           if (task.time != null && task.time!.isNotEmpty) {
             DateTime timePart = DateFormat('HH:mm').parse(task.time!);
@@ -59,14 +58,9 @@ class _SchedulesScreenState extends State<SchedulesScreen>
               timePart.minute,
             );
           } else {
-            startTime = DateTime(
-              date.year,
-              date.month,
-              date.day,
-              9,
-              0,
-            ); // Default to 9 AM
+            startTime = DateTime(date.year, date.month, date.day, 9, 0);
           }
+
           DateTime endTime;
           if (task.endTime != null && task.endTime!.isNotEmpty) {
             DateTime timePart = DateFormat('HH:mm').parse(task.endTime!);
@@ -78,17 +72,16 @@ class _SchedulesScreenState extends State<SchedulesScreen>
               timePart.minute,
             );
           } else {
-            endTime = startTime.add(
-              Duration(hours: 1),
-            ); // Default to 1 hour later
+            endTime = startTime.add(const Duration(hours: 1));
           }
+
           CalendarEventData event = CalendarEventData(
             date: date,
             startTime: startTime,
             endTime: endTime,
             title: task.title,
             description: task.description,
-            color: constants.primaryColor, // use theme colors
+            color: constants.primaryColor, // use theme color
           );
           _eventController.add(event);
         } catch (e) {
@@ -98,38 +91,45 @@ class _SchedulesScreenState extends State<SchedulesScreen>
     }
   }
 
-  //
   @override
   Widget build(BuildContext context) {
     return CalendarControllerProvider(
-      controller: _eventController, // ✅ Provide the controller
+      controller: _eventController,
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.grey[100],
         body: Column(
           children: [
-            TabBar(
-              controller: _tabController,
-              labelColor: Colors.white,
-              unselectedLabelColor: constants.secondaryColor,
-              indicator: BoxDecoration(
-                color: constants.primaryColor,
+            /// prettier TabBar
+            Container(
+              margin: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
                 borderRadius: BorderRadius.circular(30),
               ),
-              tabs: [
-                Tab(text: "Day View"),
-                Tab(text: "Week View"),
-                Tab(text: "Month View"),
-              ],
+              child: TabBar(
+                controller: _tabController,
+                labelColor: Colors.white,
+                unselectedLabelColor: constants.secondaryColor,
+                indicator: BoxDecoration(
+                  color: constants.primaryColor,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                tabs: [
+                  Tab(text: 'Day View'),
+                  Tab(text: 'Week View'),
+                  Tab(text: 'Month View'),
+                ],
+              ),
             ),
 
             Expanded(
               child: TabBarView(
                 controller: _tabController,
-                children: <Widget>[
+                children: [
+                  /// custom day view with styled events
                   DayView(
-                    eventTileBuilder: (date, events, boundry, start, end) {
+                    eventTileBuilder: (date, events, boundary, start, end) {
                       final event = events.first;
-
                       return Container(
                         margin: const EdgeInsets.all(4),
                         padding: const EdgeInsets.all(8),
@@ -140,7 +140,7 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                             BoxShadow(
                               color: Colors.black12,
                               blurRadius: 6,
-                              offset: Offset(2, 2),
+                              offset: const Offset(2, 2),
                             ),
                           ],
                         ),
@@ -159,7 +159,7 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              "${DateFormat.Hm().format(event.startTime ?? DateTime.now())} - ${DateFormat.Hm().format(event.endTime ?? DateTime.now().add(Duration(hours: 1)))}",
+                              "${DateFormat.Hm().format(event.startTime)} - ${DateFormat.Hm().format(event.endTime)}",
                               style: GoogleFonts.roboto(
                                 color: Colors.white70,
                                 fontSize: 12,
@@ -180,7 +180,45 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                         ),
                       );
                     },
+                    onEventTap: (events, date) {
+                      final event = events.first;
+                      showModalBottomSheet(
+                        context: context,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(20),
+                          ),
+                        ),
+                        builder: (ctx) => Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                event.title,
+                                style: GoogleFonts.roboto(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                "Time: ${DateFormat.Hm().format(event.startTime)} - ${DateFormat.Hm().format(event.endTime ?? d)}",
+                              ),
+                              if (event.description != null &&
+                                  event.description!.isNotEmpty) ...[
+                                const SizedBox(height: 8),
+                                Text(event.description!),
+                              ],
+                            ],
+                          ),
+                        ),
+                      );
+                    },
                   ),
+
+                  /// default week & month views
                   const WeekView(),
                   const MonthView(),
                 ],
