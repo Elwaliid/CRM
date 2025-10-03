@@ -533,7 +533,8 @@ class _TasksScreenState extends State<TasksScreen> {
                                             ],
                                           ),
                                         ///////////////////////////////////////////// Meeting/Site Visit
-                                        if (task.type == 'Meeting/Site Visit')
+                                        if (task.type == 'Meeting/Site Visit' &&
+                                            task.isMeet == false)
                                           IconButton(
                                             color: primaryColor,
                                             onPressed: () => _callMessageEmail(
@@ -738,7 +739,7 @@ class _TasksScreenState extends State<TasksScreen> {
                         onPressed:
                             _selectedPhoneNumber != null ||
                                 _selectedEmail != null ||
-                                (action == 'Meeting' &&
+                                (action == 'Meeting/Site Visit' &&
                                     _meeting_web_Url != null)
                             ? () async {
                                 if (action == 'call' &&
@@ -759,9 +760,8 @@ class _TasksScreenState extends State<TasksScreen> {
                                   _emailSubjectController.clear();
                                   _emailBodyController.clear();
                                   EmailshowModalBottomSheet();
-                                } else if (action == 'Meeting/Site Visit' &&
-                                    _meeting_web_Url != null) {
-                                  await launchUrl(Uri.parse(_meeting_web_Url!));
+                                } else {
+                                  launchUrl(Uri.parse(_meeting_web_Url!));
                                   Navigator.pop(context);
                                 }
                               }
@@ -773,9 +773,7 @@ class _TasksScreenState extends State<TasksScreen> {
                               ? 'Message'
                               : action == 'Email'
                               ? 'Email'
-                              : action == 'Meeting/Site Visit' && meeting
-                              ? 'Visit Website'
-                              : 'Join Meeting',
+                              : 'Visit Website',
                         ),
                       ),
                       ElevatedButton(
