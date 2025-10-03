@@ -535,7 +535,10 @@ class _TasksScreenState extends State<TasksScreen> {
                                         if (task.type == 'Meeting')
                                           IconButton(
                                             color: primaryColor,
-                                            onPressed: () {},
+                                            onPressed: () => _callMessageEmail(
+                                              task,
+                                              'Meeting',
+                                            ),
                                             icon: Icon(Icons.group),
                                           ),
                                         ///////////////////////////////////////////// None
@@ -596,6 +599,9 @@ class _TasksScreenState extends State<TasksScreen> {
     _phoneNumbers = [];
     _emailAddresses = [];
     _meetingUrl = null;
+    if (action == 'Meeting') {
+      _meetingUrl = task.website;
+    }
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -609,6 +615,8 @@ class _TasksScreenState extends State<TasksScreen> {
                   Text(
                     action == 'Email'
                         ? 'Select Contact and Email'
+                        : action == 'Meeting'
+                        ? 'Meeting Details'
                         : 'Select Contact and Phone',
                     style: GoogleFonts.poppins(fontSize: 18),
                   ),
@@ -669,21 +677,32 @@ class _TasksScreenState extends State<TasksScreen> {
                     icon: Icons.person,
                   ),
                   SizedBox(height: 16),
-                  WilouDropdown(
-                    label: action == 'Email' ? 'Emails' : 'Phone Numbers',
-                    value: action == 'Email'
-                        ? _selectedEmail
-                        : _selectedPhoneNumber,
-                    items: action == 'Email' ? _emailAddresses : _phoneNumbers,
-                    onChanged: (value) {
-                      setState(() {
-                        action == 'Email'
-                            ? _selectedEmail = value
-                            : _selectedPhoneNumber = value;
-                      });
-                    },
-                    icon: action == 'Email' ? Icons.email : Icons.phone,
-                  ),
+                  if (action == 'Meeting')
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Text(
+                        'Website: ${_meetingUrl ?? 'No website available'}',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    )
+                  else
+                    WilouDropdown(
+                      label: action == 'Email' ? 'Emails' : 'Phone Numbers',
+                      value: action == 'Email'
+                          ? _selectedEmail
+                          : _selectedPhoneNumber,
+                      items: action == 'Email'
+                          ? _emailAddresses
+                          : _phoneNumbers,
+                      onChanged: (value) {
+                        setState(() {
+                          action == 'Email'
+                              ? _selectedEmail = value
+                              : _selectedPhoneNumber = value;
+                        });
+                      },
+                      icon: action == 'Email' ? Icons.email : Icons.phone,
+                    ),
                   SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -691,7 +710,8 @@ class _TasksScreenState extends State<TasksScreen> {
                       ElevatedButton(
                         onPressed:
                             _selectedPhoneNumber != null ||
-                                _selectedEmail != null
+                                _selectedEmail != null ||
+                                (action == 'Meeting' && _meetingUrl != null)
                             ? () async {
                                 if (action == 'call' &&
                                     _selectedPhoneNumber != null) {
@@ -723,7 +743,9 @@ class _TasksScreenState extends State<TasksScreen> {
                               ? 'Call'
                               : action == 'Message'
                               ? 'Message'
-                              : 'Email',
+                              : action == 'Email'
+                              ? 'Email'
+                              : 'Join Meeting',
                         ),
                       ),
                       ElevatedButton(
