@@ -624,6 +624,9 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                       keyboardType: TextInputType.url,
                       // i want to add a condition : if meeting == true then this field is required
                       validator: (value) {
+                        if (meeting && (value == null || value.isEmpty)) {
+                          return 'Please enter the meeting website';
+                        }
                         if (value != null && value.isNotEmpty) {
                           final urlPattern =
                               r'^(https?:\/\/)?([\w-]+(\.[\w-]+)+)(\/[\w-]*)*(\?.*)?(#.*)?$';
@@ -635,6 +638,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                             return 'Please enter a valid URL';
                           }
                         }
+                        return null;
                       },
                     ),
                     const SizedBox(height: 16),
