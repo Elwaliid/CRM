@@ -28,7 +28,7 @@ class TaskDetailsScreen extends StatefulWidget {
 class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   final _formKey = GlobalKey<FormState>();
   String? _selectedTaskType;
-  String? _selectedType = 'Pending';
+  String? _status = 'Pending';
   List<Contact> contacts = [];
   List<String> contactNames = [];
   List<String> selectedRelatedToIds = [];
@@ -136,7 +136,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
       _addressController.text = widget.task!.address ?? '';
       _websiteController.text = widget.task!.website ?? '';
       _taskDescriptionController.text = widget.task!.description ?? '';
-      _selectedType = widget.task!.status;
+      _status = widget.task!.status;
     }
   }
 
@@ -396,9 +396,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                                 }
                               });
                             },
-                            validator: (value) => value == null || value.isEmpty
-                                ? 'Please select a contact'
-                                : null,
+
                             icon: Icons.arrow_drop_down,
                           ),
                         ),
@@ -628,7 +626,9 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                       keyboardType: TextInputType.url,
                       // i want to add a condition : if meeting == true then this field is required
                       validator: (value) {
-                        if (!meeting && (value == null || value.isEmpty)) {
+                        if (_selectedTaskType == "Meeting/Site Visit" &&
+                            !meeting &&
+                            (value == null || value.isEmpty)) {
                           return 'Please enter the website link';
                         }
                         if (value != null && value.isNotEmpty) {
@@ -679,34 +679,33 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                             children: [
                               TypeButton(
                                 label: 'Completed',
-                                isSelected: _selectedType == 'Completed',
+                                isSelected: _status == 'Completed',
                                 selectedColor: Colors.teal.shade700,
                                 unselectedColor: const Color(0xFFE9FFFB),
                                 selectedTextColor: Colors.white,
                                 unselectedTextColor: const Color(0xFF029483),
                                 onTap: () =>
-                                    setState(() => _selectedType = 'Completed'),
+                                    setState(() => _status = 'Completed'),
                               ),
                               TypeButton(
                                 label: 'Pending',
-                                isSelected: _selectedType == 'Pending',
+                                isSelected: _status == 'Pending',
                                 selectedColor: Colors.deepOrange.shade400,
                                 unselectedColor: const Color(0xFFFFD5C9),
                                 selectedTextColor: Colors.white,
                                 unselectedTextColor: const Color(0xFFAA5F48),
                                 onTap: () =>
-                                    setState(() => _selectedType = 'Pending'),
+                                    setState(() => _status = 'Pending'),
                               ),
                               TypeButton(
                                 label: 'In Process',
-                                isSelected: _selectedType == 'In Process',
+                                isSelected: _status == 'In Process',
                                 selectedColor: Colors.blueGrey.shade900,
                                 unselectedColor: const Color(0xFFD9DDE0),
                                 selectedTextColor: Colors.white,
                                 unselectedTextColor: Colors.blueGrey.shade900,
-                                onTap: () => setState(
-                                  () => _selectedType = 'In Process',
-                                ),
+                                onTap: () =>
+                                    setState(() => _status = 'In Process'),
                               ),
                             ],
                           ),
@@ -801,7 +800,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
         'address': _addressController.text.trim(),
         'website': _websiteController.text.trim(),
         'description': _taskDescriptionController.text.trim(),
-        'status': _selectedType ?? 'Pending',
+        'status': _status ?? 'Pending',
       };
       if (isViewMode && widget.task != null) {
         logBody['id'] = widget.task!.id;

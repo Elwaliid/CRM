@@ -158,24 +158,6 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                               overflow: TextOverflow.ellipsis,
                             ),
                             const SizedBox(height: 2),
-                            Text(
-                              "${DateFormat.Hm().format(event.startTime ?? DateTime.now())} - ${DateFormat.Hm().format(event.endTime ?? DateTime.now())}",
-                              style: GoogleFonts.roboto(
-                                color: Colors.white70,
-                                fontSize: 12,
-                              ),
-                            ),
-                            if (event.description != null &&
-                                event.description!.isNotEmpty)
-                              Text(
-                                event.description!,
-                                style: GoogleFonts.roboto(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
                           ],
                         ),
                       );
