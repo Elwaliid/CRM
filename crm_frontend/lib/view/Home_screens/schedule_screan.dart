@@ -74,7 +74,9 @@ class _SchedulesScreenState extends State<SchedulesScreen>
           } else {
             endTime = startTime.add(const Duration(hours: 1));
           }
-
+          if (endTime.difference(startTime) < const Duration(hours: 1)) {
+            endTime = startTime.add(const Duration(hours: 1));
+          }
           CalendarEventData event = CalendarEventData(
             date: date,
             startTime: startTime,
@@ -132,17 +134,10 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                       final event = events.first;
                       return Container(
                         margin: const EdgeInsets.all(4),
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(5),
                         decoration: BoxDecoration(
                           color: event.color.withOpacity(0.9),
                           borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 6,
-                              offset: const Offset(2, 2),
-                            ),
-                          ],
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -157,7 +152,7 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            const SizedBox(height: 2),
+                            const SizedBox(height: 4),
                           ],
                         ),
                       );
