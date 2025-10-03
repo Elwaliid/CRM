@@ -137,13 +137,7 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                         eventTileBuilder: (date, events, boundary, start, end) {
                           final event = events.isNotEmpty ? events[0] : null;
                           if (event == null) return const SizedBox();
-                          return _buildEventTile(event);
-                        },
-                        onEventTap: (event, date) {
-                          _showEventDetails(
-                            context,
-                            event as CalendarEventData<Object?>,
-                          );
+                          return _buildEventTile(context, event);
                         },
                       ),
 
@@ -152,13 +146,7 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                         eventTileBuilder: (date, events, boundary, start, end) {
                           final event = events.isNotEmpty ? events[0] : null;
                           if (event == null) return const SizedBox();
-                          return _buildEventTile(event);
-                        },
-                        onEventTap: (event, date) {
-                          _showEventDetails(
-                            context,
-                            event as CalendarEventData<Object?>,
-                          );
+                          return _buildEventTile(context, event);
                         },
                       ),
 
@@ -173,28 +161,31 @@ class _SchedulesScreenState extends State<SchedulesScreen>
     );
   }
 
-  Widget _buildEventTile(CalendarEventData event) {
-    return Container(
-      margin: const EdgeInsets.all(4),
-      padding: const EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        color: event.color.withOpacity(0.9),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            event.title,
-            style: GoogleFonts.roboto(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
+  Widget _buildEventTile(BuildContext context, CalendarEventData event) {
+    return GestureDetector(
+      onTap: () => _showEventDetails(context, event),
+      child: Container(
+        margin: const EdgeInsets.all(4),
+        padding: const EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          color: event.color.withOpacity(0.9),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              event.title,
+              style: GoogleFonts.roboto(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
