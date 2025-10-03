@@ -88,6 +88,7 @@ class _SchedulesScreenState extends State<SchedulesScreen>
             endTime: endTime,
             title: task.title,
             description: task.description,
+            color: constants.primaryColor, // use theme colors
           );
           _eventController.add(event);
         } catch (e) {
@@ -108,34 +109,81 @@ class _SchedulesScreenState extends State<SchedulesScreen>
           children: [
             TabBar(
               controller: _tabController,
-              labelColor: constants.primaryColor,
+              labelColor: Colors.white,
               unselectedLabelColor: constants.secondaryColor,
-              indicatorColor: constants.primaryColor,
+              indicator: BoxDecoration(
+                color: constants.primaryColor,
+                borderRadius: BorderRadius.circular(30),
+              ),
               tabs: [
-                Tab(
-                  child: Text(
-                    'Day View',
-                    style: GoogleFonts.roboto(fontSize: 16),
-                  ),
-                ),
-                Tab(
-                  child: Text(
-                    'Week View',
-                    style: GoogleFonts.roboto(fontSize: 16),
-                  ),
-                ),
-                Tab(
-                  child: Text(
-                    'Month View',
-                    style: GoogleFonts.roboto(fontSize: 16),
-                  ),
-                ),
+                Tab(text: "Day View"),
+                Tab(text: "Week View"),
+                Tab(text: "Month View"),
               ],
             ),
+
             Expanded(
               child: TabBarView(
                 controller: _tabController,
-                children: const <Widget>[DayView(), WeekView(), MonthView()],
+                children: <Widget>[
+                  DayView(
+                    eventTileBuilder: (date, events, boundry, start, end) {
+                      final event = events.first;
+
+                      return Container(
+                        margin: const EdgeInsets.all(4),
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: event.color.withOpacity(0.9),
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 6,
+                              offset: Offset(2, 2),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              event.title,
+                              style: GoogleFonts.roboto(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              "${DateFormat.Hm().format(event.startTime ?? DateTime.now())} - ${DateFormat.Hm().format(event.endTime ?? DateTime.now().add(Duration(hours: 1)))}",
+                              style: GoogleFonts.roboto(
+                                color: Colors.white70,
+                                fontSize: 12,
+                              ),
+                            ),
+                            if (event.description != null &&
+                                event.description!.isNotEmpty)
+                              Text(
+                                event.description!,
+                                style: GoogleFonts.roboto(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                  const WeekView(),
+                  const MonthView(),
+                ],
               ),
             ),
           ],
