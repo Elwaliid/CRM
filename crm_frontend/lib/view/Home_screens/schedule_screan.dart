@@ -171,10 +171,10 @@ class _SchedulesScreenState extends State<SchedulesScreen>
           color: event.color.withOpacity(0.9),
           borderRadius: BorderRadius.circular(12),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
+        child: Center(
+          child: RotatedBox(
+            quarterTurns: 3, // rotates text vertically (90° left)
+            child: Text(
               event.title,
               style: GoogleFonts.roboto(
                 color: Colors.white,
@@ -184,7 +184,7 @@ class _SchedulesScreenState extends State<SchedulesScreen>
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
-          ],
+          ),
         ),
       ),
     );
