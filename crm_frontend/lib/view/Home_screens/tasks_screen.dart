@@ -4,8 +4,6 @@ import 'package:crm_frontend/ustils/config.dart';
 import 'package:crm_frontend/view/Sub_screens/Task_Details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server/gmail.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -815,39 +813,45 @@ class _TasksScreenState extends State<TasksScreen> {
 
   //////////////////////////////////////// send email function
   sendEmail(BuildContext context) async {
-    // TODO : Enter details below
-    String name = 'walid'; // your name
-    String username = 'walidboubaidja@gmail.com'; // mail
-    String password = 'zmex ewmv ycjx muhl'; // 16 character long app password
     String receiverMail = _selectedEmail ?? ''; // receiver's mail
     String sub = _emailSubjectController.text; // subject of mail
     String text = _emailBodyController.text; // text in mail
 
-    final smtpServer = gmail(username, password);
-    // SmtpServer class to configure an SMTP server: final smtpServer = SmtpServer('smtp.domain.com');
-
-    final message = Message()
-      ..from = Address(username, name)
-      ..recipients.add(receiverMail)
-      ..subject = sub
-      ..text = text
-      ..html =
-          "<h4>Your message</h4><p> Your message</p>"; // For Adding Html in email
-    // ..attachments = [
-    //   FileAttachment(File('image.png'))  //For Adding Attachments
-    //     ..location = Location.inline
-    //     ..cid = '<myimg@3.141>'
-    // ];
-
     try {
-      final sendReport = await send(message, smtpServer);
-      print('Message sent: ' + sendReport.toString());
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Email Send Successfully")));
+      final response = await http.post(
+        Uri.parse(sendEmailUrl),
+        headers: {'Content-Type': 'application/json'},
+        body: '{"to": "$receiverMail", "subject": "$sub", "text": "$text"}',
+      );
+
+      if (response.statusCode == 200) {
+        print('Email sent successfully');
+        Get.snackbar(
+          'Success',
+          'Email Sent Successfully',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+      } else {
+        print('Failed to send email: ${response.body}');
+        Get.snackbar(
+          'Error',
+          'Failed to send email',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      }
     } catch (e) {
-      print('Message not sent.');
-      print(e);
+      print('Error sending email: $e');
+      Get.snackbar(
+        'Error',
+        'Error sending email',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
     }
   }
 }

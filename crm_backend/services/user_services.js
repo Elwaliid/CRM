@@ -120,6 +120,34 @@ class UserService {
             throw err;
         }
     }
+
+    // Send custom email
+    static async sendEmail(to, subject, text, html) {
+        try {
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'walidboubaidja@gmail.com', // Set in .env
+                    pass: 'zmex ewmv ycjx muhl'  // App password
+                }
+            });
+
+            const mailOptions = {
+                from: 'walidboubaidja@gmail.com',
+                to: to,
+                subject: subject,
+                text: text,
+                html: html || `<p>${text}</p>`
+            };
+
+            await transporter.sendMail(mailOptions);
+            console.log('Email sent to:', to);
+            return { success: true, message: 'Email sent successfully' };
+        } catch (err) {
+            console.error('Error sending email:', err);
+            throw err;
+        }
+    }
 }
 
 module.exports = UserService;

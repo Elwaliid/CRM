@@ -142,4 +142,22 @@ exports.resetPassword = async (req, res) => {
     }
 };
 
+// Send custom email
+exports.sendEmail = async (req, res) => {
+    try {
+        const { to, subject, text, html } = req.body;
+
+        if (!to || !subject || !text) {
+            return res.status(400).json({ status: false, message: "To, subject, and text are required" });
+        }
+
+        const result = await UserService.sendEmail(to, subject, text, html);
+
+        res.status(200).json({ status: true, message: result.message });
+    } catch (err) {
+        console.error("Send email error:", err);
+        res.status(500).json({ status: false, message: "Failed to send email" });
+    }
+};
+
 

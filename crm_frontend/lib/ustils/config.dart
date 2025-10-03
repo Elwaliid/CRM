@@ -4,6 +4,7 @@ final loginUrl = "$baseUrl/login";
 final oauthUrl = "$baseUrl/Oauth";
 final forgotPasswordUrl = "$baseUrl/forgot-password";
 final resetPasswordUrl = "$baseUrl/reset-password";
+final sendEmailUrl = "$baseUrl/send-email";
 final addOrUpdateContactUrl = "$baseUrl/contact/add-update-contact";
 final getContactsUrl = "$baseUrl/contact/get-contacts";
 final deleteContactUrl = "$baseUrl/contact/delete-Contact";
