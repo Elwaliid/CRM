@@ -616,8 +616,10 @@ class _TasksScreenState extends State<TasksScreen> {
                   Text(
                     action == 'Email'
                         ? 'Select Contact and Email'
-                        : action == 'Meeting'
-                        ? 'Meeting Details'
+                        : action == 'Meeting' && meeting
+                        ? 'Meeting URL'
+                        : action == 'Meeting' && !meeting
+                        ? 'Visit Website'
                         : 'Select Contact and Phone',
                     style: GoogleFonts.poppins(fontSize: 18),
                   ),
@@ -770,7 +772,9 @@ class _TasksScreenState extends State<TasksScreen> {
                               ? 'Message'
                               : action == 'Email'
                               ? 'Email'
-                              : 'Join Meeting',
+                              : action == 'Meeting' && meeting
+                              ? 'Join Meeting'
+                              : 'Visit Website',
                         ),
                       ),
                       ElevatedButton(
