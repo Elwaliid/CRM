@@ -137,7 +137,7 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                         eventTileBuilder: (date, events, boundary, start, end) {
                           final event = events.isNotEmpty ? events[0] : null;
                           if (event == null) return const SizedBox();
-                          return _buildEventTile(context, event);
+                          return _buildEventTile(context, event, false);
                         },
                       ),
 
@@ -146,7 +146,7 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                         eventTileBuilder: (date, events, boundary, start, end) {
                           final event = events.isNotEmpty ? events[0] : null;
                           if (event == null) return const SizedBox();
-                          return _buildEventTile(context, event);
+                          return _buildEventTile(context, event, true);
                         },
                       ),
 
@@ -161,7 +161,11 @@ class _SchedulesScreenState extends State<SchedulesScreen>
     );
   }
 
-  Widget _buildEventTile(BuildContext context, CalendarEventData event) {
+  Widget _buildEventTile(
+    BuildContext context,
+    CalendarEventData event,
+    bool isWeekView,
+  ) {
     return GestureDetector(
       onTap: () => _showEventDetails(context, event),
       child: Container(
@@ -171,21 +175,31 @@ class _SchedulesScreenState extends State<SchedulesScreen>
           color: event.color.withOpacity(0.9),
           borderRadius: BorderRadius.circular(12),
         ),
-        child: Center(
-          child: RotatedBox(
-            quarterTurns: 3, // rotates text vertically (90° left)
-            child: Text(
-              event.title,
-              style: GoogleFonts.roboto(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
+
+        child: isWeekView
+            ? RotatedBox(
+                quarterTurns: 3, // rotates text vertically (90° left)
+                child: Text(
+                  event.title,
+                  style: GoogleFonts.roboto(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              )
+            : Text(
+                event.title,
+                style: GoogleFonts.roboto(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ),
       ),
     );
   }
