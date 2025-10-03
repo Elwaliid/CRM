@@ -159,7 +159,7 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              "${DateFormat.Hm().format(event.startTime)} - ${DateFormat.Hm().format(event.endTime)}",
+                              "${DateFormat.Hm().format(event.startTime ?? DateTime.now())} - ${DateFormat.Hm().format(event.endTime ?? DateTime.now())}",
                               style: GoogleFonts.roboto(
                                 color: Colors.white70,
                                 fontSize: 12,
@@ -204,7 +204,7 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                "Time: ${DateFormat.Hm().format(event.startTime)} - ${DateFormat.Hm().format(event.endTime ?? d)}",
+                                "Time: ${DateFormat.Hm().format(event.startTime ?? DateTime.now())} - ${DateFormat.Hm().format(event.endTime ?? DateTime.now())}",
                               ),
                               if (event.description != null &&
                                   event.description!.isNotEmpty) ...[
