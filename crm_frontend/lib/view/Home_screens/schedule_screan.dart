@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
 import 'package:crm_frontend/ustils/constants.dart' as constants;
