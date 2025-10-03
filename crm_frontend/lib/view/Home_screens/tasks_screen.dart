@@ -674,11 +674,38 @@ class _TasksScreenState extends State<TasksScreen> {
                     ),
                   SizedBox(height: 16),
                   if (action == 'Meeting')
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Text(
-                        'Website: ${_meetingUrl ?? 'No website available'}',
-                        style: TextStyle(fontSize: 16),
+                    InkWell(
+                      onTap: _meetingUrl != null
+                          ? () => launchUrl(Uri.parse(_meetingUrl!))
+                          : null,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 8.0,
+                          horizontal: 12.0,
+                        ),
+                        margin: const EdgeInsets.symmetric(vertical: 4.0),
+                        decoration: BoxDecoration(
+                          color: Colors.blueGrey.shade50,
+                          borderRadius: BorderRadius.circular(8.0),
+                          border: Border.all(color: Colors.blueGrey.shade200),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(Icons.web, color: Colors.blueGrey.shade900),
+                            SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                'Website: ${_meetingUrl ?? 'No website available'}',
+                                style: GoogleFonts.roboto(
+                                  fontSize: 16,
+                                  color: _meetingUrl != null
+                                      ? Colors.blue
+                                      : Colors.blueGrey.shade700,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     )
                   else
