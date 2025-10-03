@@ -283,7 +283,10 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 12),
+
+                    _selectedTaskType == 'Meeting'
+                        ? const SizedBox(height: 0)
+                        : const SizedBox(height: 12),
                     ///////////////////////////////////////////////////////////// Revenue & Cost for Deal type
                     if (_selectedTaskType == 'Deal')
                       Row(
@@ -319,7 +322,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                     const SizedBox(height: 12),
                     ////////////////////////////////////////////////////////////// online meeting?
                     Padding(
-                      padding: const EdgeInsets.only(top: 2.0),
+                      padding: const EdgeInsets.only(top: 0.0, bottom: 2),
                       child: Row(
                         children: [
                           SizedBox(width: 5),
@@ -337,9 +340,9 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                                 meeting = !meeting;
                               });
                             },
-                            label: const Text(
-                              'Yes',
-                              style: TextStyle(fontSize: 12),
+                            label: Text(
+                              meeting ? 'No' : 'Yes',
+                              style: const TextStyle(fontSize: 12),
                             ),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.blueGrey.shade900,

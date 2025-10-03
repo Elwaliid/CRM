@@ -598,7 +598,6 @@ class _TasksScreenState extends State<TasksScreen> {
     _selectedEmail = null;
     _phoneNumbers = [];
     _emailAddresses = [];
-    _meetingUrl = null;
     if (action == 'Meeting') {
       _meetingUrl = task.website;
     }
@@ -621,61 +620,58 @@ class _TasksScreenState extends State<TasksScreen> {
                     style: GoogleFonts.poppins(fontSize: 18),
                   ),
                   SizedBox(height: 16),
-                  WilouSearchableDropdown(
-                    label: 'Related To(Contact)',
-                    value: _selectedRelatedToName,
-                    items: task.relatedToNames,
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedRelatedToName = value;
-                        _selectedPhoneNumber = null;
-                        _selectedEmail = null;
-                        if (value != null) {
-                          int index = task.relatedToNames.indexOf(value);
-                          if (index != -1 &&
-                              task.relatedToIds != null &&
-                              index < task.relatedToIds!.length) {
-                            String id = task.relatedToIds![index];
-                            Contact? contact = _contacts.firstWhere(
-                              (c) => c.id == id,
-                              orElse: () => Contact(
-                                id: '',
-                                firstname: '',
-                                lastname: '',
-                                phone: '',
-                                phones: [],
-                                email: '',
-                                identity: '',
-                                secondEmail: '',
-                                address: '',
-                                notes: '',
-                                type: '',
-                                website: '',
-                              ),
-                            );
-                            if (contact.id.isNotEmpty) {
-                              _emailAddresses = [
-                                contact.email,
-                                contact.secondEmail,
-                              ].where((e) => e.isNotEmpty).toList();
-                              _phoneNumbers = contact.phones;
-                            } else if (task.website != null) {
-                              _meetingUrl = task.website;
-                            } else {
-                              _emailAddresses = [];
-                              _phoneNumbers = [];
-                              _meetingUrl = null;
+                  if (action != 'Meeting')
+                    WilouSearchableDropdown(
+                      label: 'Related To(Contact)',
+                      value: _selectedRelatedToName,
+                      items: task.relatedToNames,
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedRelatedToName = value;
+                          _selectedPhoneNumber = null;
+                          _selectedEmail = null;
+                          if (value != null) {
+                            int index = task.relatedToNames.indexOf(value);
+                            if (index != -1 &&
+                                task.relatedToIds != null &&
+                                index < task.relatedToIds!.length) {
+                              String id = task.relatedToIds![index];
+                              Contact? contact = _contacts.firstWhere(
+                                (c) => c.id == id,
+                                orElse: () => Contact(
+                                  id: '',
+                                  firstname: '',
+                                  lastname: '',
+                                  phone: '',
+                                  phones: [],
+                                  email: '',
+                                  identity: '',
+                                  secondEmail: '',
+                                  address: '',
+                                  notes: '',
+                                  type: '',
+                                  website: '',
+                                ),
+                              );
+                              if (contact.id.isNotEmpty) {
+                                _emailAddresses = [
+                                  contact.email,
+                                  contact.secondEmail,
+                                ].where((e) => e.isNotEmpty).toList();
+                                _phoneNumbers = contact.phones;
+                              } else {
+                                _emailAddresses = [];
+                                _phoneNumbers = [];
+                              }
                             }
+                          } else {
+                            _emailAddresses = [];
+                            _phoneNumbers = [];
                           }
-                        } else {
-                          _emailAddresses = [];
-                          _phoneNumbers = [];
-                          _meetingUrl = null;
-                        }
-                      });
-                    },
-                    icon: Icons.person,
-                  ),
+                        });
+                      },
+                      icon: Icons.person,
+                    ),
                   SizedBox(height: 16),
                   if (action == 'Meeting')
                     Padding(
