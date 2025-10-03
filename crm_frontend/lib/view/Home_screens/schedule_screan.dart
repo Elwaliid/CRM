@@ -169,16 +169,16 @@ class _SchedulesScreenState extends State<SchedulesScreen>
     return GestureDetector(
       onTap: () => _showEventDetails(context, event),
       child: Container(
-        margin: const EdgeInsets.all(4),
-        padding: const EdgeInsets.all(5),
+        margin: isWeekView ? const EdgeInsets.all(2) : const EdgeInsets.all(4),
+        padding: isWeekView ? const EdgeInsets.all(5) : const EdgeInsets.all(5),
         decoration: BoxDecoration(
           color: event.color.withOpacity(0.9),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(8),
         ),
 
         child: isWeekView
             ? RotatedBox(
-                quarterTurns: 3, // rotates text vertically (90° left)
+                quarterTurns: 9, // rotates text vertically (90° left)
                 child: Text(
                   event.title,
                   style: GoogleFonts.roboto(
