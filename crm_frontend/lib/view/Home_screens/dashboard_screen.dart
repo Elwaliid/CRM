@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print, unused_element, unnecessary_import, use_super_parameters, deprecated_member_use, unused_local_variable, prefer_final_fields
 import 'dart:ui';
 import 'dart:convert';
+import 'package:crm_frontend/ustils/config.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:crm_frontend/ustils/constants.dart' as constants;
@@ -33,6 +34,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     super.initState();
+    _todayclientsCount();
+    _todaytasksCount();
+    _todaydealsCount();
     if (widget.userId != null) {
       _fetchUserName(widget.userId!);
     }
@@ -60,6 +64,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
       print('Error fetching user: $e');
     }
   }
+ 
+  Future<void> _todayclientsCount() async {
+    try {
+       final response = await http.get(
+        Uri.parse(getClientsCountUrl));
+        }
+        
 
   @override
   Widget build(BuildContext context) {
