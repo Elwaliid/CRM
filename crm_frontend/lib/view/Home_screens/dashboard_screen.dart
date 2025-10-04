@@ -72,7 +72,7 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  final String userName = _username;
+  final String userName = "Wilou";
   late String _currentTime;
   late Timer _timer;
 
@@ -175,21 +175,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     children: [
                       _buildInfoCard(
                         'Clients',
-                        _clientsAddedThisday.toString(),
+                        '15',
                         Icons.people,
                         primaryColor,
                       ),
                       const SizedBox(width: 12),
                       _buildInfoCard(
                         'Tasks',
-                        _tasksItsDuedateisThisday.toString(),
+                        '8',
                         Icons.task_alt,
                         constants.contentColorGreen,
                       ),
                       const SizedBox(width: 12),
                       _buildInfoCard(
                         'Deals',
-                        _tasksItsDuedateisThisdayanditstypeisdeal.toString(),
+                        '5',
                         Icons.business_center,
                         constants.deepOrange,
                       ),
