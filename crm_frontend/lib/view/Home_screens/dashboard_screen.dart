@@ -206,21 +206,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     children: [
                       _buildInfoCard(
                         'Clients',
-                        '15', /////// get number of contacts added today and its type = Client
+                        clientsCount as String,
+
                         Icons.people,
                         primaryColor,
                       ),
                       const SizedBox(width: 12),
                       _buildInfoCard(
                         'Tasks',
-                        '8', //get number of tasks its Due date= today and its type != Deal
+                        tasksCount as String,
                         Icons.task_alt,
                         constants.contentColorGreen,
                       ),
                       const SizedBox(width: 12),
                       _buildInfoCard(
                         'Deals',
-                        '5', //get number of tasks its Due date= today and its type = Deal
+                        dealsCount as String,
                         Icons.business_center,
                         constants.deepOrange,
                       ),
