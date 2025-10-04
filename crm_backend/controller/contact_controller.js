@@ -47,14 +47,11 @@ exports.deleteContact = async (req, res) => {
 
 exports.getClientsCounts = async (req, res) => {
     try {
-       
         const clientsCount = await ContactService.getClientsCountToday();
- 
+
         res.status(200).json({
             status: true,
-            counts: {
-                clients: clientsCount,
-            }
+            count: clientsCount,
         });
     } catch (err) {
         console.error("Clients count error:", err);

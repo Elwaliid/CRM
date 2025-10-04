@@ -69,12 +69,17 @@ class TaskService {
     static async getTasksDealsCountToday( typeFilter) {
         try {
             const today = new Date().toISOString().split('T')[0]; // 'YYYY-MM-DD'
-            let query = { dueDate: today };
-            if (typeFilter !== 'notDeal') {
-                query.type = { $ne: 'Deal' };
-            } else if (typeFilter === 'Deal') {
+
+            let query = {
+                dueDate: today
+            };
+
+            if (typeFilter === 'Deal') {
                 query.type = 'Deal';
+            } else {
+                query.type = { $ne: 'Deal' };
             }
+
             return await TaskModel.countDocuments(query);
         } catch (err) {
             throw err;

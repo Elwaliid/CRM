@@ -51,7 +51,7 @@ class ContactService {
 
     static async getClientsCountToday() {
         try {
-            const today = new Date().today();
+            const today = new Date();
             today.setHours(0, 0, 0, 0);
             const tomorrow = new Date(today);
             tomorrow.setDate(tomorrow.getDate() + 1);

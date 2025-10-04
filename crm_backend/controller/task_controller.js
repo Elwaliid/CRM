@@ -52,16 +52,12 @@ exports.deleteTask = async (req, res) => {
 }
 exports.getTasksDealsCounts = async (req, res) => {
     try {
-      
-       
         const tasksCount = await TaskService.getTasksDealsCountToday( 'notDeal');
         const dealsCount = await TaskService.getTasksDealsCountToday( 'Deal');
         res.status(200).json({
             status: true,
-            counts: {
-                tasks: tasksCount,
-                deals: dealsCount
-            }
+            tasksCount: tasksCount,
+            dealsCount: dealsCount
         });
     } catch (err) {
         console.error("Tasks counts error:", err);
