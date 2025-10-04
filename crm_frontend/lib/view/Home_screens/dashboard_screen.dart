@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print, unused_element, unnecessary_import, use_super_parameters, deprecated_member_use, unused_local_variable, prefer_final_fields
 import 'dart:ui';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 import 'package:crm_frontend/ustils/constants.dart' as constants;
 import 'package:crm_frontend/view/Widgets/quick_adds.dart';
@@ -11,74 +13,28 @@ import 'package:intl/intl.dart';
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/services.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-//////////////////////////////////////////////////////////////////////// // Indicator class
-class Indicator extends StatelessWidget {
-  final Color color;
-  final String text;
-  final double size;
-  final Color textColor;
-
-  const Indicator({
-    Key? key,
-    required this.color,
-    required this.text,
-    this.size = 16,
-    this.textColor = Colors.black,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Container(
-          width: size,
-          height: size,
-          decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            color: color,
-            borderRadius: BorderRadius.circular(4),
-          ),
-        ),
-        const SizedBox(width: 8),
-        Text(
-          text,
-          style: GoogleFonts.roboto(
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            color: textColor,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class AppUtils {
-  void tryToLaunchUrl(String url) async {
-    final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    }
-  }
-}
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({super.key});
+  final String? userId;
+  final String? token;
+
+  const DashboardScreen({super.key, this.userId, this.token});
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  final String userName = "Wilou";
+  String userName = "Wilou";
   late String _currentTime;
   late Timer _timer;
 
   @override
   void initState() {
     super.initState();
+    if (widget.userId != null) {
+      _fetchUserName();
+    }
     _currentTime = DateFormat('HH:mm:ss').format(DateTime.now());
     _timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
       setState(() {
@@ -91,6 +47,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void dispose() {
     _timer.cancel();
     super.dispose();
+  }
+
+  Future<void> _fetchUserName() async {
+    try {
+      final response = await http.get(
+        Uri.parse('http://localhost:3000/user'),
+        headers: {'Authorization': 'Bearer ${widget.token}'},
+      );
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data['status'] == true) {
+          setState(() {
+            userName = data['user']['name'] ?? 'User';
+          });
+        }
+      } else {
+        print('Failed to fetch user: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching user: $e');
+    }
   }
 
   @override

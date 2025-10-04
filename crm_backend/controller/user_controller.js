@@ -142,6 +142,31 @@ exports.resetPassword = async (req, res) => {
     }
 };
 
+// Get user info
+exports.getUser = async (req, res, next) => {
+    try {
+        const userId = req.user._id; // from middleware
+        const user = await UserService.getUserById(userId);
+        if (!user) {
+            return res.status(404).json({ status: false, message: "User not found" });
+        }
+        res.status(200).json({
+            status: true,
+            user: {
+                _id: user._id,
+                email: user.email,
+                name: user.name,
+                phone: user.phone,
+                avatar: user.avatar,
+                role: user.role
+            }
+        });
+    } catch (err) {
+        console.error("Get user error:", err);
+        res.status(500).json({ status: false, message: "Internal server error" });
+    }
+};
+
 // Send custom email
 exports.sendEmail = async (req, res) => {
     try {

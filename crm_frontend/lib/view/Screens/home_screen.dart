@@ -25,6 +25,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   late String email;
+  late String userId;
   @override
   void initState() {
     super.initState();
@@ -32,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
     email = jwtDecodedToken['email'];
+    userId = jwtDecodedToken['_id'];
     print(email);
   }
 
@@ -42,8 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
     'Schedules',
     'Profile',
   ];
-  final List<Widget> screens = [
-    const DashboardScreen(),
+  late final List<Widget> screens = [
+    DashboardScreen(userId: userId, token: widget.token),
     const ContactsScreen(),
     const TasksScreen(),
     const SchedulesScreen(),

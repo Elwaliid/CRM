@@ -121,6 +121,15 @@ class UserService {
         }
     }
 
+    // Get user by id
+    static async getUserById(id) {
+        try {
+            return await UserModel.findById(id);
+        } catch (err) {
+            throw err;
+        }
+    }
+
     // Send custom email
     static async sendEmail(to, subject, text, html) {
         try {
