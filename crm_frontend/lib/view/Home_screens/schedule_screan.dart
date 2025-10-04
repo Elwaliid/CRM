@@ -160,9 +160,6 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                               isInMonth,
                               hideDaysNotInMonth,
                             ) {
-                              if (hideDaysNotInMonth)
-                                return const SizedBox.shrink();
-
                               return Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
