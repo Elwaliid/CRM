@@ -25,31 +25,18 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  String userName = "Wilou";
+  String userName = 'User';
   late String _currentTime;
-  late Timer _timer;
-
   @override
   void initState() {
     super.initState();
     if (widget.userId != null) {
-      _fetchUserName();
+      _fetchUserName(widget.userId!);
     }
     _currentTime = DateFormat('HH:mm:ss').format(DateTime.now());
-    _timer = Timer.periodic(const Duration(seconds: 1), (Timer t) {
-      setState(() {
-        _currentTime = DateFormat('HH:mm:ss').format(DateTime.now());
-      });
-    });
   }
 
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
-  }
-
-  Future<void> _fetchUserName() async {
+  Future<void> _fetchUserName(String userId) async {
     try {
       final response = await http.get(
         Uri.parse('http://localhost:3000/user'),
@@ -60,6 +47,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         if (data['status'] == true) {
           setState(() {
             userName = data['user']['name'] ?? 'User';
+            userName = userName.split(' ').first;
           });
         }
       } else {
