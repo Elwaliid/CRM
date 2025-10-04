@@ -200,7 +200,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     children: [
                       _buildInfoCard(
                         'Clients',
-                        clientsCount as String,
+                        '$clientsCount',
 
                         Icons.people,
                         primaryColor,
@@ -208,14 +208,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       const SizedBox(width: 12),
                       _buildInfoCard(
                         'Tasks',
-                        tasksCount as String,
+                        '$tasksCount',
                         Icons.task_alt,
                         constants.contentColorGreen,
                       ),
                       const SizedBox(width: 12),
                       _buildInfoCard(
                         'Deals',
-                        dealsCount as String,
+                        '$dealsCount',
                         Icons.business_center,
                         constants.deepOrange,
                       ),
