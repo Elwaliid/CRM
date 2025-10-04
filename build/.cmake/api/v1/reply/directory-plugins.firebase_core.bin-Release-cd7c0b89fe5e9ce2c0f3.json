@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "plugins/firebase_core/bin",
+		"source" : "F:/PROJECTS/CRM/build/extracted/firebase_cpp_sdk_windows"
+	}
+}

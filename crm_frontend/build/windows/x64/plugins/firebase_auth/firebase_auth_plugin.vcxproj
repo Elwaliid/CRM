@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Profile|x64">
+      <Configuration>Profile</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{414C53B5-E98A-3DE4-A62E-25B03116DF32}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>firebase_auth_plugin</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Profile|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">F:\PROJECTS\CRM\crm_frontend\build\windows\x64\plugins\firebase_auth\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">firebase_auth_plugin.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">firebase_auth_plugin</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">F:\PROJECTS\CRM\crm_frontend\build\windows\x64\plugins\firebase_auth\Profile\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">firebase_auth_plugin.dir\Profile\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">firebase_auth_plugin</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">F:\PROJECTS\CRM\crm_frontend\build\windows\x64\plugins\firebase_auth\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">firebase_auth_plugin.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">firebase_auth_plugin</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>F:\PROJECTS\CRM\crm_frontend\build\windows\x64\generated;F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\.plugin_symlinks\firebase_core\windows\include;F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral;F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\cpp_client_wrapper\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "F:/PROJECTS/CRM/crm_frontend/build/windows/x64/extracted/firebase_cpp_sdk_windows/include"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>"4100"</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;_HAS_EXCEPTIONS=0;_DEBUG;FLUTTER_PLUGIN_IMPL;INTERNAL_EXPERIMENTAL=1;UNICODE;_UNICODE;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;_HAS_EXCEPTIONS=0;FLUTTER_PLUGIN_IMPL;INTERNAL_EXPERIMENTAL=1;UNICODE;_UNICODE;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>F:\PROJECTS\CRM\crm_frontend\build\windows\x64\generated;F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\.plugin_symlinks\firebase_core\windows\include;F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral;F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\cpp_client_wrapper\include;F:\PROJECTS\CRM\crm_frontend\build\windows\x64\extracted\firebase_cpp_sdk_windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>F:\PROJECTS\CRM\crm_frontend\build\windows\x64\generated;F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\.plugin_symlinks\firebase_core\windows\include;F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral;F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\cpp_client_wrapper\include;F:\PROJECTS\CRM\crm_frontend\build\windows\x64\extracted\firebase_cpp_sdk_windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>F:\PROJECTS\CRM\crm_frontend\build\windows\x64\generated;F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\.plugin_symlinks\firebase_core\windows\include;F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral;F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\cpp_client_wrapper\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "F:/PROJECTS/CRM/crm_frontend/build/windows/x64/extracted/firebase_cpp_sdk_windows/include"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <DisableSpecificWarnings>"4100"</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_HAS_EXCEPTIONS=0;FLUTTER_PLUGIN_IMPL;INTERNAL_EXPERIMENTAL=1;UNICODE;_UNICODE;CMAKE_INTDIR="Profile"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_HAS_EXCEPTIONS=0;FLUTTER_PLUGIN_IMPL;INTERNAL_EXPERIMENTAL=1;UNICODE;_UNICODE;CMAKE_INTDIR=\"Profile\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>F:\PROJECTS\CRM\crm_frontend\build\windows\x64\generated;F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\.plugin_symlinks\firebase_core\windows\include;F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral;F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\cpp_client_wrapper\include;F:\PROJECTS\CRM\crm_frontend\build\windows\x64\extracted\firebase_cpp_sdk_windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>F:\PROJECTS\CRM\crm_frontend\build\windows\x64\generated;F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\.plugin_symlinks\firebase_core\windows\include;F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral;F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\cpp_client_wrapper\include;F:\PROJECTS\CRM\crm_frontend\build\windows\x64\extracted\firebase_cpp_sdk_windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>F:\PROJECTS\CRM\crm_frontend\build\windows\x64\generated;F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\.plugin_symlinks\firebase_core\windows\include;F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral;F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\cpp_client_wrapper\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "F:/PROJECTS/CRM/crm_frontend/build/windows/x64/extracted/firebase_cpp_sdk_windows/include"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <DisableSpecificWarnings>"4100"</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_HAS_EXCEPTIONS=0;FLUTTER_PLUGIN_IMPL;INTERNAL_EXPERIMENTAL=1;UNICODE;_UNICODE;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_HAS_EXCEPTIONS=0;FLUTTER_PLUGIN_IMPL;INTERNAL_EXPERIMENTAL=1;UNICODE;_UNICODE;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>F:\PROJECTS\CRM\crm_frontend\build\windows\x64\generated;F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\.plugin_symlinks\firebase_core\windows\include;F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral;F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\cpp_client_wrapper\include;F:\PROJECTS\CRM\crm_frontend\build\windows\x64\extracted\firebase_cpp_sdk_windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>F:\PROJECTS\CRM\crm_frontend\build\windows\x64\generated;F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\.plugin_symlinks\firebase_core\windows\include;F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral;F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\cpp_client_wrapper\include;F:\PROJECTS\CRM\crm_frontend\build\windows\x64\extracted\firebase_cpp_sdk_windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\.plugin_symlinks\firebase_auth\windows\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule F:/PROJECTS/CRM/crm_frontend/windows/flutter/ephemeral/.plugin_symlinks/firebase_auth/windows/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SF:/PROJECTS/CRM/crm_frontend/windows -BF:/PROJECTS/CRM/crm_frontend/build/windows/x64 --check-stamp-file F:/PROJECTS/CRM/crm_frontend/build/windows/x64/plugins/firebase_auth/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\.plugin_symlinks\firebase_auth\windows\plugin_version.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">F:\PROJECTS\CRM\crm_frontend\build\windows\x64\plugins\firebase_auth\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">Building Custom Rule F:/PROJECTS/CRM/crm_frontend/windows/flutter/ephemeral/.plugin_symlinks/firebase_auth/windows/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SF:/PROJECTS/CRM/crm_frontend/windows -BF:/PROJECTS/CRM/crm_frontend/build/windows/x64 --check-stamp-file F:/PROJECTS/CRM/crm_frontend/build/windows/x64/plugins/firebase_auth/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\.plugin_symlinks\firebase_auth\windows\plugin_version.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">F:\PROJECTS\CRM\crm_frontend\build\windows\x64\plugins\firebase_auth\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule F:/PROJECTS/CRM/crm_frontend/windows/flutter/ephemeral/.plugin_symlinks/firebase_auth/windows/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SF:/PROJECTS/CRM/crm_frontend/windows -BF:/PROJECTS/CRM/crm_frontend/build/windows/x64 --check-stamp-file F:/PROJECTS/CRM/crm_frontend/build/windows/x64/plugins/firebase_auth/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\.plugin_symlinks\firebase_auth\windows\plugin_version.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">F:\PROJECTS\CRM\crm_frontend\build\windows\x64\plugins\firebase_auth\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\.plugin_symlinks\firebase_auth\windows\include\firebase_auth\firebase_auth_plugin_c_api.h" />
+    <ClCompile Include="F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\.plugin_symlinks\firebase_auth\windows\firebase_auth_plugin_c_api.cpp" />
+    <ClCompile Include="F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\.plugin_symlinks\firebase_auth\windows\firebase_auth_plugin.cpp" />
+    <ClInclude Include="F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\.plugin_symlinks\firebase_auth\windows\firebase_auth_plugin.h" />
+    <ClCompile Include="F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\.plugin_symlinks\firebase_auth\windows\messages.g.cpp" />
+    <ClInclude Include="F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\.plugin_symlinks\firebase_auth\windows\messages.g.h" />
+    <ClInclude Include="F:\PROJECTS\CRM\crm_frontend\build\windows\x64\generated\firebase_auth\plugin_version.h" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="F:\PROJECTS\CRM\crm_frontend\build\windows\x64\ZERO_CHECK.vcxproj">
+      <Project>{D1D74113-4D25-39CD-9444-7210B01817E9}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="F:\PROJECTS\CRM\crm_frontend\build\windows\x64\plugins\firebase_core\firebase_core_plugin.vcxproj">
+      <Project>{49F6C722-C475-3865-9C3A-24849400DEC8}</Project>
+      <Name>firebase_core_plugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="F:\PROJECTS\CRM\crm_frontend\build\windows\x64\flutter\flutter_assemble.vcxproj">
+      <Project>{1115A0C3-B479-3634-AA57-1E332F8CFA29}</Project>
+      <Name>flutter_assemble</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="F:\PROJECTS\CRM\crm_frontend\build\windows\x64\flutter\flutter_wrapper_plugin.vcxproj">
+      <Project>{EFD4AB4C-AC8E-3366-8BED-76D1C07BD8DA}</Project>
+      <Name>flutter_wrapper_plugin</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

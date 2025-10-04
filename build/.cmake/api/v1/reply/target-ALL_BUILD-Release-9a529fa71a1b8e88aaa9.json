@@ -1,0 +1,36 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"flutter/ephemeral/.plugin_symlinks/file_selector_windows/windows/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"id" : "file_selector_windows_plugin::@24329985f05541c6c489"
+		},
+		{
+			"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df"
+		}
+	],
+	"id" : "ALL_BUILD::@24329985f05541c6c489",
+	"isGeneratorProvided" : true,
+	"name" : "ALL_BUILD",
+	"paths" : 
+	{
+		"build" : "plugins/file_selector_windows",
+		"source" : "flutter/ephemeral/.plugin_symlinks/file_selector_windows/windows"
+	},
+	"sources" : [],
+	"type" : "UTILITY"
+}

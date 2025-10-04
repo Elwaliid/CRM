@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\.plugin_symlinks\firebase_core\windows\firebase_core_plugin_c_api.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\.plugin_symlinks\firebase_core\windows\firebase_core_plugin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\.plugin_symlinks\firebase_core\windows\messages.g.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\.plugin_symlinks\firebase_core\windows\include\firebase_core\firebase_core_plugin_c_api.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\.plugin_symlinks\firebase_core\windows\firebase_core_plugin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\.plugin_symlinks\firebase_core\windows\messages.g.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\PROJECTS\CRM\crm_frontend\build\windows\x64\generated\firebase_core\plugin_version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="F:\PROJECTS\CRM\crm_frontend\windows\flutter\ephemeral\.plugin_symlinks\firebase_core\windows\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{97C90711-F03D-343A-9933-51C694CFEA48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{55733C38-6EC5-33DA-9326-2896C8A57F39}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

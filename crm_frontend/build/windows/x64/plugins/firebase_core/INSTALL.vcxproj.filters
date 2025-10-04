@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="F:\PROJECTS\CRM\crm_frontend\build\windows\x64\CMakeFiles\f808da04e2ecd4fc476d0821b2f30a0e\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{E125B6C7-4A99-3B13-9130-0C5D61D04684}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
