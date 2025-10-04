@@ -190,20 +190,18 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                                         // Case 1: <=5 events → show all
                                         if (events.length <= 5)
                                           ...events.map((event) {
-                                            return _buildEventTile(
+                                            return _buildMonthEventTile(
                                               context,
                                               event,
-                                              false,
                                             );
                                           }).toList(),
 
                                         // Case 2: >5 events → show first 4 + "More..."
                                         if (events.length > 5) ...[
                                           ...events.take(4).map((event) {
-                                            return _buildEventTile(
+                                            return _buildMonthEventTile(
                                               context,
                                               event,
-                                              false,
                                             );
                                           }).toList(),
                                           GestureDetector(
@@ -214,22 +212,31 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                                                   .toList(), // show 5th+ in bottom sheet
                                             ),
                                             child: Container(
-                                              margin: const EdgeInsets.all(4),
-                                              padding: const EdgeInsets.all(5),
+                                              height: 20,
+                                              width: 70,
+                                              margin: const EdgeInsets.all(1),
+                                              padding: const EdgeInsets.all(1),
                                               decoration: BoxDecoration(
-                                                color: Colors.grey.shade600,
+                                                color: constants.primaryColor
+                                                    .withOpacity(0.9),
                                                 borderRadius:
-                                                    BorderRadius.circular(8),
+                                                    BorderRadius.circular(4),
                                               ),
-                                              child: Text(
-                                                "More...",
-                                                style: GoogleFonts.roboto(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 14,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                  left: 2.0,
                                                 ),
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
+                                                child: Text(
+                                                  'More...',
+                                                  style: GoogleFonts.roboto(
+                                                    color: Colors.white,
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -288,6 +295,35 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
+      ),
+    );
+  }
+
+  Widget _buildMonthEventTile(BuildContext context, CalendarEventData event) {
+    return GestureDetector(
+      onTap: () => _showEventDetails(context, event),
+      child: Container(
+        height: 20,
+        width: 70,
+        margin: const EdgeInsets.all(1),
+        padding: const EdgeInsets.all(1),
+        decoration: BoxDecoration(
+          color: event.color.withOpacity(0.9),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 2.0),
+          child: Text(
+            event.title,
+            style: GoogleFonts.roboto(
+              color: Colors.white,
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
       ),
     );
   }
@@ -362,7 +398,6 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                       Text(event.description!),
                   ],
                 ),
-                onTap: () => _showEventDetails(context, event),
               );
             }).toList(),
           ],
