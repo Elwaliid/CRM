@@ -160,87 +160,99 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                               isInMonth,
                               hideDaysNotInMonth,
                             ) {
-                              return Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Align(
-                                    alignment: Alignment.topCenter,
-                                    child: Text(
-                                      '${date.day}',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: isToday
-                                            ? const Color.fromARGB(
-                                                255,
-                                                56,
-                                                74,
-                                                88,
-                                              )
-                                            : Colors.black,
+                              return Container(
+                                color: isInMonth
+                                    ? Colors.white
+                                    : const Color.fromARGB(255, 238, 238, 238),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.topCenter,
+                                      child: Text(
+                                        '${date.day}',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: !isInMonth
+                                              ? Colors
+                                                    .grey // color for dates not in current month
+                                              : isToday
+                                              ? const Color.fromARGB(
+                                                  255,
+                                                  58,
+                                                  98,
+                                                  129,
+                                                )
+                                              : Colors.black,
+                                        ),
                                       ),
                                     ),
-                                  ),
 
-                                  if (events.isNotEmpty)
-                                    Column(
-                                      children: [
-                                        // Case 1: <=5 events → show all
-                                        if (events.length <= 5)
-                                          ...events.map((event) {
-                                            return _buildMonthEventTile(
-                                              context,
-                                              event,
-                                            );
-                                          }).toList(),
+                                    if (isInMonth && events.isNotEmpty)
+                                      Column(
+                                        children: [
+                                          // Case 1: <=5 events → show all
+                                          if (events.length <= 5)
+                                            ...events.map((event) {
+                                              return _buildMonthEventTile(
+                                                context,
+                                                event,
+                                              );
+                                            }).toList(),
 
-                                        // Case 2: >5 events → show first 4 + "More..."
-                                        if (events.length > 5) ...[
-                                          ...events.take(4).map((event) {
-                                            return _buildMonthEventTile(
-                                              context,
-                                              event,
-                                            );
-                                          }).toList(),
-                                          GestureDetector(
-                                            onTap: () => _showMoreEvents(
-                                              context,
-                                              events
-                                                  .skip(4)
-                                                  .toList(), // show 5th+ in bottom sheet
-                                            ),
-                                            child: Container(
-                                              height: 20,
-                                              width: 70,
-                                              margin: const EdgeInsets.all(1),
-                                              padding: const EdgeInsets.all(1),
-                                              decoration: BoxDecoration(
-                                                color: constants.primaryColor
-                                                    .withOpacity(0.9),
-                                                borderRadius:
-                                                    BorderRadius.circular(4),
+                                          // Case 2: >5 events → show first 4 + "More..."
+                                          if (events.length > 5) ...[
+                                            ...events.take(4).map((event) {
+                                              return _buildMonthEventTile(
+                                                context,
+                                                event,
+                                              );
+                                            }).toList(),
+                                            GestureDetector(
+                                              onTap: () => _showMoreEvents(
+                                                context,
+                                                events
+                                                    .skip(4)
+                                                    .toList(), // show 5th+ in bottom sheet
                                               ),
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                  left: 2.0,
+                                              child: Container(
+                                                height: 20,
+                                                width: 70,
+                                                margin: const EdgeInsets.all(1),
+                                                padding: const EdgeInsets.all(
+                                                  1,
                                                 ),
-                                                child: Text(
-                                                  'More...',
-                                                  style: GoogleFonts.roboto(
-                                                    color: Colors.white,
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w500,
+                                                decoration: BoxDecoration(
+                                                  color: constants.primaryColor
+                                                      .withOpacity(0.9),
+                                                  borderRadius:
+                                                      BorderRadius.circular(4),
+                                                ),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                        left: 2.0,
+                                                      ),
+                                                  child: Text(
+                                                    'More...',
+                                                    style: GoogleFonts.roboto(
+                                                      color: Colors.white,
+                                                      fontSize: 13,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                   ),
-                                                  maxLines: 1,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
                                                 ),
                                               ),
                                             ),
-                                          ),
+                                          ],
                                         ],
-                                      ],
-                                    ),
-                                ],
+                                      ),
+                                  ],
+                                ),
                               );
                             },
                       ),
