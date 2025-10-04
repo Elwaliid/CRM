@@ -182,10 +182,14 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                                     ),
                                   ),
                                   if (events.isNotEmpty)
-                                    _buildMonthEventTile(
-                                      context,
-                                      events.first,
-                                      false,
+                                    Column(
+                                      children: events.map((event) {
+                                        return _buildMonthEventTile(
+                                          context,
+                                          event,
+                                          false,
+                                        );
+                                      }).toList(),
                                     ),
                                 ],
                               );
@@ -259,15 +263,18 @@ class _SchedulesScreenState extends State<SchedulesScreen>
           color: event.color.withOpacity(0.9),
           borderRadius: BorderRadius.circular(4),
         ),
-        child: Text(
-          event.title,
-          style: GoogleFonts.roboto(
-            color: Colors.white,
-            fontSize: 13,
-            fontWeight: FontWeight.w500,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 2.0),
+          child: Text(
+            event.title,
+            style: GoogleFonts.roboto(
+              color: Colors.white,
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
         ),
       ),
     );
