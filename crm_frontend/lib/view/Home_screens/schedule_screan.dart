@@ -148,6 +148,7 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                           if (event == null) return const SizedBox();
                           return _buildEventTile(context, event, true);
                         },
+                        showVerticalLines: true,
                       ),
 
                       /// ---- Month View ----
