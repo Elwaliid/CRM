@@ -67,10 +67,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Future<void> _todayclientsCount() async {
     try {
-      final response = await http.get(
-        Uri.parse(getClientsCountUrl),
-        headers: {'Authorization': 'Bearer ${widget.token}'},
-      );
+      final response = await http.get(Uri.parse(getClientsCountUrl));
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         if (data['status'] == true) {
@@ -88,10 +85,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Future<void> _todaytasksCount() async {
     try {
-      final response = await http.get(
-        Uri.parse(getTasksDealsCountUrl),
-        headers: {'Authorization': ' Bearer ${widget.token}'},
-      );
+      final response = await http.get(Uri.parse(getTasksDealsCountUrl));
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         if (data['status'] == true) {

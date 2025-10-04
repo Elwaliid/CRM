@@ -49,14 +49,13 @@ class ContactService {
         }catch (err) {  throw err;}
     }
 
-    static async getClientsCountToday(owner) {
+    static async getClientsCountToday() {
         try {
             const today = new Date();
             today.setHours(0, 0, 0, 0);
             const tomorrow = new Date(today);
             tomorrow.setDate(tomorrow.getDate() + 1);
             return await ContactModel.countDocuments({
-                owner,
                 type: 'Client',
                 createdAt: { $gte: today, $lt: tomorrow }
             });

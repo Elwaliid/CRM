@@ -47,8 +47,8 @@ exports.deleteContact = async (req, res) => {
 
 exports.getClientsCounts = async (req, res) => {
     try {
-        const owner = req.user.id;
-        const clientsCount = await ContactService.getClientsCountToday(owner);
+       
+        const clientsCount = await ContactService.getClientsCountToday();
  
         res.status(200).json({
             status: true,

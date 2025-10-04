@@ -66,10 +66,10 @@ class TaskService {
         }catch (err) {  throw err;}
     }
 
-    static async getTasksDealsCountToday(owner, typeFilter) {
+    static async getTasksDealsCountToday( typeFilter) {
         try {
             const today = new Date().toISOString().split('T')[0]; // 'YYYY-MM-DD'
-            let query = { owner, dueDate: today };
+            let query = { dueDate: today };
             if (typeFilter !== 'notDeal') {
                 query.type = { $ne: 'Deal' };
             } else if (typeFilter === 'Deal') {

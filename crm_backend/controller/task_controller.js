@@ -52,14 +52,13 @@ exports.deleteTask = async (req, res) => {
 }
 exports.getTasksDealsCounts = async (req, res) => {
     try {
-        const owner = req.user.id;
+      
        
-        const tasksCount = await TaskService.getTasksDealsCountToday(owner, 'notDeal');
-        const dealsCount = await TaskService.getTasksDealsCountToday(owner, 'Deal');
+        const tasksCount = await TaskService.getTasksDealsCountToday( 'notDeal');
+        const dealsCount = await TaskService.getTasksDealsCountToday( 'Deal');
         res.status(200).json({
             status: true,
             counts: {
-           
                 tasks: tasksCount,
                 deals: dealsCount
             }
