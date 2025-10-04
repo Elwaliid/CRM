@@ -151,7 +151,46 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                       ),
 
                       /// ---- Month View ----
-                      MonthView(),
+                      MonthView(
+                        cellBuilder:
+                            (
+                              date,
+                              events,
+                              isToday,
+                              isInMonth,
+                              hideDaysNotInMonth,
+                            ) {
+                              if (hideDaysNotInMonth) return SizedBox.shrink();
+                              return Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Align(
+                                    alignment: Alignment.topCenter,
+                                    child: Text(
+                                      '${date.day}',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: isToday
+                                            ? const Color.fromARGB(
+                                                255,
+                                                56,
+                                                74,
+                                                88,
+                                              )
+                                            : Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  if (events.isNotEmpty)
+                                    _buildMonthEventTile(
+                                      context,
+                                      events.first,
+                                      false,
+                                    ),
+                                ],
+                              );
+                            },
+                      ),
                     ],
                   ),
             ),
@@ -200,6 +239,36 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
+      ),
+    );
+  }
+
+  Widget _buildMonthEventTile(
+    BuildContext context,
+    CalendarEventData event,
+    bool isWeekView,
+  ) {
+    return GestureDetector(
+      onTap: () => _showEventDetails(context, event),
+      child: Container(
+        height: 20,
+        width: 70,
+        margin: const EdgeInsets.all(1),
+        padding: const EdgeInsets.all(1),
+        decoration: BoxDecoration(
+          color: event.color.withOpacity(0.9),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: Text(
+          event.title,
+          style: GoogleFonts.roboto(
+            color: Colors.white,
+            fontSize: 13,
+            fontWeight: FontWeight.w500,
+          ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
       ),
     );
   }
