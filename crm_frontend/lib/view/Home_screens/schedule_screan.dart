@@ -203,7 +203,7 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                                                 context,
                                                 event,
                                               );
-                                            }).toList(),
+                                            }),
 
                                           // Case 2: >5 events → show first 4 + "More..."
                                           if (events.length > 5) ...[
@@ -212,7 +212,7 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                                                 context,
                                                 event,
                                               );
-                                            }).toList(),
+                                            }),
                                             GestureDetector(
                                               onTap: () => _showMoreEvents(
                                                 context,
@@ -422,7 +422,7 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                   ],
                 ),
               );
-            }).toList(),
+            }),
           ],
         ),
       ),
