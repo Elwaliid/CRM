@@ -105,10 +105,10 @@ class _SchedulesScreenState extends State<SchedulesScreen>
           children: [
             /// prettier TabBar
             Container(
-              margin: const EdgeInsets.all(12),
+              margin: const EdgeInsets.all(5),
               decoration: BoxDecoration(
                 color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(20),
               ),
               child: TabBar(
                 controller: _tabController,
@@ -116,8 +116,13 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                 unselectedLabelColor: constants.secondaryColor,
                 indicator: BoxDecoration(
                   color: constants.primaryColor,
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(20),
                 ),
+
+                indicatorPadding: EdgeInsets.symmetric(
+                  horizontal: -20,
+                  vertical: 4,
+                ), // Shrink size
                 tabs: [
                   Tab(text: 'Day View'),
                   Tab(text: 'Week View'),
@@ -148,7 +153,6 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                           if (event == null) return const SizedBox();
                           return _buildEventTile(context, event, true);
                         },
-                        showVerticalLines: true,
                       ),
 
                       /// ---- Month View ----
