@@ -274,24 +274,33 @@ class _SchedulesScreenState extends State<SchedulesScreen>
       onTap: () => _showEventDetails(context, event),
       child: Container(
         margin: isWeekView ? const EdgeInsets.all(2) : const EdgeInsets.all(4),
-        padding: isWeekView ? const EdgeInsets.all(5) : const EdgeInsets.all(5),
+        padding: isWeekView
+            ? const EdgeInsets.only(left: 0, bottom: 0)
+            : const EdgeInsets.all(5),
         decoration: BoxDecoration(
           color: event.color.withOpacity(0.9),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: isWeekView
+              ? BorderRadius.circular(4)
+              : BorderRadius.circular(8),
         ),
 
         child: isWeekView
             ? RotatedBox(
                 quarterTurns: 9, // rotates text vertically (90° left)
-                child: Text(
-                  event.title,
-                  style: GoogleFonts.roboto(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
+                child: Padding(
+                  padding: isWeekView
+                      ? EdgeInsets.only(left: 1, bottom: 1)
+                      : EdgeInsets.all(0),
+                  child: Text(
+                    event.title,
+                    style: GoogleFonts.roboto(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
                 ),
               )
             : Text(
