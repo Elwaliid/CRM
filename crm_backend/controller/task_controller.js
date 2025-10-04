@@ -2,7 +2,7 @@ const TaskService = require('../services/task_services');
 
 exports.addOrUpdateTask = async (req, res) => {
   try {
-    const {id,title,type,revenue,cost,phone,email,isMeet,relatedToNames,relatedToIds,dueDate,time,endTime,address,website,description,status,} = req.body;
+    const {id,commiter,title,type,revenue,cost,phone,email,isMeet,relatedToNames,relatedToIds,dueDate,time,endTime,address,website,description,status,} = req.body;
 
     let task = null;
     if (id) {
@@ -11,7 +11,7 @@ exports.addOrUpdateTask = async (req, res) => {
 
     if (task == null) {
       // Create new task
-      await TaskService.addTask(title,type,revenue,cost,phone,email,isMeet,relatedToNames,relatedToIds,dueDate,time,endTime,address,website,description,status);
+      await TaskService.addTask(commiter,title,type,revenue,cost,phone,email,isMeet,relatedToNames,relatedToIds,dueDate,time,endTime,address,website,description,status);
       res.status(201).json({
         status: true,
         message: `${type} added successfully`,
@@ -19,7 +19,7 @@ exports.addOrUpdateTask = async (req, res) => {
     } else {
       // Update existing task
       await TaskService.updateTask(
-        id,title,type,revenue,cost,phone,email,isMeet,relatedToNames,relatedToIds,dueDate,time,endTime,address,website,description,status);
+        id,commiter,title,type,revenue,cost,phone,email,isMeet,relatedToNames,relatedToIds,dueDate,time,endTime,address,website,description,status);
       res.status(200).json({ status: true, message: "Task updated successfully" });
     }
   } catch (err) {

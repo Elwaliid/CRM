@@ -14,6 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 /// Screen for adding/updating Client or Lead info
 class TaskDetailsScreen extends StatefulWidget {
@@ -36,7 +38,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   bool email = false;
   bool isViewMode = false;
   bool meeting = false;
-
+  String? userId;
   /////////////////////////////////////////////////////////////////////////////////// Controllers for all input fields
   final TextEditingController _taskNameController = TextEditingController();
   final TextEditingController _taskDescriptionController =
@@ -107,6 +109,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   @override
   void initState() {
     super.initState();
+    _loadUserId();
     selectedRelatedToIds =
         widget.task != null && widget.task!.relatedToNames.isNotEmpty
         ? List<String>.from(List.filled(widget.task!.relatedToNames.length, ''))
@@ -137,6 +140,17 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
       _websiteController.text = widget.task!.website ?? '';
       _taskDescriptionController.text = widget.task!.description ?? '';
       _status = widget.task!.status;
+    }
+  }
+
+  Future<void> _loadUserId() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    if (token != null && token.isNotEmpty) {
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+      setState(() {
+        userId = decodedToken['_id'];
+      });
     }
   }
 
@@ -773,8 +787,18 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
             .map((c) => c.text.trim())
             .where((related) => related.isNotEmpty),
       ];
-
+      if (userId == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('couldnt get user id'),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.red,
+          ),
+        );
+        return;
+      }
       var logBody = {
+        'commiter': userId,
         'title': _taskNameController.text.trim(),
         'type': _selectedTaskType,
         'revenue': _revenueController.text.isNotEmpty

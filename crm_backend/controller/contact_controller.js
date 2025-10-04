@@ -2,7 +2,7 @@ const ContactService = require('../services/contact_services');
 
 exports.addOrUpdateContact = async (req, res) => {
     try{
-     const {id,email,secondEmail,name, address,identity,phones,website,other_info,type } = req.body;
+     const {id,commiter,email,secondEmail,name, address,identity,phones,website,other_info,type } = req.body;
      id? contact = await ContactService.existContact(id): contact = null;
         if(contact == null){
             // Create new contact ya babaaaaaaaa
