@@ -64,13 +64,65 @@ class _DashboardScreenState extends State<DashboardScreen> {
       print('Error fetching user: $e');
     }
   }
- 
+
   Future<void> _todayclientsCount() async {
     try {
-       final response = await http.get(
-        Uri.parse(getClientsCountUrl));
+      final response = await http.get(
+        Uri.parse(getClientsCountUrl),
+        headers: {'Authorization': 'Bearer ${widget.token}'},
+      );
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data['status'] == true) {
+          setState(() {
+            clientsCount = data['count'] ?? 0;
+          });
         }
-        
+      } else {
+        print('Failed to fetch clients count: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching clients count: $e');
+    }
+  }
+
+  Future<void> _todaytasksCount() async {
+    try {
+      final response = await http.get(
+        Uri.parse(getTasksDealsCountUrl),
+        headers: {'Authorization': ' Bearer ${widget.token}'},
+      );
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data['status'] == true) {
+          setState(() {
+            tasksCount = data['tasksCount'] ?? 0;
+          });
+        }
+      }
+    } catch (e) {
+      print('Error fetching tasks count: $e');
+    }
+  }
+
+  Future<void> _todaydealsCount() async {
+    try {
+      final response = await http.get(
+        Uri.parse(getTasksDealsCountUrl),
+        headers: {'Authorization': ' Bearer ${widget.token}'},
+      );
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data['status'] == true) {
+          setState(() {
+            dealsCount = data['dealsCount'] ?? 0;
+          });
+        }
+      }
+    } catch (e) {
+      print('Error fetching tasks count: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
