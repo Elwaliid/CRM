@@ -160,7 +160,9 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                               isInMonth,
                               hideDaysNotInMonth,
                             ) {
-                              if (hideDaysNotInMonth) return SizedBox.shrink();
+                              if (hideDaysNotInMonth)
+                                return const SizedBox.shrink();
+
                               return Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -181,15 +183,58 @@ class _SchedulesScreenState extends State<SchedulesScreen>
                                       ),
                                     ),
                                   ),
+
                                   if (events.isNotEmpty)
                                     Column(
-                                      children: events.map((event) {
-                                        return _buildMonthEventTile(
-                                          context,
-                                          event,
-                                          false,
-                                        );
-                                      }).toList(),
+                                      children: [
+                                        // Case 1: <=5 events → show all
+                                        if (events.length <= 5)
+                                          ...events.map((event) {
+                                            return _buildEventTile(
+                                              context,
+                                              event,
+                                              false,
+                                            );
+                                          }).toList(),
+
+                                        // Case 2: >5 events → show first 4 + "More..."
+                                        if (events.length > 5) ...[
+                                          ...events.take(4).map((event) {
+                                            return _buildEventTile(
+                                              context,
+                                              event,
+                                              false,
+                                            );
+                                          }).toList(),
+                                          GestureDetector(
+                                            onTap: () => _showMoreEvents(
+                                              context,
+                                              events
+                                                  .skip(4)
+                                                  .toList(), // show 5th+ in bottom sheet
+                                            ),
+                                            child: Container(
+                                              margin: const EdgeInsets.all(4),
+                                              padding: const EdgeInsets.all(5),
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey.shade600,
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                              ),
+                                              child: Text(
+                                                "More...",
+                                                style: GoogleFonts.roboto(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14,
+                                                ),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ],
                                     ),
                                 ],
                               );
@@ -247,39 +292,6 @@ class _SchedulesScreenState extends State<SchedulesScreen>
     );
   }
 
-  Widget _buildMonthEventTile(
-    BuildContext context,
-    CalendarEventData event,
-    bool isWeekView,
-  ) {
-    return GestureDetector(
-      onTap: () => _showEventDetails(context, event),
-      child: Container(
-        height: 20,
-        width: 70,
-        margin: const EdgeInsets.all(1),
-        padding: const EdgeInsets.all(1),
-        decoration: BoxDecoration(
-          color: event.color.withOpacity(0.9),
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 2.0),
-          child: Text(
-            event.title,
-            style: GoogleFonts.roboto(
-              color: Colors.white,
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ),
-    );
-  }
-
   void _showEventDetails(BuildContext context, CalendarEventData event) {
     showModalBottomSheet(
       context: context,
@@ -307,6 +319,52 @@ class _SchedulesScreenState extends State<SchedulesScreen>
               const SizedBox(height: 8),
               Text(event.description!),
             ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showMoreEvents(BuildContext context, List<CalendarEventData> events) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) => Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "More Events",
+              style: GoogleFonts.roboto(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 12),
+            // List of extra events
+            ...events.map((event) {
+              return ListTile(
+                title: Text(
+                  event.title,
+                  style: GoogleFonts.roboto(fontWeight: FontWeight.bold),
+                ),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Time: ${DateFormat.Hm().format(event.startTime ?? DateTime.now())} - ${DateFormat.Hm().format(event.endTime ?? DateTime.now())}",
+                    ),
+                    if (event.description != null &&
+                        event.description!.isNotEmpty)
+                      Text(event.description!),
+                  ],
+                ),
+                onTap: () => _showEventDetails(context, event),
+              );
+            }).toList(),
           ],
         ),
       ),
