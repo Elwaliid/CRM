@@ -27,6 +27,9 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   String userName = 'User';
   late String _currentTime;
+  int clientsCount = 0;
+  int tasksCount = 0;
+  int dealsCount = 0;
   @override
   void initState() {
     super.initState();
@@ -140,21 +143,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     children: [
                       _buildInfoCard(
                         'Clients',
-                        '15',
+                        '15', /////// get number of contacts added today and its type = Client
                         Icons.people,
                         primaryColor,
                       ),
                       const SizedBox(width: 12),
                       _buildInfoCard(
                         'Tasks',
-                        '8',
+                        '8', //get number of tasks its Due date= today and its type != Deal
                         Icons.task_alt,
                         constants.contentColorGreen,
                       ),
                       const SizedBox(width: 12),
                       _buildInfoCard(
                         'Deals',
-                        '5',
+                        '5', //get number of tasks its Due date= today and its type = Deal
                         Icons.business_center,
                         constants.deepOrange,
                       ),

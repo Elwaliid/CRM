@@ -1,5 +1,6 @@
 const ContactService = require('../services/contact_services');
 
+
 exports.addOrUpdateContact = async (req, res) => {
     try{
      const {id,owner,email,secondEmail,name, address,identity,phones,website,other_info,type } = req.body;
@@ -39,7 +40,25 @@ exports.deleteContact = async (req, res) => {
     const { id } = req.body;
     const contact = await ContactService.existContact(id);
     if(!contact){res.status(404).json({ status: false, message: "Contact  not found" }); return;}
-    await ContactService.deleteIt(id); 
+    await ContactService.deleteIt(id);
     res.status(200).json({ status: true, message: "Contact deleted successfully" });
     }catch(err){console.error("Delete contact error:", err);}
+}
+
+exports.getClientsCounts = async (req, res) => {
+    try {
+        const owner = req.user.id;
+        const clientsCount = await ContactService.getClientsCountToday(owner);
+ 
+        res.status(200).json({
+            status: true,
+            counts: {
+                clients: clientsCount,
+           
+            }
+        });
+    } catch (err) {
+        console.error("Clients count error:", err);
+        res.status(500).json({ status: false, message: "Internal server error" });
+    }
 }

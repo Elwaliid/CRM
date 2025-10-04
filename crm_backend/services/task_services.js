@@ -65,6 +65,22 @@ class TaskService {
             return await TaskModel.findByIdAndDelete(id);
         }catch (err) {  throw err;}
     }
+
+    static async getTasksDealsCountToday(owner, typeFilter) {
+        try {
+            const today = new Date().toISOString().split('T')[0]; // 'YYYY-MM-DD'
+            let query = { owner, dueDate: today };
+            if (typeFilter !== 'notDeal') {
+                query.type = { $ne: 'Deal' };
+            } else if (typeFilter === 'Deal') {
+                query.type = 'Deal';
+            }
+            return await TaskModel.countDocuments(query);
+        } catch (err) {
+            throw err;
+        }
+    }
+
 }
 
 module.exports = TaskService;

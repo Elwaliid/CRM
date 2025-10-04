@@ -50,3 +50,22 @@ exports.deleteTask = async (req, res) => {
     res.status(200).json({ status: true, message: "Task deleted successfully" });
     }catch(err){console.error("Delete task error:", err);}
 }
+exports.getTasksDealsCounts = async (req, res) => {
+    try {
+        const owner = req.user.id;
+       
+        const tasksCount = await TaskService.getTasksDealsCountToday(owner, 'notDeal');
+        const dealsCount = await TaskService.getTasksDealsCountToday(owner, 'Deal');
+        res.status(200).json({
+            status: true,
+            counts: {
+           
+                tasks: tasksCount,
+                deals: dealsCount
+            }
+        });
+    } catch (err) {
+        console.error("Tasks counts error:", err);
+        res.status(500).json({ status: false, message: "Internal server error" });
+    }
+}
