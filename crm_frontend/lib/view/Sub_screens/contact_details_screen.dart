@@ -541,7 +541,7 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
       }
 
       var logBody = {
-        'commiter': userId,
+        'owner': userId,
         'email': _emailController.text.trim(),
         'secondEmail': _secondEmailController.text.trim(),
         'name': name,

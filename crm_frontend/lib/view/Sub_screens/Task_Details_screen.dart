@@ -798,7 +798,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
         return;
       }
       var logBody = {
-        'commiter': userId,
+        'owner': userId,
         'title': _taskNameController.text.trim(),
         'type': _selectedTaskType,
         'revenue': _revenueController.text.isNotEmpty

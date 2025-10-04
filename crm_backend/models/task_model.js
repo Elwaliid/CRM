@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 const db = require('../config/db');
 
 const taskSchema = new Schema({
-  commiter: { type: Schema.Types.ObjectId, ref: 'user' },
+  owner: { type: Schema.Types.ObjectId, ref: 'user' },
   title: { type: String, required: true },
   type: { type: String },
   revenue: { type: Number },
