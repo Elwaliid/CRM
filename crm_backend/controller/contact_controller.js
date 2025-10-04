@@ -54,7 +54,6 @@ exports.getClientsCounts = async (req, res) => {
             status: true,
             counts: {
                 clients: clientsCount,
-           
             }
         });
     } catch (err) {
