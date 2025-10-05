@@ -70,11 +70,18 @@ class TaskService {
         try {
             const today = new Date().toISOString().split('T')[0]; // 'YYYY-MM-DD'
 
-            let query = {
+            if(typeFilter === 'Deal' || typeFilter==='notDeal'){
+              let query = {
                 dueDate: today
             };
-
-            if (typeFilter === 'Deal') {
+          }
+            if (typeFilter === 'Completed'){
+             query.status ='Completed'
+            }
+            else if(typeFilter === 'Pending'){
+             query.status ='Pending'
+            }
+           else if (typeFilter === 'Deal') {
                 query.type = 'Deal';
             } else {
                 query.type = { $ne: 'Deal' };

@@ -50,14 +50,15 @@ exports.deleteTask = async (req, res) => {
     res.status(200).json({ status: true, message: "Task deleted successfully" });
     }catch(err){console.error("Delete task error:", err);}
 }
-exports.getTasksDealsCounts = async (req, res) => {
+exports.getTasksCounts = async (req, res) => {
     try {
-        const tasksndCount = await TaskService.getTasksDealsCountToday( 'notDeal');
+        const tasksCount = await TaskService.getTasksDealsCountToday( 'notDeal');
         const dealsCount = await TaskService.getTasksDealsCountToday( 'Deal');
-
+        const completedTasks = await TaskService.getTasksDealsCountToday( 'Completed');
+        const PendingTasks = TaskService.getTasksDealsCountToday( 'Pending');
         res.status(200).json({
             status: true,
-            tasksndCount: tasksndCount,
+            tasksCount: tasksCount,
             dealsCount: dealsCount
         });
     } catch (err) {
