@@ -687,7 +687,22 @@ class PieChart2State extends State<PieChartSample2> {
 
   List<PieChartSectionData> showingSections() {
     final total = widget.completed + widget.pending;
-    if (total == 0) return [];
+    if (total == 0) {
+      return [
+        PieChartSectionData(
+          color: Colors.grey.shade300,
+          value: 1,
+          title: '',
+          radius: 50,
+          titleStyle: GoogleFonts.roboto(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Colors.blueGrey.shade400,
+          ),
+        ),
+      ];
+    }
+
     final completedPercent = (widget.completed / total) * 100;
     final pendingPercent = (widget.pending / total) * 100;
 
