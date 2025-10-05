@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'dart:async';
-import 'dart:math';
 import 'package:flutter/services.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -85,7 +84,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Future<void> _todaytasksCount() async {
     try {
-      final response = await http.get(Uri.parse(getTasksDealsCountUrl));
+      final response = await http.get(Uri.parse(getTasksCountUrl));
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         if (data['status'] == true) {
@@ -101,7 +100,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Future<void> _todaydealsCount() async {
     try {
-      final response = await http.get(Uri.parse(getTasksDealsCountUrl));
+      final response = await http.get(Uri.parse(getTasksCountUrl));
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         if (data['status'] == true) {
@@ -691,7 +690,7 @@ class PieChart2State extends State<PieChartSample2> {
         children: [
           /////////////////////////////////////////// Title
           Text(
-            'Leads and Clients statistics',
+            'Tasks statistics',
             style: GoogleFonts.poppins(
               fontSize: 20,
               fontWeight: FontWeight.w700,
@@ -729,9 +728,9 @@ class PieChart2State extends State<PieChartSample2> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildLegendBox(constants.contentColorGreen, 'Leads'),
+              _buildLegendBox(constants.contentColorGreen, 'Completed'),
               const SizedBox(width: 16),
-              _buildLegendBox(constants.primaryColor, 'Clients'),
+              _buildLegendBox(constants.primaryColor, 'Pending'),
             ],
           ),
         ],
