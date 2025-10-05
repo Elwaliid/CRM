@@ -64,5 +64,24 @@ class ContactService {
         }
     }
 
+    static async getClientsCountByMonth(year, month) {
+        try {
+            const daysInMonth = new Date(year, month, 0).getDate();
+            const dailyCounts = [];
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayStart = new Date(year, month - 1, day);
+                const dayEnd = new Date(year, month - 1, day + 1);
+                const count = await ContactModel.countDocuments({
+                    type: 'Client',
+                    createdAt: { $gte: dayStart, $lt: dayEnd }
+                });
+                dailyCounts.push(count);
+            }
+            return dailyCounts;
+        } catch (err) {
+            throw err;
+        }
+    }
+
 }
 module.exports = ContactService;

@@ -58,3 +58,17 @@ exports.getClientsCounts = async (req, res) => {
         res.status(500).json({ status: false, message: "Internal server error" });
     }
 }
+
+exports.getClientsCountByMonth = async (req, res) => {
+    try {
+        const { year, month } = req.query;
+        const counts = await ContactService.getClientsCountByMonth(parseInt(year), parseInt(month));
+        res.status(200).json({
+            status: true,
+            counts: counts,
+        });
+    } catch (err) {
+        console.error("Clients count by month error:", err);
+        res.status(500).json({ status: false, message: "Internal server error" });
+    }
+}

@@ -405,19 +405,53 @@ class _LineChartSample13State extends State<LineChartSample13> {
     'November',
     'December',
   ];
-  late List<List<int>> monthlyClientData;
+  List<List<int>> monthlyClientData = List.generate(12, (_) => []);
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _generateMockClientData();
+    _getClientscountData();
   }
 
-  void _generateMockClientData() {
-    final random = Random();
-    monthlyClientData = List.generate(12, (monthIndex) {
-      int daysInMonth = DateUtils.getDaysInMonth(2024, monthIndex + 1);
-      return List.generate(daysInMonth, (day) => random.nextInt(10));
+  void _getClientscountData() async {
+    await _fetchMonthData(_currentMonthIndex);
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  Future<void> _fetchMonthData(int monthIndex) async {
+    if (monthlyClientData[monthIndex].isNotEmpty) return;
+    try {
+      final year = DateTime.now().year;
+      final response = await http.get(
+        Uri.parse(
+          '$getClientsCountByMonthUrl?year=$year&month=${monthIndex + 1}',
+        ),
+      );
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data['status'] == true) {
+          setState(() {
+            monthlyClientData[monthIndex] = List<int>.from(data['counts']);
+          });
+        }
+      }
+    } catch (e) {
+      print('Error fetching month data: $e');
+    }
+  }
+
+  void _onMonthChanged(int newIndex) async {
+    if (newIndex == _currentMonthIndex) return;
+    setState(() {
+      _currentMonthIndex = newIndex;
+      isLoading = true;
+    });
+    await _fetchMonthData(newIndex);
+    setState(() {
+      isLoading = false;
     });
   }
 
@@ -442,24 +476,54 @@ class _LineChartSample13State extends State<LineChartSample13> {
           ),
         ),
         const SizedBox(height: 12),
-        SizedBox(
-          height: 300,
-          child: ScrollConfiguration(
-            behavior: _MouseDragScrollBehavior(),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: SizedBox(
-                width: chartWidth,
-                child: ClipRect(
-                  // Clip the chart widget to prevent overflow
-                  child: LineChart(
-                    _generateLineChartData(currentMonthData, daysInMonth),
+        Center(
+          child: SizedBox(
+            height: 30,
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: ScrollConfiguration(
+              behavior: _MouseDragScrollBehavior(),
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: List.generate(
+                  monthsNames.length,
+                  (index) => Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 4.0),
+                    child: ChoiceChip(
+                      label: Text(monthsNames[index].substring(0, 3)),
+                      selected: _currentMonthIndex == index,
+                      onSelected: (selected) {
+                        if (selected) {
+                          _onMonthChanged(index);
+                        }
+                      },
+                    ),
                   ),
                 ),
               ),
             ),
           ),
         ),
+        const SizedBox(height: 12),
+        isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : SizedBox(
+                height: 300,
+                child: ScrollConfiguration(
+                  behavior: _MouseDragScrollBehavior(),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: SizedBox(
+                      width: chartWidth,
+                      child: ClipRect(
+                        // Clip the chart widget to prevent overflow
+                        child: LineChart(
+                          _generateLineChartData(currentMonthData, daysInMonth),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
       ],
     );
   }
@@ -512,7 +576,7 @@ class _LineChartSample13State extends State<LineChartSample13> {
               .map((e) => FlSpot((e.key + 1).toDouble(), e.value.toDouble()))
               .toList(),
           isCurved: true,
-          color: constants.secondaryColor,
+          color: constants.primaryColor,
           barWidth: 2,
           dotData: FlDotData(
             show: true,
@@ -543,7 +607,7 @@ class _LineChartSample13State extends State<LineChartSample13> {
               );
 
               return LineTooltipItem(
-                '$day: $clients clients',
+                'day $day: $clients clients',
                 const TextStyle(
                   color: Color.fromARGB(255, 243, 242, 242),
                   fontWeight: FontWeight.bold,

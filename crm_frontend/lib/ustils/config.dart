@@ -12,4 +12,5 @@ final addOrUpdateTaskUrl = "$baseUrl/task/add-update-task";
 final getTasksUrl = "$baseUrl/task/get-tasks";
 final deleteTaskUrl = "$baseUrl/task/delete-task";
 final getClientsCountUrl = "$baseUrl/contact/Clients-count";
+final getClientsCountByMonthUrl = "$baseUrl/contact/clients-count-month";
 final getTasksDealsCountUrl = "$baseUrl/task/Tasks-Deals-count";
