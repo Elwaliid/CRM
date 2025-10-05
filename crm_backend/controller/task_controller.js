@@ -55,7 +55,7 @@ exports.getTasksCounts = async (req, res) => {
         const tasksCount = await TaskService.getTasksCount( 'notDeal');
         const dealsCount = await TaskService.getTasksCount( 'Deal');
         const completedTasks = await TaskService.getTasksCount( 'Completed');
-        const PendingTasks = TaskService.getTasksCount( 'Pending');
+        const PendingTasks = await TaskService.getTasksCount( 'Pending');
         res.status(200).json({
             status: true,
             tasksCount: tasksCount,
