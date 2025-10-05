@@ -1,0 +1,659 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "runner/Release/crm_frontend.exe"
+		},
+		{
+			"path" : "runner/Release/crm_frontend.pdb"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"install",
+			"target_link_libraries",
+			"include",
+			"add_dependencies",
+			"target_compile_options",
+			"apply_standard_settings",
+			"target_compile_definitions",
+			"add_definitions",
+			"target_include_directories",
+			"target_compile_features"
+		],
+		"files" : 
+		[
+			"runner/CMakeLists.txt",
+			"CMakeLists.txt",
+			"flutter/generated_plugins.cmake",
+			"flutter/ephemeral/.plugin_symlinks/firebase_core/windows/CMakeLists.txt",
+			"flutter/ephemeral/.plugin_symlinks/firebase_auth/windows/CMakeLists.txt",
+			"flutter/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 9,
+				"parent" : 0
+			},
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 75,
+				"parent" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 35,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 36,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 58,
+				"parent" : 2
+			},
+			{
+				"file" : 2,
+				"parent" : 6
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 19,
+				"parent" : 7
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 19,
+				"parent" : 7
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 19,
+				"parent" : 7
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 19,
+				"parent" : 7
+			},
+			{
+				"file" : 3
+			},
+			{
+				"command" : 2,
+				"file" : 3,
+				"line" : 136,
+				"parent" : 12
+			},
+			{
+				"file" : 4
+			},
+			{
+				"command" : 2,
+				"file" : 4,
+				"line" : 68,
+				"parent" : 14
+			},
+			{
+				"command" : 2,
+				"file" : 4,
+				"line" : 72,
+				"parent" : 14
+			},
+			{
+				"file" : 5
+			},
+			{
+				"command" : 2,
+				"file" : 5,
+				"line" : 39,
+				"parent" : 17
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 40,
+				"parent" : 0
+			},
+			{
+				"command" : 6,
+				"file" : 0,
+				"line" : 21,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 1,
+				"line" : 42,
+				"parent" : 20
+			},
+			{
+				"command" : 5,
+				"file" : 1,
+				"line" : 43,
+				"parent" : 20
+			},
+			{
+				"command" : 7,
+				"file" : 0,
+				"line" : 24,
+				"parent" : 0
+			},
+			{
+				"command" : 7,
+				"file" : 0,
+				"line" : 28,
+				"parent" : 0
+			},
+			{
+				"command" : 7,
+				"file" : 0,
+				"line" : 25,
+				"parent" : 0
+			},
+			{
+				"command" : 7,
+				"file" : 0,
+				"line" : 26,
+				"parent" : 0
+			},
+			{
+				"command" : 7,
+				"file" : 0,
+				"line" : 27,
+				"parent" : 0
+			},
+			{
+				"command" : 7,
+				"file" : 0,
+				"line" : 31,
+				"parent" : 0
+			},
+			{
+				"command" : 8,
+				"file" : 1,
+				"line" : 33,
+				"parent" : 2
+			},
+			{
+				"command" : 7,
+				"file" : 1,
+				"line" : 44,
+				"parent" : 20
+			},
+			{
+				"command" : 9,
+				"file" : 0,
+				"line" : 37,
+				"parent" : 0
+			},
+			{
+				"command" : 10,
+				"file" : 1,
+				"line" : 41,
+				"parent" : 20
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG -std:c++17"
+				},
+				{
+					"backtrace" : 21,
+					"fragment" : "/W4"
+				},
+				{
+					"backtrace" : 21,
+					"fragment" : "/WX"
+				},
+				{
+					"backtrace" : 21,
+					"fragment" : "/wd\\\"4100\\\""
+				},
+				{
+					"backtrace" : 22,
+					"fragment" : "/EHsc"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 9,
+					"define" : "FLUTTER_PLUGIN_IMPL"
+				},
+				{
+					"backtrace" : 23,
+					"define" : "FLUTTER_VERSION=\"1.0.0+1\""
+				},
+				{
+					"backtrace" : 24,
+					"define" : "FLUTTER_VERSION_BUILD=1"
+				},
+				{
+					"backtrace" : 25,
+					"define" : "FLUTTER_VERSION_MAJOR=1"
+				},
+				{
+					"backtrace" : 26,
+					"define" : "FLUTTER_VERSION_MINOR=0"
+				},
+				{
+					"backtrace" : 27,
+					"define" : "FLUTTER_VERSION_PATCH=0"
+				},
+				{
+					"backtrace" : 28,
+					"define" : "NOMINMAX"
+				},
+				{
+					"backtrace" : 29,
+					"define" : "UNICODE"
+				},
+				{
+					"backtrace" : 30,
+					"define" : "_HAS_EXCEPTIONS=0"
+				},
+				{
+					"backtrace" : 29,
+					"define" : "_UNICODE"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 31,
+					"path" : "F:/PROJECTS/CRM/crm_frontend/windows"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "F:/PROJECTS/CRM/crm_frontend/windows/flutter/ephemeral"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "F:/PROJECTS/CRM/crm_frontend/windows/flutter/ephemeral/cpp_client_wrapper/include"
+				},
+				{
+					"backtrace" : 8,
+					"path" : "F:/PROJECTS/CRM/crm_frontend/windows/flutter/ephemeral/.plugin_symlinks/file_selector_windows/windows/include"
+				},
+				{
+					"backtrace" : 9,
+					"path" : "F:/PROJECTS/CRM/crm_frontend/windows/flutter/ephemeral/.plugin_symlinks/firebase_auth/windows/include"
+				},
+				{
+					"backtrace" : 9,
+					"path" : "F:/PROJECTS/CRM/crm_frontend/windows/flutter/ephemeral/.plugin_symlinks/firebase_core/windows/include"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "F:/PROJECTS/CRM/crm_frontend/windows/flutter/ephemeral/.plugin_symlinks/url_launcher_windows/windows/include"
+				},
+				{
+					"backtrace" : 9,
+					"isSystem" : true,
+					"path" : "F:/PROJECTS/CRM/build/extracted/firebase_cpp_sdk_windows/include"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					32
+				],
+				"standard" : "17"
+			},
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-DWIN32"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 9,
+					"define" : "FLUTTER_PLUGIN_IMPL"
+				},
+				{
+					"backtrace" : 23,
+					"define" : "FLUTTER_VERSION=\"1.0.0+1\""
+				},
+				{
+					"backtrace" : 24,
+					"define" : "FLUTTER_VERSION_BUILD=1"
+				},
+				{
+					"backtrace" : 25,
+					"define" : "FLUTTER_VERSION_MAJOR=1"
+				},
+				{
+					"backtrace" : 26,
+					"define" : "FLUTTER_VERSION_MINOR=0"
+				},
+				{
+					"backtrace" : 27,
+					"define" : "FLUTTER_VERSION_PATCH=0"
+				},
+				{
+					"backtrace" : 28,
+					"define" : "NOMINMAX"
+				},
+				{
+					"backtrace" : 29,
+					"define" : "UNICODE"
+				},
+				{
+					"backtrace" : 30,
+					"define" : "_HAS_EXCEPTIONS=0"
+				},
+				{
+					"backtrace" : 29,
+					"define" : "_UNICODE"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 31,
+					"path" : "F:/PROJECTS/CRM/crm_frontend/windows"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "F:/PROJECTS/CRM/crm_frontend/windows/flutter/ephemeral"
+				},
+				{
+					"backtrace" : 4,
+					"path" : "F:/PROJECTS/CRM/crm_frontend/windows/flutter/ephemeral/cpp_client_wrapper/include"
+				},
+				{
+					"backtrace" : 8,
+					"path" : "F:/PROJECTS/CRM/crm_frontend/windows/flutter/ephemeral/.plugin_symlinks/file_selector_windows/windows/include"
+				},
+				{
+					"backtrace" : 9,
+					"path" : "F:/PROJECTS/CRM/crm_frontend/windows/flutter/ephemeral/.plugin_symlinks/firebase_auth/windows/include"
+				},
+				{
+					"backtrace" : 9,
+					"path" : "F:/PROJECTS/CRM/crm_frontend/windows/flutter/ephemeral/.plugin_symlinks/firebase_core/windows/include"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "F:/PROJECTS/CRM/crm_frontend/windows/flutter/ephemeral/.plugin_symlinks/url_launcher_windows/windows/include"
+				},
+				{
+					"backtrace" : 9,
+					"isSystem" : true,
+					"path" : "F:/PROJECTS/CRM/build/extracted/firebase_cpp_sdk_windows/include"
+				}
+			],
+			"language" : "RC",
+			"sourceIndexes" : 
+			[
+				5
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 9,
+			"id" : "flutter_wrapper_plugin::@2bb09fbb03a373b2cb34"
+		},
+		{
+			"backtrace" : 11,
+			"id" : "url_launcher_windows_plugin::@82e8e937a0da8e6132e4"
+		},
+		{
+			"backtrace" : 8,
+			"id" : "file_selector_windows_plugin::@24329985f05541c6c489"
+		},
+		{
+			"backtrace" : 4,
+			"id" : "flutter_wrapper_app::@2bb09fbb03a373b2cb34"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "firebase_auth_plugin::@94a4f965bf50da898e31"
+		},
+		{
+			"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 19,
+			"id" : "flutter_assemble::@2bb09fbb03a373b2cb34"
+		},
+		{
+			"backtrace" : 9,
+			"id" : "firebase_core_plugin::@8918e374103d0b1befce"
+		}
+	],
+	"id" : "crm_frontend::@056c4f61b0156d1d9b06",
+	"install" : 
+	{
+		"destinations" : 
+		[
+			{
+				"backtrace" : 3,
+				"path" : "F:/PROJECTS/CRM/build/runner/Release"
+			}
+		],
+		"prefix" : 
+		{
+			"path" : "$<TARGET_FILE_DIR:crm_frontend>"
+		}
+	},
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "/DWIN32 /D_WINDOWS /W3 /GR /EHsc /MD /O2 /Ob2 /DNDEBUG",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "/machine:x64 /INCREMENTAL:NO /subsystem:windows",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "..\\flutter\\Release\\flutter_wrapper_app.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 5,
+				"fragment" : "dwmapi.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 8,
+				"fragment" : "..\\plugins\\file_selector_windows\\Release\\file_selector_windows_plugin.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 9,
+				"fragment" : "..\\plugins\\firebase_auth\\Release\\firebase_auth_plugin.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 10,
+				"fragment" : "..\\plugins\\firebase_core\\Release\\firebase_core_plugin.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 11,
+				"fragment" : "..\\plugins\\url_launcher_windows\\Release\\url_launcher_windows_plugin.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 13,
+				"fragment" : "..\\extracted\\firebase_cpp_sdk_windows\\libs\\windows\\VS2019\\MD\\x64\\Release\\firebase_app.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 13,
+				"fragment" : "advapi32.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 13,
+				"fragment" : "ws2_32.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 13,
+				"fragment" : "crypt32.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 13,
+				"fragment" : "rpcrt4.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 13,
+				"fragment" : "ole32.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 13,
+				"fragment" : "icu.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 15,
+				"fragment" : "..\\extracted\\firebase_cpp_sdk_windows\\libs\\windows\\VS2019\\MD\\x64\\Release\\firebase_auth.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 16,
+				"fragment" : "..\\flutter\\Release\\flutter_wrapper_plugin.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 18,
+				"fragment" : "F:\\PROJECTS\\CRM\\crm_frontend\\windows\\flutter\\ephemeral\\flutter_windows.dll.lib",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "crm_frontend",
+	"nameOnDisk" : "crm_frontend.exe",
+	"paths" : 
+	{
+		"build" : "runner",
+		"source" : "runner"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5
+			]
+		},
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				6
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "runner/flutter_window.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "runner/main.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "runner/utils.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "runner/win32_window.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "flutter/generated_plugin_registrant.cc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "runner/Runner.rc",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "runner/runner.exe.manifest",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "EXECUTABLE"
+}

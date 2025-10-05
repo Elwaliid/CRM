@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously, deprecated_member_use, unnecessary_string_interpolations, non_constant_identifier_names, avoid_print
 import 'package:crm_frontend/ustils/config.dart';
+import 'package:crm_frontend/ustils/email_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -28,6 +29,14 @@ class _ContactsScreenState extends State<ContactsScreen> {
     super.initState();
     _fetchContacts();
     _searchController.addListener(_filterContact);
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _emailSubjectController.dispose();
+    _emailBodyController.dispose();
+    super.dispose();
   }
 
   Future<void> _fetchContacts() async {
@@ -402,7 +411,10 @@ class _ContactsScreenState extends State<ContactsScreen> {
                                         ),
                                         TextButton(
                                           onPressed: () =>
-                                              SendEmail(contact.email),
+                                              showEmailModalBottomSheet(
+                                                context,
+                                                contact.email,
+                                              ),
                                           child: Text(
                                             '${contact.email}',
                                             style: GoogleFonts.roboto(

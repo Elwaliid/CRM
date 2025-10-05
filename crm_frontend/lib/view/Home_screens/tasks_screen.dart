@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, deprecated_member_use, unnecessary_null_comparison, non_constant_identifier_names, prefer_final_fields
 
 import 'package:crm_frontend/ustils/config.dart';
+import 'package:crm_frontend/ustils/email_utils.dart';
 import 'package:crm_frontend/view/Sub_screens/Task_Details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -782,9 +783,10 @@ class _TasksScreenState extends State<TasksScreen> {
                                 } else if (action == 'Email' &&
                                     _selectedEmail != null) {
                                   Navigator.pop(context);
-                                  _emailSubjectController.clear();
-                                  _emailBodyController.clear();
-                                  EmailshowModalBottomSheet(_selectedEmail!);
+                                  showEmailModalBottomSheet(
+                                    context,
+                                    _selectedEmail!,
+                                  );
                                 } else {
                                   launchUrl(Uri.parse(_meeting_web_Url!));
                                   Navigator.pop(context);
@@ -817,120 +819,5 @@ class _TasksScreenState extends State<TasksScreen> {
         );
       },
     );
-  }
-
-  ////////////////////////////////////////
-  EmailshowModalBottomSheet(String email) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Compose Email',
-                    style: GoogleFonts.poppins(fontSize: 18),
-                  ),
-                  SizedBox(height: 16),
-                  TextField(
-                    readOnly: true,
-                    decoration: InputDecoration(
-                      labelText: 'To',
-                      border: OutlineInputBorder(),
-                    ),
-                    controller: TextEditingController(text: _selectedEmail),
-                  ),
-                  SizedBox(height: 16),
-                  TextField(
-                    controller: _emailSubjectController,
-                    decoration: InputDecoration(
-                      labelText: 'Subject',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                  TextField(
-                    controller: _emailBodyController,
-                    decoration: InputDecoration(
-                      labelText: 'Body',
-                      border: OutlineInputBorder(),
-                    ),
-                    maxLines: 5,
-                  ),
-                  SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          sendEmail(context);
-                          ;
-                          Navigator.pop(context);
-                        },
-                        child: Text('Send'),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text('Cancel'),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-
-  //////////////////////////////////////// send email function
-  sendEmail(BuildContext context) async {
-    String receiverMail = _selectedEmail ?? ''; // receiver's mail
-    String sub = _emailSubjectController.text; // subject of mail
-    String text = _emailBodyController.text; // text in mail
-
-    try {
-      final response = await http.post(
-        Uri.parse(sendEmailUrl),
-        headers: {'Content-Type': 'application/json'},
-        body: '{"to": "$receiverMail", "subject": "$sub", "text": "$text"}',
-      );
-
-      if (response.statusCode == 200) {
-        print('Email sent successfully');
-        Get.snackbar(
-          'Success',
-          'Email Sent Successfully',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: const Color.fromARGB(255, 116, 148, 117),
-          colorText: Colors.white,
-        );
-      } else {
-        print('Failed to send email: ${response.body}');
-        Get.snackbar(
-          'Error',
-          'Failed to send email',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: const Color.fromARGB(255, 134, 93, 90),
-          colorText: Colors.white,
-        );
-      }
-    } catch (e) {
-      print('Error sending email: $e');
-      Get.snackbar(
-        'Error',
-        'Error sending email',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
-    }
   }
 }
