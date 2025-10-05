@@ -66,26 +66,22 @@ class TaskService {
         }catch (err) {  throw err;}
     }
 
-    static async getTasksDealsCountToday( typeFilter) {
+    static async getTasksCount(typeFilter) {
         try {
             const today = new Date().toISOString().split('T')[0]; // 'YYYY-MM-DD'
 
-            if(typeFilter === 'Deal' || typeFilter==='notDeal'){
-              let query = {
-                dueDate: today
-            };
-          }
-            if (typeFilter === 'Completed'){
-             query.status ='Completed'
-            }
-            else if(typeFilter === 'Pending'){
-             query.status ='Pending'
-            }
-           else if (typeFilter === 'Deal') {
+            let query = { dueDate: today };
+
+            if (typeFilter === 'Completed') {
+                query.status = 'Completed';
+            } else if (typeFilter === 'Pending') {
+                query.status = 'Pending';
+            } else if (typeFilter === 'Deal') {
                 query.type = 'Deal';
-            } else {
+            } else if (typeFilter === 'notDeal') {
                 query.type = { $ne: 'Deal' };
             }
+            // If typeFilter is none of the above, count all tasks due today
 
             return await TaskModel.countDocuments(query);
         } catch (err) {

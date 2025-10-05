@@ -30,12 +30,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
   int clientsCount = 0;
   int tasksCount = 0;
   int dealsCount = 0;
+  int CompletedTasks = 0;
+  int PendingTasks = 0;
   @override
   void initState() {
     super.initState();
     _todayclientsCount();
     _todaytasksCount();
     _todaydealsCount();
+    _completedtasksCount();
+    _pendingtasksCount();
     if (widget.userId != null) {
       _fetchUserName(widget.userId!);
     }
@@ -106,6 +110,38 @@ class _DashboardScreenState extends State<DashboardScreen> {
         if (data['status'] == true) {
           setState(() {
             dealsCount = data['dealsCount'] ?? 0;
+          });
+        }
+      }
+    } catch (e) {
+      print('Error fetching tasks count: $e');
+    }
+  }
+
+  Future<void> _completedtasksCount() async {
+    try {
+      final response = await http.get(Uri.parse(getTasksCountUrl));
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data['status'] == true) {
+          setState(() {
+            CompletedTasks = data['completedTasks'] ?? 0;
+          });
+        }
+      }
+    } catch (e) {
+      print('Error fetching tasks count: $e');
+    }
+  }
+
+  Future<void> _pendingtasksCount() async {
+    try {
+      final response = await http.get(Uri.parse(getTasksCountUrl));
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data['status'] == true) {
+          setState(() {
+            PendingTasks = data['PendingTasks'] ?? 0;
           });
         }
       }
