@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'dart:convert';
 import 'package:crm_frontend/ustils/config.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:crm_frontend/ustils/constants.dart' as constants;
 import 'package:crm_frontend/view/Widgets/quick_adds.dart';
 import 'package:fl_chart/fl_chart.dart';

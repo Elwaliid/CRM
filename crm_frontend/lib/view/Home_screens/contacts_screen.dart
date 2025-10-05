@@ -161,6 +161,12 @@ class _ContactsScreenState extends State<ContactsScreen> {
                           itemCount: _Contacts.length,
                           itemBuilder: (context, index) {
                             final contact = _Contacts[index];
+                            String displayName =
+                                '${contact.firstname} ${contact.lastname}';
+                            if (displayName.length > 19) {
+                              displayName =
+                                  displayName.substring(0, 16) + '...';
+                            }
                             ///////////////////////////////////////////// Contact gesture
                             return GestureDetector(
                               onTap: () {
@@ -195,7 +201,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                                       children: [
                                         /////////////////////////////////////////// Contact firstname and lastname
                                         Text(
-                                          '${contact.firstname} ${contact.lastname}',
+                                          displayName,
                                           style: GoogleFonts.poppins(
                                             fontSize: 22,
                                             fontWeight: FontWeight.bold,

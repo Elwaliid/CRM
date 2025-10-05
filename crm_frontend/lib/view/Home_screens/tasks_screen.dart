@@ -203,14 +203,38 @@ class _TasksScreenState extends State<TasksScreen> {
                                     Row(
                                       children: [
                                         /////////////////////////////////////////// Task title
-                                        Text(
-                                          task.title,
-                                          style: GoogleFonts.poppins(
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.bold,
-                                            color: primaryColor,
-                                          ),
-                                        ),
+                                        task.title.length <= 19
+                                            ? Text(
+                                                task.title,
+                                                style: GoogleFonts.poppins(
+                                                  fontSize: 22,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: primaryColor,
+                                                ),
+                                              )
+                                            : Row(
+                                                children: [
+                                                  Text(
+                                                    task.title.substring(0, 15),
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: 22,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: primaryColor,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    "...",
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: 22,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: primaryColor,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+
                                         const SizedBox(height: 8),
                                         ///////////////////////////////////// Status
                                         Container(

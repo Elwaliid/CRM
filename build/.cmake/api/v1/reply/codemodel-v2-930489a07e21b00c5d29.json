@@ -1,0 +1,1048 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4,
+						5,
+						7
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-53f5e88c65038bc891dc.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						6
+					]
+				},
+				{
+					"build" : "flutter",
+					"jsonFile" : "directory-flutter-Debug-79e0260f2327d8493c28.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "flutter",
+					"targetIndexes" : 
+					[
+						11,
+						12,
+						13
+					]
+				},
+				{
+					"build" : "runner",
+					"jsonFile" : "directory-runner-Debug-86f38b7dcb6f33eb04e4.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "runner",
+					"targetIndexes" : 
+					[
+						1,
+						7
+					]
+				},
+				{
+					"build" : "plugins/file_selector_windows",
+					"jsonFile" : "directory-plugins.file_selector_windows-Debug-00e6fb393360b0d33738.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 2,
+					"source" : "flutter/ephemeral/.plugin_symlinks/file_selector_windows/windows",
+					"targetIndexes" : 
+					[
+						2,
+						8
+					]
+				},
+				{
+					"build" : "plugins/firebase_auth",
+					"jsonFile" : "directory-plugins.firebase_auth-Debug-c67cd0b3ec2706d6c962.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 3,
+					"source" : "flutter/ephemeral/.plugin_symlinks/firebase_auth/windows",
+					"targetIndexes" : 
+					[
+						3,
+						9
+					]
+				},
+				{
+					"build" : "plugins/firebase_core",
+					"childIndexes" : 
+					[
+						6
+					],
+					"jsonFile" : "directory-plugins.firebase_core-Debug-aba9916733b0014166fc.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 4,
+					"source" : "flutter/ephemeral/.plugin_symlinks/firebase_core/windows",
+					"targetIndexes" : 
+					[
+						4,
+						10
+					]
+				},
+				{
+					"build" : "plugins/firebase_core/bin",
+					"jsonFile" : "directory-plugins.firebase_core.bin-Debug-cd7c0b89fe5e9ce2c0f3.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.1"
+					},
+					"parentIndex" : 5,
+					"projectIndex" : 4,
+					"source" : "F:/PROJECTS/CRM/build/extracted/firebase_cpp_sdk_windows"
+				},
+				{
+					"build" : "plugins/url_launcher_windows",
+					"jsonFile" : "directory-plugins.url_launcher_windows-Debug-b718b41db8fa69359ace.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 5,
+					"source" : "flutter/ephemeral/.plugin_symlinks/url_launcher_windows/windows",
+					"targetIndexes" : 
+					[
+						5,
+						14
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4,
+						5
+					],
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "crm_frontend",
+					"targetIndexes" : 
+					[
+						0,
+						6,
+						11,
+						12,
+						13
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						2
+					],
+					"name" : "runner",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1,
+						7
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						3
+					],
+					"name" : "file_selector_windows",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						2,
+						8
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						4
+					],
+					"name" : "firebase_auth",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						3,
+						9
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						5,
+						6
+					],
+					"name" : "firebase_core",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						4,
+						10
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						7
+					],
+					"name" : "url_launcher_windows",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						5,
+						14
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ALL_BUILD-Debug-af17323712788ba6a4b3.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "ALL_BUILD::@056c4f61b0156d1d9b06",
+					"jsonFile" : "target-ALL_BUILD-Debug-c017ba087dbad7fb017b.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "ALL_BUILD::@24329985f05541c6c489",
+					"jsonFile" : "target-ALL_BUILD-Debug-10990195c668fae192a3.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "ALL_BUILD::@94a4f965bf50da898e31",
+					"jsonFile" : "target-ALL_BUILD-Debug-4ae64570923892d1d0fa.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "ALL_BUILD::@8918e374103d0b1befce",
+					"jsonFile" : "target-ALL_BUILD-Debug-cb5bc9e53df3b3804e88.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "ALL_BUILD::@82e8e937a0da8e6132e4",
+					"jsonFile" : "target-ALL_BUILD-Debug-ade3f81d8fce9d6e3891.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 5
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ZERO_CHECK-Debug-71b559678e59cff9cfe8.json",
+					"name" : "ZERO_CHECK",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "crm_frontend::@056c4f61b0156d1d9b06",
+					"jsonFile" : "target-crm_frontend-Debug-688c6881516ac8177114.json",
+					"name" : "crm_frontend",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "file_selector_windows_plugin::@24329985f05541c6c489",
+					"jsonFile" : "target-file_selector_windows_plugin-Debug-47ab40f85e387132b13c.json",
+					"name" : "file_selector_windows_plugin",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "firebase_auth_plugin::@94a4f965bf50da898e31",
+					"jsonFile" : "target-firebase_auth_plugin-Debug-534a3f5243a9f2984b4b.json",
+					"name" : "firebase_auth_plugin",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "firebase_core_plugin::@8918e374103d0b1befce",
+					"jsonFile" : "target-firebase_core_plugin-Debug-bb2eb57bf135b287cebc.json",
+					"name" : "firebase_core_plugin",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "flutter_assemble::@2bb09fbb03a373b2cb34",
+					"jsonFile" : "target-flutter_assemble-Debug-84710e5abd8a0520d0b9.json",
+					"name" : "flutter_assemble",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "flutter_wrapper_app::@2bb09fbb03a373b2cb34",
+					"jsonFile" : "target-flutter_wrapper_app-Debug-f1f2dba1fb4393386d72.json",
+					"name" : "flutter_wrapper_app",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "flutter_wrapper_plugin::@2bb09fbb03a373b2cb34",
+					"jsonFile" : "target-flutter_wrapper_plugin-Debug-ae159857ad4a7d1581e4.json",
+					"name" : "flutter_wrapper_plugin",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "url_launcher_windows_plugin::@82e8e937a0da8e6132e4",
+					"jsonFile" : "target-url_launcher_windows_plugin-Debug-f5700b01c10a5b09d96c.json",
+					"name" : "url_launcher_windows_plugin",
+					"projectIndex" : 5
+				}
+			]
+		},
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4,
+						5,
+						7
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Profile-f33b6bc5521eb15a2d5a.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						6
+					]
+				},
+				{
+					"build" : "flutter",
+					"jsonFile" : "directory-flutter-Profile-79e0260f2327d8493c28.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "flutter",
+					"targetIndexes" : 
+					[
+						11,
+						12,
+						13
+					]
+				},
+				{
+					"build" : "runner",
+					"jsonFile" : "directory-runner-Profile-86f38b7dcb6f33eb04e4.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "runner",
+					"targetIndexes" : 
+					[
+						1,
+						7
+					]
+				},
+				{
+					"build" : "plugins/file_selector_windows",
+					"jsonFile" : "directory-plugins.file_selector_windows-Profile-00e6fb393360b0d33738.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 2,
+					"source" : "flutter/ephemeral/.plugin_symlinks/file_selector_windows/windows",
+					"targetIndexes" : 
+					[
+						2,
+						8
+					]
+				},
+				{
+					"build" : "plugins/firebase_auth",
+					"jsonFile" : "directory-plugins.firebase_auth-Profile-c67cd0b3ec2706d6c962.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 3,
+					"source" : "flutter/ephemeral/.plugin_symlinks/firebase_auth/windows",
+					"targetIndexes" : 
+					[
+						3,
+						9
+					]
+				},
+				{
+					"build" : "plugins/firebase_core",
+					"childIndexes" : 
+					[
+						6
+					],
+					"jsonFile" : "directory-plugins.firebase_core-Profile-aba9916733b0014166fc.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 4,
+					"source" : "flutter/ephemeral/.plugin_symlinks/firebase_core/windows",
+					"targetIndexes" : 
+					[
+						4,
+						10
+					]
+				},
+				{
+					"build" : "plugins/firebase_core/bin",
+					"jsonFile" : "directory-plugins.firebase_core.bin-Profile-cd7c0b89fe5e9ce2c0f3.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.1"
+					},
+					"parentIndex" : 5,
+					"projectIndex" : 4,
+					"source" : "F:/PROJECTS/CRM/build/extracted/firebase_cpp_sdk_windows"
+				},
+				{
+					"build" : "plugins/url_launcher_windows",
+					"jsonFile" : "directory-plugins.url_launcher_windows-Profile-b718b41db8fa69359ace.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 5,
+					"source" : "flutter/ephemeral/.plugin_symlinks/url_launcher_windows/windows",
+					"targetIndexes" : 
+					[
+						5,
+						14
+					]
+				}
+			],
+			"name" : "Profile",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4,
+						5
+					],
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "crm_frontend",
+					"targetIndexes" : 
+					[
+						0,
+						6,
+						11,
+						12,
+						13
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						2
+					],
+					"name" : "runner",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1,
+						7
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						3
+					],
+					"name" : "file_selector_windows",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						2,
+						8
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						4
+					],
+					"name" : "firebase_auth",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						3,
+						9
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						5,
+						6
+					],
+					"name" : "firebase_core",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						4,
+						10
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						7
+					],
+					"name" : "url_launcher_windows",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						5,
+						14
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ALL_BUILD-Profile-af17323712788ba6a4b3.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "ALL_BUILD::@056c4f61b0156d1d9b06",
+					"jsonFile" : "target-ALL_BUILD-Profile-c017ba087dbad7fb017b.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "ALL_BUILD::@24329985f05541c6c489",
+					"jsonFile" : "target-ALL_BUILD-Profile-10990195c668fae192a3.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "ALL_BUILD::@94a4f965bf50da898e31",
+					"jsonFile" : "target-ALL_BUILD-Profile-4ae64570923892d1d0fa.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "ALL_BUILD::@8918e374103d0b1befce",
+					"jsonFile" : "target-ALL_BUILD-Profile-cb5bc9e53df3b3804e88.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "ALL_BUILD::@82e8e937a0da8e6132e4",
+					"jsonFile" : "target-ALL_BUILD-Profile-ade3f81d8fce9d6e3891.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 5
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ZERO_CHECK-Profile-71b559678e59cff9cfe8.json",
+					"name" : "ZERO_CHECK",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "crm_frontend::@056c4f61b0156d1d9b06",
+					"jsonFile" : "target-crm_frontend-Profile-8037744e7ac1c04324bd.json",
+					"name" : "crm_frontend",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "file_selector_windows_plugin::@24329985f05541c6c489",
+					"jsonFile" : "target-file_selector_windows_plugin-Profile-4eaa0acdbf35f74caf2f.json",
+					"name" : "file_selector_windows_plugin",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "firebase_auth_plugin::@94a4f965bf50da898e31",
+					"jsonFile" : "target-firebase_auth_plugin-Profile-29f526f34e60660e9d18.json",
+					"name" : "firebase_auth_plugin",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "firebase_core_plugin::@8918e374103d0b1befce",
+					"jsonFile" : "target-firebase_core_plugin-Profile-0adf954cf178399b32b1.json",
+					"name" : "firebase_core_plugin",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "flutter_assemble::@2bb09fbb03a373b2cb34",
+					"jsonFile" : "target-flutter_assemble-Profile-84710e5abd8a0520d0b9.json",
+					"name" : "flutter_assemble",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "flutter_wrapper_app::@2bb09fbb03a373b2cb34",
+					"jsonFile" : "target-flutter_wrapper_app-Profile-47dfb8f8bde59cb6a886.json",
+					"name" : "flutter_wrapper_app",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "flutter_wrapper_plugin::@2bb09fbb03a373b2cb34",
+					"jsonFile" : "target-flutter_wrapper_plugin-Profile-de34c369328d43837f50.json",
+					"name" : "flutter_wrapper_plugin",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "url_launcher_windows_plugin::@82e8e937a0da8e6132e4",
+					"jsonFile" : "target-url_launcher_windows_plugin-Profile-81fd9538835fd0504b12.json",
+					"name" : "url_launcher_windows_plugin",
+					"projectIndex" : 5
+				}
+			]
+		},
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4,
+						5,
+						7
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Release-feede741ef34cecf0b7a.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						6
+					]
+				},
+				{
+					"build" : "flutter",
+					"jsonFile" : "directory-flutter-Release-79e0260f2327d8493c28.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "flutter",
+					"targetIndexes" : 
+					[
+						11,
+						12,
+						13
+					]
+				},
+				{
+					"build" : "runner",
+					"jsonFile" : "directory-runner-Release-86f38b7dcb6f33eb04e4.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "runner",
+					"targetIndexes" : 
+					[
+						1,
+						7
+					]
+				},
+				{
+					"build" : "plugins/file_selector_windows",
+					"jsonFile" : "directory-plugins.file_selector_windows-Release-00e6fb393360b0d33738.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 2,
+					"source" : "flutter/ephemeral/.plugin_symlinks/file_selector_windows/windows",
+					"targetIndexes" : 
+					[
+						2,
+						8
+					]
+				},
+				{
+					"build" : "plugins/firebase_auth",
+					"jsonFile" : "directory-plugins.firebase_auth-Release-c67cd0b3ec2706d6c962.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 3,
+					"source" : "flutter/ephemeral/.plugin_symlinks/firebase_auth/windows",
+					"targetIndexes" : 
+					[
+						3,
+						9
+					]
+				},
+				{
+					"build" : "plugins/firebase_core",
+					"childIndexes" : 
+					[
+						6
+					],
+					"jsonFile" : "directory-plugins.firebase_core-Release-aba9916733b0014166fc.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.14"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 4,
+					"source" : "flutter/ephemeral/.plugin_symlinks/firebase_core/windows",
+					"targetIndexes" : 
+					[
+						4,
+						10
+					]
+				},
+				{
+					"build" : "plugins/firebase_core/bin",
+					"jsonFile" : "directory-plugins.firebase_core.bin-Release-cd7c0b89fe5e9ce2c0f3.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.1"
+					},
+					"parentIndex" : 5,
+					"projectIndex" : 4,
+					"source" : "F:/PROJECTS/CRM/build/extracted/firebase_cpp_sdk_windows"
+				},
+				{
+					"build" : "plugins/url_launcher_windows",
+					"jsonFile" : "directory-plugins.url_launcher_windows-Release-b718b41db8fa69359ace.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 5,
+					"source" : "flutter/ephemeral/.plugin_symlinks/url_launcher_windows/windows",
+					"targetIndexes" : 
+					[
+						5,
+						14
+					]
+				}
+			],
+			"name" : "Release",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4,
+						5
+					],
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "crm_frontend",
+					"targetIndexes" : 
+					[
+						0,
+						6,
+						11,
+						12,
+						13
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						2
+					],
+					"name" : "runner",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1,
+						7
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						3
+					],
+					"name" : "file_selector_windows",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						2,
+						8
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						4
+					],
+					"name" : "firebase_auth",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						3,
+						9
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						5,
+						6
+					],
+					"name" : "firebase_core",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						4,
+						10
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						7
+					],
+					"name" : "url_launcher_windows",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						5,
+						14
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ALL_BUILD-Release-af17323712788ba6a4b3.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "ALL_BUILD::@056c4f61b0156d1d9b06",
+					"jsonFile" : "target-ALL_BUILD-Release-c017ba087dbad7fb017b.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "ALL_BUILD::@24329985f05541c6c489",
+					"jsonFile" : "target-ALL_BUILD-Release-10990195c668fae192a3.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "ALL_BUILD::@94a4f965bf50da898e31",
+					"jsonFile" : "target-ALL_BUILD-Release-4ae64570923892d1d0fa.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "ALL_BUILD::@8918e374103d0b1befce",
+					"jsonFile" : "target-ALL_BUILD-Release-cb5bc9e53df3b3804e88.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "ALL_BUILD::@82e8e937a0da8e6132e4",
+					"jsonFile" : "target-ALL_BUILD-Release-ade3f81d8fce9d6e3891.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 5
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ZERO_CHECK-Release-71b559678e59cff9cfe8.json",
+					"name" : "ZERO_CHECK",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "crm_frontend::@056c4f61b0156d1d9b06",
+					"jsonFile" : "target-crm_frontend-Release-e55f99764a4eb535b178.json",
+					"name" : "crm_frontend",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "file_selector_windows_plugin::@24329985f05541c6c489",
+					"jsonFile" : "target-file_selector_windows_plugin-Release-bd4961b750ea881d1357.json",
+					"name" : "file_selector_windows_plugin",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "firebase_auth_plugin::@94a4f965bf50da898e31",
+					"jsonFile" : "target-firebase_auth_plugin-Release-10ba9ba8eba490581e05.json",
+					"name" : "firebase_auth_plugin",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "firebase_core_plugin::@8918e374103d0b1befce",
+					"jsonFile" : "target-firebase_core_plugin-Release-65777abac6ce6193efba.json",
+					"name" : "firebase_core_plugin",
+					"projectIndex" : 4
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "flutter_assemble::@2bb09fbb03a373b2cb34",
+					"jsonFile" : "target-flutter_assemble-Release-84710e5abd8a0520d0b9.json",
+					"name" : "flutter_assemble",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "flutter_wrapper_app::@2bb09fbb03a373b2cb34",
+					"jsonFile" : "target-flutter_wrapper_app-Release-08ed4c8689bee3301516.json",
+					"name" : "flutter_wrapper_app",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "flutter_wrapper_plugin::@2bb09fbb03a373b2cb34",
+					"jsonFile" : "target-flutter_wrapper_plugin-Release-e014aab2c423b6319efc.json",
+					"name" : "flutter_wrapper_plugin",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "url_launcher_windows_plugin::@82e8e937a0da8e6132e4",
+					"jsonFile" : "target-url_launcher_windows_plugin-Release-6b2214cb8e597673bc7d.json",
+					"name" : "url_launcher_windows_plugin",
+					"projectIndex" : 5
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "F:/PROJECTS/CRM/build",
+		"source" : "F:/PROJECTS/CRM/crm_frontend/windows"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 8
+	}
+}
