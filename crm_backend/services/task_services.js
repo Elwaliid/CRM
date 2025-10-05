@@ -70,7 +70,11 @@ class TaskService {
         try {
             const today = new Date().toISOString().split('T')[0]; // 'YYYY-MM-DD'
 
-            let query = { dueDate: today };
+            let query = {};
+
+            if (typeFilter === 'Deal' || typeFilter === 'notDeal') {
+                query.dueDate = today;
+            }
 
             if (typeFilter === 'Completed') {
                 query.status = 'Completed';
@@ -81,7 +85,7 @@ class TaskService {
             } else if (typeFilter === 'notDeal') {
                 query.type = { $ne: 'Deal' };
             }
-            // If typeFilter is none of the above, count all tasks due today
+            // If typeFilter is none of the above, count all tasks
 
             return await TaskModel.countDocuments(query);
         } catch (err) {
