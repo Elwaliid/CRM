@@ -378,26 +378,31 @@ class _ContactsScreenState extends State<ContactsScreen> {
                                         ),
                                       ],
                                     ),
+
                                     ///////////////////////////// phone
-                                    Column(
+                                    Text(
+                                      'Phone: ${contact.phone}',
+                                      style: GoogleFonts.roboto(
+                                        fontSize: 16,
+                                        color: secondaryColor,
+                                      ),
+                                    ),
+
+                                    ////////////////////////////////// Email
+                                    Row(
                                       children: [
                                         Text(
-                                          'Phone: ${contact.phone}',
+                                          'Email:',
                                           style: GoogleFonts.roboto(
                                             fontSize: 16,
                                             color: secondaryColor,
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        ////////////////////////////////// Email
                                         TextButton(
                                           onPressed: () =>
                                               SendEmail(contact.email),
                                           child: Text(
-                                            'Email: ${contact.email}',
+                                            '${contact.email}',
                                             style: GoogleFonts.roboto(
                                               fontSize: 16,
                                               color: secondaryColor,
@@ -471,20 +476,5 @@ class _ContactsScreenState extends State<ContactsScreen> {
         ),
       ),
     );
-  }
-}
-
-void SendEmail(String email) async {
-  final Uri emailUri = Uri(
-    scheme: 'mailto',
-    path: email,
-    query:
-        'subject=Hello from the CRM App&body=I want to get in touch with you',
-  );
-
-  if (await canLaunchUrl(emailUri)) {
-    await launchUrl(emailUri);
-  } else {
-    print('Could not launch email client');
   }
 }

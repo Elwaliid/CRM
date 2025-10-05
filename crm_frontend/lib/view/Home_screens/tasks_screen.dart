@@ -410,7 +410,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                         color: secondaryColor,
                                       ),
                                     ),
-                                    // ///////////////////////////////////////////// Assigned to
+                                    // ///////////////////////////////////////////// Related to
                                     Text(
                                       'Related to: ${task.relatedToNames.join(', ')}',
                                       style: GoogleFonts.roboto(
@@ -418,7 +418,8 @@ class _TasksScreenState extends State<TasksScreen> {
                                         color: secondaryColor,
                                       ),
                                     ),
-                                    /////////////////////////////////////////// Description
+
+                                    /////////////////////////////////////////// Description and Task icons
                                     Row(
                                       children: [
                                         Text(
@@ -429,7 +430,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                           ),
                                         ),
                                         Spacer(),
-                                        ///////////////////////////////////////////////////////// Task icons
+                                        //////////////////////////////////////////
                                         ////////////////////////// call and message
                                         if (task.type == 'Call/Message')
                                           Row(
@@ -783,7 +784,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                   Navigator.pop(context);
                                   _emailSubjectController.clear();
                                   _emailBodyController.clear();
-                                  EmailshowModalBottomSheet();
+                                  EmailshowModalBottomSheet(_selectedEmail!);
                                 } else {
                                   launchUrl(Uri.parse(_meeting_web_Url!));
                                   Navigator.pop(context);
@@ -819,7 +820,7 @@ class _TasksScreenState extends State<TasksScreen> {
   }
 
   ////////////////////////////////////////
-  EmailshowModalBottomSheet() {
+  EmailshowModalBottomSheet(String email) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -867,6 +868,7 @@ class _TasksScreenState extends State<TasksScreen> {
                       ElevatedButton(
                         onPressed: () {
                           sendEmail(context);
+                          ;
                           Navigator.pop(context);
                         },
                         child: Text('Send'),
