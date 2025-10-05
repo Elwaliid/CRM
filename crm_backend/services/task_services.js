@@ -85,7 +85,6 @@ class TaskService {
             } else if (typeFilter === 'notDeal') {
                 query.type = { $ne: 'Deal' };
             }
-            // If typeFilter is none of the above, count all tasks
 
             return await TaskModel.countDocuments(query);
         } catch (err) {

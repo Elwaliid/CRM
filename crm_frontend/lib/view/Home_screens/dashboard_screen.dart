@@ -333,7 +333,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   const SizedBox(height: 24),
 
                   ////////////////////////////////////////////////////////// Pie Chart
-                  const PieChartSample2(),
+                  PieChartSample2(
+                    completed: CompletedTasks,
+                    pending: PendingTasks,
+                  ),
                 ],
               ),
             ),
@@ -667,7 +670,14 @@ class _MouseDragScrollBehavior extends MaterialScrollBehavior {
 
 /////////////////////////////////////////////////////////////////////////////////////// PIE CHART
 class PieChartSample2 extends StatefulWidget {
-  const PieChartSample2({super.key});
+  final int completed;
+  final int pending;
+
+  const PieChartSample2({
+    super.key,
+    required this.completed,
+    required this.pending,
+  });
 
   @override
   State<StatefulWidget> createState() => PieChart2State();
@@ -677,11 +687,15 @@ class PieChart2State extends State<PieChartSample2> {
   int touchedIndex = -1;
 
   List<PieChartSectionData> showingSections() {
+    final total = widget.completed + widget.pending;
+    final completedPercent = total > 0 ? (widget.completed / total) * 100 : 0;
+    final pendingPercent = total > 0 ? (widget.pending / total) * 100 : 0;
+
     return [
       PieChartSectionData(
-        color: constants.primaryColor,
-        value: 40,
-        title: '40%',
+        color: constants.contentColorGreen,
+        value: widget.completed.toDouble(),
+        title: '${completedPercent.toStringAsFixed(1)}%',
         radius: touchedIndex == 0 ? 60 : 50,
         titleStyle: GoogleFonts.roboto(
           fontSize: touchedIndex == 0 ? 22 : 16,
@@ -690,9 +704,9 @@ class PieChart2State extends State<PieChartSample2> {
         ),
       ),
       PieChartSectionData(
-        color: constants.contentColorGreen,
-        value: 60,
-        title: '60%',
+        color: constants.primaryColor,
+        value: widget.pending.toDouble(),
+        title: '${pendingPercent.toStringAsFixed(1)}%',
         radius: touchedIndex == 1 ? 60 : 50,
         titleStyle: GoogleFonts.roboto(
           fontSize: touchedIndex == 1 ? 22 : 16,
