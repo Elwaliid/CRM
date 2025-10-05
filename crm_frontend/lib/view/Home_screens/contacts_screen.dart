@@ -17,6 +17,8 @@ class ContactsScreen extends StatefulWidget {
 
 class _ContactsScreenState extends State<ContactsScreen> {
   final TextEditingController _searchController = TextEditingController();
+  final TextEditingController _emailSubjectController = TextEditingController();
+  final TextEditingController _emailBodyController = TextEditingController();
   final List<Contact> _contacts = [];
 
   List<Contact> _Contacts = [];
