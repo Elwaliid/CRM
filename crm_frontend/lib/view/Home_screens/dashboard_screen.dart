@@ -298,7 +298,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ),
                         );
                       }),
-                      _buildQuickAddButton(Icons.add_business, 'Deal', () {}),
                     ],
                   ),
                   const SizedBox(height: 30),
@@ -688,8 +687,9 @@ class PieChart2State extends State<PieChartSample2> {
 
   List<PieChartSectionData> showingSections() {
     final total = widget.completed + widget.pending;
-    final completedPercent = total > 0 ? (widget.completed / total) * 100 : 0;
-    final pendingPercent = total > 0 ? (widget.pending / total) * 100 : 0;
+    if (total == 0) return [];
+    final completedPercent = (widget.completed / total) * 100;
+    final pendingPercent = (widget.pending / total) * 100;
 
     return [
       PieChartSectionData(
@@ -704,7 +704,7 @@ class PieChart2State extends State<PieChartSample2> {
         ),
       ),
       PieChartSectionData(
-        color: constants.primaryColor,
+        color: constants.deepOrange,
         value: widget.pending.toDouble(),
         title: '${pendingPercent.toStringAsFixed(1)}%',
         radius: touchedIndex == 1 ? 60 : 50,
@@ -780,7 +780,7 @@ class PieChart2State extends State<PieChartSample2> {
             children: [
               _buildLegendBox(constants.contentColorGreen, 'Completed'),
               const SizedBox(width: 16),
-              _buildLegendBox(constants.primaryColor, 'Pending'),
+              _buildLegendBox(constants.deepOrange, 'Pending'),
             ],
           ),
         ],
