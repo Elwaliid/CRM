@@ -235,6 +235,30 @@ class _TasksScreenState extends State<TasksScreen> {
                                                   color: primaryColor,
                                                 ),
                                               )
+                                            : ((task.title.length > 19) &&
+                                                  (task.isPined ?? false))
+                                            ? Row(
+                                                children: [
+                                                  Text(
+                                                    task.title.substring(0, 13),
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: 22,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: primaryColor,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    "...",
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: 22,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: primaryColor,
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
                                             : Row(
                                                 children: [
                                                   Text(

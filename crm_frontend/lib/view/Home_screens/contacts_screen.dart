@@ -190,7 +190,11 @@ class _ContactsScreenState extends State<ContactsScreen> {
                             final contact = _Contacts[index];
                             String displayName =
                                 '${contact.firstname} ${contact.lastname}';
-                            if (displayName.length > 19) {
+                            if ((displayName.length > 19) &&
+                                (contact.isPined ?? false)) {
+                              displayName =
+                                  '${displayName.substring(0, 14)}...';
+                            } else if (displayName.length > 19) {
                               displayName =
                                   '${displayName.substring(0, 16)}...';
                             }
