@@ -261,6 +261,11 @@ class _ContactsScreenState extends State<ContactsScreen> {
                                             ),
                                           ),
                                         ),
+                                        if (contact.isPined ?? false)
+                                          Icon(
+                                            Icons.push_pin,
+                                            color: primaryColor,
+                                          ),
                                         const Spacer(),
                                         //////////////////////////////////////// 3 dots
                                         PopupMenuButton<String>(
@@ -270,16 +275,10 @@ class _ContactsScreenState extends State<ContactsScreen> {
                                             color: secondaryColor,
                                           ),
                                           onSelected: (selected) {
-                                            if (selected == 'edit') {
-                                              ScaffoldMessenger.of(
-                                                context,
-                                              ).showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    'Edit client: ${contact.firstname} ${contact.lastname}',
-                                                  ),
-                                                ),
-                                              );
+                                            if (selected == 'Pin') {
+                                              bool newPinned =
+                                                  !(contact.isPined ?? false);
+                                              _pined(newPinned, contact.id);
                                             } else if (selected == 'delete') {
                                               ////// delete contact
                                               showDialog(
@@ -370,15 +369,19 @@ class _ContactsScreenState extends State<ContactsScreen> {
                                           itemBuilder: (BuildContext context) => [
                                             ////////////////////////////// edit icon button
                                             PopupMenuItem<String>(
-                                              value: 'edit',
+                                              value: 'Pin',
                                               child: Row(
                                                 children: [
                                                   Icon(
-                                                    Icons.edit,
+                                                    Icons.push_pin,
                                                     color: primaryColor,
                                                   ),
                                                   SizedBox(width: 8),
-                                                  Text('Edit'),
+                                                  Text(
+                                                    contact.isPined ?? false
+                                                        ? 'Unpin'
+                                                        : 'Pin',
+                                                  ),
                                                 ],
                                               ),
                                             ),
@@ -506,5 +509,64 @@ class _ContactsScreenState extends State<ContactsScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _pined(bool isPined, String id) async {
+    if (userId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('couldnt get user id'),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+    var logBody = {'owner': userId, 'id': id, 'isPined': isPined};
+
+    try {
+      var response = await http.post(
+        Uri.parse(addOrUpdateTaskUrl),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(logBody),
+      );
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        if (responseData['status'] == true) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(responseData['message']),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.green,
+            ),
+          );
+          _fetchContacts(); // Refresh the list to update pin status
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(responseData['message']),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to save task. Please try again.'),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Network error. Please try again later.'),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 }
