@@ -35,7 +35,7 @@ class _TasksScreenState extends State<TasksScreen> {
   bool meeting = false;
   List<String> _emailAddresses = [];
   List<String> _phoneNumbers = [];
-
+  bool isPined = false;
   @override
   void initState() {
     super.initState();
@@ -272,14 +272,11 @@ class _TasksScreenState extends State<TasksScreen> {
                                             color: secondaryColor,
                                           ),
                                           onSelected: (selected) {
-                                            if (selected == 'edit') {
-                                              ScaffoldMessenger.of(
-                                                context,
-                                              ).showSnackBar(
-                                                SnackBar(
-                                                  content: Text('Edit task...'),
-                                                ),
-                                              );
+                                            if (selected == 'Pin') {
+                                              setState(() {
+                                                isPined = !isPined;
+                                              });d
+
                                             } else if (selected == 'delete') {
                                               ////// delete contact
                                               showDialog(
@@ -368,7 +365,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                           itemBuilder: (BuildContext context) => [
                                             ////////////////////////////// edit icon button
                                             PopupMenuItem<String>(
-                                              value: 'edit',
+                                              value: 'Pin',
                                               child: Row(
                                                 children: [
                                                   Icon(
