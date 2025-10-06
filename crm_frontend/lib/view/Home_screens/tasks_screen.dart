@@ -41,7 +41,7 @@ class _TasksScreenState extends State<TasksScreen> {
   bool meeting = false;
   List<String> _emailAddresses = [];
   List<String> _phoneNumbers = [];
-  bool isPined = false;
+
   String? userId;
   @override
   void initState() {
@@ -295,10 +295,9 @@ class _TasksScreenState extends State<TasksScreen> {
                                           ),
                                           onSelected: (selected) {
                                             if (selected == 'Pin') {
-                                              setState(() {
-                                                isPined = !isPined;
-                                              });
-                                              _pined(isPined, task.id!);
+                                              bool newPinned =
+                                                  !(task.isPined ?? false);
+                                              _pined(newPinned, task.id!);
                                             } else if (selected == 'delete') {
                                               ////// delete contact
                                               showDialog(
@@ -387,7 +386,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                           itemBuilder: (BuildContext context) => [
                                             ////////////////////////////// edit icon button
                                             PopupMenuItem<String>(
-                                              value: isPined ? 'unPin' : 'Pin',
+                                              value: 'Pin',
                                               child: Row(
                                                 children: [
                                                   Icon(
@@ -395,7 +394,11 @@ class _TasksScreenState extends State<TasksScreen> {
                                                     color: primaryColor,
                                                   ),
                                                   SizedBox(width: 8),
-                                                  Text('Pin'),
+                                                  Text(
+                                                    task.isPined ?? false
+                                                        ? 'Unpin'
+                                                        : 'Pin',
+                                                  ),
                                                 ],
                                               ),
                                             ),
