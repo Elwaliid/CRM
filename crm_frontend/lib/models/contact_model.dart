@@ -69,6 +69,7 @@ class Contact {
                 notes: contactJson['notes'] ?? '',
                 type: contactJson['type'] ?? '',
                 website: contactJson['website'] ?? '',
+                isPined: contactJson['isPined'] ?? false,
               ),
             );
           }
