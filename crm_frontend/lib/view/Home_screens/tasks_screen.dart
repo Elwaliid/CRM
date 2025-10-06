@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:crm_frontend/ustils/config.dart';
 import 'package:crm_frontend/ustils/email_utils.dart';
+import 'package:crm_frontend/ustils/user_utils.dart';
 import 'package:crm_frontend/view/Sub_screens/Task_Details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,7 +18,7 @@ import '../Widgets/wilou_dropdown.dart';
 import '../Widgets/wilou_searchable_dropdown.dart';
 
 class TasksScreen extends StatefulWidget {
-    final String? userId;
+  final String? userId;
   final String? token;
   const TasksScreen({super.key, this.userId, this.token});
 
@@ -279,9 +280,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                             if (selected == 'Pin') {
                                               setState(() {
                                                 isPined = !isPined;
-                                                
-                                              });d
-
+                                              });
                                             } else if (selected == 'delete') {
                                               ////// delete contact
                                               showDialog(
@@ -822,69 +821,63 @@ class _TasksScreenState extends State<TasksScreen> {
       },
     );
   }
+
   Future<void> _addUpdateTask() async {
-   
-     
-      if (userId == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('couldnt get user id'),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.red,
-          ),
-        );
-        return;
-      }
-      var logBody = {
-        'owner': userId,
-        'isPined': isPined,
-      };
-   
-      try {
-        var response = await http.post(
-          Uri.parse(addOrUpdateTaskUrl),
-          headers: {"Content-Type": "application/json"},
-          body: jsonEncode(logBody),
-        );
-        if (response.statusCode == 201 || response.statusCode == 200) {
-          final responseData = jsonDecode(response.body);
-          if (responseData['status'] == true) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(responseData['message']),
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: Colors.green,
-              ),
-            );
-            Navigator.pop(context);
-         
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(responseData['message']),
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: Colors.red,
-              ),
-            );
-          }
+    if (userId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('couldnt get user id'),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+    var logBody = {'owner': userId, 'isPined': isPined};
+
+    try {
+      var response = await http.post(
+        Uri.parse(addOrUpdateTaskUrl),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(logBody),
+      );
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        if (responseData['status'] == true) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(responseData['message']),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.green,
+            ),
+          );
+          Navigator.pop(context);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Failed to save task. Please try again.'),
+              content: Text(responseData['message']),
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.red,
             ),
           );
         }
-      } catch (e) {
+      } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Network error. Please try again later.'),
+            content: Text('Failed to save task. Please try again.'),
             behavior: SnackBarBehavior.floating,
             backgroundColor: Colors.red,
           ),
         );
       }
-    
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Network error. Please try again later.'),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 }
