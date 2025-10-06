@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:crm_frontend/models/contact_model.dart';
 import 'package:crm_frontend/models/task_model.dart';
 import 'package:crm_frontend/ustils/config.dart';
+import 'package:crm_frontend/ustils/user_utils.dart';
 import 'package:crm_frontend/view/Widgets/Type_buttons.dart';
 import 'package:crm_frontend/view/Widgets/date_time_picker.dart';
 import 'package:crm_frontend/view/Widgets/quick_adds.dart';
@@ -14,8 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 
 /// Screen for adding/updating Client or Lead info
 class TaskDetailsScreen extends StatefulWidget {
@@ -144,14 +143,8 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   }
 
   Future<void> _loadUserId() async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token');
-    if (token != null && token.isNotEmpty) {
-      Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
-      setState(() {
-        userId = decodedToken['_id'];
-      });
-    }
+    userId = await UserUtils.loadUserId();
+    setState(() {});
   }
 
   Future<void> _loadContacts() async {

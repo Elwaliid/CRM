@@ -41,11 +41,18 @@ class _TasksScreenState extends State<TasksScreen> {
   List<String> _emailAddresses = [];
   List<String> _phoneNumbers = [];
   bool isPined = false;
+  String? userId;
   @override
   void initState() {
     super.initState();
+    _loadUserId();
     _fetchTasks();
     _searchController.addListener(_filterTasks);
+  }
+
+  Future<void> _loadUserId() async {
+    userId = await UserUtils.loadUserId();
+    setState(() {});
   }
 
   Future<void> _fetchTasks() async {
