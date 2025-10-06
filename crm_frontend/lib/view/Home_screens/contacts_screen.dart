@@ -526,7 +526,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
 
     try {
       var response = await http.post(
-        Uri.parse(addOrUpdateTaskUrl),
+        Uri.parse(addOrUpdateContactUrl),
         headers: {"Content-Type": "application/json"},
         body: jsonEncode(logBody),
       );

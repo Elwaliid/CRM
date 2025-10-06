@@ -22,16 +22,16 @@ class ContactService {
                 try{
                     const contact = await ContactModel.findById(id);
                     if(!contact) throw new Error('Contact not found');
-                    contact.email = email;
-                    contact.secondEmail = secondEmail;
-                    contact.name = name;
-                    contact.address = address;
-                    contact.identity = identity;
-                    contact.phones = phones;
-                    contact.website = website;
-                    contact.notes = other_info;
-                    contact.type = type;
-                    contact.isPined = isPined;
+                    if (email !== undefined) contact.email = email;
+                    if (secondEmail !== undefined) contact.secondEmail = secondEmail;
+                    if (name !== undefined) contact.name = name;
+                    if (address !== undefined) contact.address = address;
+                    if (identity !== undefined) contact.identity = identity;
+                    if (phones !== undefined) contact.phones = phones;
+                    if (website !== undefined) contact.website = website;
+                    if (other_info !== undefined) contact.notes = other_info;
+                    if (type !== undefined) contact.type = type;
+                    if (isPined !== undefined) contact.isPined = isPined;
                     await contact.save();
                     return contact;
                 }catch (err) {  throw err;}
