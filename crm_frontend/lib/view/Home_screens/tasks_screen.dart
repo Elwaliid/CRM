@@ -285,6 +285,11 @@ class _TasksScreenState extends State<TasksScreen> {
                                             ),
                                           ),
                                         ),
+                                        if (task.isPined ?? false)
+                                          Icon(
+                                            Icons.push_pin,
+                                            color: primaryColor,
+                                          ),
                                         const Spacer(),
                                         //////////////////////////////////////// 3 Dots menu
                                         PopupMenuButton<String>(
@@ -872,7 +877,7 @@ class _TasksScreenState extends State<TasksScreen> {
               backgroundColor: Colors.green,
             ),
           );
-          Navigator.pop(context);
+          _fetchTasks(); // Refresh the list to update pin status
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

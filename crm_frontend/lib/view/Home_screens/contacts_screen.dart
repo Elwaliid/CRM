@@ -1,4 +1,5 @@
 // ignore_for_file: use_build_context_synchronously, deprecated_member_use, unnecessary_string_interpolations, non_constant_identifier_names, avoid_print
+import 'dart:convert';
 import 'package:crm_frontend/ustils/config.dart';
 import 'package:crm_frontend/ustils/email_utils.dart';
 import 'package:crm_frontend/ustils/user_utils.dart';
@@ -50,6 +51,11 @@ class _ContactsScreenState extends State<ContactsScreen> {
       setState(() {
         _contacts.clear();
         _contacts.addAll(contacts);
+        _contacts.sort(
+          (a, b) => (b.isPined ?? false ? 1 : 0).compareTo(
+            a.isPined ?? false ? 1 : 0,
+          ),
+        );
         _Contacts = _contacts;
       });
     } catch (e) {
@@ -186,7 +192,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                                 '${contact.firstname} ${contact.lastname}';
                             if (displayName.length > 19) {
                               displayName =
-                                  displayName.substring(0, 16) + '...';
+                                  '${displayName.substring(0, 16)}...';
                             }
                             ///////////////////////////////////////////// Contact gesture
                             return GestureDetector(
