@@ -10,15 +10,15 @@ class ContactService {
             throw err;
         }
     }
-     static async addContact(owner,email,secondEmail,name, address,identity,phones,website,other_info,type ) {
+     static async addContact(owner,email,secondEmail,name, address,identity,phones,website,other_info,type,isPined ) {
             try {
-                const addContact = new ContactModel({owner,email,secondEmail,name,address,identity,phones,website,notes: other_info,type });
+                const addContact = new ContactModel({owner,email,secondEmail,name,address,identity,phones,website,notes: other_info,type,isPined });
                 return await addContact.save();
             } catch (err) {
                 throw err;
             }
         }
-            static async updateContact(id,email,secondEmail,name, address,identity,phones,website,other_info,type ) {
+            static async updateContact(id,email,secondEmail,name, address,identity,phones,website,other_info,type,isPined ) {
                 try{
                     const contact = await ContactModel.findById(id);
                     if(!contact) throw new Error('Contact not found');
@@ -31,6 +31,7 @@ class ContactService {
                     contact.website = website;
                     contact.notes = other_info;
                     contact.type = type;
+                    contact.isPined = isPined;
                     await contact.save();
                     return contact;
                 }catch (err) {  throw err;}

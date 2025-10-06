@@ -21,6 +21,7 @@ const taskSchema = new Schema({
   description: { type: String },
   status: { type: String, default: 'Pending' },
   createdAt: { type: Date, default: Date.now },
+    isPined:{type: Boolean,default:false},
 });
 
 const TaskModel = db.model('Task', taskSchema);

@@ -15,6 +15,7 @@ class Contact {
   final String notes;
   final String type;
   final String website;
+  final bool? isPined;
   Contact({
     required this.id,
     required this.firstname,
@@ -28,6 +29,7 @@ class Contact {
     required this.notes,
     required this.type,
     required this.website,
+    this.isPined,
   });
 
   static Future<List<Contact>> getContacts() async {

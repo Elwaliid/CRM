@@ -17,6 +17,7 @@ const contactSchema = new Schema({
   address: { type: String },
   identity: { type: String },
   notes: { type: String },
+  isPined:{type: Boolean,default:false},
   createdAt: { type: Date, default: Date.now },
 });
 

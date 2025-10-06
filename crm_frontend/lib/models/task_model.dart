@@ -20,6 +20,7 @@ class Task {
   String? website;
   String? description;
   String status;
+  bool? isPined;
 
   Task({
     this.id,
@@ -39,6 +40,7 @@ class Task {
     this.website,
     this.description,
     this.status = 'Pending',
+    this.isPined,
   });
 
   static Future<List<Task>> getTasks() async {
@@ -74,6 +76,7 @@ class Task {
                 website: taskJson['website'] ?? '',
                 description: taskJson['description'] ?? '',
                 status: taskJson['status'] ?? 'Pending',
+                isPined: taskJson['isPined'] ?? false,
               ),
             );
           }

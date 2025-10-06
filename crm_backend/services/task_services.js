@@ -9,16 +9,16 @@ class TaskService {
     }
   }
 
-  static async addTask(owner,title,type,revenue,cost,phone,email,isMeet,relatedToNames,relatedToIds,dueDate,time,endTime,address,website,description,status) {
+  static async addTask(owner,title,type,revenue,cost,phone,email,isMeet,relatedToNames,relatedToIds,dueDate,time,endTime,address,website,description,status,isPined) {
     try {
-      const addTask = new TaskModel({owner,title,type,revenue,cost,phone,email,isMeet,relatedToNames,relatedToIds,dueDate,time,endTime,address,website,description,status,});
+      const addTask = new TaskModel({owner,title,type,revenue,cost,phone,email,isMeet,relatedToNames,relatedToIds,dueDate,time,endTime,address,website,description,status,isPined});
       return await addTask.save();
     } catch (err) {
       throw err;
     }
   }
 
-  static async updateTask(id,title,type,revenue,cost,phone,email,isMeet,relatedToNames,relatedToIds,dueDate,time,endTime,address,website,description,status) {
+  static async updateTask(id,title,type,revenue,cost,phone,email,isMeet,relatedToNames,relatedToIds,dueDate,time,endTime,address,website,description,status,isPined) {
     try {
       const task = await TaskModel.findById(id);
       if (!task) throw new Error('Task not found');
@@ -38,6 +38,7 @@ class TaskService {
       task.website = website;
       task.description = description;
       task.status = status;
+      task.isPined = isPined;
       await task.save();
       return task;
     } catch (err) {

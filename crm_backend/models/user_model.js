@@ -25,7 +25,8 @@ const userSchema = new Schema({
 
   // OTP fields for password reset
   otp: { type: String },
-  otpExpiry: { type: Date },
+  otpExpiry: { type: Date }, 
+  isPined:{type: Boolean,default:false},
 
   // Settings and meta
   role: { type: String, enum: ['user', 'admin'], default: 'user' },
