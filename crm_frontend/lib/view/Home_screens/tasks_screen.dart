@@ -387,11 +387,11 @@ class _TasksScreenState extends State<TasksScreen> {
                                           itemBuilder: (BuildContext context) => [
                                             ////////////////////////////// edit icon button
                                             PopupMenuItem<String>(
-                                              value: isPined?'unPin':'Pin',
+                                              value: isPined ? 'unPin' : 'Pin',
                                               child: Row(
                                                 children: [
                                                   Icon(
-                                                    Icons.,
+                                                    Icons.push_pin,
                                                     color: primaryColor,
                                                   ),
                                                   SizedBox(width: 8),
