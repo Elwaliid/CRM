@@ -32,12 +32,12 @@ class _TasksScreenState extends State<TasksScreen> {
   final TextEditingController _emailBodyController = TextEditingController();
   final List<Task> _tasks = [];
   List<Task> _Tasks = [];
-  List<Task> _PinedTasks = [];
   List<Contact> _contacts = [];
   String? _selectedRelatedToName;
   String? _selectedPhoneNumber;
   String? _selectedEmail;
   String? _meeting_web_Url;
+  String? id;
   bool meeting = false;
   List<String> _emailAddresses = [];
   List<String> _phoneNumbers = [];
@@ -62,6 +62,11 @@ class _TasksScreenState extends State<TasksScreen> {
       setState(() {
         _tasks.clear();
         _tasks.addAll(tasks);
+        _tasks.sort(
+          (a, b) => (b.isPined ?? false ? 1 : 0).compareTo(
+            a.isPined ?? false ? 1 : 0,
+          ),
+        );
         _Tasks = _tasks;
       });
     } catch (e) {
@@ -88,6 +93,10 @@ class _TasksScreenState extends State<TasksScreen> {
       _Tasks = _tasks
           .where((task) => task.title.toLowerCase().contains(query))
           .toList();
+      _Tasks.sort(
+        (a, b) =>
+            (b.isPined ?? false ? 1 : 0).compareTo(a.isPined ?? false ? 1 : 0),
+      );
     });
   }
 
@@ -289,6 +298,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                               setState(() {
                                                 isPined = !isPined;
                                               });
+                                              _pined(task.id!);
                                             } else if (selected == 'delete') {
                                               ////// delete contact
                                               showDialog(
@@ -830,7 +840,7 @@ class _TasksScreenState extends State<TasksScreen> {
     );
   }
 
-  Future<void> _pined() async {
+  Future<void> _pined(String id) async {
     if (userId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -841,7 +851,7 @@ class _TasksScreenState extends State<TasksScreen> {
       );
       return;
     }
-    var logBody = {'owner': userId, 'isPined': isPined};
+    var logBody = {'owner': userId, 'id': id, 'isPined': isPined};
 
     try {
       var response = await http.post(
