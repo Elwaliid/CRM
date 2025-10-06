@@ -32,6 +32,7 @@ class _TasksScreenState extends State<TasksScreen> {
   final TextEditingController _emailBodyController = TextEditingController();
   final List<Task> _tasks = [];
   List<Task> _Tasks = [];
+  List<Task> _PinedTasks = [];
   List<Contact> _contacts = [];
   String? _selectedRelatedToName;
   String? _selectedPhoneNumber;
@@ -829,7 +830,7 @@ class _TasksScreenState extends State<TasksScreen> {
     );
   }
 
-  Future<void> _addUpdateTask() async {
+  Future<void> _pined() async {
     if (userId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
