@@ -46,10 +46,10 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
   late final List<Widget> screens = [
     DashboardScreen(userId: userId, token: widget.token),
-    const ContactsScreen(userId: userId, token: widget.token),
-    const TasksScreen(userId: userId, token: widget.token),
+    ContactsScreen(userId: userId, token: widget.token),
+    TasksScreen(userId: userId, token: widget.token),
     const SchedulesScreen(),
-    const ProfileScreen(userId: userId, token: widget.token),
+    ProfileScreen(userId: userId, token: widget.token),
   ];
 
   @override

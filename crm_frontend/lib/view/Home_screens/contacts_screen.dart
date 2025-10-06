@@ -10,7 +10,10 @@ import '../../models/contact_model.dart';
 import '../Sub_screens/contact_details_screen.dart';
 
 class ContactsScreen extends StatefulWidget {
-  const ContactsScreen({super.key});
+  final String? userId;
+  final String? token;
+
+  const ContactsScreen({super.key, this.userId, this.token});
 
   @override
   State<ContactsScreen> createState() => _ContactsScreenState();

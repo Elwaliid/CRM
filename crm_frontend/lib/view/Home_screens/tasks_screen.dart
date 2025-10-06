@@ -17,7 +17,9 @@ import '../Widgets/wilou_dropdown.dart';
 import '../Widgets/wilou_searchable_dropdown.dart';
 
 class TasksScreen extends StatefulWidget {
-  const TasksScreen({super.key});
+    final String? userId;
+  final String? token;
+  const TasksScreen({super.key, this.userId, this.token});
 
   @override
   State<TasksScreen> createState() => _TasksScreenState();

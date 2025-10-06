@@ -8,7 +8,10 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  final String? userId;
+  final String? token;
+
+  const ProfileScreen({super.key, this.userId, this.token});
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
