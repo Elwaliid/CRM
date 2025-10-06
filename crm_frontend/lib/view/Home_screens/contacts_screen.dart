@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, deprecated_member_use, unnecessary_string_interpolations, non_constant_identifier_names, avoid_print
 import 'package:crm_frontend/ustils/config.dart';
 import 'package:crm_frontend/ustils/email_utils.dart';
+import 'package:crm_frontend/ustils/user_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -24,13 +25,14 @@ class _ContactsScreenState extends State<ContactsScreen> {
   final TextEditingController _emailSubjectController = TextEditingController();
   final TextEditingController _emailBodyController = TextEditingController();
   final List<Contact> _contacts = [];
-
+  String? userId;
   List<Contact> _Contacts = [];
 
   @override
   void initState() {
     super.initState();
     _fetchContacts();
+    _loadUserId();
     _searchController.addListener(_filterContact);
   }
 
@@ -53,6 +55,11 @@ class _ContactsScreenState extends State<ContactsScreen> {
     } catch (e) {
       print('Error fetching contacts: $e');
     }
+  }
+
+  Future<void> _loadUserId() async {
+    userId = await UserUtils.loadUserId();
+    setState(() {});
   }
 
   void _filterContact() {

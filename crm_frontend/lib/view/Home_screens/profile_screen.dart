@@ -1,6 +1,7 @@
 // ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable
 
 import 'dart:ui';
+import 'package:crm_frontend/ustils/user_utils.dart';
 import 'package:crm_frontend/view/Sub_screens/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,6 +21,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final String userName = "Wilou dilaw";
   final String email = "wilou@gmail.com";
   final String phone = "05 34 56 78 90";
+  String? userId;
+  @override
+  void initState() {
+    super.initState();
+    _loadUserId();
+  }
+
+  Future<void> _loadUserId() async {
+    userId = await UserUtils.loadUserId();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
