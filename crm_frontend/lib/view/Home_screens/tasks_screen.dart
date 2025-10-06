@@ -298,7 +298,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                               setState(() {
                                                 isPined = !isPined;
                                               });
-                                              _pined(task.id!);
+                                              _pined(isPined, task.id!);
                                             } else if (selected == 'delete') {
                                               ////// delete contact
                                               showDialog(
@@ -387,15 +387,15 @@ class _TasksScreenState extends State<TasksScreen> {
                                           itemBuilder: (BuildContext context) => [
                                             ////////////////////////////// edit icon button
                                             PopupMenuItem<String>(
-                                              value: 'Pin',
+                                              value: isPined?'unPin':'Pin',
                                               child: Row(
                                                 children: [
                                                   Icon(
-                                                    Icons.edit,
+                                                    Icons.,
                                                     color: primaryColor,
                                                   ),
                                                   SizedBox(width: 8),
-                                                  Text('Edit'),
+                                                  Text('Pin'),
                                                 ],
                                               ),
                                             ),
@@ -840,7 +840,7 @@ class _TasksScreenState extends State<TasksScreen> {
     );
   }
 
-  Future<void> _pined(String id) async {
+  Future<void> _pined(bool isPined, String id) async {
     if (userId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
