@@ -179,8 +179,10 @@ class _ContactsScreenState extends State<ContactsScreen> {
                       ),
                     ),
                     const SizedBox(width: 10),
+                    ///////////////////////////////////////////////////////////// Type filter
                     Column(
                       children: [
+                        /////////////////// client circle
                         GestureDetector(
                           onTap: () {
                             setState(() {
@@ -191,9 +193,9 @@ class _ContactsScreenState extends State<ContactsScreen> {
                             });
                           },
                           child: Container(
-                            width: 24,
-                            height: 24,
-                            margin: const EdgeInsets.symmetric(vertical: 4),
+                            width: 17,
+                            height: 17,
+
                             decoration: BoxDecoration(
                               color: contentColorGreen,
                               shape: BoxShape.circle,
@@ -203,6 +205,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                             ),
                           ),
                         ),
+                        /////////////////// Lead circle
                         GestureDetector(
                           onTap: () {
                             setState(() {
@@ -213,9 +216,9 @@ class _ContactsScreenState extends State<ContactsScreen> {
                             });
                           },
                           child: Container(
-                            width: 24,
-                            height: 24,
-                            margin: const EdgeInsets.symmetric(vertical: 4),
+                            width: 17,
+                            height: 17,
+
                             decoration: BoxDecoration(
                               color: deepOrange,
                               shape: BoxShape.circle,
@@ -225,6 +228,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                             ),
                           ),
                         ),
+                        /////////////////// Vendor circle
                         GestureDetector(
                           onTap: () {
                             setState(() {
@@ -235,9 +239,9 @@ class _ContactsScreenState extends State<ContactsScreen> {
                             });
                           },
                           child: Container(
-                            width: 24,
-                            height: 24,
-                            margin: const EdgeInsets.symmetric(vertical: 4),
+                            width: 17,
+                            height: 17,
+
                             decoration: BoxDecoration(
                               color: primaryColor,
                               shape: BoxShape.circle,
