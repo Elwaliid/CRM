@@ -192,16 +192,13 @@ class _ContactsScreenState extends State<ContactsScreen> {
                               _filterContact();
                             });
                           },
-                          child: Container(
-                            width: 17,
-                            height: 17,
-
+                          child: AnimatedContainer(
+                            width: selectedType == "Client" ? 15 : 14,
+                            height: 14,
+                            margin: const EdgeInsets.symmetric(vertical: 1),
                             decoration: BoxDecoration(
                               color: contentColorGreen,
                               shape: BoxShape.circle,
-                              border: selectedType == "Client"
-                                  ? Border.all(color: Colors.white, width: 2)
-                                  : null,
                             ),
                           ),
                         ),
@@ -215,16 +212,13 @@ class _ContactsScreenState extends State<ContactsScreen> {
                               _filterContact();
                             });
                           },
-                          child: Container(
-                            width: 17,
-                            height: 17,
-
+                          child: AnimatedContainer(
+                            width: selectedType == "Lead" ? 15 : 14,
+                            height: selectedType == "Lead" ? 15 : 14,
+                            margin: const EdgeInsets.symmetric(vertical: 1),
                             decoration: BoxDecoration(
                               color: deepOrange,
                               shape: BoxShape.circle,
-                              border: selectedType == "Lead"
-                                  ? Border.all(color: Colors.white, width: 2)
-                                  : null,
                             ),
                           ),
                         ),
@@ -238,16 +232,13 @@ class _ContactsScreenState extends State<ContactsScreen> {
                               _filterContact();
                             });
                           },
-                          child: Container(
-                            width: 17,
-                            height: 17,
-
+                          child: AnimatedContainer(
+                            width: selectedType == "Vendor" ? 15 : 14,
+                            height: selectedType == "Vendor" ? 15 : 14,
+                            margin: const EdgeInsets.symmetric(vertical: 1),
                             decoration: BoxDecoration(
                               color: primaryColor,
                               shape: BoxShape.circle,
-                              border: selectedType == "Vendor"
-                                  ? Border.all(color: Colors.white, width: 2)
-                                  : null,
                             ),
                           ),
                         ),
