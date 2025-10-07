@@ -193,8 +193,9 @@ class _ContactsScreenState extends State<ContactsScreen> {
                             });
                           },
                           child: AnimatedContainer(
-                            width: selectedType == "Client" ? 15 : 14,
-                            height: 14,
+                            duration: Duration(milliseconds: 300),
+                            width: selectedType == "Client" ? 16 : 14,
+                            height: selectedType == "Client" ? 16 : 14,
                             margin: const EdgeInsets.symmetric(vertical: 1),
                             decoration: BoxDecoration(
                               color: contentColorGreen,
@@ -213,8 +214,9 @@ class _ContactsScreenState extends State<ContactsScreen> {
                             });
                           },
                           child: AnimatedContainer(
-                            width: selectedType == "Lead" ? 15 : 14,
-                            height: selectedType == "Lead" ? 15 : 14,
+                            duration: Duration(milliseconds: 300),
+                            width: selectedType == "Lead" ? 16 : 14,
+                            height: selectedType == "Lead" ? 16 : 14,
                             margin: const EdgeInsets.symmetric(vertical: 1),
                             decoration: BoxDecoration(
                               color: deepOrange,
@@ -233,8 +235,9 @@ class _ContactsScreenState extends State<ContactsScreen> {
                             });
                           },
                           child: AnimatedContainer(
-                            width: selectedType == "Vendor" ? 15 : 14,
-                            height: selectedType == "Vendor" ? 15 : 14,
+                            duration: Duration(milliseconds: 300),
+                            width: selectedType == "Vendor" ? 16 : 14,
+                            height: selectedType == "Vendor" ? 16 : 14,
                             margin: const EdgeInsets.symmetric(vertical: 1),
                             decoration: BoxDecoration(
                               color: primaryColor,
