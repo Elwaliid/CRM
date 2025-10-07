@@ -6,6 +6,7 @@ import 'package:crm_frontend/ustils/config.dart';
 import 'package:crm_frontend/ustils/email_utils.dart';
 import 'package:crm_frontend/ustils/user_utils.dart';
 import 'package:crm_frontend/view/Sub_screens/Task_Details_screen.dart';
+import 'package:crm_frontend/view/Widgets/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -718,6 +719,7 @@ class _TasksScreenState extends State<TasksScreen> {
                 label: 'Due date',
                 controller: _filterDueDateController,
                 icon: Icons.calendar_today,
+                onTap: _selectDate,
               ),
               SizedBox(height: 16),
               WilouDropdown(
@@ -753,7 +755,7 @@ class _TasksScreenState extends State<TasksScreen> {
     );
   }
 
-  //////////////////////////////////////////////////////////// Call or Message dialog
+  /////////////////////////////////////////////////////////////////////// Call or Message dialog
   void _callMessageEmail(Task task, String action) {
     _selectedRelatedToName = null;
     _selectedPhoneNumber = null;
@@ -955,6 +957,22 @@ class _TasksScreenState extends State<TasksScreen> {
     );
   }
 
+  //////////////////////////////////////////////////////////////////////////////// select date void
+  Future<void> _selectDate() async {
+    final pickedDate = await DatePickerHelper.showCustomDatePicker(
+      context: context,
+    );
+    if (pickedDate != null) {
+      setState(() {
+        _filterDueDateController.text = pickedDate
+            .toIso8601String()
+            .split('T')
+            .first;
+      });
+    }
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////////// Pin void
   Future<void> _pined(bool isPined, String id) async {
     if (userId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
