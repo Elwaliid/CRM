@@ -16,6 +16,7 @@ import '../../models/task_model.dart';
 import '../../models/contact_model.dart';
 import '../Widgets/wilou_dropdown.dart';
 import '../Widgets/wilou_searchable_dropdown.dart';
+import '../Widgets/wilou_textfield.dart';
 
 class TasksScreen extends StatefulWidget {
   final String? userId;
@@ -30,6 +31,8 @@ class _TasksScreenState extends State<TasksScreen> {
   final TextEditingController _searchController = TextEditingController();
   final TextEditingController _emailSubjectController = TextEditingController();
   final TextEditingController _emailBodyController = TextEditingController();
+  final TextEditingController _filterSearchController = TextEditingController();
+  final TextEditingController _filterDueDateController = TextEditingController();
   final List<Task> _tasks = [];
   List<Task> _Tasks = [];
   List<Contact> _contacts = [];
@@ -41,6 +44,7 @@ class _TasksScreenState extends State<TasksScreen> {
   bool meeting = false;
   List<String> _emailAddresses = [];
   List<String> _phoneNumbers = [];
+  String? _selectedStatus;
 
   String? userId;
   @override
@@ -49,6 +53,7 @@ class _TasksScreenState extends State<TasksScreen> {
     _loadUserId();
     _fetchTasks();
     _searchController.addListener(_filterTasks);
+    _filterSearchController.addListener(_filterTasks);
   }
 
   Future<void> _loadUserId() async {
@@ -89,10 +94,25 @@ class _TasksScreenState extends State<TasksScreen> {
 
   void _filterTasks() {
     final query = _searchController.text.toLowerCase();
+    final filterQuery = _filterSearchController.text.toLowerCase();
+    final dueDateQuery = _filterDueDateController.text.toLowerCase();
     setState(() {
-      _Tasks = _tasks
-          .where((task) => task.title.toLowerCase().contains(query))
-          .toList();
+      _Tasks = _tasks.where((task) {
+        bool matches = true;
+        if (query.isNotEmpty) {
+          matches &= task.title.toLowerCase().contains(query);
+        }
+        if (filterQuery.isNotEmpty) {
+          matches &= task.title.toLowerCase().contains(filterQuery);
+        }
+        if (dueDateQuery.isNotEmpty) {
+          matches &= task.dueDate.toLowerCase().contains(dueDateQuery);
+        }
+        if (_selectedStatus != null && _selectedStatus!.isNotEmpty) {
+          matches &= task.status == _selectedStatus;
+        }
+        return matches;
+      }).toList();
       _Tasks.sort(
         (a, b) =>
             (b.isPined ?? false ? 1 : 0).compareTo(a.isPined ?? false ? 1 : 0),
@@ -105,6 +125,8 @@ class _TasksScreenState extends State<TasksScreen> {
     _searchController.dispose();
     _emailSubjectController.dispose();
     _emailBodyController.dispose();
+    _filterSearchController.dispose();
+    _filterDueDateController.dispose();
     super.dispose();
   }
 
@@ -148,33 +170,41 @@ class _TasksScreenState extends State<TasksScreen> {
                 ),
                 const SizedBox(height: 12),
                 ///////////////////////////////////////////////////////////////////////////// Search Bar
-                TextField(
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    hintText: 'Search for tasks',
-                    prefixIcon: Icon(Icons.search, color: secondaryColor),
-                    filled: true,
-                    fillColor: Colors.blueGrey[50],
-                    contentPadding: const EdgeInsets.symmetric(
-                      vertical: 14,
-                      horizontal: 20,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                      borderSide: BorderSide(
-                        color: Colors.blueGrey.shade200,
-                        width: 1.5,
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _searchController,
+                        decoration: InputDecoration(
+                          hintText: 'Search for tasks',
+                          prefixIcon: Icon(Icons.search, color: secondaryColor),
+                          filled: true,
+                          fillColor: Colors.blueGrey[50],
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 14,
+                            horizontal: 20,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                            borderSide: BorderSide(
+                              color: Colors.blueGrey.shade200,
+                              width: 1.5,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                            borderSide: BorderSide(
+                              color: const Color.fromARGB(255, 41, 49, 53),
+                              width: 2.0,
+                            ),
+                          ),
+                        ),
+                        style: TextStyle(fontSize: 18, color: primaryColor),
                       ),
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                      borderSide: BorderSide(
-                        color: const Color.fromARGB(255, 41, 49, 53),
-                        width: 2.0,
-                      ),
-                    ),
-                  ),
-                  style: TextStyle(fontSize: 18, color: primaryColor),
+                    SizedBox(width: 10),
+                   IconButton(onPressed: (){show dialog with two wiloutextfields one 'Search for tasks' second 'due date' and a selectfield 'Status'selectfield has thre option Pending,Completed,In Process }), Icon(Icons.filter)
+                  ],
                 ),
                 const SizedBox(height: 20),
                 ////////////////////////////////////////////////////////////// task list scrollable

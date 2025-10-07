@@ -178,7 +178,9 @@ class _ContactsScreenState extends State<ContactsScreen> {
                         style: TextStyle(fontSize: 18, color: primaryColor),
                       ),
                     ),
-                    const SizedBox(width: 10),
+                    selectedType != null
+                        ? SizedBox(width: 10)
+                        : SizedBox(width: 8),
                     ///////////////////////////////////////////////////////////// Type filter
                     Column(
                       children: [
