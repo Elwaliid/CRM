@@ -45,7 +45,7 @@ class _TasksScreenState extends State<TasksScreen> {
   bool meeting = false;
   List<String> _emailAddresses = [];
   List<String> _phoneNumbers = [];
-  String? _selectedStatus;
+  String _selectedStatus = 'All';
 
   String? userId;
   @override
@@ -105,7 +105,7 @@ class _TasksScreenState extends State<TasksScreen> {
           matches &=
               task.dueDate?.toLowerCase().contains(dueDateQuery) ?? false;
         }
-        if (_selectedStatus != null && _selectedStatus!.isNotEmpty) {
+        if (_selectedStatus != 'All') {
           matches &= task.status == _selectedStatus;
         }
         return matches;
@@ -727,10 +727,10 @@ class _TasksScreenState extends State<TasksScreen> {
                   WilouDropdown(
                     label: 'Status',
                     value: _selectedStatus,
-                    items: ['Pending', 'Completed', 'In Process'],
+                    items: ['All', 'Pending', 'Completed', 'In Process'],
                     onChanged: (value) {
                       setState(() {
-                        _selectedStatus = value;
+                        _selectedStatus = value!;
                       });
                     },
                     icon: Icons.info,
@@ -754,7 +754,7 @@ class _TasksScreenState extends State<TasksScreen> {
                 TextButton(
                   onPressed: () {
                     setState(() {
-                      _selectedStatus = null;
+                      _selectedStatus = "All";
                       _filterDueDateController.clear();
                       _searchController.clear();
                     });
