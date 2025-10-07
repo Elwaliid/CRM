@@ -508,7 +508,9 @@ class _TasksScreenState extends State<TasksScreen> {
                                     Row(
                                       children: [
                                         Text(
-                                          'Description: ${task.description}',
+                                          task.description?.isEmpty ?? false
+                                              ? 'Description: No description added yet!'
+                                              : 'Description: ${task.description}',
                                           style: GoogleFonts.roboto(
                                             fontSize: 16,
                                             color: primaryColor,

@@ -811,7 +811,9 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
         'relatedToIds': selectedRelatedToIds
             .where((id) => id.isNotEmpty)
             .toList(),
-        'dueDate': _dueDateController.text.trim(),
+        'dueDate': _dueDateController.text.trim().isEmpty
+            ? DateTime.now().toIso8601String().split('T').first
+            : _dueDateController.text.trim(),
         'time': _timeController.text.trim(),
         'endTime': _endtimeController.text.trim(),
         'address': _addressController.text.trim(),
