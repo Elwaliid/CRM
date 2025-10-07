@@ -31,8 +31,9 @@ class _TasksScreenState extends State<TasksScreen> {
   final TextEditingController _searchController = TextEditingController();
   final TextEditingController _emailSubjectController = TextEditingController();
   final TextEditingController _emailBodyController = TextEditingController();
-  final TextEditingController _filterSearchController = TextEditingController();
-  final TextEditingController _filterDueDateController = TextEditingController();
+
+  final TextEditingController _filterDueDateController =
+      TextEditingController();
   final List<Task> _tasks = [];
   List<Task> _Tasks = [];
   List<Contact> _contacts = [];
@@ -53,7 +54,6 @@ class _TasksScreenState extends State<TasksScreen> {
     _loadUserId();
     _fetchTasks();
     _searchController.addListener(_filterTasks);
-    _filterSearchController.addListener(_filterTasks);
   }
 
   Future<void> _loadUserId() async {
@@ -94,7 +94,6 @@ class _TasksScreenState extends State<TasksScreen> {
 
   void _filterTasks() {
     final query = _searchController.text.toLowerCase();
-    final filterQuery = _filterSearchController.text.toLowerCase();
     final dueDateQuery = _filterDueDateController.text.toLowerCase();
     setState(() {
       _Tasks = _tasks.where((task) {
@@ -102,11 +101,9 @@ class _TasksScreenState extends State<TasksScreen> {
         if (query.isNotEmpty) {
           matches &= task.title.toLowerCase().contains(query);
         }
-        if (filterQuery.isNotEmpty) {
-          matches &= task.title.toLowerCase().contains(filterQuery);
-        }
         if (dueDateQuery.isNotEmpty) {
-          matches &= task.dueDate.toLowerCase().contains(dueDateQuery);
+          matches &=
+              task.dueDate?.toLowerCase().contains(dueDateQuery) ?? false;
         }
         if (_selectedStatus != null && _selectedStatus!.isNotEmpty) {
           matches &= task.status == _selectedStatus;
@@ -125,7 +122,6 @@ class _TasksScreenState extends State<TasksScreen> {
     _searchController.dispose();
     _emailSubjectController.dispose();
     _emailBodyController.dispose();
-    _filterSearchController.dispose();
     _filterDueDateController.dispose();
     super.dispose();
   }
@@ -203,7 +199,10 @@ class _TasksScreenState extends State<TasksScreen> {
                       ),
                     ),
                     SizedBox(width: 10),
-                   IconButton(onPressed: (){show dialog with two wiloutextfields one 'Search for tasks' second 'due date' and a selectfield 'Status'selectfield has thre option Pending,Completed,In Process }), Icon(Icons.filter)
+                    IconButton(
+                      onPressed: _showFilterDialog,
+                      icon: Icon(Icons.filter),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 20),
@@ -697,6 +696,60 @@ class _TasksScreenState extends State<TasksScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  void _showFilterDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Filter Tasks'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              WilouTextField(
+                label: 'Search for tasks',
+                controller: _searchController,
+                icon: Icons.search,
+              ),
+              SizedBox(height: 16),
+              WilouTextField(
+                label: 'Due date',
+                controller: _filterDueDateController,
+                icon: Icons.calendar_today,
+              ),
+              SizedBox(height: 16),
+              WilouDropdown(
+                label: 'Status',
+                value: _selectedStatus,
+                items: ['Pending', 'Completed', 'In Process'],
+                onChanged: (value) {
+                  setState(() {
+                    _selectedStatus = value;
+                  });
+                },
+                icon: Icons.info,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                _filterTasks();
+                Navigator.of(context).pop();
+              },
+              child: Text('Apply'),
+            ),
+          ],
+        );
+      },
     );
   }
 
