@@ -703,63 +703,68 @@ class _TasksScreenState extends State<TasksScreen> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Filter Tasks'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              WilouTextField(
-                label: 'Search for tasks',
-                controller: _searchController,
-                icon: Icons.search,
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: Text('Filter Tasks'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  WilouTextField(
+                    label: 'Search for tasks',
+                    controller: _searchController,
+                    icon: Icons.search,
+                  ),
+                  SizedBox(height: 16),
+                  WilouTextField(
+                    label: 'Due date',
+                    readOnly: true,
+                    controller: _filterDueDateController,
+                    icon: Icons.calendar_today,
+                    onTap: _selectDate,
+                  ),
+                  SizedBox(height: 16),
+                  WilouDropdown(
+                    label: 'Status',
+                    value: _selectedStatus,
+                    items: ['Pending', 'Completed', 'In Process'],
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedStatus = value;
+                      });
+                    },
+                    icon: Icons.info,
+                  ),
+                ],
               ),
-              SizedBox(height: 16),
-              WilouTextField(
-                label: 'Due date',
-                readOnly: true,
-                controller: _filterDueDateController,
-                icon: Icons.calendar_today,
-                onTap: _selectDate,
-              ),
-              SizedBox(height: 16),
-              WilouDropdown(
-                label: 'Status',
-                value: _selectedStatus,
-                items: ['Pending', 'Completed', 'In Process'],
-                onChanged: (value) {
-                  setState(() {
-                    _selectedStatus = value;
-                  });
-                },
-                icon: Icons.info,
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                _filterTasks();
-                Navigator.of(context).pop();
-              },
-              child: Text('Apply'),
-            ),
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  _selectedStatus = "";
-                  _filterDueDateController.clear;
-                  _searchController.clear();
-                });
-              },
-              child: Text('Clear'),
-            ),
-          ],
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Cancel'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    _filterTasks();
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Apply'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    setState(() {
+                      _selectedStatus = null;
+                      _filterDueDateController.clear();
+                      _searchController.clear();
+                    });
+                    _filterTasks();
+                  },
+                  child: Text('Clear'),
+                ),
+              ],
+            );
+          },
         );
       },
     );
