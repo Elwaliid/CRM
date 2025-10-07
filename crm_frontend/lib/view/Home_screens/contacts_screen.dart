@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, deprecated_member_use, unnecessary_string_interpolations, non_constant_identifier_names, avoid_print
 import 'dart:convert';
 import 'package:crm_frontend/ustils/config.dart';
+import 'package:crm_frontend/ustils/constants.dart';
 import 'package:crm_frontend/ustils/email_utils.dart';
 import 'package:crm_frontend/ustils/user_utils.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
   final List<Contact> _contacts = [];
   String? userId;
   List<Contact> _Contacts = [];
-
+  String? selectedType = "";
   @override
   void initState() {
     super.initState();
@@ -73,9 +74,11 @@ class _ContactsScreenState extends State<ContactsScreen> {
     setState(() {
       _Contacts = _contacts
           .where(
-            (Contacts) => ('${Contacts.firstname} ${Contacts.lastname}')
-                .toLowerCase()
-                .contains(query),
+            (Contacts) =>
+                ('${Contacts.firstname} ${Contacts.lastname}')
+                    .toLowerCase()
+                    .contains(query) &&
+                (selectedType!.isEmpty || Contacts.type == selectedType),
           )
           .toList();
     });
@@ -143,33 +146,50 @@ class _ContactsScreenState extends State<ContactsScreen> {
                 ),
                 const SizedBox(height: 12),
                 ///////////////////////////////////////////////////////////////////////////// Search Bar
-                TextField(
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    hintText: 'Search for Contacts',
-                    prefixIcon: Icon(Icons.search, color: secondaryColor),
-                    filled: true,
-                    fillColor: Colors.blueGrey[50],
-                    contentPadding: const EdgeInsets.symmetric(
-                      vertical: 14,
-                      horizontal: 20,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                      borderSide: BorderSide(
-                        color: Colors.blueGrey.shade200,
-                        width: 1.5,
+                Row(
+                  children: [
+                    TextField(
+                      controller: _searchController,
+                      decoration: InputDecoration(
+                        hintText: 'Search for Contacts',
+                        prefixIcon: Icon(Icons.search, color: secondaryColor),
+                        filled: true,
+                        fillColor: Colors.blueGrey[50],
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 14,
+                          horizontal: 20,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                          borderSide: BorderSide(
+                            color: Colors.blueGrey.shade200,
+                            width: 1.5,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                          borderSide: BorderSide(
+                            color: const Color.fromARGB(255, 41, 49, 53),
+                            width: 2.0,
+                          ),
+                        ),
                       ),
+                      style: TextStyle(fontSize: 18, color: primaryColor),
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                      borderSide: BorderSide(
-                        color: const Color.fromARGB(255, 41, 49, 53),
-                        width: 2.0,
-                      ),
+                    Column(
+                      children: [
+                        GestureDetector(
+                          /* Constants.contentColorGreen circle when pressed selectedType = Client */
+                        ),
+                        GestureDetector(
+                          /* Constants.deepOrange  circle when pressed selectedType = Lead */
+                        ),
+                        GestureDetector(
+                          /* Constants.primaryColor circle when pressed selectedType = Vendor */
+                        ),
+                      ],
                     ),
-                  ),
-                  style: TextStyle(fontSize: 18, color: primaryColor),
+                  ],
                 ),
                 const SizedBox(height: 20),
                 ////////////////////////////////////////////////////////////// Contact list scrollable
