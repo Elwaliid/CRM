@@ -46,6 +46,7 @@ class _TasksScreenState extends State<TasksScreen> {
   List<String> _emailAddresses = [];
   List<String> _phoneNumbers = [];
   String _selectedStatus = 'All';
+  String _selectedType = 'All';
 
   String? userId;
   @override
@@ -107,6 +108,9 @@ class _TasksScreenState extends State<TasksScreen> {
         }
         if (_selectedStatus != 'All') {
           matches &= task.status == _selectedStatus;
+        }
+        if (_selectedType != 'All') {
+          matches &= task.type == _selectedType;
         }
         return matches;
       }).toList();
@@ -201,7 +205,7 @@ class _TasksScreenState extends State<TasksScreen> {
                     SizedBox(width: 10),
                     IconButton(
                       onPressed: _showFilterDialog,
-                      icon: Icon(Icons.filter),
+                      icon: Icon(Icons.filter_list),
                     ),
                   ],
                 ),
@@ -735,6 +739,24 @@ class _TasksScreenState extends State<TasksScreen> {
                     },
                     icon: Icons.info,
                   ),
+                  SizedBox(height: 16),
+                  WilouDropdown(
+                    label: 'Type',
+                    value: _selectedType,
+                    items: [
+                      'All',
+                      'Call/Message',
+                      'Email',
+                      'Deal',
+                      'Meeting/Site Visit',
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedType = value!;
+                      });
+                    },
+                    icon: Icons.category,
+                  ),
                 ],
               ),
               actions: [
@@ -757,6 +779,7 @@ class _TasksScreenState extends State<TasksScreen> {
                       _selectedStatus = "All";
                       _filterDueDateController.clear();
                       _searchController.clear();
+                      _selectedType = 'All';
                     });
                     _filterTasks();
                   },
