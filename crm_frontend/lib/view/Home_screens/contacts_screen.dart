@@ -148,44 +148,104 @@ class _ContactsScreenState extends State<ContactsScreen> {
                 ///////////////////////////////////////////////////////////////////////////// Search Bar
                 Row(
                   children: [
-                    TextField(
-                      controller: _searchController,
-                      decoration: InputDecoration(
-                        hintText: 'Search for Contacts',
-                        prefixIcon: Icon(Icons.search, color: secondaryColor),
-                        filled: true,
-                        fillColor: Colors.blueGrey[50],
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: 14,
-                          horizontal: 20,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                          borderSide: BorderSide(
-                            color: Colors.blueGrey.shade200,
-                            width: 1.5,
+                    Expanded(
+                      child: TextField(
+                        controller: _searchController,
+                        decoration: InputDecoration(
+                          hintText: 'Search for Contacts',
+                          prefixIcon: Icon(Icons.search, color: secondaryColor),
+                          filled: true,
+                          fillColor: Colors.blueGrey[50],
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 14,
+                            horizontal: 20,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                            borderSide: BorderSide(
+                              color: Colors.blueGrey.shade200,
+                              width: 1.5,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                            borderSide: BorderSide(
+                              color: const Color.fromARGB(255, 41, 49, 53),
+                              width: 2.0,
+                            ),
                           ),
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                          borderSide: BorderSide(
-                            color: const Color.fromARGB(255, 41, 49, 53),
-                            width: 2.0,
-                          ),
-                        ),
+                        style: TextStyle(fontSize: 18, color: primaryColor),
                       ),
-                      style: TextStyle(fontSize: 18, color: primaryColor),
                     ),
+                    const SizedBox(width: 10),
                     Column(
                       children: [
                         GestureDetector(
-                          /* Constants.contentColorGreen circle when pressed selectedType = Client */
+                          onTap: () {
+                            setState(() {
+                              selectedType = selectedType == "Client"
+                                  ? ""
+                                  : "Client";
+                              _filterContact();
+                            });
+                          },
+                          child: Container(
+                            width: 24,
+                            height: 24,
+                            margin: const EdgeInsets.symmetric(vertical: 4),
+                            decoration: BoxDecoration(
+                              color: contentColorGreen,
+                              shape: BoxShape.circle,
+                              border: selectedType == "Client"
+                                  ? Border.all(color: Colors.white, width: 2)
+                                  : null,
+                            ),
+                          ),
                         ),
                         GestureDetector(
-                          /* Constants.deepOrange  circle when pressed selectedType = Lead */
+                          onTap: () {
+                            setState(() {
+                              selectedType = selectedType == "Lead"
+                                  ? ""
+                                  : "Lead";
+                              _filterContact();
+                            });
+                          },
+                          child: Container(
+                            width: 24,
+                            height: 24,
+                            margin: const EdgeInsets.symmetric(vertical: 4),
+                            decoration: BoxDecoration(
+                              color: deepOrange,
+                              shape: BoxShape.circle,
+                              border: selectedType == "Lead"
+                                  ? Border.all(color: Colors.white, width: 2)
+                                  : null,
+                            ),
+                          ),
                         ),
                         GestureDetector(
-                          /* Constants.primaryColor circle when pressed selectedType = Vendor */
+                          onTap: () {
+                            setState(() {
+                              selectedType = selectedType == "Vendor"
+                                  ? ""
+                                  : "Vendor";
+                              _filterContact();
+                            });
+                          },
+                          child: Container(
+                            width: 24,
+                            height: 24,
+                            margin: const EdgeInsets.symmetric(vertical: 4),
+                            decoration: BoxDecoration(
+                              color: primaryColor,
+                              shape: BoxShape.circle,
+                              border: selectedType == "Vendor"
+                                  ? Border.all(color: Colors.white, width: 2)
+                                  : null,
+                            ),
+                          ),
                         ),
                       ],
                     ),
