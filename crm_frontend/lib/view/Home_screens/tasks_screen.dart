@@ -33,8 +33,7 @@ class _TasksScreenState extends State<TasksScreen> {
   final TextEditingController _emailSubjectController = TextEditingController();
   final TextEditingController _emailBodyController = TextEditingController();
 
-  final TextEditingController _filterDueDateController =
-      TextEditingController();
+  TextEditingController _filterDueDateController = TextEditingController();
   final List<Task> _tasks = [];
   List<Task> _Tasks = [];
   List<Contact> _contacts = [];
@@ -717,6 +716,7 @@ class _TasksScreenState extends State<TasksScreen> {
               SizedBox(height: 16),
               WilouTextField(
                 label: 'Due date',
+                readOnly: true,
                 controller: _filterDueDateController,
                 icon: Icons.calendar_today,
                 onTap: _selectDate,
@@ -748,6 +748,16 @@ class _TasksScreenState extends State<TasksScreen> {
                 Navigator.of(context).pop();
               },
               child: Text('Apply'),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  _selectedStatus = "";
+                  _filterDueDateController.clear;
+                  _searchController.clear();
+                });
+              },
+              child: Text('Clear'),
             ),
           ],
         );
