@@ -2,9 +2,9 @@
 
 import 'dart:convert';
 
+import 'package:crm_frontend/models/user_model.dart';
 import 'package:crm_frontend/ustils/config.dart';
 import 'package:crm_frontend/ustils/email_utils.dart';
-import 'package:crm_frontend/ustils/user_utils.dart';
 import 'package:crm_frontend/view/Sub_screens/Task_Details_screen.dart';
 import 'package:crm_frontend/view/Widgets/date_time_picker.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +58,8 @@ class _TasksScreenState extends State<TasksScreen> {
   }
 
   Future<void> _loadUserId() async {
-    userId = await UserUtils.loadUserId();
+    UserModel? user = await UserModel.getUser();
+    userId = user?.id;
     setState(() {});
   }
 

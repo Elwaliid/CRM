@@ -2,8 +2,8 @@
 
 import 'dart:convert';
 
+import 'package:crm_frontend/models/user_model.dart';
 import 'package:crm_frontend/ustils/config.dart';
-import 'package:crm_frontend/ustils/user_utils.dart';
 import 'package:crm_frontend/models/contact_model.dart';
 import 'package:crm_frontend/view/Widgets/Type_buttons.dart';
 import 'package:crm_frontend/view/Widgets/wilou_textfield.dart';
@@ -72,7 +72,8 @@ class _ContactDetailsScreenState extends State<ContactDetailsScreen> {
   }
 
   Future<void> _loadUserId() async {
-    userId = await UserUtils.loadUserId();
+    UserModel? user = await UserModel.getUser();
+    userId = user?.id;
     setState(() {});
   }
 

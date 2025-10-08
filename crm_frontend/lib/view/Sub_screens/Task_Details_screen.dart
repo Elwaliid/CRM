@@ -3,8 +3,8 @@ import 'dart:convert';
 
 import 'package:crm_frontend/models/contact_model.dart';
 import 'package:crm_frontend/models/task_model.dart';
+import 'package:crm_frontend/models/user_model.dart';
 import 'package:crm_frontend/ustils/config.dart';
-import 'package:crm_frontend/ustils/user_utils.dart';
 import 'package:crm_frontend/view/Widgets/Type_buttons.dart';
 import 'package:crm_frontend/view/Widgets/date_time_picker.dart';
 import 'package:crm_frontend/view/Widgets/quick_adds.dart';
@@ -143,7 +143,8 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
   }
 
   Future<void> _loadUserId() async {
-    userId = await UserUtils.loadUserId();
+    UserModel? user = await UserModel.getUser();
+    userId = user?.id;
     setState(() {});
   }
 

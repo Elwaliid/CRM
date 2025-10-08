@@ -1,7 +1,8 @@
 // ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable
 
 import 'dart:ui';
-import 'package:crm_frontend/ustils/user_utils.dart';
+import 'package:crm_frontend/models/user_model.dart';
+
 import 'package:crm_frontend/view/Sub_screens/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,7 +30,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _loadUserId() async {
-    userId = await UserUtils.loadUserId();
+    UserModel? user = await UserModel.getUser();
+    userId = user?.id;
     setState(() {});
   }
 
