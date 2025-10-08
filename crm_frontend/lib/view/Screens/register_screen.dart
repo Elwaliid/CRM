@@ -397,24 +397,42 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 );
 
                                 if (response.statusCode == 201) {
-                                  // ✅ check for 201 Created
-                                  var responseBody = jsonDecode(response.body);
+                                  // ✅ Successfully created user
+                                  final responseBody = jsonDecode(
+                                    response.body,
+                                  );
 
-                                  var token = responseBody['token'] as String?;
-                                  if (token != null) {
+                                  final token =
+                                      responseBody['token'] as String?;
+                                  final user = responseBody['user'];
+
+                                  if (token != null &&
+                                      user != null &&
+                                      user['_id'] != null) {
                                     final prefs =
                                         await SharedPreferences.getInstance();
                                     await prefs.setString('token', token);
-                                    print('Token saved to SharedPreferences');
+                                    print('✅ Token saved to SharedPreferences');
 
-                                    // Create user in Firestore with MongoDB user ID
-                                    String userId = responseBody['user']['_id'];
+                                    final userId = user['_id'] as String;
+
+                                    // ✅ Create Firestore entry linked to MongoDB user
                                     await UserModel.createUserInFirestore(
                                       userId,
                                     );
 
-                                    // ✅ Go directly to HomeScreen with token
-                                    Get.to(() => HomeScreen(token: token));
+                                    // ✅ Navigate directly to HomeScreen
+                                    Get.offAll(() => HomeScreen(token: token));
+                                  } else {
+                                    print(
+                                      '⚠️ Token or user ID missing in response',
+                                    );
+                                    Get.snackbar(
+                                      'Error',
+                                      'Invalid response from server. Please try again.',
+                                      backgroundColor: Colors.redAccent,
+                                      colorText: Colors.white,
+                                    );
                                   }
                                 } else {
                                   // ❌ registration failed
