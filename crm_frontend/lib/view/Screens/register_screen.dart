@@ -1,8 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
 import 'dart:convert';
-
-import 'package:crm_frontend/models/user_model.dart';
 import 'package:crm_frontend/ustils/google_signin_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:crm_frontend/ustils/config.dart';
@@ -413,13 +411,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         await SharedPreferences.getInstance();
                                     await prefs.setString('token', token);
                                     print('✅ Token saved to SharedPreferences');
-
-                                    final userId = user['_id'] as String;
-
-                                    // ✅ Create Firestore entry linked to MongoDB user
-                                    await UserModel.createUserInFirestore(
-                                      userId,
-                                    );
 
                                     // ✅ Navigate directly to HomeScreen
                                     Get.offAll(() => HomeScreen(token: token));

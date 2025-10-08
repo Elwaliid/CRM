@@ -1,95 +1,32 @@
-# -----------------------
-# OS / Editor junk
-# -----------------------
-*.class
-*.log
-*.pyc
-*.swp
-.DS_Store
-Thumbs.db
-ehthumbs.db
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-.atom/
-.build/
-.buildlog/
-.history
-.svn/
-.swiftpm/
-migrate_working_dir/
-
-# IntelliJ related
-*.iml
-*.ipr
-*.iws
-.idea/
-
-# VS Code (optional)
-.vscode/
-
-# -----------------------
-# Flutter / Dart
-# -----------------------
-**/doc/api/
-**/ios/Flutter/.last_build_id
-.dart_tool/
-.flutter-plugins
-.flutter-plugins-dependencies
-.pub-cache/
-.pub/
-build/              # ignore all build folders (Flutter + accidental cmake)
-!/android/app/src/  # keep source
-
-# Symbolication
-app.*.symbols
-
-# Obfuscation
-app.*.map.json
-
-# Android Studio build artifacts
-/android/app/debug
-/android/app/profile
-/android/app/release
-/android/app/build/
-/android/build/
-
-# APKs and native libraries
-*.apk
-*.so
-
-# iOS
-ios/Flutter/Flutter.framework/
-ios/Flutter/Flutter.podspec
-ios/.symlinks/
-ios/Pods/
-ios/build/
-ios/Runner.xcworkspace/
-
-# -----------------------
-# Node.js / Backend
-# -----------------------
+# === General ===
 node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
+build/
+.DS_Store
 .env
-.env.*.local
+*.log
 
-# -----------------------
-# CMake / Native
-# -----------------------
-CMakeFiles/
-CMakeCache.txt
-cmake_install.cmake
-Makefile
-*.a
-*.o
-*.obj
-*.lib
-*.dll
-*.exe
-*.zip
+# === Backend ===
+crm_backend/node_modules/
+crm_backend/build/
+crm_backend/config/firebaseServiceAccountKey.json
+
+# === Flutter frontend ===
+crm_frontend/.dart_tool/
+crm_frontend/.idea/
+crm_frontend/.vscode/
+crm_frontend/build/
+crm_frontend/ios/
+crm_frontend/android/
+crm_frontend/web/
+crm_frontend/linux/
+crm_frontend/windows/
+crm_frontend/macos/
+
+# Keep only lib folder in frontend
+!crm_frontend/lib/
+!crm_frontend/lib/**
+
+# Keep backend code
+!crm_backend/
+!crm_backend/**/*.js
+!crm_backend/**/*.json
