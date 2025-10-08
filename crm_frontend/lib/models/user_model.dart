@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:ffi';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,6 +14,8 @@ class UserModel {
   String? phone;
   String? avatar;
   String? role;
+  List<String>? history;
+  String? profileImageURL;
 
   UserModel({
     this.id,
@@ -20,6 +24,8 @@ class UserModel {
     this.phone,
     this.avatar,
     this.role,
+    this.history,
+    this.profileImageURL,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -57,5 +63,22 @@ class UserModel {
       // Handle error, perhaps log or return null
     }
     return null;
+  }
+
+  static Map<String, dynamic> userData = {
+    'history': <String>[],
+    'profileImageURL': null,
+  };
+
+  static Future<void> createUserInFirestore(String userId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .set(userData);
+    } catch (e) {
+      // Handle error, perhaps log
+      print('Error creating user in Firestore: $e');
+    }
   }
 }

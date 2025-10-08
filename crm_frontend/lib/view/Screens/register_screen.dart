@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:crm_frontend/models/user_model.dart';
 import 'package:crm_frontend/ustils/google_signin_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:crm_frontend/ustils/config.dart';
@@ -405,6 +406,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         await SharedPreferences.getInstance();
                                     await prefs.setString('token', token);
                                     print('Token saved to SharedPreferences');
+
+                                    // Create user in Firestore with MongoDB user ID
+                                    String userId = responseBody['user']['_id'];
+                                    await UserModel.createUserInFirestore(
+                                      userId,
+                                    );
 
                                     // ✅ Go directly to HomeScreen with token
                                     Get.to(() => HomeScreen(token: token));

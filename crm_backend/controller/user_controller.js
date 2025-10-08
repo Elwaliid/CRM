@@ -13,6 +13,9 @@ exports.register = async (req, res,next) => {
       status: true,
       success: "User registered successfully",
       token: token,  // 🔑 include the token in response
+      user: {
+        _id: newUser._id,
+      }
     });
   } catch (err) {
     console.error("Register error:", err);
