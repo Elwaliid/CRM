@@ -24,7 +24,8 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  String userName = 'User';
+  String userName = '';
+  String nickName = 'User';
   late String _currentTime;
   int clientsCount = 0;
   int tasksCount = 0;
@@ -56,7 +57,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         if (data['status'] == true) {
           setState(() {
             userName = data['user']['name'] ?? 'User';
-            userName = userName.split(' ').first;
+            nickName = userName.split(' ').first;
           });
         }
       } else {
@@ -178,7 +179,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ////////////////////////////////////////////////////////// Title
                   Center(
                     child: Text(
-                      'Hello, $userName',
+                      'Hello, $nickName',
                       style: GoogleFonts.poppins(
                         fontSize: 42,
                         fontWeight: FontWeight.bold,
