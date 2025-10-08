@@ -19,9 +19,9 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final String userName = "Wilou dilaw";
-  final String email = "wilou@gmail.com";
-  final String phone = "05 34 56 78 90";
+  String userName = "";
+  String email = "";
+  String? phone;
   String? userId;
   @override
   void initState() {
@@ -31,7 +31,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<void> _loadUserId() async {
     UserModel? user = await UserModel.getUser();
-    userId = user?.id;
+
+    if (user != null) {
+      userId = user.id;
+      userName = user.name!;
+      email = user.email!;
+    }
     setState(() {});
   }
 
@@ -42,6 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
+          //////////////////////////// profile image
           image: DecorationImage(
             image: AssetImage('lib/images/login.jpg'),
             fit: BoxFit.cover,
