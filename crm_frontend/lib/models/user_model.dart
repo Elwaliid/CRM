@@ -1,10 +1,7 @@
 import 'dart:convert';
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../ustils/config.dart';
 
 class UserModel {
