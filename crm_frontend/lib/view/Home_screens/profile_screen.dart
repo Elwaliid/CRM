@@ -1,5 +1,6 @@
 // ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable
 
+import 'dart:io';
 import 'dart:ui';
 import 'package:crm_frontend/models/user_model.dart';
 
@@ -23,6 +24,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String email = "";
   String? phone;
   String? userId;
+  File? image;
   @override
   void initState() {
     super.initState();
@@ -36,6 +38,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       userId = user.id;
       userName = user.name!;
       email = user.email!;
+      image = user.profileImageURL != null ? File(user.profileImageURL!) : null;
     }
     setState(() {});
   }
@@ -48,10 +51,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: Container(
         decoration: const BoxDecoration(
           //////////////////////////// profile image
-          image: DecorationImage(
-            image: AssetImage('lib/images/login.jpg'),
-            fit: BoxFit.cover,
-          ),
         ),
         child: SafeArea(
           child: SingleChildScrollView(
@@ -76,10 +75,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: Center(
                     child: Stack(
                       children: [
-                        const CircleAvatar(
-                          radius: 100,
-                          backgroundImage: AssetImage('lib/images/a1.jpeg'),
-                        ),
+                        image != null
+                            ? ClipOval(
+                                child: Image.file(
+                                  image!,
+                                  width: 160,
+                                  height: 160,
+                                  fit: BoxFit.cover,
+                                ),
+                              )
+                            : CircleAvatar(
+                                radius: 80,
+                                backgroundColor: primaryColor,
+                                child: Text(
+                                  userName.isNotEmpty
+                                      ? userName[0].toUpperCase()
+                                      : '?',
+                                  style: const TextStyle(
+                                    fontSize: 60,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
                         Positioned(
                           bottom: 8,
                           right: 8,
