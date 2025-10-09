@@ -2,7 +2,9 @@ const UserModel = require('../models/user_model');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const otpGenerator = require('otp-generator');
+const admin = require('firebase-admin');
 
+const db = admin.firestore();
 
 
 class UserService {

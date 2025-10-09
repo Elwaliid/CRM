@@ -242,4 +242,4 @@ exports.sendEmail = async (req, res) => {
   }
 };
 
-exports.AddUpdateProfileImage = AddUpdateProfileImage;
+
