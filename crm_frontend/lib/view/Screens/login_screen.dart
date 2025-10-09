@@ -380,7 +380,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextButton(
                         onPressed: () {
                           Get.to(RegisterScreen());
-                          // TODO: Go to register
                         },
                         child: Text(
                           "Don't have an account? Register here.",
@@ -543,9 +542,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Ink(
                                   child: InkWell(
                                     borderRadius: BorderRadius.circular(12),
-                                    onTap: () {
-                                      // TODO: Google login logic
-                                    },
+                                    onTap: () {},
                                     child: Padding(
                                       padding: const EdgeInsets.all(12.0),
                                       child: Image.asset(

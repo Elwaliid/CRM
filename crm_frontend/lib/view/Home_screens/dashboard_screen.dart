@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, unused_element, unnecessary_import, use_super_parameters, deprecated_member_use, unused_local_variable, prefer_final_fields
+// ignore_for_file: avoid_print, unused_element, unnecessary_import, use_super_parameters, deprecated_member_use, unused_local_variable, prefer_final_fields, non_constant_identifier_names
 import 'dart:ui';
 import 'dart:convert';
 import 'package:crm_frontend/ustils/config.dart';

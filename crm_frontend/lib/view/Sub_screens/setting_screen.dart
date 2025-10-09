@@ -65,27 +65,21 @@ class _SettingsScreenState extends State<SettingScreen> {
                       icon: Icons.language,
                       label: 'Languages',
                       primaryColor: primaryColor,
-                      onTap: () {
-                        // TODO: Implement language change functionality
-                      },
+                      onTap: () {},
                     ),
                     const SizedBox(height: 20),
                     _buildMenuItem(
                       icon: Icons.brightness_6,
                       label: 'Night/Day mode',
                       primaryColor: primaryColor,
-                      onTap: () {
-                        // TODO: Implement night/day mode toggle
-                      },
+                      onTap: () {},
                     ),
                     const SizedBox(height: 20),
                     _buildMenuItem(
                       icon: Icons.lock,
                       label: 'Change Password',
                       primaryColor: primaryColor,
-                      onTap: () {
-                        // TODO: Implement change password functionality
-                      },
+                      onTap: () {},
                     ),
                     const SizedBox(height: 20),
                   ],

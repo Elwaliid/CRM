@@ -11,7 +11,7 @@ crm_backend/build/
 crm_backend/config/firebaseServiceAccountKey.json
 
 # === Flutter frontend ===
-crm_frontend/.dart_tool/
+.dart_tool/
 crm_frontend/.idea/
 crm_frontend/.vscode/
 crm_frontend/build/
