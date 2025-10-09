@@ -269,8 +269,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void PickUpdateProfileImage() {
-    // TODO: Implement the logic to pick and update the profile image
-    // For example, use image_picker package to pick image from gallery or camera
     print("PickUpdateProfileImage called");
   }
 }

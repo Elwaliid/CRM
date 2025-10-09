@@ -9,25 +9,7 @@ const db = admin.firestore();
 /**
  * Helper function: create or update Firestore user doc
  */
-async function syncUserToFirestore(userId, data = {}) {
-  try {
-    const userRef = db.collection('users').doc(userId);
-    const userDoc = await userRef.get();
 
-    if (!userDoc.exists) {
-      await userRef.set({
-        history: [],
-        profileImageURL: null,
-        ...data,
-      });
-      console.log(`✅ Firestore user created: ${userId}`);
-    } else {
-      console.log(`ℹ️ Firestore user already exists: ${userId}`);
-    }
-  } catch (error) {
-    console.error('🔥 Firestore sync error:', error);
-  }
-}
 
 
 exports.UserProfileImage = async (req, res) => {
@@ -37,7 +19,7 @@ exports.UserProfileImage = async (req, res) => {
     if (!profileImageURL) {
       return res.status(400).json({ status: false, message: 'profileImageURL is required' });
     }
-    await UserServices.AddUpdateProfileImage(userId, profileImageURL);
+    await UserService.AddUpdateProfileImage(userId, profileImageURL);
     res.status(200).json({ status: true, message: 'Profile image updated successfully' });
   } catch (error) {
     console.error('Update profile image error:', error);
@@ -57,10 +39,8 @@ exports.register = async (req, res, next) => {
     const token = await UserService.generateToken(tokenData, 'secretKey', '1h');
 
     // 🔥 Create Firestore user doc automatically
-    await syncUserToFirestore(newUser._id.toString(), {
-      email: newUser.email,
-      name: newUser.name,
-      phone: newUser.phone || null,
+    await UserService.syncUserToFirestore(newUser._id.toString(), {
+    
       createdAt: new Date(),
     });
 

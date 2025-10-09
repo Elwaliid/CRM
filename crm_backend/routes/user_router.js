@@ -9,5 +9,5 @@ router.post('/forgot-password', UserController.forgotPassword);
 router.post('/reset-password', UserController.resetPassword);
 router.get('/user', verifyToken, UserController.getUser);
 router.post('/send-email', UserController.sendEmail);
-
+router.post('/add-update-profile-image',verifyToken,UserController.UserProfileImage);
 module.exports = router;

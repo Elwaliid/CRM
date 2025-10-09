@@ -157,6 +157,42 @@ class UserService {
             throw err;
         }
     }
+    static async  syncUserToFirestore(userId, data = {}) {
+  try {
+    const userRef = db.collection('users').doc(userId);
+    const userDoc = await userRef.get();
+
+    if (!userDoc.exists) {
+      await userRef.set({
+        history: [],
+        profileImageURL: null,
+        ...data,
+      });
+      console.log(`✅ Firestore user created: ${userId}`);
+    } else {
+      console.log(`ℹ️ Firestore user already exists: ${userId}`);
+    }
+  } catch (error) {
+    console.error('🔥 Firestore sync error:', error);
+  }
+}
+    static async  AddUpdateProfileImage(userId, ImageURL) {
+      try {
+        const userRef = db.collection('users').doc(userId);
+        const userDoc = await userRef.get();
+    
+        if (userDoc.exists) {
+          // Update the existing user document with the new profile image URL
+          await userRef.update({
+            profileImageURL: ImageURL,
+          });
+          console.log(`✅ Firestore user profile image updated: ${userId}`);
+        }
+      } catch (error) {
+        console.error('🔥 Firestore profile image update error:', error);
+        throw error; // Re-throw to handle in caller
+      }
+    }
 }
 
 module.exports = UserService;
