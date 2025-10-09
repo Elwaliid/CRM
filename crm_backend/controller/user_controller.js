@@ -29,6 +29,21 @@ async function syncUserToFirestore(userId, data = {}) {
   }
 }
 
+
+exports.UserProfileImage = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { profileImageURL } = req.body;
+    if (!profileImageURL) {
+      return res.status(400).json({ status: false, message: 'profileImageURL is required' });
+    }
+    await UserServices.AddUpdateProfileImage(userId, profileImageURL);
+    res.status(200).json({ status: true, message: 'Profile image updated successfully' });
+  } catch (error) {
+    console.error('Update profile image error:', error);
+    res.status(500).json({ status: false, message: 'Internal server error' });
+  }
+}
 /**
  * REGISTER USER
  */
@@ -246,3 +261,5 @@ exports.sendEmail = async (req, res) => {
     res.status(500).json({ status: false, message: 'Failed to send email' });
   }
 };
+
+exports.AddUpdateProfileImage = AddUpdateProfileImage;
