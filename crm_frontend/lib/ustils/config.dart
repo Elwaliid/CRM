@@ -14,3 +14,4 @@ final deleteTaskUrl = "$baseUrl/task/delete-task";
 final getClientsCountUrl = "$baseUrl/contact/Clients-count";
 final getClientsCountByMonthUrl = "$baseUrl/contact/clients-count-month";
 final getTasksCountUrl = "$baseUrl/task/Tasks-Count";
+final addUpdateProfileImage = "$baseUrl/add-update-profile-image";

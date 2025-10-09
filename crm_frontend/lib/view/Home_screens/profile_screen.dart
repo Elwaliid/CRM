@@ -3,12 +3,14 @@
 import 'dart:io';
 import 'dart:ui';
 import 'package:crm_frontend/models/user_model.dart';
-
+import 'package:crm_frontend/ustils/config.dart';
 import 'package:crm_frontend/view/Sub_screens/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 
 class ProfileScreen extends StatefulWidget {
   final String? userId;
@@ -268,7 +270,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  void PickUpdateProfileImage() {
-    print("PickUpdateProfileImage called");
+  Future<void> PickUpdateProfileImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        image = File(pickedFile.path);
+      });
+
+      if (userId != null) {
+        try {
+          var request = http.MultipartRequest(
+            'POST',
+            Uri.parse(addUpdateProfileImage),
+          );
+          request.fields['userId'] = userId!;
+          request.files.add(
+            await http.MultipartFile.fromPath('image', image!.path),
+          );
+
+          var response = await request.send();
+
+          if (response.statusCode == 200) {
+            _showSnack('Profile image updated successfully');
+          } else {
+            _showSnack('Failed to update profile image');
+          }
+        } catch (e) {
+          _showSnack('Error uploading image: $e');
+        }
+      } else {
+        _showSnack('User ID is null');
+      }
+    } else {
+      _showSnack('No image selected');
+    }
   }
 }
