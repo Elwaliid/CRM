@@ -38,7 +38,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       userId = user.id;
       userName = user.name!;
       email = user.email!;
-      image = user.profileImageURL != null ? File(user.profileImageURL!) : null;
+      image = null;
     }
     setState(() {});
   }
@@ -62,62 +62,68 @@ class _ProfileScreenState extends State<ProfileScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ////////////////////////////////////////////////////////////////////////// Avatar
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.48,
-                  height: MediaQuery.of(context).size.width * 0.48,
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(
-                      MediaQuery.of(context).size.width * 0.48 / 2,
+                GestureDetector(
+                  onTap: PickUpdateProfileImage,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.48,
+                    height: MediaQuery.of(context).size.width * 0.48,
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(
+                        MediaQuery.of(context).size.width * 0.48 / 2,
+                      ),
                     ),
-                  ),
-                  child: Center(
-                    child: Stack(
-                      children: [
-                        image != null
-                            ? ClipOval(
-                                child: Image.file(
-                                  image!,
-                                  width: 160,
-                                  height: 160,
-                                  fit: BoxFit.cover,
-                                ),
-                              )
-                            : CircleAvatar(
-                                radius: 80,
-                                backgroundColor: primaryColor,
-                                child: Text(
-                                  userName.isNotEmpty
-                                      ? userName[0].toUpperCase()
-                                      : '?',
-                                  style: const TextStyle(
-                                    fontSize: 60,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
+                    child: Center(
+                      child: Stack(
+                        children: [
+                          image != null
+                              ? ClipOval(
+                                  child: Image.file(
+                                    image!,
+                                    width: 160,
+                                    height: 160,
+                                    fit: BoxFit.cover,
+                                  ),
+                                )
+                              : CircleAvatar(
+                                  radius: 80,
+                                  backgroundColor: primaryColor,
+                                  child: Text(
+                                    userName.isNotEmpty
+                                        ? userName[0].toUpperCase()
+                                        : '?',
+                                    style: const TextStyle(
+                                      fontSize: 60,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
+                          Positioned(
+                            bottom: 8,
+                            right: 8,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.blueGrey.shade800,
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 2,
+                                ),
                               ),
-                        Positioned(
-                          bottom: 8,
-                          right: 8,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.blueGrey.shade800,
-                              shape: BoxShape.circle,
-                              border: Border.all(color: Colors.white, width: 2),
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Icon(
-                                Icons.edit,
-                                size: 24,
-                                color: Colors.white,
+                              child: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Icon(
+                                  Icons.edit,
+                                  size: 24,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -260,5 +266,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
+  }
+
+  void PickUpdateProfileImage() {
+    // TODO: Implement the logic to pick and update the profile image
+    // For example, use image_picker package to pick image from gallery or camera
+    print("PickUpdateProfileImage called");
   }
 }
