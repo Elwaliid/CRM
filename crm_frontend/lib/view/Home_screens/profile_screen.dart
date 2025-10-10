@@ -81,8 +81,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         children: [
                           image != null
                               ? ClipOval(
-                                  child: Image.file(
-                                    image!,
+                                  child: Image.network(
+                                    image as String,
                                     width: 160,
                                     height: 160,
                                     fit: BoxFit.cover,
