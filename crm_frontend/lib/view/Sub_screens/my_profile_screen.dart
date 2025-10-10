@@ -141,14 +141,6 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         centerTitle: true,
-        title: Text(
-          'My Profile',
-          style: GoogleFonts.poppins(
-            color: primaryColor,
-            fontSize: 26,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -206,15 +198,17 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                 ),
                 const SizedBox(height: 30),
 
-                WilouTextField(
-                  label: 'First Name',
-                  controller: firstNameController,
-                  textColor: primaryColor,
-                ),
-                const SizedBox(height: 16),
-
                 Row(
                   children: [
+                    Expanded(
+                      child: WilouTextField(
+                        label: 'First Name',
+                        controller: firstNameController,
+                        textColor: primaryColor,
+                      ),
+                    ),
+                    const SizedBox(width: 3),
+
                     Expanded(
                       child: WilouTextField(
                         label: 'Last Name',
@@ -222,15 +216,14 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                         textColor: primaryColor,
                       ),
                     ),
-
-                    Expanded(
-                      child: WilouTextField(
-                        label: 'Nickname',
-                        controller: nicknameController,
-                        textColor: primaryColor,
-                      ),
-                    ),
                   ],
+                ),
+                const SizedBox(height: 16),
+
+                WilouTextField(
+                  label: 'Nickname',
+                  controller: nicknameController,
+                  textColor: primaryColor,
                 ),
                 const SizedBox(height: 16),
 
