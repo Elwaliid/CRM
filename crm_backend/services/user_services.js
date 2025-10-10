@@ -26,7 +26,26 @@ class UserService {
             throw err;
         }
     }
+  
+     static async updateUser(id,name,phone,nickname){
+ try{
+         const user = await UserModel.findById(id);
+         if(!user) throw new Error('user not found');
+         if (nickname!==undefined)  user.nickname = nickname;
+         user.name = name;
+         user.phone = phone;
+         await user.save();
+         return user;
+    }catch (err) {  
+        throw err;
+    }
+}
 
+ static async deleteUser(id) {
+        try{
+            return await UserModel.findByIdAndDelete(id);
+        }catch (err) {  throw err;}
+    }
     
    static async findOrCreateGoogleUser(email, name, googleId) {
     try {

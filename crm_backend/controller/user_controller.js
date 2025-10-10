@@ -1,3 +1,4 @@
+const UserModel = require('../models/user_model');
 const UserService = require('../services/user_services');
 const admin = require('firebase-admin');
 
@@ -107,15 +108,32 @@ exports.login = async (req, res, next) => {
 exports.update = async (req,res) => {
   try{
     const { name , nickname , phone } = req.body;
+    const id = req.user._id;
      if ( !name || !phone) {
       return res.status(400).json({
         status: false,
         message: 'Missing required fields:  name, phone are required',
       });
     }
+     await UserService.updateUser(id,name,phone,nickname);
+                res.status(200).json({ status: true, message: "Profile updated successfully" });
   }
   catch(e){
-    print(e);}
+    console.error("Update User error:", e);
+    res.status(500).json({ status: false, message: "Internal server error" });}
+}
+
+exports.delete = async (req, res) => {
+    try{
+    const id = req.user._id;
+    const user = await UserModel.findById(id);
+    if(!user){res.status(404).json({ status: false, message: "user not found" }); return;}
+    await UserService.deleteUser(id);
+    res.status(200).json({ status: true, message: "User deleted successfully" });
+    }catch(err){
+      console.error("Delete User error:", err);
+      res.status(500).json({ status: false, message: "Internal server error" });
+    }
 }
 
 /**

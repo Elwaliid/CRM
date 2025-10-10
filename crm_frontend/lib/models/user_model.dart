@@ -67,7 +67,7 @@ class UserModel {
     if (token == null || token.isEmpty) return false;
 
     try {
-      final response = await http.put(
+      final response = await http.post(
         Uri.parse(updateUserURL),
         headers: {
           'Authorization': 'Bearer $token',

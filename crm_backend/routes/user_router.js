@@ -9,7 +9,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 router.post('/registeration', UserController.register);
 router.post('/login', UserController.login);
 router.post('/update',verifyToken,UserController.update);
-router.delete('delete',verifyToken,UserController.delete );
+router.delete('/delete',verifyToken,UserController.delete );
 router.post('/Oauth', UserController.googleSignin);
 router.post('/forgot-password', UserController.forgotPassword);
 router.post('/reset-password', UserController.resetPassword);
