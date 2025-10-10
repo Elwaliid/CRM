@@ -10,7 +10,15 @@ const db = admin.firestore();
  * Helper function: create or update Firestore user doc
  */
 
-
+exports.GetProfileImage = async(req,res) =>{
+   try {
+    const userId = req.user._id;
+    
+  } catch(err){
+     console.error('Get profile image error:', error);
+    res.status(500).json({ status: false, message: 'Internal server error' });
+  }
+}
 
 exports.UserProfileImage = async (req, res) => {
   try {
@@ -32,6 +40,7 @@ exports.UserProfileImage = async (req, res) => {
     res.status(500).json({ status: false, message: 'Internal server error' });
   }
 }
+
 /**
  * REGISTER USER
  */
@@ -93,6 +102,8 @@ exports.login = async (req, res, next) => {
     res.status(500).json({ status: false, message: 'Internal server error' });
   }
 };
+
+
 
 /**
  * GOOGLE SIGN-IN

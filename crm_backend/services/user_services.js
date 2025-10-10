@@ -178,6 +178,18 @@ class UserService {
     console.error('🔥 Firestore sync error:', error);
   }
 }
+    static async GetProfileImage(userId) {
+        try{
+            const userRef = db.collection('users').doc(userId);
+            await userRef.get({
+                
+            })
+        }catch(err){
+               console.error('🔥 Firestore profile image get error:', error);
+        throw error; 
+        }
+    }
+
     static async AddUpdateProfileImage(userId, ImageURL) {
       try {
         const userRef = db.collection('users').doc(userId);
