@@ -14,6 +14,7 @@ class WilouTextField extends StatelessWidget {
   final bool readOnly;
   final IconData? icon;
   final Function(String)? onChanged;
+  final bool obscureText;
   const WilouTextField({
     super.key,
     required this.label,
@@ -27,6 +28,7 @@ class WilouTextField extends StatelessWidget {
     this.readOnly = false,
     this.icon,
     this.onChanged,
+    this.obscureText = false,
   });
 
   @override
@@ -40,6 +42,7 @@ class WilouTextField extends StatelessWidget {
       readOnly: readOnly,
       onTap: onTap,
       onChanged: onChanged,
+      obscureText: obscureText,
       style: GoogleFonts.roboto(fontSize: 16, color: textColor),
       decoration: InputDecoration(
         suffixIcon: icon != null

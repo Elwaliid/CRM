@@ -270,6 +270,30 @@ exports.getUser = async (req, res, next) => {
 };
 
 /**
+ * CHANGE PASSWORD
+ */
+exports.changePassword = async (req, res) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+    const userId = req.user._id;
+
+    if (!oldPassword || !newPassword) {
+      return res.status(400).json({
+        status: false,
+        message: 'Old password and new password are required',
+      });
+    }
+
+    await UserService.changePassword(userId, oldPassword, newPassword);
+
+    res.status(200).json({ status: true, message: 'Password changed successfully' });
+  } catch (err) {
+    console.error('Change password error:', err);
+    res.status(400).json({ status: false, message: err.message });
+  }
+};
+
+/**
  * SEND EMAIL
  */
 exports.sendEmail = async (req, res) => {

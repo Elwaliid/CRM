@@ -142,6 +142,25 @@ class UserService {
         }
     }
 
+    // Change password
+    static async changePassword(userId, oldPassword, newPassword) {
+        try {
+            const user = await UserModel.findById(userId);
+            if (!user) throw new Error('User not found');
+
+            if (user.authProvider !== 'local') throw new Error('Password change not allowed for OAuth users');
+
+            const isMatch = await user.comparePassword(oldPassword);
+            if (!isMatch) throw new Error('Old password is incorrect');
+
+            user.password = newPassword;
+            await user.save();
+            return user;
+        } catch (err) {
+            throw err;
+        }
+    }
+
     // Get user by id
     static async getUserById(id) {
         try {
