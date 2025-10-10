@@ -13,9 +13,10 @@ const db = admin.firestore();
 exports.GetProfileImage = async(req,res) =>{
    try {
     const userId = req.user._id;
-    
+    const imageUrl = await UserService.GetProfileImage(userId);
+    res.status(200).json({ status: true, profileImageURL: imageUrl });
   } catch(err){
-     console.error('Get profile image error:', error);
+     console.error('Get profile image error:', err);
     res.status(500).json({ status: false, message: 'Internal server error' });
   }
 }

@@ -179,14 +179,17 @@ class UserService {
   }
 }
     static async GetProfileImage(userId) {
-        try{
+        try {
             const userRef = db.collection('users').doc(userId);
-            await userRef.get({
-                
-            })
-        }catch(err){
-               console.error('🔥 Firestore profile image get error:', error);
-        throw error; 
+            const userDoc = await userRef.get();
+            if (userDoc.exists) {
+                return userDoc.data().profileImageURL || null;
+            } else {
+                return null;
+            }
+        } catch (error) {
+            console.error('🔥 Firestore profile image get error:', error);
+            throw error;
         }
     }
 
