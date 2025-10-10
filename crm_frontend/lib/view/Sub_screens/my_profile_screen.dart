@@ -151,23 +151,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
 
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        centerTitle: true,
-        title: Text(
-          'My Profile',
-          style: GoogleFonts.poppins(
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-            color: primaryColor,
-          ),
-        ),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: primaryColor),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
+
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
