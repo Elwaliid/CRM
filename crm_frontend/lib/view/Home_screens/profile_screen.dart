@@ -303,22 +303,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
         if (response.statusCode == 200 && data['status'] == true) {
           final String? dataUrl = data['profileImageURL'];
           print('Received dataUrl: $dataUrl');
-          if (dataUrl != null && dataUrl.startsWith('data:image/')) {
-            final List<String> parts = dataUrl.split(',');
-            if (parts.length == 2) {
-              try {
-                final Uint8List bytes = base64Decode(parts[1]);
-                setState(() {
-                  imageBytes = bytes;
-                });
-                _showSnack('Profile image loaded successfully');
-                return; // Exit early on success
-              } catch (e) {
-                _showSnack('Failed to decode image data');
-                print('Base64 decode error: $e');
-              }
-            } else {
-              _showSnack('Invalid image data format');
+          if (dataUrl != null) {
+            try {
+              final Uint8List bytes = base64Decode(dataUrl);
+              setState(() {
+                imageBytes = bytes;
+              });
+              _showSnack('Profile image loaded successfully');
+              return; // Exit early on success
+            } catch (e) {
+              _showSnack('Failed to decode image data');
+              print('Base64 decode error: $e');
             }
           } else if (dataUrl != null) {
             _showSnack('Invalid image format received');

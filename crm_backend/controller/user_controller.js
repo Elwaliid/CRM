@@ -30,7 +30,7 @@ exports.UserProfileImage = async (req, res) => {
 
     // Convert image to base64 and create data URL
     const base64 = req.file.buffer.toString('base64');
-    const dataUrl = `data:${req.file.mimetype};base64,${base64}`;
+    const dataUrl = `${base64}`;
 
     // Update Firestore with the data URL
     await UserService.AddUpdateProfileImage(userId, dataUrl);
