@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 import 'package:crm_frontend/models/user_model.dart';
 import 'package:crm_frontend/ustils/config.dart';
+import 'package:crm_frontend/ustils/constants.dart' as Constants;
 import 'package:crm_frontend/view/Sub_screens/my_profile_screen.dart';
 import 'package:crm_frontend/view/Sub_screens/setting_screen.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +56,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          //////////////////////////// profile image
+          image: DecorationImage(
+            image: AssetImage('lib/images/login.jpg'),
+            fit: BoxFit.cover,
+          ),
         ),
         child: SafeArea(
           child: SingleChildScrollView(
@@ -76,7 +80,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(
-                        MediaQuery.of(context).size.width * 0.48 / 2,
+                        MediaQuery.of(context).size.width * 0.70 / 2,
                       ),
                     ),
                     child: Center(
@@ -125,7 +129,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             right: 8,
                             child: Container(
                               decoration: BoxDecoration(
-                                color: Colors.blueGrey.shade800,
+                                color: Constants.primaryColor,
                                 shape: BoxShape.circle,
                                 border: Border.all(
                                   color: Colors.white,
@@ -136,7 +140,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 padding: EdgeInsets.all(8.0),
                                 child: Icon(
                                   Icons.edit,
-                                  size: 24,
+                                  size: 20,
                                   color: Colors.white,
                                 ),
                               ),
