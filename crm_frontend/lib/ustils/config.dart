@@ -1,5 +1,7 @@
 final baseUrl = "http://localhost:3000";
 final registerUrl = "$baseUrl/registeration";
+final updateUserURL = "$baseUrl/update";
+final deleteUserURL = "$baseUrl/delete";
 final loginUrl = "$baseUrl/login";
 final oauthUrl = "$baseUrl/Oauth";
 final forgotPasswordUrl = "$baseUrl/forgot-password";

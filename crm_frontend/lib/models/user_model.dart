@@ -68,7 +68,7 @@ class UserModel {
 
     try {
       final response = await http.put(
-        Uri.parse('$baseUrl/user'),
+        Uri.parse(updateUserURL),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
@@ -77,8 +77,7 @@ class UserModel {
       );
 
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        return data['status'] == true;
+        print("user found zawja sale7a succesfully");
       }
     } catch (e) {
       print(e);
@@ -93,7 +92,7 @@ class UserModel {
 
     try {
       final response = await http.delete(
-        Uri.parse('$baseUrl/user'),
+        Uri.parse(deleteUserURL),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
@@ -101,8 +100,7 @@ class UserModel {
       );
 
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        return data['status'] == true;
+        print("user fucked up succesfully");
       }
     } catch (e) {
       // Handle error
