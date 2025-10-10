@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, non_constant_identifier_names
+// ignore_for_file: use_build_context_synchronously, non_constant_identifier_names, library_prefixes
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -144,263 +144,265 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
     final Color secondaryColor = Colors.blueGrey.shade700;
 
     if (isLoading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator.adaptive()),
+      return Scaffold(
+        backgroundColor: Colors.grey.shade100,
+        body: const SafeArea(
+          child: Center(child: CircularProgressIndicator.adaptive()),
+        ),
       );
     }
 
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
-
-      body: SafeArea(
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Profile picture section
-                Center(
-                  child: Column(
-                    children: [
-                      GestureDetector(
-                        onTap: PickUpdateProfileImage,
-                        child: Stack(
-                          alignment: Alignment.bottomRight,
-                          children: [
-                            Container(
-                              width: 120,
-                              height: 120,
-                              padding: const EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
-                                    blurRadius: 8,
-                                    offset: const Offset(0, 4),
-                                  ),
-                                ],
-                              ),
-                              child: Center(
-                                child: imageBytes != null
-                                    ? ClipOval(
-                                        child: SizedBox(
-                                          width: 112,
-                                          height: 112,
-                                          child: Image.memory(
-                                            imageBytes!,
-                                            fit: BoxFit.cover,
-                                            errorBuilder:
-                                                (context, error, stackTrace) {
-                                                  print(
-                                                    'Image load error: $error',
-                                                  );
-                                                  return CircleAvatar(
-                                                    radius: 56,
-                                                    backgroundColor:
-                                                        primaryColor,
-                                                    child: const Icon(
-                                                      Icons.error,
-                                                      color: Colors.white,
-                                                      size: 40,
-                                                    ),
-                                                  );
-                                                },
-                                          ),
-                                        ),
-                                      )
-                                    : CircleAvatar(
-                                        radius: 56,
-                                        backgroundColor: primaryColor,
-                                        child: Text(
-                                          userName.isNotEmpty
-                                              ? userName[0].toUpperCase()
-                                              : 'FUCK',
-                                          style: const TextStyle(
-                                            fontSize: 40,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Constants.primaryColor,
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: Colors.white,
-                                  width: 2,
-                                ),
-                              ),
-                              child: const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Icon(
-                                  Icons.edit,
-                                  size: 20,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        '${firstNameController.text} ${lastNameController.text}'
-                                .trim()
-                                .isEmpty
-                            ? 'User Name'
-                            : '${firstNameController.text} ${lastNameController.text}',
-                        style: GoogleFonts.poppins(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w600,
-                          color: primaryColor,
-                        ),
-                      ),
-                      Text(
-                        user?.role ?? 'User',
-                        style: GoogleFonts.poppins(
-                          color: secondaryColor,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 30),
-
-                // Personal Information Section
-                Text(
-                  'Personal Information',
-                  style: GoogleFonts.poppins(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: primaryColor,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Divider(color: Colors.grey.shade300, thickness: 1),
-                const SizedBox(height: 16),
-
-                Row(
+      appBar: AppBar(
+        title: Text(
+          'My Profile',
+          style: GoogleFonts.poppins(
+            color: primaryColor,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        elevation: 0,
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black87),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        padding: EdgeInsets.only(top: 3),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 3000),
+          curve: Curves.easeInOut,
+          padding: const EdgeInsets.all(22),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12.withOpacity(0.06),
+                blurRadius: 15,
+                offset: const Offset(0, 6),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // 🔹 Profile Picture
+              Center(
+                child: Column(
                   children: [
-                    Expanded(
-                      child: WilouTextField(
-                        label: 'First Name',
-                        controller: firstNameController,
-                        textColor: primaryColor,
-                        icon: Icons.person_outline,
+                    GestureDetector(
+                      onTap: PickUpdateProfileImage,
+                      child: Stack(
+                        alignment: Alignment.bottomRight,
+                        children: [
+                          Container(
+                            width: 170,
+                            height: 170,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Constants.primaryColor.withOpacity(0.9),
+                                  Colors.blueGrey.shade300,
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black12.withOpacity(0.15),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 5),
+                                ),
+                              ],
+                            ),
+                            child: imageBytes != null
+                                ? ClipOval(
+                                    child: Image.memory(
+                                      imageBytes!,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )
+                                : Center(
+                                    child: Text(
+                                      userName.isNotEmpty
+                                          ? userName[0].toUpperCase()
+                                          : 'FUCK',
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 42,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Constants.primaryColor,
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.white, width: 2),
+                            ),
+                            padding: const EdgeInsets.all(8),
+                            child: const Icon(
+                              Icons.edit,
+                              size: 20,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(width: 8),
-
-                    Expanded(
-                      child: WilouTextField(
-                        label: 'Last Name',
-                        controller: lastNameController,
-                        textColor: primaryColor,
-                        icon: Icons.person_outline,
+                    const SizedBox(height: 18),
+                    Text(
+                      '${firstNameController.text} ${lastNameController.text}'
+                              .trim()
+                              .isEmpty
+                          ? 'User Name'
+                          : '${firstNameController.text} ${lastNameController.text}',
+                      style: GoogleFonts.poppins(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w600,
+                        color: primaryColor,
+                      ),
+                    ),
+                    Text(
+                      user?.role ?? 'User',
+                      style: GoogleFonts.poppins(
+                        color: secondaryColor,
+                        fontSize: 17,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+              ),
+              const SizedBox(height: 30),
 
-                WilouTextField(
-                  label: 'Nickname',
-                  controller: nicknameController,
-                  textColor: primaryColor,
-                  icon: Icons.tag,
+              // 🔹 Personal Info
+              Text(
+                'Personal Information',
+                style: GoogleFonts.poppins(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                  color: primaryColor,
                 ),
-                const SizedBox(height: 24),
+              ),
+              const SizedBox(height: 12),
+              Divider(color: Colors.grey.shade300),
+              const SizedBox(height: 16),
 
-                // Contact Information Section
-                Text(
-                  'Contact Information',
-                  style: GoogleFonts.poppins(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: primaryColor,
+              Row(
+                children: [
+                  Expanded(
+                    child: WilouTextField(
+                      label: 'First Name',
+                      controller: firstNameController,
+                      textColor: primaryColor,
+                      icon: Icons.person_outline,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 12),
-                Divider(color: Colors.grey.shade300, thickness: 1),
-                const SizedBox(height: 16),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: WilouTextField(
+                      label: 'Last Name',
+                      controller: lastNameController,
+                      textColor: primaryColor,
+                      icon: Icons.person_outline,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
 
-                WilouTextField(
-                  label: 'Email',
-                  controller: emailController,
-                  readOnly: true,
-                  textColor: primaryColor,
-                  icon: Icons.email_outlined,
-                ),
-                const SizedBox(height: 16),
+              WilouTextField(
+                label: 'Nickname',
+                controller: nicknameController,
+                textColor: primaryColor,
+                icon: Icons.tag_outlined,
+              ),
 
-                WilouTextField(
-                  label: 'Phone Number',
-                  controller: phoneController,
-                  keyboardType: TextInputType.phone,
-                  textColor: primaryColor,
-                  icon: Icons.phone_outlined,
-                ),
-                const SizedBox(height: 24),
+              const SizedBox(height: 30),
 
-                ElevatedButton.icon(
+              // 🔹 Contact Info
+              Text(
+                'Contact Information',
+                style: GoogleFonts.poppins(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                  color: primaryColor,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Divider(color: Colors.grey.shade300),
+              const SizedBox(height: 16),
+
+              WilouTextField(
+                label: 'Email',
+                controller: emailController,
+                readOnly: true,
+                textColor: primaryColor,
+                icon: Icons.email_outlined,
+              ),
+              const SizedBox(height: 16),
+
+              WilouTextField(
+                label: 'Phone Number',
+                controller: phoneController,
+                keyboardType: TextInputType.phone,
+                textColor: primaryColor,
+                icon: Icons.phone_outlined,
+              ),
+
+              const SizedBox(height: 30),
+
+              // 🔹 Save Button
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                width: double.infinity,
+                child: ElevatedButton.icon(
                   onPressed: _saveChanges,
                   icon: const Icon(Icons.save_rounded, color: Colors.white),
                   label: Text(
                     'Save Changes',
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.w600,
-                      fontSize: 16,
+                      fontSize: 20,
                       color: Colors.white,
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: primaryColor,
-                    elevation: 6,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    elevation: 8,
+                    padding: const EdgeInsets.symmetric(vertical: 15),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(16),
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+              ),
 
-                Center(
-                  child: TextButton.icon(
-                    onPressed: _deleteProfile,
-                    icon: const Icon(Icons.delete_outline, color: Colors.red),
-                    label: Text(
-                      'Delete Profile',
-                      style: GoogleFonts.poppins(
-                        color: Colors.red,
-                        fontWeight: FontWeight.w500,
-                      ),
+              const SizedBox(height: 25),
+
+              // 🔹 Delete Button
+              Center(
+                child: TextButton.icon(
+                  onPressed: _deleteProfile,
+                  icon: const Icon(Icons.delete_outline, color: Colors.red),
+                  label: Text(
+                    'Delete Profile',
+                    style: GoogleFonts.poppins(
+                      color: Colors.red,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 20,
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -424,23 +426,16 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
         final data = json.decode(response.body);
         if (response.statusCode == 200 && data['status'] == true) {
           final String? dataUrl = data['profileImageURL'];
-          print('Received dataUrl: $dataUrl');
           if (dataUrl != null) {
             try {
               final Uint8List bytes = base64Decode(dataUrl);
               setState(() {
                 imageBytes = bytes;
               });
-              Get.snackbar('Success', 'Profile image loaded successfully');
               return;
             } catch (e) {
               Get.snackbar('Error', 'Failed to decode image data');
-              print('Base64 decode error: $e');
             }
-          } else if (dataUrl != null) {
-            Get.snackbar('Error', 'Invalid image format received');
-          } else {
-            Get.snackbar('Info', 'No profile image found on server');
           }
         } else {
           Get.snackbar(
@@ -502,11 +497,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
         } catch (e) {
           Get.snackbar('Error', 'Error uploading image: $e');
         }
-      } else {
-        Get.snackbar('Error', 'User ID is null');
       }
-    } else {
-      Get.snackbar('Info', 'No image selected');
     }
   }
 }
