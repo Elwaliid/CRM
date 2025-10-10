@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, non_constant_identifier_names
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -42,6 +42,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   Future<void> _loadUser() async {
     user = await UserModel.getUser();
     if (user != null) {
+      userId = user!.id;
+      userName = user!.name ?? '';
       final nameParts = user!.name?.split(' ') ?? [];
       firstNameController.text = nameParts.isNotEmpty ? nameParts[0] : '';
       lastNameController.text = nameParts.length > 1
@@ -49,6 +51,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
           : '';
       emailController.text = user!.email ?? '';
       phoneController.text = user!.phone ?? '';
+      imageBytes = null;
+      await GetProfileImage();
     }
     setState(() => isLoading = false);
   }
@@ -190,50 +194,71 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                 Center(
                   child: Column(
                     children: [
-                      Stack(
-                        children: [
-                          imageBytes != null
-                              ? ClipOval(
-                                  child: SizedBox(
-                                    width: 182,
-                                    height: 182,
-                                    child: Image.memory(
-                                      imageBytes!,
-                                      fit: BoxFit.cover,
-                                      errorBuilder:
-                                          (context, error, stackTrace) {
-                                            print('Image load error: $error');
-                                            return CircleAvatar(
-                                              radius: 60,
-                                              backgroundColor: primaryColor,
-                                              child: const Icon(
-                                                Icons.error,
-                                                color: Colors.white,
-                                                size: 40,
-                                              ),
-                                            );
-                                          },
-                                    ),
+                      GestureDetector(
+                        onTap: PickUpdateProfileImage,
+                        child: Stack(
+                          alignment: Alignment.bottomRight,
+                          children: [
+                            Container(
+                              width: 120,
+                              height: 120,
+                              padding: const EdgeInsets.all(4),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 4),
                                   ),
-                                )
-                              : CircleAvatar(
-                                  radius: 60,
-                                  backgroundColor: primaryColor,
-                                  child: Text(
-                                    userName.isNotEmpty
-                                        ? userName[0].toUpperCase()
-                                        : 'FUCK',
-                                    style: const TextStyle(
-                                      fontSize: 40,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                          Positioned(
-                            bottom: 4,
-                            right: 4,
-                            child: Container(
+                                ],
+                              ),
+                              child: Center(
+                                child: imageBytes != null
+                                    ? ClipOval(
+                                        child: SizedBox(
+                                          width: 112,
+                                          height: 112,
+                                          child: Image.memory(
+                                            imageBytes!,
+                                            fit: BoxFit.cover,
+                                            errorBuilder:
+                                                (context, error, stackTrace) {
+                                                  print(
+                                                    'Image load error: $error',
+                                                  );
+                                                  return CircleAvatar(
+                                                    radius: 56,
+                                                    backgroundColor:
+                                                        primaryColor,
+                                                    child: const Icon(
+                                                      Icons.error,
+                                                      color: Colors.white,
+                                                      size: 40,
+                                                    ),
+                                                  );
+                                                },
+                                          ),
+                                        ),
+                                      )
+                                    : CircleAvatar(
+                                        radius: 56,
+                                        backgroundColor: primaryColor,
+                                        child: Text(
+                                          userName.isNotEmpty
+                                              ? userName[0].toUpperCase()
+                                              : 'FUCK',
+                                          style: const TextStyle(
+                                            fontSize: 40,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                              ),
+                            ),
+                            Container(
                               decoration: BoxDecoration(
                                 color: Constants.primaryColor,
                                 shape: BoxShape.circle,
@@ -251,8 +276,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       const SizedBox(height: 16),
                       Text(
@@ -396,5 +421,108 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> GetProfileImage() async {
+    if (userId != null) {
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        final token = prefs.getString('token');
+        if (token == null) {
+          Get.snackbar('Error', 'No authentication token found');
+          return;
+        }
+
+        final response = await http.get(
+          Uri.parse(getProfileImage),
+          headers: {'Authorization': 'Bearer $token'},
+        );
+        final data = json.decode(response.body);
+        if (response.statusCode == 200 && data['status'] == true) {
+          final String? dataUrl = data['profileImageURL'];
+          print('Received dataUrl: $dataUrl');
+          if (dataUrl != null) {
+            try {
+              final Uint8List bytes = base64Decode(dataUrl);
+              setState(() {
+                imageBytes = bytes;
+              });
+              Get.snackbar('Success', 'Profile image loaded successfully');
+              return;
+            } catch (e) {
+              Get.snackbar('Error', 'Failed to decode image data');
+              print('Base64 decode error: $e');
+            }
+          } else if (dataUrl != null) {
+            Get.snackbar('Error', 'Invalid image format received');
+          } else {
+            Get.snackbar('Info', 'No profile image found on server');
+          }
+        } else {
+          Get.snackbar(
+            'Error',
+            'Failed to get profile image (Status: ${response.statusCode})',
+          );
+        }
+      } catch (e) {
+        print('Error getting image: $e');
+      }
+    } else {
+      Get.snackbar('Error', 'User ID is null');
+    }
+  }
+
+  Future<void> PickUpdateProfileImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      final bytes = await pickedFile.readAsBytes();
+      setState(() {
+        imageBytes = bytes;
+      });
+
+      if (userId != null) {
+        try {
+          final prefs = await SharedPreferences.getInstance();
+          final token = prefs.getString('token');
+          if (token == null) {
+            Get.snackbar('Error', 'No authentication token found');
+            return;
+          }
+
+          var request = http.MultipartRequest(
+            'POST',
+            Uri.parse(addUpdateProfileImage),
+          );
+          request.headers['Authorization'] = 'Bearer $token';
+          request.fields['userId'] = userId!;
+          request.files.add(
+            http.MultipartFile.fromBytes(
+              'image',
+              bytes,
+              filename: pickedFile.name,
+            ),
+          );
+
+          var response = await request.send();
+
+          if (response.statusCode == 200) {
+            Get.snackbar('Success', 'Profile image updated successfully');
+          } else {
+            Get.snackbar(
+              'Error',
+              'Failed to update profile image (Status: ${response.statusCode})',
+            );
+          }
+        } catch (e) {
+          Get.snackbar('Error', 'Error uploading image: $e');
+        }
+      } else {
+        Get.snackbar('Error', 'User ID is null');
+      }
+    } else {
+      Get.snackbar('Info', 'No image selected');
+    }
   }
 }
