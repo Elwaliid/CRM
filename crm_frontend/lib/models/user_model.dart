@@ -77,10 +77,15 @@ class UserModel {
       );
 
       if (response.statusCode == 200) {
-        print("user found zawja sale7a succesfully");
+        final data = json.decode(response.body);
+        if (data['status'] == true) {
+          print("User updated successfully");
+          return true;
+        }
       }
+      print("Failed to update user: ${response.statusCode}");
     } catch (e) {
-      print(e);
+      print("Error updating user: $e");
     }
     return false;
   }
@@ -100,10 +105,15 @@ class UserModel {
       );
 
       if (response.statusCode == 200) {
-        print("user fucked up succesfully");
+        final data = json.decode(response.body);
+        if (data['status'] == true) {
+          print("User deleted successfully");
+          return true;
+        }
       }
+      print("Failed to delete user: ${response.statusCode}");
     } catch (e) {
-      // Handle error
+      print("Error deleting user: $e");
     }
     return false;
   }
