@@ -80,7 +80,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(
-                        MediaQuery.of(context).size.width * 0.70 / 2,
+                        MediaQuery.of(context).size.width * 0.20 / 2,
                       ),
                     ),
                     child: Center(
