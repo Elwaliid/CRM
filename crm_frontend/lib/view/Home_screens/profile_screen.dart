@@ -1,6 +1,5 @@
 // ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable
-
-import 'dart:io';
+import 'dart:typed_data';
 import 'dart:ui';
 import 'package:crm_frontend/models/user_model.dart';
 import 'package:crm_frontend/ustils/config.dart';
@@ -26,7 +25,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String email = "";
   String? phone;
   String? userId;
-  File? image;
+  Uint8List? imageBytes;
   @override
   void initState() {
     super.initState();
@@ -40,7 +39,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       userId = user.id;
       userName = user.name!;
       email = user.email!;
-      image = null;
+      imageBytes = null;
     }
     setState(() {});
   }
@@ -79,13 +78,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Center(
                       child: Stack(
                         children: [
-                          image != null
+                          imageBytes != null
                               ? ClipOval(
                                   child: SizedBox(
                                     width: 160,
                                     height: 160,
-                                    child: Image.file(
-                                      image!,
+                                    child: Image.memory(
+                                      imageBytes!,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -277,8 +276,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
+      final bytes = await pickedFile.readAsBytes();
       setState(() {
-        image = File(pickedFile.path);
+        imageBytes = bytes;
       });
 
       if (userId != null) {
@@ -289,7 +289,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           );
           request.fields['userId'] = userId!;
           request.files.add(
-            await http.MultipartFile.fromPath('image', image!.path),
+            http.MultipartFile.fromBytes(
+              'image',
+              bytes,
+              filename: pickedFile.name,
+            ),
           );
 
           var response = await request.send();
