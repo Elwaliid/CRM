@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable
+// ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable, non_constant_identifier_names
 import 'dart:typed_data';
 import 'dart:ui';
 import 'package:crm_frontend/models/user_model.dart';
@@ -10,6 +10,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String? userId;
@@ -283,10 +284,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
       if (userId != null) {
         try {
+          final prefs = await SharedPreferences.getInstance();
+          final token = prefs.getString('token');
+          if (token == null) {
+            _showSnack('No authentication token found');
+            return;
+          }
+
           var request = http.MultipartRequest(
             'POST',
             Uri.parse(addUpdateProfileImage),
           );
+          request.headers['Authorization'] = 'Bearer $token';
           request.fields['userId'] = userId!;
           request.files.add(
             http.MultipartFile.fromBytes(
@@ -301,7 +310,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           if (response.statusCode == 200) {
             _showSnack('Profile image updated successfully');
           } else {
-            _showSnack('Failed to update profile image');
+            _showSnack(
+              'Failed to update profile image (Status: ${response.statusCode})',
+            );
           }
         } catch (e) {
           _showSnack('Error uploading image: $e');

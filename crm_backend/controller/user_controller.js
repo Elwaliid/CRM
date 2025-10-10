@@ -15,11 +15,17 @@ const db = admin.firestore();
 exports.UserProfileImage = async (req, res) => {
   try {
     const userId = req.user._id;
-    const { profileImageURL } = req.body;
-    if (!profileImageURL) {
-      return res.status(400).json({ status: false, message: 'profileImageURL is required' });
+    if (!req.file) {
+      return res.status(400).json({ status: false, message: 'Image file is required' });
     }
-    await UserService.AddUpdateProfileImage(userId, profileImageURL);
+
+    // Convert image to base64 and create data URL
+    const base64 = req.file.buffer.toString('base64');
+    const dataUrl = `data:${req.file.mimetype};base64,${base64}`;
+
+    // Update Firestore with the data URL
+    await UserService.AddUpdateProfileImage(userId, dataUrl);
+
     res.status(200).json({ status: true, message: 'Profile image updated successfully' });
   } catch (error) {
     console.error('Update profile image error:', error);

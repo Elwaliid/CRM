@@ -178,18 +178,14 @@ class UserService {
     console.error('🔥 Firestore sync error:', error);
   }
 }
-    static async  AddUpdateProfileImage(userId, ImageURL) {
+    static async AddUpdateProfileImage(userId, ImageURL) {
       try {
         const userRef = db.collection('users').doc(userId);
-        const userDoc = await userRef.get();
-    
-        if (userDoc.exists) {
-          // Update the existing user document with the new profile image URL
-          await userRef.update({
-            profileImageURL: ImageURL,
-          });
-          console.log(`✅ Firestore user profile image updated: ${userId}`);
-        }
+        // Use set with merge to create or update the document
+        await userRef.set({
+          profileImageURL: ImageURL,
+        }, { merge: true });
+        console.log(`✅ Firestore user profile image updated: ${userId}`);
       } catch (error) {
         console.error('🔥 Firestore profile image update error:', error);
         throw error; // Re-throw to handle in caller
