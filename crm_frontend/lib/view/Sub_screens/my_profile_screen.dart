@@ -1,10 +1,17 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:crm_frontend/models/user_model.dart';
+import 'package:crm_frontend/ustils/config.dart';
+import 'package:crm_frontend/ustils/constants.dart' as Constants;
 import 'package:crm_frontend/view/Widgets/wilou_textfield.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyProfileScreen extends StatefulWidget {
   const MyProfileScreen({super.key});
@@ -16,6 +23,9 @@ class MyProfileScreen extends StatefulWidget {
 class _MyProfileScreenState extends State<MyProfileScreen> {
   UserModel? user;
   bool isLoading = true;
+  String? userId;
+  Uint8List? imageBytes;
+  String userName = "";
 
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
@@ -181,36 +191,65 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                   child: Column(
                     children: [
                       Stack(
-                        alignment: Alignment.bottomRight,
                         children: [
-                          CircleAvatar(
-                            radius: 60,
-                            backgroundColor: Colors.blueGrey.shade100,
-                            child: Icon(
-                              Icons.person,
-                              size: 80,
-                              color: primaryColor.withOpacity(0.8),
-                            ),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: primaryColor,
-                              shape: BoxShape.circle,
-                              border: Border.all(color: Colors.white, width: 2),
-                            ),
-                            child: IconButton(
-                              icon: const Icon(
-                                Icons.camera_alt,
-                                color: Colors.white,
-                                size: 20,
+                          imageBytes != null
+                              ? ClipOval(
+                                  child: SizedBox(
+                                    width: 182,
+                                    height: 182,
+                                    child: Image.memory(
+                                      imageBytes!,
+                                      fit: BoxFit.cover,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                            print('Image load error: $error');
+                                            return CircleAvatar(
+                                              radius: 60,
+                                              backgroundColor: primaryColor,
+                                              child: const Icon(
+                                                Icons.error,
+                                                color: Colors.white,
+                                                size: 40,
+                                              ),
+                                            );
+                                          },
+                                    ),
+                                  ),
+                                )
+                              : CircleAvatar(
+                                  radius: 60,
+                                  backgroundColor: primaryColor,
+                                  child: Text(
+                                    userName.isNotEmpty
+                                        ? userName[0].toUpperCase()
+                                        : 'FUCK',
+                                    style: const TextStyle(
+                                      fontSize: 40,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                          Positioned(
+                            bottom: 4,
+                            right: 4,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Constants.primaryColor,
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 2,
+                                ),
                               ),
-                              onPressed: () {
-                                // TODO: Implement image picker
-                                Get.snackbar(
-                                  'Info',
-                                  'Image picker not implemented yet',
-                                );
-                              },
+                              child: const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Icon(
+                                  Icons.edit,
+                                  size: 20,
+                                  color: Colors.white,
+                                ),
+                              ),
                             ),
                           ),
                         ],
