@@ -1,4 +1,5 @@
 // ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable, non_constant_identifier_names
+import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui';
 import 'package:crm_frontend/models/user_model.dart';
@@ -41,6 +42,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       userName = user.name!;
       email = user.email!;
       imageBytes = null;
+      await GetProfileImage();
     }
     setState(() {});
   }
@@ -87,6 +89,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     child: Image.memory(
                                       imageBytes!,
                                       fit: BoxFit.cover,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                            print('Image load error: $error');
+                                            return CircleAvatar(
+                                              radius: 80,
+                                              backgroundColor: primaryColor,
+                                              child: const Icon(
+                                                Icons.error,
+                                                color: Colors.white,
+                                                size: 60,
+                                              ),
+                                            );
+                                          },
                                     ),
                                   ),
                                 )
@@ -223,9 +238,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   /// Helper for showing SnackBars
   void _showSnack(String message) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(message)));
+    print(message);
   }
 
   /// menu item
@@ -272,7 +285,60 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Future<void> getProfileImage() async {}
+  Future<void> GetProfileImage() async {
+    if (userId != null) {
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        final token = prefs.getString('token');
+        if (token == null) {
+          _showSnack('No authentication token found');
+          return;
+        }
+
+        final response = await http.get(
+          Uri.parse(getProfileImage),
+          headers: {'Authorization': 'Bearer $token'},
+        );
+        final data = json.decode(response.body);
+        if (response.statusCode == 200 && data['status'] == true) {
+          final String? dataUrl = data['profileImageURL'];
+          print('Received dataUrl: $dataUrl');
+          if (dataUrl != null && dataUrl.startsWith('data:image/')) {
+            final List<String> parts = dataUrl.split(',');
+            if (parts.length == 2) {
+              try {
+                final Uint8List bytes = base64Decode(parts[1]);
+                setState(() {
+                  imageBytes = bytes;
+                });
+                _showSnack('Profile image loaded successfully');
+                return; // Exit early on success
+              } catch (e) {
+                _showSnack('Failed to decode image data');
+                print('Base64 decode error: $e');
+              }
+            } else {
+              _showSnack('Invalid image data format');
+            }
+          } else if (dataUrl != null) {
+            _showSnack('Invalid image format received');
+          } else {
+            _showSnack('No profile image found on server');
+            // Optionally set a default image or keep null
+          }
+        } else {
+          _showSnack(
+            'Failed to get profile image (Status: ${response.statusCode})',
+          );
+        }
+      } catch (e) {
+        print('Error getting image: $e');
+      }
+    } else {
+      _showSnack('User ID is null');
+    }
+  }
+
   Future<void> PickUpdateProfileImage() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);

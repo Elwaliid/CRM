@@ -14,5 +14,5 @@ router.post('/reset-password', UserController.resetPassword);
 router.get('/user', verifyToken, UserController.getUser);
 router.post('/send-email', UserController.sendEmail);
 router.post('/add-update-profile-image', verifyToken, upload.single('image'), UserController.UserProfileImage);
-router.get('get-profile-image', verifyToken,UserController.GetProfileImage)
+router.get('/get-profile-image', verifyToken, UserController.GetProfileImage)
 module.exports = router;
