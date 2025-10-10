@@ -26,7 +26,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   String? userId;
   Uint8List? imageBytes;
   String userName = "";
+  late final pickedFile;
 
+  late final bytes;
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController nicknameController = TextEditingController();
@@ -85,6 +87,43 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
         colorText: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
       );
+    }
+    if (userId != null) {
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        final token = prefs.getString('token');
+        if (token == null) {
+          Get.snackbar('Error', 'No authentication token found');
+          return;
+        }
+
+        var request = http.MultipartRequest(
+          'POST',
+          Uri.parse(addUpdateProfileImage),
+        );
+        request.headers['Authorization'] = 'Bearer $token';
+        request.fields['userId'] = userId!;
+        request.files.add(
+          http.MultipartFile.fromBytes(
+            'image',
+            bytes,
+            filename: pickedFile.name,
+          ),
+        );
+
+        var response = await request.send();
+
+        if (response.statusCode == 200) {
+          Get.snackbar('Success', 'Profile image updated successfully');
+        } else {
+          Get.snackbar(
+            'Error',
+            'Failed to update profile image (Status: ${response.statusCode})',
+          );
+        }
+      } catch (e) {
+        Get.snackbar('Error', 'Error uploading image: $e');
+      }
     }
   }
 
@@ -453,51 +492,13 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
 
   Future<void> PickUpdateProfileImage() async {
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-      final bytes = await pickedFile.readAsBytes();
+      bytes = await pickedFile.readAsBytes();
       setState(() {
         imageBytes = bytes;
       });
-
-      if (userId != null) {
-        try {
-          final prefs = await SharedPreferences.getInstance();
-          final token = prefs.getString('token');
-          if (token == null) {
-            Get.snackbar('Error', 'No authentication token found');
-            return;
-          }
-
-          var request = http.MultipartRequest(
-            'POST',
-            Uri.parse(addUpdateProfileImage),
-          );
-          request.headers['Authorization'] = 'Bearer $token';
-          request.fields['userId'] = userId!;
-          request.files.add(
-            http.MultipartFile.fromBytes(
-              'image',
-              bytes,
-              filename: pickedFile.name,
-            ),
-          );
-
-          var response = await request.send();
-
-          if (response.statusCode == 200) {
-            Get.snackbar('Success', 'Profile image updated successfully');
-          } else {
-            Get.snackbar(
-              'Error',
-              'Failed to update profile image (Status: ${response.statusCode})',
-            );
-          }
-        } catch (e) {
-          Get.snackbar('Error', 'Error uploading image: $e');
-        }
-      }
     }
   }
 }

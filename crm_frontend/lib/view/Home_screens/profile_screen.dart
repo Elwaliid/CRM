@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 import 'package:crm_frontend/models/user_model.dart';
 import 'package:crm_frontend/ustils/config.dart';
+import 'package:crm_frontend/ustils/constants.dart' as Constants;
 import 'package:crm_frontend/view/Sub_screens/my_profile_screen.dart';
 import 'package:crm_frontend/view/Sub_screens/setting_screen.dart';
 import 'package:flutter/material.dart';
@@ -69,65 +70,55 @@ class _ProfileScreenState extends State<ProfileScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ////////////////////////////////////////////////////////////////////////// Avatar
-                Container(
-                  width: 190,
-                  height: 190,
-                  padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        blurRadius: 8,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Stack(
-                      children: [
-                        imageBytes != null
+                Center(
+                  child: Stack(
+                    alignment: Alignment.bottomRight,
+                    children: [
+                      Container(
+                        width: 170,
+                        height: 170,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Constants.primaryColor.withOpacity(0.9),
+                              Colors.blueGrey.shade300,
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12.withOpacity(0.15),
+                              blurRadius: 10,
+                              offset: const Offset(0, 5),
+                            ),
+                          ],
+                        ),
+                        child: imageBytes != null
                             ? ClipOval(
-                                child: SizedBox(
-                                  width: 182,
-                                  height: 182,
-                                  child: Image.memory(
-                                    imageBytes!,
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) {
-                                      print('Image load error: $error');
-                                      return CircleAvatar(
-                                        radius: 60,
-                                        backgroundColor: primaryColor,
-                                        child: const Icon(
-                                          Icons.error,
-                                          color: Colors.white,
-                                          size: 40,
-                                        ),
-                                      );
-                                    },
-                                  ),
+                                child: Image.memory(
+                                  imageBytes!,
+                                  fit: BoxFit.cover,
                                 ),
                               )
-                            : CircleAvatar(
-                                radius: 60,
-                                backgroundColor: primaryColor,
+                            : Center(
                                 child: Text(
                                   userName.isNotEmpty
                                       ? userName[0].toUpperCase()
                                       : 'FUCK',
-                                  style: const TextStyle(
-                                    fontSize: 40,
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 42,
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
+
                 const SizedBox(height: 25),
 
                 //////////////////////////////////////////////////////////////////////// Name
