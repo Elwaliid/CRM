@@ -27,7 +27,7 @@ const userSchema = new Schema({
   otp: { type: String },
   otpExpiry: { type: Date }, 
   isPined:{type: Boolean,default:false},
-
+  nickname: { type: String },
   // Settings and meta
   role: { type: String, enum: ['user', 'admin'], default: 'user' },
   settings: {

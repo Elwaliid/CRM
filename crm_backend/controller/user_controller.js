@@ -104,7 +104,19 @@ exports.login = async (req, res, next) => {
   }
 };
 
-
+exports.update = async (req,res) => {
+  try{
+    const { name , nickname , phone } = req.body;
+     if ( !name || !phone) {
+      return res.status(400).json({
+        status: false,
+        message: 'Missing required fields:  name, phone are required',
+      });
+    }
+  }
+  catch(e){
+    print(e);}
+}
 
 /**
  * GOOGLE SIGN-IN

@@ -48,8 +48,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
 
     final updates = {
       'name': '${firstNameController.text} ${lastNameController.text}'.trim(),
+      'nickname': '${nicknameController.text}'.trim(),
       'phone': phoneController.text,
-      // Add nickname if backend supports
     };
 
     final success = await UserModel.updateUser(updates);
