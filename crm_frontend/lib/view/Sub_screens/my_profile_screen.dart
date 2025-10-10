@@ -141,6 +141,18 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         centerTitle: true,
+        title: Text(
+          'My Profile',
+          style: GoogleFonts.poppins(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            color: primaryColor,
+          ),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: primaryColor),
+          onPressed: () => Navigator.pop(context),
+        ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -164,24 +176,54 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Profile picture placeholder
+                // Profile picture section
                 Center(
                   child: Column(
                     children: [
-                      CircleAvatar(
-                        radius: 48,
-                        backgroundColor: Colors.blueGrey.shade100,
-                        child: Icon(
-                          Icons.person,
-                          size: 60,
-                          color: primaryColor.withOpacity(0.8),
-                        ),
+                      Stack(
+                        alignment: Alignment.bottomRight,
+                        children: [
+                          CircleAvatar(
+                            radius: 60,
+                            backgroundColor: Colors.blueGrey.shade100,
+                            child: Icon(
+                              Icons.person,
+                              size: 80,
+                              color: primaryColor.withOpacity(0.8),
+                            ),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: primaryColor,
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.white, width: 2),
+                            ),
+                            child: IconButton(
+                              icon: const Icon(
+                                Icons.camera_alt,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                              onPressed: () {
+                                // TODO: Implement image picker
+                                Get.snackbar(
+                                  'Info',
+                                  'Image picker not implemented yet',
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: 16),
                       Text(
-                        '${firstNameController.text} ${lastNameController.text}',
+                        '${firstNameController.text} ${lastNameController.text}'
+                                .trim()
+                                .isEmpty
+                            ? 'User Name'
+                            : '${firstNameController.text} ${lastNameController.text}',
                         style: GoogleFonts.poppins(
-                          fontSize: 20,
+                          fontSize: 22,
                           fontWeight: FontWeight.w600,
                           color: primaryColor,
                         ),
@@ -190,13 +232,26 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                         user?.role ?? 'User',
                         style: GoogleFonts.poppins(
                           color: secondaryColor,
-                          fontSize: 14,
+                          fontSize: 16,
                         ),
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(height: 30),
+
+                // Personal Information Section
+                Text(
+                  'Personal Information',
+                  style: GoogleFonts.poppins(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: primaryColor,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Divider(color: Colors.grey.shade300, thickness: 1),
+                const SizedBox(height: 16),
 
                 Row(
                   children: [
@@ -205,15 +260,17 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                         label: 'First Name',
                         controller: firstNameController,
                         textColor: primaryColor,
+                        icon: Icons.person_outline,
                       ),
                     ),
-                    const SizedBox(width: 3),
+                    const SizedBox(width: 8),
 
                     Expanded(
                       child: WilouTextField(
                         label: 'Last Name',
                         controller: lastNameController,
                         textColor: primaryColor,
+                        icon: Icons.person_outline,
                       ),
                     ),
                   ],
@@ -224,7 +281,21 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                   label: 'Nickname',
                   controller: nicknameController,
                   textColor: primaryColor,
+                  icon: Icons.tag,
                 ),
+                const SizedBox(height: 24),
+
+                // Contact Information Section
+                Text(
+                  'Contact Information',
+                  style: GoogleFonts.poppins(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: primaryColor,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Divider(color: Colors.grey.shade300, thickness: 1),
                 const SizedBox(height: 16),
 
                 WilouTextField(
@@ -232,6 +303,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                   controller: emailController,
                   readOnly: true,
                   textColor: primaryColor,
+                  icon: Icons.email_outlined,
                 ),
                 const SizedBox(height: 16),
 
@@ -240,6 +312,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                   controller: phoneController,
                   keyboardType: TextInputType.phone,
                   textColor: primaryColor,
+                  icon: Icons.phone_outlined,
                 ),
                 const SizedBox(height: 24),
 
