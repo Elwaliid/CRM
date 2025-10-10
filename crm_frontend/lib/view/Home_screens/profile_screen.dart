@@ -74,14 +74,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 GestureDetector(
                   onTap: PickUpdateProfileImage,
                   child: Container(
-                    width: MediaQuery.of(context).size.width * 0.48,
-                    height: MediaQuery.of(context).size.width * 0.48,
-                    padding: const EdgeInsets.all(8),
+                    width: 190,
+                    height: 190,
+                    padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(
+                      shape: BoxShape.circle,
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(
-                        MediaQuery.of(context).size.width * 0.20 / 2,
-                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 8,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
                     ),
                     child: Center(
                       child: Stack(
@@ -89,8 +94,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           imageBytes != null
                               ? ClipOval(
                                   child: SizedBox(
-                                    width: 160,
-                                    height: 160,
+                                    width: 182,
+                                    height: 182,
                                     child: Image.memory(
                                       imageBytes!,
                                       fit: BoxFit.cover,
@@ -98,12 +103,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           (context, error, stackTrace) {
                                             print('Image load error: $error');
                                             return CircleAvatar(
-                                              radius: 80,
+                                              radius: 60,
                                               backgroundColor: primaryColor,
                                               child: const Icon(
                                                 Icons.error,
                                                 color: Colors.white,
-                                                size: 60,
+                                                size: 40,
                                               ),
                                             );
                                           },
@@ -111,22 +116,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                 )
                               : CircleAvatar(
-                                  radius: 80,
+                                  radius: 60,
                                   backgroundColor: primaryColor,
                                   child: Text(
                                     userName.isNotEmpty
                                         ? userName[0].toUpperCase()
-                                        : '?',
+                                        : 'FUCK',
                                     style: const TextStyle(
-                                      fontSize: 60,
+                                      fontSize: 40,
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
                           Positioned(
-                            bottom: 8,
-                            right: 8,
+                            bottom: 4,
+                            right: 4,
                             child: Container(
                               decoration: BoxDecoration(
                                 color: Constants.primaryColor,
