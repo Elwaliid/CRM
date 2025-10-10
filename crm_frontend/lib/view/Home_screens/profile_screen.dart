@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 import 'package:crm_frontend/models/user_model.dart';
 import 'package:crm_frontend/ustils/config.dart';
+import 'package:crm_frontend/view/Sub_screens/my_profile_screen.dart';
 import 'package:crm_frontend/view/Sub_screens/setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -177,7 +178,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       icon: Icons.person,
                       label: 'My Profile',
                       primaryColor: primaryColor,
-                      onTap: () => _showSnack('My Profile tapped'),
+                      onTap: () => Get.to(() => const MyProfileScreen()),
                     ),
                     const SizedBox(height: 20),
 

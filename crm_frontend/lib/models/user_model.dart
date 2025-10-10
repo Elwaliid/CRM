@@ -56,8 +56,57 @@ class UserModel {
         }
       }
     } catch (e) {
-      // Handle error, perhaps log or return null
+      print(e);
     }
     return null;
+  }
+
+  static Future<bool> updateUser(Map<String, dynamic> updates) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    if (token == null || token.isEmpty) return false;
+
+    try {
+      final response = await http.put(
+        Uri.parse('$baseUrl/user'),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: json.encode(updates),
+      );
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        return data['status'] == true;
+      }
+    } catch (e) {
+      print(e);
+    }
+    return false;
+  }
+
+  static Future<bool> deleteUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    if (token == null || token.isEmpty) return false;
+
+    try {
+      final response = await http.delete(
+        Uri.parse('$baseUrl/user'),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        return data['status'] == true;
+      }
+    } catch (e) {
+      // Handle error
+    }
+    return false;
   }
 }
