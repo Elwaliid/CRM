@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, non_constant_identifier_names, library_prefixes
+// ignore_for_file: use_build_context_synchronously, non_constant_identifier_names, library_prefixes, prefer_typing_uninitialized_variables, deprecated_member_use
 
 import 'dart:convert';
 import 'dart:typed_data';
