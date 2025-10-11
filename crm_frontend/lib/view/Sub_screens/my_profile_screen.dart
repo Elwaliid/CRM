@@ -51,6 +51,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
       lastNameController.text = nameParts.length > 1
           ? nameParts.sublist(1).join(' ')
           : '';
+      nicknameController.text = user!.nickname ?? '';
       emailController.text = user!.email ?? '';
       phoneController.text = user!.phone ?? '';
       imageBytes = null;

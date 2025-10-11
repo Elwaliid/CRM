@@ -7,6 +7,7 @@ class UserModel {
   String? id;
   String? email;
   String? name;
+  String? nickname;
   String? phone;
   String? avatar;
   String? role;
@@ -17,6 +18,7 @@ class UserModel {
     this.id,
     this.email,
     this.name,
+    this.nickname,
     this.phone,
     this.avatar,
     this.role,
@@ -29,6 +31,7 @@ class UserModel {
       id: json['_id'],
       email: json['email'],
       name: json['name'],
+      nickname: json['nickname'],
       phone: json['phone'],
       avatar: json['avatar'],
       role: json['role'],
