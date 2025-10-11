@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:crm_frontend/models/user_model.dart';
 import 'package:crm_frontend/ustils/config.dart';
 import 'package:crm_frontend/ustils/constants.dart' as Constants;
+import 'package:crm_frontend/view/Sub_screens/history_screen.dart';
 import 'package:crm_frontend/view/Sub_screens/my_profile_screen.dart';
 import 'package:crm_frontend/view/Sub_screens/setting_screen.dart';
 import 'package:flutter/material.dart';
@@ -168,7 +169,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       icon: Icons.history,
                       label: 'History',
                       primaryColor: primaryColor,
-                      onTap: () => _showSnack('History tapped'),
+                      onTap: () => Get.to(HistoryScreen()),
                     ),
                     const SizedBox(height: 20),
 
