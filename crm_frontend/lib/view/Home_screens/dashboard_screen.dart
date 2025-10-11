@@ -25,7 +25,7 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   String userName = '';
-  String nickName = 'User';
+  String nickName = '';
   late String _currentTime;
   int clientsCount = 0;
   int tasksCount = 0;
@@ -49,15 +49,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Future<void> _fetchUserName(String userId) async {
     try {
       final response = await http.get(
-        Uri.parse('http://localhost:3000/user'),
+        Uri.parse(getUserUrl),
         headers: {'Authorization': 'Bearer ${widget.token}'},
       );
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         if (data['status'] == true) {
           setState(() {
-            userName = data['user']['name'] ?? 'User';
-            nickName = userName.split(' ').first;
+            userName = data['user']['name'].split(' ')[0];
+            nickName = data['user']['nickname'] ?? userName;
           });
         }
       } else {

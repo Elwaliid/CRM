@@ -258,6 +258,7 @@ exports.getUser = async (req, res, next) => {
         _id: user._id,
         email: user.email,
         name: user.name,
+        nickname: user.nickname,
         phone: user.phone,
         avatar: user.avatar,
         role: user.role,
