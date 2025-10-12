@@ -217,6 +217,33 @@ class UserService {
     console.error('🔥 Firestore sync error:', error);
   }
 }
+static async addActionToHistory(userId, historyAction, ActionDate) {
+  try {
+    const userRef = db.collection('users').doc(userId);
+    const userDoc = await userRef.get();
+
+    if (userDoc.exists) {
+      const currentData = userDoc.data();
+      const updatedHistory = [...(currentData.history || []), historyAction];
+      const updatedHistoryDate = [...(currentData.historyDate || []), ActionDate];
+
+      await userRef.set({
+        history: updatedHistory,
+        historyDate: updatedHistoryDate,
+      }, { merge: true });
+      console.log(`Updated history for user: ${userId}`);
+    } else {
+      // If document doesn't exist, create it with the new entry
+      await userRef.set({
+        history: [historyAction],
+        historyDate: [ActionDate],
+      });
+      console.log(`Created history for new user: ${userId}`);
+    }
+  } catch (error) {
+    console.error('Updated history error:', error);
+  }
+}
     static async GetProfileImage(userId) {
         try {
             const userRef = db.collection('users').doc(userId);

@@ -1,4 +1,6 @@
 const TaskModel = require('../models/task_model');
+const UserModel = require('../models/user_model');
+const UserService = require('./user_services');
 
 class TaskService {
   static async existTask(id) {
@@ -12,7 +14,11 @@ class TaskService {
   static async addTask(owner,title,type,revenue,cost,phone,email,isMeet,relatedToNames,relatedToIds,dueDate,time,endTime,address,website,description,status,isPined) {
     try {
       const addTask = new TaskModel({owner,title,type,revenue,cost,phone,email,isMeet,relatedToNames,relatedToIds,dueDate,time,endTime,address,website,description,status,isPined});
+      String? historyAction= "$owner.name added a Task named $title";
+      Date? ActionDate = Date.now;
+      UserService.addActionToHistory(owner,historyAction,ActionDate);
       return await addTask.save();
+   
     } catch (err) {
       throw err;
     }
@@ -40,6 +46,9 @@ class TaskService {
       if (status !== undefined) task.status = status;
       if (isPined !== undefined) task.isPined = isPined;
       await task.save();
+       String? historyAction= "$owner.name updated a Task named $title" + if( task.status != status){"to $status"};
+      Date? ActionDate = Date.now;
+      UserService.addActionToHistory(owner,historyAction,ActionDate);
       return task;
     } catch (err) {
       throw err;
