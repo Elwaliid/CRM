@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, deprecated_member_use, unnecessary_string_interpolations, non_constant_identifier_names, avoid_print
+// ignore_for_file: use_build_context_synchronously, deprecated_member_use, unnecessary_string_interpolations, non_constant_identifier_names, avoid_print, unnecessary_brace_in_string_interps
 import 'dart:convert';
 import 'package:crm_frontend/models/user_model.dart';
 import 'package:crm_frontend/ustils/config.dart';
@@ -402,7 +402,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                                                                       'application/json',
                                                                 },
                                                                 body:
-                                                                    '{"id": "${contact.id}"}',
+                                                                    '{"id": "${contact.id}","owner": "${userId}"}',
                                                               );
                                                           if (response
                                                                   .statusCode ==
