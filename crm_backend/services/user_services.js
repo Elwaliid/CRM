@@ -205,6 +205,7 @@ class UserService {
     if (!userDoc.exists) {
       await userRef.set({
         history: [],
+        historyDate:[],
         profileImageURL: null,
         ...data,
       });
