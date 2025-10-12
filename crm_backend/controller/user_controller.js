@@ -330,4 +330,23 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
+exports.logAction = async (req, res) => {
+  try {
+    const { action } = req.body;
+    const userId = req.user._id;
+
+    if (!action) {
+      return res.status(400).json({ status: false, message: 'Action is required' });
+    }
+
+    const ActionDate = new Date();
+    await UserService.addActionToHistory(userId, action, ActionDate);
+
+    res.status(200).json({ status: true, message: 'Action logged successfully' });
+  } catch (err) {
+    console.error('Log action error:', err);
+    res.status(500).json({ status: false, message: 'Internal server error' });
+  }
+};
+
 

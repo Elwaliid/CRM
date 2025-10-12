@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, deprecated_member_use, unnecessary_null_comparison, non_constant_identifier_names, prefer_final_fields
+// ignore_for_file: use_build_context_synchronously, deprecated_member_use, unnecessary_null_comparison, non_constant_identifier_names, prefer_final_fields, unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 
