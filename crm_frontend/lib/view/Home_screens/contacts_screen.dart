@@ -518,6 +518,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                                               showEmailModalBottomSheet(
                                                 context,
                                                 contact.email,
+                                                userId!,
                                               ),
                                           child: Text(
                                             '${contact.email}',

@@ -967,6 +967,29 @@ class _TasksScreenState extends State<TasksScreen> {
                                   );
                                 } else {
                                   launchUrl(Uri.parse(_meeting_web_Url!));
+
+                                  // Send user id, _meeting_web_Url, and task.name to taskService
+                                  if (task.id != null && userId != null) {
+                                    var response = await http.post(
+                                      Uri.parse(websiteURL),
+                                      headers: {
+                                        "Content-Type": "application/json",
+                                      },
+                                      body: jsonEncode({
+                                        'owner': userId,
+                                        'website': _meeting_web_Url,
+                                        'title': task.title,
+                                      }),
+                                    );
+                                    // Optionally handle response, e.g., show snackbar on success/failure
+                                    if (response.statusCode == 200 ||
+                                        response.statusCode == 201) {
+                                      // Success
+                                    } else {
+                                      // Handle error
+                                    }
+                                  }
+
                                   Navigator.pop(context);
                                 }
                               }
