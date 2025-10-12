@@ -1,5 +1,5 @@
 import 'dart:ui';
-
+import 'package:crm_frontend/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -26,7 +26,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   void initState() {
     super.initState();
 
-    _fetchUsers();
+    fetchAgents();
   }
 
   final List<Map<String, String>> historyData = [

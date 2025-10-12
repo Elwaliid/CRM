@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui';
 import 'package:crm_frontend/models/user_model.dart';
-import 'package:crm_frontend/ustils/config.dart';
 import 'package:crm_frontend/ustils/constants.dart' as Constants;
 import 'package:crm_frontend/view/Sub_screens/history_screen.dart';
 import 'package:crm_frontend/view/Sub_screens/my_profile_screen.dart';
@@ -12,8 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String? userId;
@@ -33,10 +30,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    _loadUserId();
+    _loadUser();
   }
 
-  Future<void> _loadUserId() async {
+  Future<void> _loadUser() async {
     UserModel? user = await UserModel.getUser();
 
     if (user != null) {
@@ -264,54 +261,5 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
-  }
-
-  Future<void> GetProfileImage() async {
-    if (userId != null) {
-      try {
-        final prefs = await SharedPreferences.getInstance();
-        final token = prefs.getString('token');
-        if (token == null) {
-          _showSnack('No authentication token found');
-          return;
-        }
-
-        final response = await http.get(
-          Uri.parse(getProfileImage),
-          headers: {'Authorization': 'Bearer $token'},
-        );
-        final data = json.decode(response.body);
-        if (response.statusCode == 200 && data['status'] == true) {
-          final String? dataUrl = data['profileImageURL'];
-          print('Received dataUrl: $dataUrl');
-          if (dataUrl != null) {
-            try {
-              final Uint8List bytes = base64Decode(dataUrl);
-              setState(() {
-                imageBytes = bytes;
-              });
-              _showSnack('Profile image loaded successfully');
-              return; // Exit early on success
-            } catch (e) {
-              _showSnack('Failed to decode image data');
-              print('Base64 decode error: $e');
-            }
-          } else if (dataUrl != null) {
-            _showSnack('Invalid image format received');
-          } else {
-            _showSnack('No profile image found on server');
-            // Optionally set a default image or keep null
-          }
-        } else {
-          _showSnack(
-            'Failed to get profile image (Status: ${response.statusCode})',
-          );
-        }
-      } catch (e) {
-        print('Error getting image: $e');
-      }
-    } else {
-      _showSnack('User ID is null');
-    }
   }
 }
