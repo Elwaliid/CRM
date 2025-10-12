@@ -330,5 +330,21 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
+/**
+ * GET ALL USERS HISTORY
+ */
+exports.getAllUsersHistory = async (req, res) => {
+  try {
+    const usersHistory = await UserService.getAllUsersHistory();
+    res.status(200).json({
+      status: true,
+      usersHistory: usersHistory,
+    });
+  } catch (err) {
+    console.error('Get all users history error:', err);
+    res.status(500).json({ status: false, message: 'Internal server error' });
+  }
+};
+
 
 
