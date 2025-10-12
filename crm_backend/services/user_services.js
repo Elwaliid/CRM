@@ -244,6 +244,14 @@ class UserService {
         throw error; // Re-throw to handle in caller
       }
     }
+
+    static async getAllUsers() {
+        try {
+            return await UserModel.find({});
+        } catch (err) {
+            throw err;
+        }
+    }
 }
 
 module.exports = UserService;

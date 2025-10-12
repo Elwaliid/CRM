@@ -64,6 +64,35 @@ class UserModel {
     return null;
   }
 
+  static Future<List<UserModel>> fetchAgents() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    if (token == null || token.isEmpty) return [];
+
+    try {
+      final response = await http.get(
+        Uri.parse(getAllUsersUrl),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        if (data['status'] == true) {
+          List<UserModel> users = (data['users'] as List)
+              .map((userJson) => UserModel.fromJson(userJson))
+              .toList();
+          return users;
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+    return [];
+  }
+
   static Future<bool> updateUser(Map<String, dynamic> updates) async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');

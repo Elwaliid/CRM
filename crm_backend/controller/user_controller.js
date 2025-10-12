@@ -315,4 +315,28 @@ exports.sendEmail = async (req, res) => {
   }
 };
 
+/**
+ * GET ALL USERS
+ */
+exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await UserService.getAllUsers();
+    res.status(200).json({
+      status: true,
+      users: users.map(user => ({
+        _id: user._id,
+        email: user.email,
+        name: user.name,
+        nickname: user.nickname,
+        phone: user.phone,
+        avatar: user.avatar,
+        role: user.role,
+      })),
+    });
+  } catch (err) {
+    console.error('Get all users error:', err);
+    res.status(500).json({ status: false, message: 'Internal server error' });
+  }
+};
+
 

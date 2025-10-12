@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -8,9 +10,24 @@ class HistoryScreen extends StatefulWidget {
   State<HistoryScreen> createState() => _HistoryScreenState();
 }
 
+class _MouseDragScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+    PointerDeviceKind.mouse,
+    PointerDeviceKind.touch,
+    PointerDeviceKind.trackpad,
+  };
+}
+
 class _HistoryScreenState extends State<HistoryScreen> {
   final TextEditingController searchController = TextEditingController();
   String selectedAgent = 'All';
+  @override
+  void initState() {
+    super.initState();
+
+    _fetchUsers();
+  }
 
   final List<Map<String, String>> historyData = [
     {
@@ -55,33 +72,31 @@ class _HistoryScreenState extends State<HistoryScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: [
-            // 🔍 Search Bar
-            Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.15),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
+            Center(
+              child: SizedBox(
+                height: 30,
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: ScrollConfiguration(
+                  behavior: _MouseDragScrollBehavior(),
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: List.generate(
+                      userNames.length,
+                      (index) => Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 4.0),
+                        child: ChoiceChip(
+                          label: Text(userNames[index].substring(0, 3)),
+                          selected: _currentUserIndex == index,
+                          onSelected: (selected) {
+                            if (selected) {
+                              _onUserhanged(index);
+                            }
+                          },
+                        ),
+                      ),
+                    ),
                   ),
-                ],
-              ),
-              child: TextField(
-                controller: searchController,
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.search),
-                  hintText: "Search by agent",
-                  border: InputBorder.none,
-                  contentPadding: const EdgeInsets.all(14),
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    selectedAgent = value.isEmpty ? 'All' : value;
-                  });
-                },
               ),
             ),
 
