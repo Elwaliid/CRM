@@ -363,9 +363,6 @@ class _TasksScreenState extends State<TasksScreen> {
                                               _pined(newPinned, task.id!);
                                             }
                                             if (selected == 'delete') {
-                                              if (task.isPined ?? false) {
-                                                await _pined(false, task.id!);
-                                              }
                                               ////// delete contact
                                               showDialog(
                                                 context: context,
