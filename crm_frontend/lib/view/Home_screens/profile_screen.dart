@@ -43,8 +43,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
       userId = user.id;
       userName = user.name!;
       email = user.email!;
-      imageBytes = null;
-      await GetProfileImage();
+      if (user.avatar != null && user.avatar!.isNotEmpty) {
+        try {
+          imageBytes = base64Decode(user.avatar!);
+        } catch (e) {
+          imageBytes = null;
+        }
+      } else {
+        imageBytes = null;
+      }
     }
     setState(() {});
   }

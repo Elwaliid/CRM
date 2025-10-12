@@ -7,20 +7,8 @@ const admin = require('firebase-admin');
 
 const db = admin.firestore();
 
-/**
- * Helper function: create or update Firestore user doc
- */
 
-exports.GetProfileImage = async(req,res) =>{
-   try {
-    const userId = req.user._id;
-    const imageUrl = await UserService.GetProfileImage(userId);
-    res.status(200).json({ status: true, profileImageURL: imageUrl });
-  } catch(err){
-     console.error('Get profile image error:', err);
-    res.status(500).json({ status: false, message: 'Internal server error' });
-  }
-}
+
 
 exports.UserProfileImage = async (req, res) => {
   try {
@@ -158,7 +146,7 @@ exports.googleSignin = async (req, res, next) => {
     const token = await UserService.generateToken(tokenData, 'secretKey', '1h');
 
     // 🔥 Sync Firestore on Google Sign-In
-    await syncUserToFirestore(user._id.toString(), {
+    await UserService.syncUserToFirestore(user._id.toString(), {
       createdAt: new Date(),
     });
 
@@ -249,6 +237,8 @@ exports.getUser = async (req, res, next) => {
     if (!user)
       return res.status(404).json({ status: false, message: 'User not found' });
 
+    const imageUrl = await UserService.GetProfileImage(userId);
+
     res.status(200).json({
       status: true,
       user: {
@@ -257,7 +247,7 @@ exports.getUser = async (req, res, next) => {
         name: user.name,
         nickname: user.nickname,
         phone: user.phone,
-        avatar: user.avatar,
+        avatar: imageUrl,
         role: user.role,
       },
     });
@@ -318,17 +308,21 @@ exports.sendEmail = async (req, res) => {
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await UserService.getAllUsers();
-    res.status(200).json({
-      status: true,
-      users: users.map(user => ({
+    const usersWithAvatars = await Promise.all(users.map(async (user) => {
+      const avatar = await UserService.GetProfileImage(user._id.toString());
+      return {
         _id: user._id,
         email: user.email,
         name: user.name,
         nickname: user.nickname,
         phone: user.phone,
-        avatar: user.avatar,
+        avatar: avatar,
         role: user.role,
-      })),
+      };
+    }));
+    res.status(200).json({
+      status: true,
+      users: usersWithAvatars,
     });
   } catch (err) {
     console.error('Get all users error:', err);
