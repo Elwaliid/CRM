@@ -23,14 +23,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
   final TextEditingController searchController = TextEditingController();
   String selectedAgent = 'All';
   List<String> userNames = [];
-  List<String> useravats = [];
+  List<String> userAvatars = [];
   int _currentUserIndex = 0;
+  List<Map<String, dynamic>> usersHistory = [];
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-
     fetchAgents();
+    fetchUsersHistory();
   }
 
   Future<void> fetchAgents() async {
@@ -45,10 +47,18 @@ class _HistoryScreenState extends State<HistoryScreen> {
         .where((avatar) => avatar.isNotEmpty)
         .toList();
     userNames = ['All', ...names];
-    useravats = ['All', ...avatars];
+    userAvatars = ['All', ...avatars];
+    setState(() {});
+  }
+
+  Future<void> fetchUsersHistory() async {
     setState(() {
-      _currentUserIndex = 0;
-      selectedAgent = 'All';
+      isLoading = true;
+    });
+    List<Map<String, dynamic>> history = await UserModel.fetchUsersHistory();
+    setState(() {
+      usersHistory = history;
+      isLoading = false;
     });
   }
 
@@ -59,29 +69,65 @@ class _HistoryScreenState extends State<HistoryScreen> {
     });
   }
 
-  final List<Map<String, String>> historyData = [
-    {
-      'agent': 'Samir',
-      'action': 'created a client named Waheb',
-      'time': '2025-10-10 14:30',
-    },
-    {
-      'agent': 'Sami',
-      'action': 'set task "Pay Hamed 500\$" status to Completed',
-      'time': '2025-10-10 15:45',
-    },
-    {
-      'agent': 'Samir',
-      'action': 'deleted client named Karim',
-      'time': '2025-10-10 16:00',
-    },
-  ];
+  List<Map<String, dynamic>> getFilteredHistory() {
+    if (selectedAgent == 'All') {
+      return usersHistory.expand((user) {
+        List<String> history = List<String>.from(user['history'] ?? []);
+        List<String> historyDate = List<String>.from(user['historyDate'] ?? []);
+        return List.generate(
+          history.length,
+          (index) => {
+            'agent': user['name'] ?? 'Unknown',
+            'avatar': user['avatar'] ?? '',
+            'action': history[index],
+            'time': historyDate.length > index ? historyDate[index] : '',
+          },
+        );
+      }).toList();
+    } else {
+      return usersHistory.where((user) => user['name'] == selectedAgent).expand(
+        (user) {
+          List<String> history = List<String>.from(user['history'] ?? []);
+          List<String> historyDate = List<String>.from(
+            user['historyDate'] ?? [],
+          );
+          return List.generate(
+            history.length,
+            (index) => {
+              'agent': user['name'] ?? 'Unknown',
+              'avatar': user['avatar'] ?? '',
+              'action': history[index],
+              'time': historyDate.length > index ? historyDate[index] : '',
+            },
+          );
+        },
+      ).toList();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, String>> filteredHistory = selectedAgent == 'All'
-        ? historyData
-        : historyData.where((e) => e['agent'] == selectedAgent).toList();
+    if (isLoading) {
+      return Scaffold(
+        backgroundColor: const Color(0xFFF5F6FA),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          centerTitle: true,
+          title: Text(
+            'History',
+            style: GoogleFonts.poppins(
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
+          ),
+        ),
+        body: const Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    List<Map<String, dynamic>> filteredHistory = getFilteredHistory();
 
     return Scaffold(
       backgroundColor: const Color(0xFFF5F6FA),
@@ -157,14 +203,22 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       children: [
                         // Agent Avatar
                         CircleAvatar(
+                          backgroundImage:
+                              item['avatar'] != null &&
+                                  item['avatar'].isNotEmpty
+                              ? NetworkImage(item['avatar'])
+                              : null,
                           backgroundColor: Colors.blueGrey[100],
-                          child: Text(
-                            item['agent']![0],
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black87,
-                            ),
-                          ),
+                          child:
+                              item['avatar'] == null || item['avatar'].isEmpty
+                              ? Text(
+                                  (item['agent'] as String)[0],
+                                  style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black87,
+                                  ),
+                                )
+                              : null,
                         ),
                         const SizedBox(width: 12),
                         // Text Content
@@ -180,14 +234,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   ),
                                   children: [
                                     TextSpan(
-                                      text: item['agent']!,
+                                      text: item['agent'] as String,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.teal,
                                       ),
                                     ),
                                     const TextSpan(text: ' '),
-                                    TextSpan(text: item['action']!),
+                                    TextSpan(text: item['action'] as String),
                                   ],
                                 ),
                               ),
@@ -195,7 +249,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               Align(
                                 alignment: Alignment.bottomRight,
                                 child: Text(
-                                  item['time']!,
+                                  item['time'] as String,
                                   style: GoogleFonts.poppins(
                                     color: Colors.grey[600],
                                     fontSize: 12,
