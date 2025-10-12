@@ -102,10 +102,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: [
-            Center(
+            //////////////////////// List of agents
+            Container(
+              margin: EdgeInsets.only(right: 90.0),
               child: SizedBox(
                 height: 30,
-                width: MediaQuery.of(context).size.width * 0.8,
+                width: 500,
                 child: ScrollConfiguration(
                   behavior: _MouseDragScrollBehavior(),
                   child: ListView(
@@ -115,7 +117,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       (index) => Padding(
                         padding: EdgeInsets.symmetric(horizontal: 4.0),
                         child: ChoiceChip(
-                          label: Text(userNames[index].substring(0, 3)),
+                          label: Text(userNames[index]),
                           selected: _currentUserIndex == index,
                           onSelected: (selected) {
                             if (selected) {
@@ -129,7 +131,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 ),
               ),
             ),
-
+            SizedBox(height: 8),
             // 🧾 History List
             Expanded(
               child: ListView.builder(
