@@ -22,11 +22,41 @@ class _MouseDragScrollBehavior extends MaterialScrollBehavior {
 class _HistoryScreenState extends State<HistoryScreen> {
   final TextEditingController searchController = TextEditingController();
   String selectedAgent = 'All';
+  List<String> userNames = [];
+  List<String> useravats = [];
+  int _currentUserIndex = 0;
+
   @override
   void initState() {
     super.initState();
 
     fetchAgents();
+  }
+
+  Future<void> fetchAgents() async {
+    List<UserModel> agents = await UserModel.fetchAgents();
+
+    List<String> names = agents
+        .map((agent) => agent.name ?? '')
+        .where((name) => name.isNotEmpty)
+        .toList();
+    List<String> avatars = agents
+        .map((agent) => agent.avatar ?? '')
+        .where((avatar) => avatar.isNotEmpty)
+        .toList();
+    userNames = ['All', ...names];
+    useravats = ['All', ...avatars];
+    setState(() {
+      _currentUserIndex = 0;
+      selectedAgent = 'All';
+    });
+  }
+
+  void _onUserChanged(int index) {
+    setState(() {
+      _currentUserIndex = index;
+      selectedAgent = userNames[index];
+    });
   }
 
   final List<Map<String, String>> historyData = [
@@ -89,7 +119,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           selected: _currentUserIndex == index,
                           onSelected: (selected) {
                             if (selected) {
-                              _onUserhanged(index);
+                              _onUserChanged(index);
                             }
                           },
                         ),
