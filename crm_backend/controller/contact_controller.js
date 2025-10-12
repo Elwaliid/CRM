@@ -15,7 +15,7 @@ exports.addOrUpdateContact = async (req, res) => {
     });
         }else{
             // Update existing contact biismallah 3alik
-            await ContactService.updateContact(id,email,secondEmail,name, address,identity,phones,website,other_info,type,isPined );
+            await ContactService.updateContact(owner,id,email,secondEmail,name, address,identity,phones,website,other_info,type,isPined );
             res.status(200).json({ status: true, message: "Contact updated successfully" });
         }
 
@@ -38,10 +38,10 @@ exports.getContacts = async (req, res) => {
 
 exports.deleteContact = async (req, res) => {
     try{
-    const { id } = req.body;
-    const contact = await ContactModel.findByid(id);
+    const { id, owner } = req.body;
+    const contact = await ContactModel.findById(id);
     if(!contact){res.status(404).json({ status: false, message: "Contact  not found" }); return;}
-    await ContactService.deleteIt(id);
+    await ContactService.deleteIt(id, owner);
     res.status(200).json({ status: true, message: "Contact deleted successfully" });
     }catch(err){console.error("Delete contact error:", err);}
 }
