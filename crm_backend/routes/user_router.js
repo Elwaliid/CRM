@@ -18,5 +18,4 @@ router.get('/user', verifyToken, UserController.getUser);
 router.post('/send-email', UserController.sendEmail);
 router.post('/add-update-profile-image', verifyToken, upload.single('image'), UserController.UserProfileImage);
 router.get('/users', verifyToken, UserController.getAllUsers);
-router.post('/log-action', verifyToken, UserController.logAction);
 module.exports = router;

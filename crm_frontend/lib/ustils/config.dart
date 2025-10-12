@@ -21,4 +21,3 @@ final getProfileImage = "$baseUrl/get-profile-image";
 final changePasswordUrl = "$baseUrl/change-password";
 final getUserUrl = "$baseUrl/user";
 final getAllUsersUrl = "$baseUrl/users";
-final logActionUrl = "$baseUrl/log-action";

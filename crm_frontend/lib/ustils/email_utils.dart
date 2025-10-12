@@ -4,7 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'config.dart';
 
-void showEmailModalBottomSheet(BuildContext context, String email) {
+void showEmailModalBottomSheet(
+  BuildContext context,
+  String email,
+  String owner,
+) {
   TextEditingController subjectController = TextEditingController();
   TextEditingController bodyController = TextEditingController();
 
@@ -53,6 +57,7 @@ void showEmailModalBottomSheet(BuildContext context, String email) {
                       onPressed: () {
                         sendEmail(
                           context,
+                          owner,
                           email,
                           subjectController.text,
                           bodyController.text,
@@ -83,16 +88,18 @@ void sendEmail(
   String email,
   String subject,
   String body,
+  String owner,
 ) async {
   String receiverMail = email;
   String sub = subject;
   String text = body;
-
+  String user = owner;
   try {
     final response = await http.post(
       Uri.parse(sendEmailUrl),
       headers: {'Content-Type': 'application/json'},
-      body: '{"to": "$receiverMail", "subject": "$sub", "text": "$text"}',
+      body:
+          '{"owner":"$user","to": "$receiverMail", "subject": "$sub", "text": "$text"}',
     );
 
     if (response.statusCode == 200) {

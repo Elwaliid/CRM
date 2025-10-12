@@ -963,6 +963,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                   showEmailModalBottomSheet(
                                     context,
                                     _selectedEmail!,
+                                    userId!,
                                   );
                                 } else {
                                   launchUrl(Uri.parse(_meeting_web_Url!));

@@ -286,7 +286,7 @@ exports.changePassword = async (req, res) => {
  */
 exports.sendEmail = async (req, res) => {
   try {
-    const { to, subject, text, html } = req.body;
+    const { owner,to, subject, text, html } = req.body;
     if (!to || !subject || !text) {
       return res.status(400).json({
         status: false,
@@ -294,7 +294,7 @@ exports.sendEmail = async (req, res) => {
       });
     }
 
-    const result = await UserService.sendEmail(to, subject, text, html);
+    const result = await UserService.sendEmail(owner,to, subject, text, html);
     res.status(200).json({ status: true, message: result.message });
   } catch (err) {
     console.error('Send email error:', err);
@@ -330,23 +330,5 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
-exports.logAction = async (req, res) => {
-  try {
-    const { action } = req.body;
-    const userId = req.user._id;
-
-    if (!action) {
-      return res.status(400).json({ status: false, message: 'Action is required' });
-    }
-
-    const ActionDate = new Date();
-    await UserService.addActionToHistory(userId, action, ActionDate);
-
-    res.status(200).json({ status: true, message: 'Action logged successfully' });
-  } catch (err) {
-    console.error('Log action error:', err);
-    res.status(500).json({ status: false, message: 'Internal server error' });
-  }
-};
 
 
