@@ -356,12 +356,16 @@ class _TasksScreenState extends State<TasksScreen> {
                                             Icons.more_vert,
                                             color: secondaryColor,
                                           ),
-                                          onSelected: (selected) {
+                                          onSelected: (selected) async {
                                             if (selected == 'Pin') {
                                               bool newPinned =
                                                   !(task.isPined ?? false);
                                               _pined(newPinned, task.id!);
-                                            } else if (selected == 'delete') {
+                                            }
+                                            if (selected == 'delete') {
+                                              if (task.isPined ?? false) {
+                                                await _pined(false, task.id!);
+                                              }
                                               ////// delete contact
                                               showDialog(
                                                 context: context,
