@@ -159,9 +159,6 @@ exports.googleSignin = async (req, res, next) => {
 
     // 🔥 Sync Firestore on Google Sign-In
     await syncUserToFirestore(user._id.toString(), {
-      email: user.email,
-      name: user.name,
-      googleId: user.googleId,
       createdAt: new Date(),
     });
 
