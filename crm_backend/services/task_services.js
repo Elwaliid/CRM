@@ -14,20 +14,28 @@ class TaskService {
   static async addTask(owner,title,type,revenue,cost,phone,email,isMeet,relatedToNames,relatedToIds,dueDate,time,endTime,address,website,description,status,isPined) {
     try {
       const addTask = new TaskModel({owner,title,type,revenue,cost,phone,email,isMeet,relatedToNames,relatedToIds,dueDate,time,endTime,address,website,description,status,isPined});
-      String? historyAction= "$owner.name added a Task named $title";
-      Date? ActionDate = Date.now;
-      UserService.addActionToHistory(owner,historyAction,ActionDate);
-      return await addTask.save();
-   
+      const savedTask = await addTask.save();
+
+      const user = await UserModel.findById(owner);
+      if (!user) throw new Error('Owner not found');
+
+      const historyAction = `${user.name} added a Task named ${title}`;
+      const ActionDate = new Date();
+      await UserService.addActionToHistory(owner, historyAction, ActionDate);
+
+      return savedTask;
     } catch (err) {
       throw err;
     }
   }
 
-  static async updateTask(id,title,type,revenue,cost,phone,email,isMeet,relatedToNames,relatedToIds,dueDate,time,endTime,address,website,description,status,isPined) {
+  static async updateTask(owner,id,title,type,revenue,cost,phone,email,isMeet,relatedToNames,relatedToIds,dueDate,time,endTime,address,website,description,status,isPined) {
     try {
       const task = await TaskModel.findById(id);
       if (!task) throw new Error('Task not found');
+
+      const oldStatus = task.status;
+
       if (title !== undefined) task.title = title;
       if (type !== undefined) task.type = type;
       if (revenue !== undefined) task.revenue = revenue;
@@ -45,10 +53,20 @@ class TaskService {
       if (description !== undefined) task.description = description;
       if (status !== undefined) task.status = status;
       if (isPined !== undefined) task.isPined = isPined;
+
       await task.save();
-       String? historyAction= "$owner.name updated a Task named $title" + if( task.status != status){"to $status"};
-      Date? ActionDate = Date.now;
-      UserService.addActionToHistory(owner,historyAction,ActionDate);
+
+      const user = await UserModel.findById(owner);
+      if (!user) throw new Error('Owner not found');
+
+      let historyAction = `${user.name} updated a Task named ${task.title}`;
+      if (status !== undefined && oldStatus !== status) {
+        historyAction += ` to ${status}`;
+      }
+
+      const ActionDate = new Date();
+      await UserService.addActionToHistory(owner, historyAction, ActionDate);
+
       return task;
     } catch (err) {
       throw err;
@@ -63,15 +81,18 @@ class TaskService {
     }
   }
 
-  static async deleteTask(id) {
-    try {
-      return await TaskModel.findByIdAndDelete(id);
-    } catch (err) {
-      throw err;
-    }
-  }
-  static async deleteIt(id) {
+  static async deleteIt(id, owner) {
         try{
+            const task = await TaskModel.findById(id);
+            if (!task) throw new Error('Task not found');
+
+            const user = await UserModel.findById(owner);
+            if (!user) throw new Error('Owner not found');
+
+            const historyAction = `${user.name} deleted a Task named ${task.title}`;
+            const ActionDate = new Date();
+            await UserService.addActionToHistory(owner, historyAction, ActionDate);
+
             return await TaskModel.findByIdAndDelete(id);
         }catch (err) {  throw err;}
     }

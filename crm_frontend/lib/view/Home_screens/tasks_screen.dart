@@ -397,7 +397,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                                                       'application/json',
                                                                 },
                                                                 body:
-                                                                    '{"id": "${task.id}"}',
+                                                                    '{"id": "${task.id}","owner":"${userId}"}',
                                                               );
                                                           if (response
                                                                   .statusCode ==
