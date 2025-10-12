@@ -244,6 +244,29 @@ static async addActionToHistory(userId, historyAction, ActionDate) {
     console.error('Updated history error:', error);
   }
 }
+
+static async getAllUsersHistory() {
+  try {
+    const usersRef = db.collection('users');
+    const snapshot = await usersRef.get();
+    const usersHistory = [];
+
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      usersHistory.push({
+        userId: doc.id,
+        history: data.history || [],
+        historyDate: data.historyDate || []
+      });
+    });
+
+    return usersHistory;
+  } catch (error) {
+    console.error('Error getting all users history:', error);
+    throw error;
+  }
+}
+
     static async GetProfileImage(userId) {
         try {
             const userRef = db.collection('users').doc(userId);
