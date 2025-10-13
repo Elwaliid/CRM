@@ -202,24 +202,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // Agent Avatar
-                        CircleAvatar(
-                          backgroundImage:
-                              item['avatar'] != null &&
-                                  item['avatar'].isNotEmpty
-                              ? NetworkImage(item['avatar'])
-                              : null,
-                          backgroundColor: Colors.blueGrey[100],
-                          child:
-                              item['avatar'] == null || item['avatar'].isEmpty
-                              ? Text(
-                                  (item['agent'] as String)[0],
-                                  style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black87,
-                                  ),
-                                )
-                              : null,
-                        ),
+                        ?item['avatar'] != null && item['avatar'].isNotEmpty
+                            ? ClipOval(child: Image.memory(item['avatar']))
+                            : null,
+
                         const SizedBox(width: 12),
                         // Text Content
                         Expanded(
