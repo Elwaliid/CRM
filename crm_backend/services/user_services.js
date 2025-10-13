@@ -251,14 +251,19 @@ static async getAllUsersHistory() {
     const snapshot = await usersRef.get();
     const usersHistory = [];
 
-    snapshot.forEach(doc => {
+    for (const doc of snapshot.docs) {
       const data = doc.data();
-      usersHistory.push({
-        userId: doc.id,
-        history: data.history || [],
-        historyDate: data.historyDate || []
-      });
-    });
+      const user = await UserModel.findById(doc.id);
+      if (user) {
+        const avatar = await UserService.GetProfileImage(doc.id);
+        usersHistory.push({
+          name: user.name,
+          avatar: avatar,
+          history: (data.history || []).map(item => typeof item === 'string' ? item : JSON.stringify(item)),
+          historyDate: (data.historyDate || []).map(date => date.toDate().toISOString())
+        });
+      }
+    }
 
     return usersHistory;
   } catch (error) {
