@@ -20,7 +20,7 @@ class ContactService {
                 const user = await UserModel.findById(owner);
                 if (!user) throw new Error('Owner not found');
 
-                const historyAction = `${user.name} added a ${type} named ${name}`;
+                const historyAction = `added a ${type} named ${name}`;
                 const ActionDate = new Date();
                 await UserService.addActionToHistory(owner, historyAction, ActionDate);
 
@@ -52,7 +52,7 @@ class ContactService {
                     const user = await UserModel.findById(owner);
                     if (!user) throw new Error('Owner not found');
 
-                    let historyAction = `${user.name} updated a Contact named ${contact.name}`;
+                    let historyAction = `updated a Contact named ${contact.name}`;
                     if (type !== undefined && oldType !== type) {
                         historyAction += ` to ${type}`;
                     }

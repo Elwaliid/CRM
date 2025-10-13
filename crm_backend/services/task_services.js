@@ -19,7 +19,7 @@ class TaskService {
       const user = await UserModel.findById(owner);
       if (!user) throw new Error('Owner not found');
 
-      const historyAction = `${user.name} added a Task named ${title}`;
+      const historyAction = `added a Task named ${title}`;
       const ActionDate = new Date();
       await UserService.addActionToHistory(owner, historyAction, ActionDate);
 
@@ -59,7 +59,7 @@ class TaskService {
       const user = await UserModel.findById(owner);
       if (!user) throw new Error('Owner not found');
 
-      let historyAction = `${user.name} updated a Task named ${task.title}`;
+      let historyAction = `updated a Task named ${task.title}`;
       if (status !== undefined && oldStatus !== status) {
         historyAction += ` to ${status}`;
       }

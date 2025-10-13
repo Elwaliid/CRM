@@ -213,7 +213,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Agent Avatar
+                        ///////////////////////////////// profile image
                         ?item['avatar'] != null && item['avatar'].isNotEmpty
                             ? SizedBox(
                                 width: 40,
@@ -228,7 +228,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                             : null,
 
                         const SizedBox(width: 12),
-                        // Text Content
+
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -240,6 +240,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                     fontSize: 15,
                                   ),
                                   children: [
+                                    //////////////////////////// agent name
                                     TextSpan(
                                       text: item['agent'] as String,
                                       style: const TextStyle(
@@ -248,11 +249,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                       ),
                                     ),
                                     const TextSpan(text: ' '),
+                                    ////////////////////////////// history action
                                     TextSpan(text: item['action'] as String),
                                   ],
                                 ),
                               ),
                               const SizedBox(height: 6),
+                              ///////////////////////////// action date and time
                               Align(
                                 alignment: Alignment.bottomRight,
                                 child: Text(

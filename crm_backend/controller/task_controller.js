@@ -76,7 +76,7 @@ exports.saveWebsiteVisit = async (req, res) => {
         const user = await UserModel.findById(owner);
         if (!user) throw new Error('Owner not found');
 
-        const historyAction = `${user.name} visited ${websiteURL} for Task: ${title}`;
+        const historyAction = ` visited ${websiteURL} for Task: ${title}`;
         const ActionDate = new Date();
         await UserService.addActionToHistory(owner, historyAction, ActionDate);
 
