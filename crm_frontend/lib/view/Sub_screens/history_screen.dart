@@ -1,3 +1,7 @@
+// ignore_for_file: deprecated_member_use
+
+import 'dart:convert';
+import 'dart:typed_data';
 import 'dart:ui';
 import 'package:crm_frontend/models/user_model.dart';
 import 'package:flutter/material.dart';
@@ -74,11 +78,15 @@ class _HistoryScreenState extends State<HistoryScreen> {
       return usersHistory.expand((user) {
         List<String> history = List<String>.from(user['history'] ?? []);
         List<String> historyDate = List<String>.from(user['historyDate'] ?? []);
+        Uint8List? decodedAvatar =
+            user['avatar'] != null && user['avatar'].isNotEmpty
+            ? base64Decode(user['avatar'])
+            : null;
         return List.generate(
           history.length,
           (index) => {
             'agent': user['name'] ?? 'Unknown',
-            'avatar': user['avatar'] ?? '',
+            'avatar': decodedAvatar,
             'action': history[index],
             'time': historyDate.length > index ? historyDate[index] : '',
           },
@@ -91,11 +99,15 @@ class _HistoryScreenState extends State<HistoryScreen> {
           List<String> historyDate = List<String>.from(
             user['historyDate'] ?? [],
           );
+          Uint8List? decodedAvatar =
+              user['avatar'] != null && user['avatar'].isNotEmpty
+              ? base64Decode(user['avatar'])
+              : null;
           return List.generate(
             history.length,
             (index) => {
               'agent': user['name'] ?? 'Unknown',
-              'avatar': user['avatar'] ?? '',
+              'avatar': decodedAvatar,
               'action': history[index],
               'time': historyDate.length > index ? historyDate[index] : '',
             },
@@ -203,7 +215,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       children: [
                         // Agent Avatar
                         ?item['avatar'] != null && item['avatar'].isNotEmpty
-                            ? ClipOval(child: Image.memory(item['avatar']))
+                            ? SizedBox(
+                                width: 40,
+                                height: 40,
+                                child: ClipOval(
+                                  child: Image.memory(
+                                    item['avatar'],
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              )
                             : null,
 
                         const SizedBox(width: 12),

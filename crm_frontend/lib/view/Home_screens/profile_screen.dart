@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable, non_constant_identifier_names
+// ignore_for_file: sized_box_for_whitespace, deprecated_member_use, unused_local_variable, non_constant_identifier_names, library_prefixes
 import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui';
