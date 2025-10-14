@@ -269,7 +269,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               Align(
                                 alignment: Alignment.bottomRight,
                                 child: Text(
-                                  item['time'] as String,
+                                  formatTime(item['time'] as String),
                                   style: GoogleFonts.poppins(
                                     color: Colors.grey[600],
                                     fontSize: 12,
