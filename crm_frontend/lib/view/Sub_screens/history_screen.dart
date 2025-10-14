@@ -33,6 +33,15 @@ class _HistoryScreenState extends State<HistoryScreen> {
   List<Map<String, dynamic>> usersHistory = [];
   bool isLoading = true;
 
+  String formatTime(String isoString) {
+    try {
+      DateTime dateTime = DateTime.parse(isoString);
+      return DateFormat('MMM d, yyyy \'at\' h:mm a').format(dateTime);
+    } catch (e) {
+      return isoString; // Return original if parsing fails
+    }
+  }
+
   @override
   void initState() {
     super.initState();
