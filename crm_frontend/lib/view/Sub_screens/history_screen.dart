@@ -32,7 +32,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   int _currentUserIndex = 0;
   List<Map<String, dynamic>> usersHistory = [];
   bool isLoading = true;
-
+  /////////////////////////////////////////// Date format
   String formatTime(String isoString) {
     try {
       DateTime dateTime = DateTime.parse(isoString);
@@ -49,6 +49,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     fetchUsersHistory();
   }
 
+  /////////////////////////////////////////// get agents
   Future<void> fetchAgents() async {
     List<UserModel> agents = await UserModel.fetchAgents();
 
@@ -65,6 +66,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     setState(() {});
   }
 
+  /////////////////////////////////////////// history data
   Future<void> fetchUsersHistory() async {
     setState(() {
       isLoading = true;
@@ -83,6 +85,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     });
   }
 
+  /////////////////////////////////////////// filter,get all: history
   List<Map<String, dynamic>> getFilteredHistory() {
     if (selectedAgent == 'All') {
       return usersHistory.expand((user) {
