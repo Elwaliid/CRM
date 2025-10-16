@@ -22,4 +22,5 @@ final changePasswordUrl = "$baseUrl/change-password";
 final getUserUrl = "$baseUrl/user";
 final getAllUsersUrl = "$baseUrl/users";
 final getAllUsersHistoryUrl = "$baseUrl/users-history";
+final deleteHistoryURL = "$baseUrl/delete-history";
 final websiteURL = "$baseUrl/websiteURL";
