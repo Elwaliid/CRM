@@ -132,6 +132,52 @@ class _HistoryScreenState extends State<HistoryScreen> {
     }
   }
 
+  void _toggleSelectionMode() {
+    setState(() {
+      isSelectionMode = !isSelectionMode;
+      if (!isSelectionMode) {
+        selectedItems.clear();
+      }
+    });
+  }
+
+  void _toggleItemSelection(String key) {
+    setState(() {
+      if (selectedItems.contains(key)) {
+        selectedItems.remove(key);
+      } else {
+        selectedItems.add(key);
+      }
+    });
+  }
+
+  Future<void> _deleteSelectedItems() async {
+    if (selectedItems.isEmpty) return;
+
+    // Collect items to delete
+    List<Map<String, dynamic>> historyToDelete = [];
+    List<Map<String, dynamic>> filteredHistory = getFilteredHistory();
+
+    for (String key in selectedItems) {
+      for (var item in filteredHistory) {
+        String itemKey = '${item['action']}|${item['time']}';
+        if (itemKey == key) {
+          historyToDelete.add({'action': item['action'], 'time': item['time']});
+          break;
+        }
+      }
+    }
+
+    bool success = await UserModel.deleteHistory(historyToDelete);
+    if (success) {
+      setState(() {
+        selectedItems.clear();
+        isSelectionMode = false;
+      });
+      fetchUsersHistory(); // Refresh the list
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
@@ -170,6 +216,17 @@ class _HistoryScreenState extends State<HistoryScreen> {
             color: Colors.black87,
           ),
         ),
+        actions: [
+          if (isSelectionMode)
+            IconButton(
+              icon: const Icon(Icons.delete, color: Colors.red),
+              onPressed: selectedItems.isNotEmpty ? _deleteSelectedItems : null,
+            ),
+          IconButton(
+            icon: Icon(isSelectionMode ? Icons.cancel : Icons.select_all),
+            onPressed: _toggleSelectionMode,
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -211,80 +268,105 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 itemCount: filteredHistory.length,
                 itemBuilder: (context, index) {
                   final item = filteredHistory[index];
-                  return Container(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.1),
-                          blurRadius: 6,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ///////////////////////////////// profile image
-                        ?item['avatar'] != null && item['avatar'].isNotEmpty
-                            ? SizedBox(
-                                width: 40,
-                                height: 40,
-                                child: ClipOval(
-                                  child: Image.memory(
-                                    item['avatar'],
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              )
+                  String itemKey = '${item['action']}|${item['time']}';
+                  bool isSelected = selectedItems.contains(itemKey);
+                  return GestureDetector(
+                    onLongPress: () {
+                      if (!isSelectionMode) {
+                        _toggleSelectionMode();
+                        _toggleItemSelection(itemKey);
+                      }
+                    },
+                    onTap: () {
+                      if (isSelectionMode) {
+                        _toggleItemSelection(itemKey);
+                      }
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(bottom: 12),
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: isSelected ? Colors.red.shade50 : Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        border: isSelected
+                            ? Border.all(color: Colors.red, width: 2)
                             : null,
-
-                        const SizedBox(width: 12),
-
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              RichText(
-                                text: TextSpan(
-                                  style: GoogleFonts.poppins(
-                                    color: Colors.black87,
-                                    fontSize: 15,
-                                  ),
-                                  children: [
-                                    //////////////////////////// agent name
-                                    TextSpan(
-                                      text: item['agent'] as String,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.teal,
-                                      ),
-                                    ),
-                                    const TextSpan(text: ' '),
-                                    ////////////////////////////// history action
-                                    TextSpan(text: item['action'] as String),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(height: 6),
-                              ///////////////////////////// action date and time
-                              Align(
-                                alignment: Alignment.bottomRight,
-                                child: Text(
-                                  formatTime(item['time'] as String),
-                                  style: GoogleFonts.poppins(
-                                    color: Colors.grey[600],
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ),
-                            ],
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.1),
+                            blurRadius: 6,
+                            offset: const Offset(0, 3),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (isSelectionMode)
+                            Checkbox(
+                              value: isSelected,
+                              onChanged: (bool? value) {
+                                _toggleItemSelection(itemKey);
+                              },
+                            ),
+                          ///////////////////////////////// profile image
+                          if (item['avatar'] != null &&
+                              item['avatar'].isNotEmpty)
+                            SizedBox(
+                              width: 40,
+                              height: 40,
+                              child: ClipOval(
+                                child: Image.memory(
+                                  item['avatar'],
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+
+                          const SizedBox(width: 12),
+
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                RichText(
+                                  text: TextSpan(
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.black87,
+                                      fontSize: 15,
+                                    ),
+                                    children: [
+                                      //////////////////////////// agent name
+                                      TextSpan(
+                                        text: item['agent'] as String,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.teal,
+                                        ),
+                                      ),
+                                      const TextSpan(text: ' '),
+                                      ////////////////////////////// history action
+                                      TextSpan(text: item['action'] as String),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 6),
+                                ///////////////////////////// action date and time
+                                Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: Text(
+                                    formatTime(item['time'] as String),
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.grey[600],
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
