@@ -153,7 +153,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   Future<void> _deleteSelectedItems() async {
     if (selectedItems.isEmpty) return;
-
     // Collect items to delete
     List<Map<String, dynamic>> historyToDelete = [];
     List<Map<String, dynamic>> filteredHistory = getFilteredHistory();

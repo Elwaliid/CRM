@@ -318,7 +318,7 @@ static async getAllUsersHistory() {
                 const updatedHistoryDate = [];
 
                 for (let i = 0; i < currentHistory.length; i++) {
-                    const key = `${currentHistory[i]}|${currentHistoryDate[i].toISOString()}`;
+                    const key = `${currentHistory[i]}|${currentHistoryDate[i].toDate().toISOString()}`;
                     if (!deleteSet.has(key)) {
                         updatedHistory.push(currentHistory[i]);
                         updatedHistoryDate.push(currentHistoryDate[i]);
