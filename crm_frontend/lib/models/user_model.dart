@@ -182,4 +182,35 @@ class UserModel {
     }
     return false;
   }
+
+  static Future<bool> deleteHistory(
+    List<Map<String, dynamic>> historyToDelete,
+  ) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token');
+    if (token == null || token.isEmpty) return false;
+
+    try {
+      final response = await http.delete(
+        Uri.parse(deleteHistoryURL),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: json.encode({'historyToDelete': historyToDelete}),
+      );
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        if (data['status'] == true) {
+          print("History deleted successfully");
+          return true;
+        }
+      }
+      print("Failed to delete history: ${response.statusCode}");
+    } catch (e) {
+      print("Error deleting history: $e");
+    }
+    return false;
+  }
 }
