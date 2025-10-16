@@ -32,6 +32,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
   int _currentUserIndex = 0;
   List<Map<String, dynamic>> usersHistory = [];
   bool isLoading = true;
+  bool isSelectionMode = false;
+  Set<String> selectedItems = {};
   /////////////////////////////////////////// Date format
   String formatTime(String isoString) {
     try {

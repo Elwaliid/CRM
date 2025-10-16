@@ -346,6 +346,26 @@ exports.getAllUsersHistory = async (req, res) => {
   }
 };
 
+/**
+ * DELETE HISTORY
+ */
+exports.deleteHistory = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { historyToDelete } = req.body;
+
+    if (!historyToDelete || !Array.isArray(historyToDelete)) {
+      return res.status(400).json({ status: false, message: 'historyToDelete must be an array' });
+    }
+
+    const result = await UserService.deleteHistory(userId, historyToDelete);
+    res.status(200).json({ status: true, message: result.message });
+  } catch (err) {
+    console.error('Delete history error:', err);
+    res.status(500).json({ status: false, message: 'Internal server error' });
+  }
+};
+
 
 
 

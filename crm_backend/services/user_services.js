@@ -301,6 +301,45 @@ static async getAllUsersHistory() {
       }
     }
 
+    static async deleteHistory(userId, historyToDelete) {
+        try {
+            const userRef = db.collection('users').doc(userId);
+            const userDoc = await userRef.get();
+
+            if (userDoc.exists) {
+                const currentData = userDoc.data();
+                const currentHistory = currentData.history || [];
+                const currentHistoryDate = currentData.historyDate || [];
+
+                // Create a set of items to delete (action + time)
+                const deleteSet = new Set(historyToDelete.map(item => `${item.action}|${item.time}`));
+
+                const updatedHistory = [];
+                const updatedHistoryDate = [];
+
+                for (let i = 0; i < currentHistory.length; i++) {
+                    const key = `${currentHistory[i]}|${currentHistoryDate[i].toISOString()}`;
+                    if (!deleteSet.has(key)) {
+                        updatedHistory.push(currentHistory[i]);
+                        updatedHistoryDate.push(currentHistoryDate[i]);
+                    }
+                }
+
+                await userRef.set({
+                    history: updatedHistory,
+                    historyDate: updatedHistoryDate,
+                }, { merge: true });
+                console.log(`Deleted history items for user: ${userId}`);
+                return { success: true, message: 'History items deleted successfully' };
+            } else {
+                throw new Error('User not found');
+            }
+        } catch (error) {
+            console.error('Delete history error:', error);
+            throw error;
+        }
+    }
+
     static async getAllUsers() {
         try {
             return await UserModel.find({});
