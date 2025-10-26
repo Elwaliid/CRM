@@ -188,9 +188,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
       if (match.start > lastIndex) {
         spans.add(TextSpan(text: action.substring(lastIndex, match.start)));
       }
+      String url = match.group(0)!;
       spans.add(
         TextSpan(
-          text: match.group(0),
+          text: url.length > 20 ? url.substring(0, 20) + '...' : url,
           style: const TextStyle(
             color: Colors.blue,
             decoration: TextDecoration.underline,
