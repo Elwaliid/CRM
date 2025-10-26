@@ -191,7 +191,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
       String url = match.group(0)!;
       spans.add(
         TextSpan(
-          text: url.length > 20 ? url.substring(0, 20) + '...' : url,
+          text: url.length > 20 ? '${url.substring(0, 20)}...' : url,
           style: const TextStyle(
             color: Colors.blue,
             decoration: TextDecoration.underline,
