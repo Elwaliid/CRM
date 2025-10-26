@@ -348,6 +348,17 @@ static async getAllUsersHistory() {
             throw err;
         }
     }
+
+    static async deleteUserFromFirestore(userId) {
+        try {
+            const userRef = db.collection('users').doc(userId);
+            await userRef.delete();
+            console.log(`✅ Firestore user deleted: ${userId}`);
+        } catch (error) {
+            console.error('🔥 Firestore delete error:', error);
+            throw error;
+        }
+    }
 }
 
 module.exports = UserService;

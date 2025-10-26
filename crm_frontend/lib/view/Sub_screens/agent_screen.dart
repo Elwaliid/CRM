@@ -78,7 +78,6 @@ class _AgentScreenState extends State<AgentScreen> {
           colorText: Colors.white,
           snackPosition: SnackPosition.BOTTOM,
         );
-        super.initState();
         _fetchUsers();
       } else {
         Get.snackbar(

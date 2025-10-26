@@ -117,6 +117,7 @@ exports.delete = async (req, res) => {
     const user = await UserModel.findById(id);
     if(!user){res.status(404).json({ status: false, message: "user not found" }); return;}
     await UserService.deleteUser(id);
+    await UserService.deleteUserFromFirestore(id);
     res.status(200).json({ status: true, message: "User deleted successfully" });
     }catch(err){
       console.error("Delete User error:", err);
