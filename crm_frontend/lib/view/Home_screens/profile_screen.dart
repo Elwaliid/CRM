@@ -5,7 +5,7 @@ import 'dart:ui';
 import 'dart:html' as html;
 import 'package:crm_frontend/models/user_model.dart';
 import 'package:crm_frontend/ustils/constants.dart' as Constants;
-import 'package:crm_frontend/view/Screens/splash_screen.dart';
+import 'package:crm_frontend/view/Screens/login_screen.dart';
 import 'package:crm_frontend/view/Sub_screens/agent_screen.dart';
 import 'package:crm_frontend/view/Sub_screens/history_screen.dart';
 import 'package:crm_frontend/view/Sub_screens/my_profile_screen.dart';
@@ -205,7 +205,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       icon: Icons.logout,
                       label: 'Logout',
                       primaryColor: const Color.fromARGB(255, 255, 93, 93),
-                      onTap: () => _showSnack('Logout tapped'),
+                      onTap: _logout,
                     ),
                   ],
                 ),
@@ -222,6 +222,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   /// Helper for showing SnackBars
   void _showSnack(String message) {
     print(message);
+  }
+
+  /// Logout function
+  Future<void> _logout() async {
+    // Clear token from storage
+    if (kIsWeb) {
+      html.window.localStorage.remove('token');
+    } else {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.remove('token');
+    }
+
+    Get.offAll(() => LoginScreen());
   }
 
   /// menu item
