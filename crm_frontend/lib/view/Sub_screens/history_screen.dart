@@ -4,9 +4,11 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui';
 import 'package:crm_frontend/models/user_model.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
@@ -177,6 +179,41 @@ class _HistoryScreenState extends State<HistoryScreen> {
     }
   }
 
+  List<TextSpan> _buildActionSpans(String action) {
+    final urlRegex = RegExp(r'https?://[^\s]+');
+    List<TextSpan> spans = [];
+    int lastIndex = 0;
+
+    for (final match in urlRegex.allMatches(action)) {
+      if (match.start > lastIndex) {
+        spans.add(TextSpan(text: action.substring(lastIndex, match.start)));
+      }
+      spans.add(
+        TextSpan(
+          text: match.group(0),
+          style: const TextStyle(
+            color: Colors.blue,
+            decoration: TextDecoration.underline,
+          ),
+          recognizer: TapGestureRecognizer()
+            ..onTap = () async {
+              final url = match.group(0)!;
+              if (await canLaunch(url)) {
+                await launch(url);
+              }
+            },
+        ),
+      );
+      lastIndex = match.end;
+    }
+
+    if (lastIndex < action.length) {
+      spans.add(TextSpan(text: action.substring(lastIndex)));
+    }
+
+    return spans;
+  }
+
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
@@ -345,7 +382,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                       ),
                                       const TextSpan(text: ' '),
                                       ////////////////////////////// history action
-                                      TextSpan(text: item['action'] as String),
+                                      ..._buildActionSpans(
+                                        item['action'] as String,
+                                      ),
                                     ],
                                   ),
                                 ),
