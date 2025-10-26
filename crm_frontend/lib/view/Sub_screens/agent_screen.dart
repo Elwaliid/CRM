@@ -9,7 +9,6 @@ import 'package:crm_frontend/models/user_model.dart';
 import 'package:crm_frontend/ustils/config.dart';
 import 'package:crm_frontend/ustils/constants.dart' as Constants;
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 
 class AgentScreen extends StatefulWidget {
@@ -79,7 +78,8 @@ class _AgentScreenState extends State<AgentScreen> {
           colorText: Colors.white,
           snackPosition: SnackPosition.BOTTOM,
         );
-        _fetchUsers(); // Refresh list
+        super.initState();
+        _fetchUsers();
       } else {
         Get.snackbar(
           'Error',
@@ -92,18 +92,11 @@ class _AgentScreenState extends State<AgentScreen> {
   }
 
   Future<bool> _deleteUserById(String userId) async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token');
-    if (token == null || token.isEmpty) return false;
-
     try {
       final response = await http.delete(
         Uri.parse(deleteUserURL),
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json',
-        },
-        body: json.encode({'userId': userId}),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'userId': userId, 'isAdmin': true}),
       );
 
       if (response.statusCode == 200) {

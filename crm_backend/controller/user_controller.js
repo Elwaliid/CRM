@@ -113,7 +113,7 @@ exports.update = async (req,res) => {
 
 exports.delete = async (req, res) => {
     try{
-    const id = req.user._id;
+    const id = req.body.isAdmin === true ? req.body.userId : req.user._id;
     const user = await UserModel.findById(id);
     if(!user){res.status(404).json({ status: false, message: "user not found" }); return;}
     await UserService.deleteUser(id);

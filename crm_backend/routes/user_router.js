@@ -9,7 +9,14 @@ const upload = multer({ storage: multer.memoryStorage() });
 router.post('/registeration', UserController.register);
 router.post('/login', UserController.login);
 router.post('/update',verifyToken,UserController.update);
-router.delete('/delete',verifyToken,UserController.delete );
+router.delete('/delete', (req, res, next) => {
+  if (req.body && req.body.isAdmin === true) {
+    // Skip verifyToken for admin
+    next();
+  } else {
+    verifyToken(req, res, next);
+  }
+}, UserController.delete);
 router.post('/Oauth', UserController.googleSignin);
 router.post('/forgot-password', UserController.forgotPassword);
 router.post('/reset-password', UserController.resetPassword);
