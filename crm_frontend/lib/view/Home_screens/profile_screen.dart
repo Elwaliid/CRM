@@ -2,16 +2,20 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui';
+import 'dart:html' as html;
 import 'package:crm_frontend/models/user_model.dart';
 import 'package:crm_frontend/ustils/constants.dart' as Constants;
+import 'package:crm_frontend/view/Screens/splash_screen.dart';
 import 'package:crm_frontend/view/Sub_screens/agent_screen.dart';
 import 'package:crm_frontend/view/Sub_screens/history_screen.dart';
 import 'package:crm_frontend/view/Sub_screens/my_profile_screen.dart';
 import 'package:crm_frontend/view/Sub_screens/setting_screen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String? userId;
