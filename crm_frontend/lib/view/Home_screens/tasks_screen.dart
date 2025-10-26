@@ -808,6 +808,7 @@ class _TasksScreenState extends State<TasksScreen> {
       _meeting_web_Url = task.website;
       meeting = task.isMeet;
     }
+    var response;
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -885,7 +886,26 @@ class _TasksScreenState extends State<TasksScreen> {
                   if (action == 'Meeting/Site Visit')
                     InkWell(
                       onTap: _meeting_web_Url != null
-                          ? () => launchUrl(Uri.parse(_meeting_web_Url!))
+                          ? () async {
+                              launchUrl(Uri.parse(_meeting_web_Url!));
+
+                              response = await http.post(
+                                Uri.parse(websiteURL),
+                                headers: {"Content-Type": "application/json"},
+                                body: jsonEncode({
+                                  'owner': userId,
+                                  'websiteURL': _meeting_web_Url,
+                                  'title': task.title,
+                                }),
+                              );
+                              // Optionally handle response, e.g., show snackbar on success/failure
+                              if (response.statusCode == 200 ||
+                                  response.statusCode == 201) {
+                                // Success
+                              } else {
+                                // Handle error
+                              }
+                            }
                           : null,
                       child: Container(
                         padding: const EdgeInsets.symmetric(
@@ -978,7 +998,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                       },
                                       body: jsonEncode({
                                         'owner': userId,
-                                        'website': _meeting_web_Url,
+                                        'websiteURL': _meeting_web_Url,
                                         'title': task.title,
                                       }),
                                     );
