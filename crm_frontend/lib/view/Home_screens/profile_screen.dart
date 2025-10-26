@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 import 'package:crm_frontend/models/user_model.dart';
 import 'package:crm_frontend/ustils/constants.dart' as Constants;
+import 'package:crm_frontend/view/Sub_screens/agent_screen.dart';
 import 'package:crm_frontend/view/Sub_screens/history_screen.dart';
 import 'package:crm_frontend/view/Sub_screens/my_profile_screen.dart';
 import 'package:crm_frontend/view/Sub_screens/setting_screen.dart';
@@ -182,7 +183,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       icon: Icons.group,
                       label: 'Agents',
                       primaryColor: primaryColor,
-                      onTap: () => _showSnack('Agents tapped'),
+                      onTap: () => Get.to(AgentScreen()),
                     ),
                     const SizedBox(height: 20),
 

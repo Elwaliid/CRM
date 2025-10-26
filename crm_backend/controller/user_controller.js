@@ -318,6 +318,7 @@ exports.getAllUsers = async (req, res) => {
         phone: user.phone,
         avatar: avatar,
         role: user.role,
+        createdAt: user.createdAt,
       };
     }));
     res.status(200).json({
