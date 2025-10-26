@@ -221,7 +221,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
       return Scaffold(
         backgroundColor: const Color(0xFFF5F6FA),
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: const Color.fromARGB(255, 253, 253, 253),
           elevation: 0,
           centerTitle: true,
           title: Text(
@@ -242,9 +242,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F6FA),
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: const Color.fromARGB(255, 253, 253, 253),
         elevation: 0,
         centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black87),
+          onPressed: () => Navigator.pop(context),
+        ),
         title: Text(
           'History',
           style: GoogleFonts.poppins(
@@ -260,13 +264,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
               onPressed: selectedItems.isNotEmpty ? _deleteSelectedItems : null,
             ),
           IconButton(
-            icon: Icon(isSelectionMode ? Icons.cancel : Icons.select_all),
+            icon: Icon(
+              isSelectionMode ? Icons.cancel : Icons.select_all,
+              color: const Color.fromARGB(255, 92, 92, 92),
+            ),
             onPressed: _toggleSelectionMode,
           ),
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.only(left: 16, right: 16, top: 4),
         child: Column(
           children: [
             //////////////////////// List of agents
