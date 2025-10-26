@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'config.dart';
 
 void showEmailModalBottomSheet(
@@ -11,7 +12,6 @@ void showEmailModalBottomSheet(
 ) {
   TextEditingController subjectController = TextEditingController();
   TextEditingController bodyController = TextEditingController();
-
   showModalBottomSheet(
     context: context,
     builder: (BuildContext context) {
@@ -54,15 +54,28 @@ void showEmailModalBottomSheet(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                      onPressed: () {
-                        sendEmail(
-                          context,
-                          owner,
-                          email,
-                          subjectController.text,
-                          bodyController.text,
-                        );
-                        Navigator.pop(context);
+                      onPressed: () async {
+                        final prefs = await SharedPreferences.getInstance();
+                        final token = prefs.getString('token');
+                        if (token != null) {
+                          sendEmail(
+                            context,
+                            owner,
+                            email,
+                            subjectController.text,
+                            bodyController.text,
+                            token,
+                          );
+                          Navigator.pop(context);
+                        } else {
+                          Get.snackbar(
+                            'Error',
+                            'No authentication token found',
+                            snackPosition: SnackPosition.BOTTOM,
+                            backgroundColor: Colors.red,
+                            colorText: Colors.white,
+                          );
+                        }
                       },
                       child: Text('Send'),
                     ),
@@ -89,17 +102,19 @@ void sendEmail(
   String email,
   String subject,
   String body,
+  String token,
 ) async {
   String receiverMail = email;
   String sub = subject;
   String text = body;
-  String user = owner;
   try {
     final response = await http.post(
       Uri.parse(sendEmailUrl),
-      headers: {'Content-Type': 'application/json'},
-      body:
-          '{"owner":"$user","to": "$receiverMail", "subject": "$sub", "text": "$text"}',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: '{"to": "$receiverMail", "subject": "$sub", "text": "$text"}',
     );
 
     if (response.statusCode == 200) {

@@ -22,7 +22,7 @@ router.post('/forgot-password', UserController.forgotPassword);
 router.post('/reset-password', UserController.resetPassword);
 router.post('/change-password', verifyToken, UserController.changePassword);
 router.get('/user', verifyToken, UserController.getUser);
-router.post('/send-email', UserController.sendEmail);
+router.post('/send-email', verifyToken, UserController.sendEmail);
 router.post('/add-update-profile-image', verifyToken, upload.single('image'), UserController.UserProfileImage);
 router.get('/users', verifyToken, UserController.getAllUsers);
 router.get('/users-history', verifyToken, UserController.getAllUsersHistory);

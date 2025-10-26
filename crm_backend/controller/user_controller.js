@@ -287,7 +287,8 @@ exports.changePassword = async (req, res) => {
  */
 exports.sendEmail = async (req, res) => {
   try {
-    const { owner,to, subject, text, html } = req.body;
+    const {to, subject, text, html } = req.body;
+    const owner = req.user;
     if (!to || !subject || !text) {
       return res.status(400).json({
         status: false,

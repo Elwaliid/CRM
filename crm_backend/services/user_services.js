@@ -192,8 +192,12 @@ class UserService {
             await transporter.sendMail(mailOptions);
             console.log('Email sent to:', to);
 
+            // Fetch the full owner user to get name
+            const ownerUser = await UserModel.findById(owner._id);
+            if (!ownerUser) throw new Error('Owner user not found');
+
             // Save to history
-            const action = `${owner.name} sent an email '${subject}' to '${to}'`;
+            const action = `${ownerUser.name} sent an email '${subject}' to '${to}'`;
             const actionDate = new Date();
             await UserService.addActionToHistory(owner._id, action, actionDate);
 
