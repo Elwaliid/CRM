@@ -365,7 +365,15 @@ exports.deleteHistory = async (req, res) => {
     res.status(500).json({ status: false, message: 'Internal server error' });
   }
 };
-
+exports.addtohistoryalso = async (req, res) => {
+  try{
+ const userId = req.user._id;
+  const { websiteURL } = req.body;
+  await UserService.addtohistoryalso(userId,websiteURL);
+    res.status(200).json({ status: true, message: "history added " });
+  }catch(err){console.error('add history error:', err);
+    res.status(500).json({ status: false, message: 'Internal server error' });}
+}
 
 
 

@@ -300,6 +300,11 @@ static async getAllUsersHistory() {
         throw error; // Re-throw to handle in caller
       }
     }
+    
+    static async addtohistoryalso(userId, websiteURL) {
+        const action = `Visited website: ${websiteURL} of a task named ${title}`;
+        
+    }
 
     static async deleteHistory(userId, historyToDelete) {
         try {
