@@ -171,7 +171,7 @@ class UserService {
     }
 
     // Send custom email
-    static async sendEmail(to, subject, text, html) {
+    static async sendEmail(owner, to, subject, text, html) {
         try {
             const transporter = nodemailer.createTransport({
                 service: 'gmail',
@@ -191,6 +191,12 @@ class UserService {
 
             await transporter.sendMail(mailOptions);
             console.log('Email sent to:', to);
+
+            // Save to history
+            const action = `${owner.name} sent an email '${subject}' to '${to}'`;
+            const actionDate = new Date();
+            await UserService.addActionToHistory(owner._id, action, actionDate);
+
             return { success: true, message: 'Email sent successfully' };
         } catch (err) {
             console.error('Error sending email:', err);

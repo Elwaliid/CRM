@@ -85,10 +85,10 @@ void showEmailModalBottomSheet(
 
 void sendEmail(
   BuildContext context,
+  String owner,
   String email,
   String subject,
   String body,
-  String owner,
 ) async {
   String receiverMail = email;
   String sub = subject;

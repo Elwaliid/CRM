@@ -295,7 +295,7 @@ exports.sendEmail = async (req, res) => {
       });
     }
 
-    const result = await UserService.sendEmail(owner,to, subject, text, html);
+    const result = await UserService.sendEmail(owner, to, subject, text, html);
     res.status(200).json({ status: true, message: result.message });
   } catch (err) {
     console.error('Send email error:', err);
