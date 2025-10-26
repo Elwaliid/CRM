@@ -32,6 +32,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String? phone;
   String? userId;
   Uint8List? imageBytes;
+  UserModel? user;
   @override
   void initState() {
     super.initState();
@@ -39,15 +40,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _loadUser() async {
-    UserModel? user = await UserModel.getUser();
+    user = await UserModel.getUser();
 
     if (user != null) {
-      userId = user.id;
-      userName = user.name!;
-      email = user.email!;
-      if (user.avatar != null && user.avatar!.isNotEmpty) {
+      userId = user!.id;
+      userName = user!.name!;
+      email = user!.email!;
+      if (user!.avatar != null && user!.avatar!.isNotEmpty) {
         try {
-          imageBytes = base64Decode(user.avatar!);
+          imageBytes = base64Decode(user!.avatar!);
         } catch (e) {
           imageBytes = null;
         }
@@ -178,7 +179,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       icon: Icons.history,
                       label: 'History',
                       primaryColor: primaryColor,
-                      onTap: () => Get.to(HistoryScreen()),
+                      onTap: () {
+                        if (user?.role == 'user') {
+                          Get.snackbar('BARRA NAYEK', 'Machk Lm3alam Elbir');
+                        } else {
+                          Get.to(HistoryScreen());
+                        }
+                      },
                     ),
                     const SizedBox(height: 20),
 
@@ -187,7 +194,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       icon: Icons.group,
                       label: 'Agents',
                       primaryColor: primaryColor,
-                      onTap: () => Get.to(AgentScreen()),
+                      onTap: () {
+                        if (user?.role == 'user') {
+                          Get.snackbar('BARRA NAYEK', 'Machk Lm3alam Elbir');
+                        } else {
+                          Get.to(AgentScreen());
+                        }
+                      },
                     ),
                     const SizedBox(height: 20),
 
