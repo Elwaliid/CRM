@@ -891,7 +891,10 @@ class _TasksScreenState extends State<TasksScreen> {
 
                               response = await http.post(
                                 Uri.parse(websiteURL),
-                                headers: {"Content-Type": "application/json"},
+                                headers: {
+                                  "Content-Type": "application/json",
+                                  "Authorization": "Bearer ${widget.token}",
+                                },
                                 body: jsonEncode({
                                   'owner': userId,
                                   'websiteURL': _meeting_web_Url,
@@ -995,6 +998,8 @@ class _TasksScreenState extends State<TasksScreen> {
                                       Uri.parse(websiteURL),
                                       headers: {
                                         "Content-Type": "application/json",
+                                        "Authorization":
+                                            "Bearer ${widget.token}",
                                       },
                                       body: jsonEncode({
                                         'owner': userId,

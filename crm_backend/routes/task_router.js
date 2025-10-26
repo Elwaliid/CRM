@@ -6,5 +6,4 @@ router.post('/add-update-task', TaskController.addOrUpdateTask);
 router.get('/get-tasks', TaskController.getTasks);
 router.delete('/delete-task', TaskController.deleteTask);
 router.get('/Tasks-Count', TaskController.getTasksCounts);
-router.post('/websiteURL', TaskController.saveWebsiteVisit);
 module.exports = router;

@@ -69,20 +69,4 @@ exports.getTasksCounts = async (req, res) => {
     }
 }
 
-exports.saveWebsiteVisit = async (req, res) => {
-    try {
-        const { owner, websiteURL, title } = req.body;
- 
-        const user = await UserModel.findById(owner);
-        if (!user) throw new Error('Owner not found');
 
-        const historyAction = ` visited ${websiteURL} for Task: ${title}`;
-        const ActionDate = new Date();
-        await UserService.addActionToHistory(owner, historyAction, ActionDate);
-
-        res.status(200).json({ status: true, message: "Website visit saved successfully" });
-    } catch (err) {
-        console.error("Save website visit error:", err);
-        res.status(500).json({ status: false, message: "Internal server error" });
-    }
-}
