@@ -36,6 +36,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   bool isLoading = true;
   bool isSelectionMode = false;
   Set<String> selectedItems = {};
+  UserModel? currentUser;
   /////////////////////////////////////////// Date format
   String formatTime(String isoString) {
     try {
@@ -49,8 +50,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
   @override
   void initState() {
     super.initState();
+    fetchCurrentUser();
     fetchAgents();
     fetchUsersHistory();
+  }
+
+  Future<void> fetchCurrentUser() async {
+    currentUser = await UserModel.getUser();
+    setState(() {});
   }
 
   /////////////////////////////////////////// get agents
@@ -102,7 +109,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         return List.generate(
           history.length,
           (index) => {
-            'agent': user['name'] ?? 'Unknown',
+            'agent': currentUser?.role == "admin" ? "Me" : user['name'],
             'avatar': decodedAvatar,
             'action': history[index],
             'time': historyDate.length > index ? historyDate[index] : '',
@@ -123,7 +130,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           return List.generate(
             history.length,
             (index) => {
-              'agent': user['name'] ?? 'Unknown',
+              'agent': currentUser?.role == "admin" ? "Me" : user['name'],
               'avatar': decodedAvatar,
               'action': history[index],
               'time': historyDate.length > index ? historyDate[index] : '',

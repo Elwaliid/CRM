@@ -314,7 +314,7 @@ exports.getAllUsers = async (req, res) => {
       return {
         _id: user._id,
         email: user.email,
-        name: user.name,
+        name: user.role== "admin"?"Me":user.name,
         nickname: user.nickname,
         phone: user.phone,
         avatar: avatar,
