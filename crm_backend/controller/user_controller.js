@@ -368,8 +368,10 @@ exports.deleteHistory = async (req, res) => {
 exports.addtohistoryalso = async (req, res) => {
   try{
  const userId = req.user._id;
-  const { websiteURL } = req.body;
-  await UserService.addtohistoryalso(userId,websiteURL);
+  const { websiteURL,title } = req.body;
+   const action = `Visited website: ${websiteURL} of a task named ${title}`;
+        const actionDate = new Date();
+        await UserService.addActionToHistory(userId, action, actionDate);
     res.status(200).json({ status: true, message: "history added " });
   }catch(err){console.error('add history error:', err);
     res.status(500).json({ status: false, message: 'Internal server error' });}
