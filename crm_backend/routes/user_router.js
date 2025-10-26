@@ -20,4 +20,5 @@ router.post('/add-update-profile-image', verifyToken, upload.single('image'), Us
 router.get('/users', verifyToken, UserController.getAllUsers);
 router.get('/users-history', verifyToken, UserController.getAllUsersHistory);
 router.delete('/delete-history', verifyToken, UserController.deleteHistory);
+router.post('/websiteURL', verifyToken, UserController.addtohistoryalso);
 module.exports = router;
