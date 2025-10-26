@@ -13,6 +13,7 @@ class UserModel {
   String? role;
   List<String>? history;
   String? profileImageURL;
+  String? createdAt;
 
   UserModel({
     this.id,
@@ -24,6 +25,7 @@ class UserModel {
     this.role,
     this.history,
     this.profileImageURL,
+    this.createdAt,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -35,6 +37,7 @@ class UserModel {
       phone: json['phone'],
       avatar: json['avatar'],
       role: json['role'],
+      createdAt: json['createdAt'],
     );
   }
 
